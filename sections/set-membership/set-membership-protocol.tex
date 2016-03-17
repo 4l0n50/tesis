@@ -1,0 +1,89 @@
+\begin{figure}
+\begin{\algSize}
+$$
+\begin{array}{ll}
+\begin{array}{l}
+\algK_1(\gk,[\matr{M}]_1,[\matr{N}]_1,n)
+\quad (\mathsf{S}_1(\gk,[\matr{M}]_1,[\matr{N}]_1,n))
+\\
+\hline
+[\matr{G}]_1 \gets \MP.\algK(1^\lambda,n)\\
+{[\matr{\Xi}]_1 := [\matr{\Xi}(\matr{M},\matr{N},\matr{\Lambda},\matr{G})]_1}\\
+\crs_\sflin\gets\Pi_\sflin.\algK_1(\gk,[\matr{\Xi}]_1)\\
+\crs_\sfbits\gets\Pi_\sfbits.\algK_1(\gk,[\matr{G}]_1,\lb)\\
+\text{Return } \ \crs:=(\crs_\sflin,\crs_\sfbits).\\
+(\tau_\sflin\gets\Pi_\sflin.\algS_1(\gk,[\matr{\Xi}]_1)\\
+\tau_\sfbits\gets\Pi_\sfbits.\algS_1(\gk,[\matr{G}]_1,\lb).\\
+\tau := (\tau_\sflin,\tau_\sfbits)).\\
+\\
+\end{array}
+&
+\begin{array}{l}
+{\algP(\mathsf{crs}, \{[\vecb{c}_j]_1,\langle \vecb{b}_j,\vecb{w}_j\rangle:j\in[n]\})}\\
+\hline
+{[\vecb{d}_i]_1} := \MP.\Com_{[\matr{G}]_1}(\vecb{b}_i^*;r_i),\\
+r_i \gets\Z_q, \forall i\in[\lb]\\
+\pi_\sflin \gets 
+    \Pi_\sflin.\algP
+    (
+        \crs_\sflin,
+            [\vecb{y}]_1,
+            \vecb{v}
+    )\\
+\pi_\sfbits \gets
+    \Pi_\sfbits.\algP
+    (
+        \crs_\sfbits,
+        \{[\matr{d}_i]_1,\\
+\qquad
+        \langle\matr{b}^*_i,r_i\rangle:i \in[\lb]\}
+    )\\
+\text{Return } \  ([\vecb{d}]_1,\pi_\sflin,\pi_\sfbits). \\
+\\
+\\
+\\
+\end{array}\\
+\begin{array}{l}
+{\algV(\mathsf{crs},\{[\vecb{c}_j]_1:j\in[n]\},([\vecb{d}]_1,\pi_\sflin,\pi_\sfbits))}\\
+\hline
+\mathsf{ans}_1 \gets
+    \Pi_\sflin.\algV
+    (
+        \crs_\sflin,
+            [\vecb{y}]_1,
+        \pi_\sflin
+    )\\
+\mathsf{ans}_2 \gets \Pi_\sfbits.\algV(\crs_\sfbits,\{[\vecb{d}_i]_1:i\in[\lb]\},\pi_\sfbits)\\
+\text{Return } \ \mathsf{ans}_1\wedge\mathsf{ans}_2.
+\\
+\\
+\\
+\\
+\end{array}
+&
+\begin{array}{l}
+{\mathsf{S}_2(\crs,[\vecb{c}]_1,\tau)}\\
+\hline
+{[\vecb{d}_i]_1} := \MP.\Com_{[\matr{G}]_1}(\matr{0}_{n\times 1};\tilde{{r}}_i)\\
+\tilde{{r}}_i\gets\Z_q, \forall i\in[\lb]\\
+\pi_\sflin \gets 
+    \Pi_\sflin.\algS
+    (
+        \crs_\sflin,
+            [\vecb{y}]_1,
+       \tau_\sflin
+    )\\
+\pi_\sfbits \gets
+    \Pi_\sfbits.\algS
+    (
+        \crs_\sfbits,\\
+\qquad\quad  \{[\vecb{d}_i]_1:i\in[\lb]\},
+        \tau_\sfbits
+    )\\
+\text{Return } \  ([\vecb{d}]_1,\pi_\sflin,\pi_\sfbits). \\
+\end{array}
+\end{array}$$
+\end{\algSize}
+\caption{Proof system for the language $\Lang_{\matr{M},\matr{N},\matr{\Lambda},\grkb{\alpha}}^n$, where $\Pi_\sfbits$ is the proof system for $\Lang_{ck,\sfbits}^m$ from Sect. \ref{sec:bits-n}, $\vecb{d}:=\vecb{d}_1\oplus\ldots\oplus\vecb{d}_\lb$, and $\vecb{c}:=\vecb{c}_1\oplus\ldots\oplus\vecb{c}_n$. The proof size is $(2\lb+11)|\GG_1|+10|\GG_2|$.\label{fig:bin-leng-nizk}}
+\end{figure}
+

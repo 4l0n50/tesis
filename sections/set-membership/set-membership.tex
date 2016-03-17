@@ -1,0 +1,40 @@
+
+In this section we construct a QA-NIZK argument that many commitments open to elements in a set $[0,d-1] \subset \Z_q$ or  $S \subset \GG_{\gamma}$. We first express both languages in a unified way. 
+
+
+\begin{definition}
+Denote by $\Lang_{[\matr{M}]_1,[\matr{N}]_1,\matr{\Lambda},\grkb{\alpha}}\subseteq\GG_1^\la$ the language parameterized by $[\matr{M}]_1 \in\GG_1^{\la\times \lb},\matr{N}\in\GG_1^{\la\times \lc},\matr{\Lambda}\in\Z_q^{\ld\times\lb},$ and $\grkb{\alpha}\in\Z_q^\ld$ such that
+\begin{equation}\label{eq:definition1}
+[\vecb{c}]_1\in\Lang_{[\matr{M}]_1,[\matr{N}]_1,\matr{\Lambda},\grkb{\alpha}} \Longleftrightarrow \exists \vecb{b}\in\bits^\lb,\vecb{w}\in\Z_q^\lc \text{ s.t. }
+\pmatri
+{
+    \vecb{c}\\
+    \grkb{\alpha}
+}
+=
+\begin{pmatrix}
+    \matr{M}       & \matr{N}\\
+    \matr{\Lambda} & \matr{0}_{\ld\times \lc}
+\end{pmatrix}
+\pmatri
+{
+    \vecb{b}\\
+    \vecb{w}
+}.
+\end{equation}
+Additionally, we require $(\matr{N},[\matr{N}]_1)$ to be efficiently samplable and that membership in $\Lang_{[\matr{M}]_1,[\matr{N}]_1,\matr{\Lambda},\grkb{\alpha}}$ is efficiently testable with the trapdoor $\matr{N}$, that is, that there exists an efficient algorithm $\algF$ such that $\algF([\matr{M}]_1,\matr{N},[\vecb{c}]_1)=1\Longleftrightarrow [\vecb{c}]_1\in\Lang_{\matr{M},\matr{N},\matr{\Lambda},\grkb{\alpha}}.$ The witness of 
+$[\vecb{c}]_1\in\Lang_{[\matr{M}]_1,[\matr{N}]_1,\matr{\Lambda},\grkb{\alpha}}$ is $(\vecb{b},\vecb{w})$, and the bit-witness is $\vecb{b}$. The size of the bit-witness is $\lb$. 
+\end{definition}
+
+\begin{example}
+The language of GS commitments to group elements in the set $S:=\{[s_1]_1,\ldots,[s_\lb]_1\} \subset \GG_1$, $\Lang_{ck,S}$, where $ck:=([\vecb{u}_1]_1||[\vecb{u}_2]_1)$, is equal to $\Lang_{[\matr{M}]_1,[\matr{N}]_1,\matr{\Lambda},\grkb{\alpha}}$, where
+$\matr{M}:=\smallpmatrix{s_1 & \cdots & s_\lb \\ 0 &\cdots & 0}$, $\matr{N}:=(\vecb{u}_1-\vecb{e}_1||\vecb{u}_2)$, $\alpha=1$, and $\matr{\Lambda}=(1,\ldots,1)$. The bit-witness size is $|S|$ and membership $\Lang_{ck,S}$ is efficiently testable given $\vecb{u}_1,\vecb{u}_2 \in \Z_q^2$ (assuming $|S|=\poly(\lambda)$). 
+\end{example}
+
+\begin{example}
+The language of GS commitments to integers in the range $[0,d-1]$, $\Lang_{ck,[0,d-1]}$, where $ck:=([\vecb{u}_1]_1||[\vecb{u}_2]_1)$, is equal to $\Lang_{[\matr{M}]_1,[\matr{N}]_1,\matr{\Lambda},\grkb{\alpha}}$, where
+$\matr{M}:=\vecb{u}_1(2^0,2^1,\ldots,2^{\log d-1})\in\Z_q^{2\times \log d}$, $\matr{N}:=\vecb{u}_2\in\Z_q^{2}$, and $\ld:=0$. The bit-witness size is $\log d$ and membership in $\Lang_{ck,[0,d-1]}$ is easily testable given $\vecb{u}_2 \in \Z_q^2$
+(assuming $d=\poly(\lambda)$). 
+\end{example}
+
+The general idea of how to prove membership in $\Lang_{[\matr{M}]_1,[\matr{N}]_1,\matr{\Lambda},\grkb{\alpha}}$ was explained in Section~\ref{sec:techniques}. As we discussed there the total size of the proof is of size $2\lb|\GG_1|+\Theta(1)$.

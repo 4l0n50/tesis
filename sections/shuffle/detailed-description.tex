@@ -1,0 +1,56 @@
+%\vspace*{-1cm}
+\begin{figure}
+\begin{\algSize}
+$$
+\begin{array}{ll}
+\begin{array}{l}
+\algK_1(\gk,[\vecb{v}]_2,n)\quad (\mathsf{S}_1(\gk,[\vecb{v}]_2,n))\\
+\hline
+S:=\{[s_1]_1,\ldots,[s_n]_1\}, \vecb{s}^\top\gets\distlin_{1,n}\\
+\crs_\GS\gets\GS.\algK_1(\gk)\\
+{\crs_\sfset\gets\Pi_\sfset.\algK_1(\gk,[\matr{M}]_1,[\matr{N}]_1,[\matr{\Lambda}]_1,n)}\\
+\text{Return } \ \crs:=([\vecb{v}]_2,\crs_\GS,\crs_\sfset).\\
+(\tau_\GS\gets\GS.\algS_1(\gk)\\
+\tau_\sfset\gets\Pi_\sfset.\algS_1(\gk,L,[\matr{M}]_1,[\matr{N}]_1,[\matr{\Lambda}]_1,n).\\
+\tau := (\vecb{s},\tau_\GS,\tau_\sfset)).\\
+\\
+\end{array}
+&
+\begin{array}{l}
+{\algP(\crs, [\matr{C}]_2, [\matr{D}]_2,\langle \matr{P}, \grkb{\delta}\rangle)}\\
+\hline
+[\vecb{x}]_1 := \matr{P}[\vecb{s}]_1,
+[y]_1 := [\vecb{s}^\top]_1\grkb{\delta}\\
+\pi_\GS\gets\GS.\algP(\crs_\GS,\{\eq_1,\eq_2\},\langle[\vecb{x}]_1,[y]_1\rangle)\\
+\pi_\sfset \gets \Pi_\sfset.\algP(\crs_\sfset, [\matr{F}]_1,\langle\matr{P}^\top,\matr{R}\rangle)\\
+//{[\matr{F}]_1} = \GS.\Com_{\crs_\GS}([\vecb{x}^\top]_1;\matr{R})\\
+\text{Return } \  (\pi_\GS,\pi_\sfset). \\
+\\
+\\
+\\
+\end{array}\\
+\begin{array}{l}
+{\algV(\crs,[\matr{C}]_2,[\matr{D}]_2,(\pi_\GS,\pi_\sfset))}\\
+\hline
+\mathsf{ans}_1 \gets \GS.\algV(\crs_\GS,\{\eq_1,\eq_2\},\pi_\GS)\\
+\mathsf{ans}_2 \gets \Pi_\sfset.\algV(\crs_\sfset,[\matr{F}]_1,\pi_\sfset)\\
+\text{Return } \ \mathsf{ans}_1\wedge\mathsf{ans}_2.
+\end{array}
+&
+\begin{array}{l}
+{\mathsf{S}_2(\crs,[\matr{C}]_1,[\matr{D}]_1,\tau)}\\
+\hline
+\pi_\GS\gets \GS.\algS_2(\crs_\GS,\{\eq_1,\eq'_2\},\tau_\GS)\\
+\pi_\sfset\gets \Pi_\sfset.\algS_2(\crs_\sfset,[\matr{F}]_1,\tau_\sfset)\\
+\text{Return }  (\pi_\GS,\pi_\sfset).
+\end{array}
+\end{array}
+$$
+\end{\algSize}
+\caption{The proof system $\Pi_\mathsf{shuffle}$ for the language $\Lang_{[\vecb{v}]_2,n,\mathsf{shuffle}}$. $\Pi_\sfset$ is the proof system from Sect. \ref{sec:bin-lan-constr}. The matrices $\matr{M},\matr{N},\matr{\Lambda}$ are defined as
+$\matr{M}:=\binom{\vecb{s}^\top}{\matr{0}_{1\times n}}$,
+$\matr{N}:=(\vecb{u}_1||\vecb{u}_2),\matr{\Lambda}:= (1,\ldots,1)$, where $\vecb{u}_1,\vecb{u}_2$ are the GS commitment keys from $\crs_\GS$, and the equations are defined as $\eq_1:= \sum_{i\in[n]}[s_i]_1-\sum_{j\in[n]}[{x}_i]_1 = [0]_1$, $\eq_2:= [\vecb{x}^\top]_1[\matr{C}^\top]_2-[\vecb{s}^\top]_1[\matr{D}^\top]_2=[y]_1[\vecb{v}^\top]_2$, and $\eq'_2:= [\vecb{x}^\top]_1[\matr{C}^\top]_2-[1]_1[\vecb{s}^\top\matr{D}^\top]_2=[y]_1[\vecb{v}^\top]_2$   
+. The proof size is $(4n+17)|\GG_1|+14|\GG_2|+1|\Z_q|$
+%$|\pi_\GS|+|\pi_\sfset|=(2n+6)|\GG_1|+4|\GG_2|+1|\Z_q|+(2n+11)|\GG_1|+10|\GG_2|=(4n+17)|\GG_1|+14|\GG_2|+1|\Z_q|$.
+\label{fig:shuffles}}
+\end{figure}

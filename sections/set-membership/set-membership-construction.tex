@@ -1,0 +1,32 @@
+The main result of this Section is a proof, of roughly the same size as in the last Section ($2\lb|\GG_1|+\Theta(1)$), that  $([\vecb{c}_1]_1,\ldots,[\vecb{c}_n]_1)$ is in $\Lang_{[\matr{M}]_1,[\matr{N}]_1,\matr{\Lambda},\grkb{\alpha}}^n$.
+
+For all $j \in [n]$, let $(\vecb{b}_j,\vecb{w}_j) \in \{0,1\}^{\lb} \times \Z_q^{\lc}$ be the witness of $\vecb{c}_j \in \Lang_{[\matr{M}]_1,[\matr{N}]_1,\matr{\Lambda},\grkb{\alpha}}.$ Let $\matr{B}=(\vecb{b}_1|| \ldots ||\vecb{b}_n)$ and let $\vecb{b}^*_{i}$, $i \in [m]$ the ith row of $\matr{B}$. To get a proof of size independent of $n$ we commit to $\matr{B}$ ``compressing the rows'', that is, the proof includes MP commitments $[\vecb{d}_i]_1$, $i \in [n]$ to $\vecb{b}_i^*$.\footnote{To get a constant-size proof, it would be tempting to compress the commitments to all of $\matr{B}$, but we do not know how to prove soundness in this case.} Further, as announced in Section~\ref{sec:techniques}, the proof consists of two independent statements:
+\begin{itemize}
+\item $\exists \vecb{r} \in \Z_q^\lb, \matr{B} \in \Z_q^{\lb \times n}$ such that  
+$\text{1'')} \matr{B} \in \{0,1\}^{\lb \times n}$ and $\text{3'')} \forall i \in [\lb]: \vecb{d}_i=\matr{G}\smallpmatrix{\vecb{b}_i^*  \\ r_i}$,
+\item $\exists \widetilde{\vecb{r}} \in \Z_q^\lb, \vecb{w}_1,\ldots,\vecb{w}_n \in\Z_q^\lc, \widetilde{\matr{B}} \in \Z_q^{\lb \times n}$ such that  
+   $\text{2'')}\forall j \in [n], \smallpmatrix
+{
+    \vecb{c}_j\\
+    \grkb{\alpha}
+}
+=
+\smallpmatrix
+{
+    \matr{M}       & \matr{N}\\
+    \matr{\Lambda} & \matr{0}
+}
+\smallpmatrix
+{
+    \widetilde{\vecb{b}}_j\\
+    \vecb{w}_j
+}$ and $3'') \forall i \in [\lb], \vecb{d}_i=\matr{G}   \smallpmatrix{\widetilde{\vecb{b}}^*_i  \\ \widetilde{r}_i}  $.
+\end{itemize} 
+For the first statement we use the constant-size argument for $\Lang_{ck,\sfbits}^m$ of Section~\ref{sec:bits}. For the second statement, we write conditions 2''), 3'') as a single system of equations and use $\Pi_\sflin$ to prove that it can be satisfied. 
+
+The soundness argument follows from the arguments exposed in Section~\ref{sec:techniques}. The full description of the argument is in Fig. \ref{fig:bin-leng-nizk} and the proof of the following theorem can be found in Appendix~\ref{app:bin-lang}.
+\input{sections/set-membership/set-membership-protocol}
+
+\begin{theorem} \label{theo:aggset} There exists a QA-NIZK argument $\Pi_\sfset$ for membership in the language $\Lang_{[\matr{M}]_1,[\matr{N}]_1,\matr{\Lambda},\grkb{\alpha}}^n$ with proof size  $(2\lb+11)|\GG_1|+10|\GG_2|$, perfect completeness, perfect-zero knowledge and computational soundness. 
+\end{theorem}
+

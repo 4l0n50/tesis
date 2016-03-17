@@ -1,0 +1,21 @@
+We want to prove that a GS commitment $[\vecb{c}]_1$ opens to some integer $y$ in the range $[0,2^n-1]$. That is, construct a NIZK proof system for the language
+$$
+\Lang_{ck,[0,2^n-1]} := \{[\vecb{c}]_1\in\GG_1^2: \exists y,r\in\Z_q\text{ s.t. }[\vecb{c}]_1=\GS.\Com(y;r)\wedge y\in[0,2^n-1]\},
+$$
+where $ck:=([\vecb{u}_1]_1,[\vecb{u}_2]_1)\gets\GS.\algK(1^\lambda)$.
+%The most efficient Range Proof under falsifiable assumptions, specifically the $q$-Hidden Strong Diffie-Hellman Assumption, is of size $\Theta(\frac{n}{\log n-\log\log n})$ \cite{PAIRING:RiaKohPre09}.
+%In general, the approach from \cite{PAIRING:RiaKohPre09}, which closely follows \cite{AC:CamChaShe08}, can be summarized as follows:
+Our proof is as follows:
+\begin{enumerate}[label=\alph*)]
+\item Commit to $y_1,\ldots y_\ell$.
+\item Show that $y_i\in[0,d-1]$, for each $i\in[\ell]$. \label{rp:b}
+\item Show that $y=\sum_{i\in[\ell]}y_id^{i-1}$.
+\end{enumerate}
+%Given that the maximum $y$ expressible as $\sum_{i\in[\ell]}x_id^{i-1}$ is $\sum_{i\in[\ell]}(d-1)d^{i-1}=d^\ell-1$,
+Given that it must hold that $\ell=n/\log d$, the total size of the proof is $\mathsf{S}_{[0,d-1]}(\ell)+\Theta(\ell)$, where $\mathsf{S}_{[0,d-1]}(\ell)$ is the size of $\ell$ Range Proofs in the interval $[0,d-1]$.
+
+\subsection{Our Construction}
+Note that \ref{rp:b} is equivalent to show that $(\GS.\Com(y_1)||\cdots||\GS.\Com(y_\ell))\in\Lang_{ck,[0,d-1]}^\ell$. Thus, using the proof system from Sect. \ref{sec:bin-lang} we are able to aggregate $\ell$ Range Proofs in the interval $[0,d-1]$ into a single proof of size $\Theta(\log d)$. Choosing $d=n^k$ we get that $\mathsf{S}_{[0,d-1]}(\ell)=\Theta(k\log n)$ and $\ell=n/\log n^k=\frac{n}{k\log n}$, and thus the size of our Range Proof is $\Theta(\frac{n}{k\log n})$ for an arbitrarily chosen $k\in\mathbb{N}$. One would be tempted to choose $d=2^{\sqrt{n}}$ to obtain a proof of size $\Theta(\sqrt{n})$. However, the proof system from Sect. \ref{sec:bin-lang} requires membership in $\Lang_{ck,[0,d-1]}$ to be efficiently testable, which seems to be infeasible as when $d=2^{\sqrt{n}}$.
+
+A detailed description of our proof system is in Fig. \ref{fig:rp}.
+\input{sections/range-proof/detailed-construction}

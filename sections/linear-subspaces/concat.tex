@@ -1,0 +1,107 @@
+
+
+
+Figure \ref{fig:QANIZKtwogroups} describes a QA-NIZK Argument of Membership in the language 
+$$\mathcal{L}_{\hmatr{M},\cmatr{N}}:=\{ (\hvecb{x},\cvecb{y}): \exists \vecb{w} \in \Z_q^{t}, \ \hvecb{x}=\hmatr{M}\vecb{w},   \cvecb{y}=\cmatr{N}\vecb{w} \} \subseteq \Gr^{m} \times \Hr^{n}.$$
+We refer to this as the \textit{Concatenation Language}, because 
+if we define $\matr{P}$ as the concatenation of $\hmatr{M},\cmatr{N}$, that is $\matr{P}:=\smallpmatrix{\hmatr{M} \\ \cmatr{N}}$, then  $(\hvecb{x},\cvecb{y}) \in \mathcal{L}_{\hmatr{M},\cmatr{N}}$ iff $\smallpmatrix{\hvecb{x} \\ \cvecb{y}}$ is in the span of $\matr{P}$.
+\begin{figure}
+$$
+\begin{array}{lll}
+\begin{array}{l}
+\underline{\algK_1(\Gamma,\hmatr{M},\cmatr{N},m,n) \quad  (\mathsf{S}_1(\Gamma,\hmatr{M},\cmatr{N},m,n))}\\[.1cm]
+\matr{A} \gets \widetilde{\dist_{k}}\\
+\matr{\Lambda} \gets \Z_q^{\tilde{k} \times m}, \matr{\Xi}\gets \Z_q^{\tilde{k}\times n}, \matr{Z} \gets \Z_q^{\tilde{k} \times t}\\
+\cmatr{A}_{\Lambda}:= \matr{\Lambda}^\top \cmatr{A}\\
+\hmatr{A}_{\Xi}:= \matr{\Xi}^\top\hmatr{A}\\
+\hmatr{M}_{\Lambda}:=\matr{\Lambda} \hmatr{M}+\hmatr{Z}\\
+\cmatr{N}_{\Xi}:=\matr{\Xi} \cmatr{N}-\cmatr{Z} \\ [.1cm]
+\text{Return } \ \mathsf{crs}:=(\hmatr{M}_{\Lambda}, \cmatr{A}_\Lambda , \cmatr{A},\cmatr{N}_{\Xi},\\\hmatr{A}_{\Xi} , \hmatr{A}).\\
+(\tau_{sim}:=(\matr{\Lambda},\matr{\Xi}).)
+\\
+\end{array}
+&
+\begin{array}{l}
+\underline{\algP(\mathsf{crs}, \hvecb{x}, \cvecb{y}, \vecb{w})}\\[.1cm]
+\backslash \backslash (\hvecb{x}=\hmatr{M} \vecb{w}, \cvecb{y}=\cmatr{N} \vecb{w})
+\\
+\matr{z} \gets \Z_q^{\tilde{k}}\\
+\hgrkb{\rho}:=\hmatr{M}_{\Lambda} \vecb{w}+ \hvecb{z}\\
+\cgrkb{\sigma}:=\cmatr{N}_{\Xi} \vecb{w}- \cvecb{z}\\
+ \text{Return } \  (\hgrkb{\rho},\cgrkb{\sigma}). \\ \\
+\underline{\algV(\mathsf{crs},(\hvecb{x},\cvecb{y}), (\hgrkb{\rho},\cgrkb{\sigma}))}\\ [.1cm]
+\text{Return } \ (\hvecb{x}^\top \cmatr{A}_\Lambda  - \hgrkb{\rho}^\top\cmatr{A}\\=  \cgrkb{\sigma}^\top \hmatr{A}-\cvecb{y}^\top \hmatr{A}_\Xi).
+\end{array}
+&
+\begin{array}{l}
+\underline{\mathsf{S}_2(\crs,(\hvecb{x},\cvecb{y}),\tau_{sim})}\\[.1cm]
+\vecb{z} \gets \Z_q^{\tilde{k}} \\ 
+ \hgrkb{\rho}:=\matr{\Lambda} \hvecb{x}+ \hvecb{z}\\
+\cgrkb{\sigma}:=\matr{\Xi} \cvecb{y}- \cvecb{z}\\
+ \text{Return }  (\hgrkb{\rho},\cgrkb{\sigma}).
+\\
+\\
+\\
+\\
+\\
+\\
+\end{array}\\
+\end{array}
+$$
+\caption{Two QA-NIZK Arguments for  $\mathcal{L}_{\hmatr{M},\cmatr{N}}$. $\sps$ is 
+ defined for $\widetilde{\dist_{k}}=\dist_k$ and $\tilde{k}=k+1$, and is a generalization of  
+ \cite{EC:KilWee15} Sect. 3.1 in two groups. The second construction $\spsws$ corresponds to $\widetilde{\dist_{k}}=\overline{\dist_k}$ and $\tilde{k}=k$, and is a generalization of   \cite{EC:KilWee15} Sect. 3.2 in two groups. Computational soundness is based on the $\dist_{k}$-\skermdh{} Assumption. The CRS size is $(\tilde{k}k+\tilde{k}t+mk)\sG+(\tilde{k}k+\tilde{k}t+nk)\sH$ and the proof size $\tilde{k}\s$. Verification requires $2\tilde{k}k+(m+n)k$ pairing computations. \label{fig:QANIZKtwogroups} }
+\end{figure}
+
+%\input{membtwogroups/concat-intuition-orig}
+%\input{membtwogroups/concat-intuition-nuevo}
+ 
+\paragraph{Soundness Intuition.}   If we ignore for a moment that $\Gr, \Hr$ are different groups, $\sps$ (resp. $\spsws$) is almost identical to $\ps$ (resp. to $\psws$) for the language $\mathcal{L}_{\hmatr{P}}$, and $\matr{\Delta}:=(\matr{\Lambda}||\matr{\Xi})$, where  $\matr{\Lambda} \in \Z_q^{\tilde{k} \times m},\matr{\Xi} \in \Z_q^{\tilde{k} \times n}$. Further, the information that an unbounded adversary can extract from the CRS about $\matr{\Delta}$ is:
+ \begin{enumerate}
+ \item $\Big\{\matr{P}_\Delta= \matr{\Lambda} \matr{M}+ \matr{\Xi}\matr{N}, \matr{A}_{\Delta} = \matr{\Delta}^{\top}\matrA =\begin{pmatrix} \matr{\Lambda}^{\top}\matr{A} \\ \matr{\Xi}^{\top}\matr{A} \end{pmatrix}\Big\}$ from $\mathsf{crs}_{\ps}$, 
+ \item $\Big\{ \matr{M}_\Lambda = \matr{\Lambda} \matr{M}+\matr{Z}, \matr{N}_\Xi = \matr{\Xi}\matr{N}-\matr{Z},  \begin{pmatrix}\matr{A}_\Lambda\\\matr{A}_\Xi\end{pmatrix} = \begin{pmatrix} \matr{\Lambda}^{\top}\matr{A} \\ \matr{\Xi}^{\top}\matr{A} \end{pmatrix} \Big\}$ from $\mathsf{crs}_{\sps}$. 
+ \end{enumerate}
+Given that the matrix $\matr{Z}$ is uniformly random,  $\mathsf{crs}_{\ps}$ and $\mathsf{crs}_{\sps}$
+reveal the same information about $\matr{\Delta}$ to an unbounded adversary. Therefore, as the proof of soundness is essentially based on the fact that parts of $\matr{\Delta}$ are information theoretically hidden to the adversary, the original proof of \cite{EC:KilWee15} can be easily adapted for the new arguments. The proofs 
+%are in Appendix \ref{sec:appmembtwogroups}.
+can be found in Appendix \ref{sect:memtwogroups-proofs}.
+
+
+\begin{theorem} If $\widetilde{\dist_{k}}=\dist_k$ and $\tilde{k}=k+1$,  Fig. \ref{fig:QANIZKtwogroups} describes a QA-NIZK
+proof system with perfect completeness, computational adaptive soundness based on the  $\dist_{k}$-$\skermdh$ Assumption, and perfect zero-knowledge. 
+\label{theo:membtwogroups1}
+\end{theorem}
+
+\begin{theorem} If $\widetilde{\dist_{k}}=\overline{\dist}_k$ and $\tilde{k}=k$,  and $\dist_{\Gamma}$ is a witness samplable distribution, Fig. \ref{fig:QANIZKtwogroups}
+describes a QA-NIZK proof system with perfect completeness, computational adaptive strong soundness based on the  $\dist_{k}$-$\skermdh$ Assumption, and perfect zero-knowledge. 
+\label{theo:membtwogroups2}
+\end{theorem}
+
+%
+%
+%
+%
+%
+%
+%Let $(\hmatr{A}',\cmatr{A}')\in\Gr^{(k+2m-t)\times k}\times\Hr^{(k+2m-t)\times k}$ and let $(\hmatr{A},\cmatr{A})\in\Gr^{k\times k}$
+%the matrices formed by the first $k$ rows of $\hmatr{A}$ and $\cmatr{A}$, respectively. Recall that $\matr{A}$
+%is invertible with overwhelming probability.
+%Let $(\matr{M},\matr{N})\gets\dist_\Gamma$ and compute $\matr{K}=\begin{pmatrix}\matr{K}_0\\\matr{K}_1\end{pmatrix}\in\Z_q^{2m\times(2m-t)}$, a basis for
+%$\ker((\matr{M}^\top\ \matr{N}^\top))$. Pick $(\matr{\Lambda}'\ \matr{\Xi}')\gets\Z_q^{k\times 2m}$ and $\matr{Z}'\gets\Z_q^{k\times m}$,
+%and implicitly define $(\matr{\Lambda}\ \matr{\Xi}) = (\matr{\Lambda}'\ \matr{\Xi}') + (\matr{A}'\matr{A}^{-1})^\top\matr{K}^\top$ 
+%and $\matr{Z} = \matr{Z}'+\matr{\Xi}\matr{N}$. Note that with this definitions
+%$\cmatr{A}_\Lambda = ((\matr{\Lambda}')^\top\ \matr{K}_0))\cmatr{A}'$, $\hmatr{A}_\Xi = ((\matr{\Xi}')^\top\ \matr{K}_1))\hmatr{A}'$
+%$\matr{M}_\Lambda = \matr{\Lambda}'\matr{M}+\matr{\Xi}'\matr{N}+\matr{Z}'$, and $\matr{N}_\Xi = -\matr{Z}'$.
+%
+%If the adversary produces a proof $(\hgrkb{\rho}^*,\cgrkb{\sigma}^*)$ for $(\hvecb{x}^*,\cvecb{y}^*)$ such that
+%$(\vecb{x}^*)^\top\matr{K}_0 \neq -(\vecb{y}^*)^\top\matr{K}_1$ and $(\hvecb{x}^*)\cmatr{A}_\Lambda-(\hgrkb{\rho}^*)^\top\cmatr{A} =
+%(\cgrkb{\sigma}^*)^\top\hmatr{A}-(\cvecb{y}^*)^\top\hmatr{A}_\Xi $, it holds that
+%$$
+%\begin{pmatrix}(\matr{\Lambda}'\hvecb{x}^*-\hgrkb{\rho}^*)^\top & (\hvecb{x}^*)^\top\matr{K}_0\end{pmatrix}^\top\cmatr{A}' =
+%\begin{pmatrix}(\cgrkb{\sigma}^* -\matr{\Xi}'\cvecb{y}^*)^\top & -(\cvecb{y}^*)^\top\matr{K}_1\end{pmatrix}^\top\hmatr{A}'.
+%$$
+%Therefore, $\begin{pmatrix}\matr{\Lambda}'\hvecb{x}^*-\hgrkb{\rho}^*\\\matr{K}_0^\top\hvecb{x}^*\end{pmatrix},
+%\begin{pmatrix}\cgrkb{\sigma}^*-\matr{\Xi}'\cvecb{y}^*\\-\matr{K}_1^\top\cvecb{y}^*\end{pmatrix}$
+%is a solution to the $\dist_{k+n-t,k}\mbox{-}\skermdh$ problem.
+%\end{proof}
+

@@ -1,0 +1,53 @@
+\begin{figure} 
+\begin{\algSize}
+$$
+\begin{array}{ll}
+\begin{array}{l}
+\algK_1(\gk,[\vecb{u}]_1,[\vecb{u}_2]_1,n)\quad (\mathsf{S}_1(\gk,[\vecb{u}_1]_1,[\vecb{u}_2]_1,n))\\
+\hline
+d:=n^k, m:=\log d, \ell := n/m\\
+\crs_\GS\gets\GS.\algK_1(\gk)\\
+{\crs_\sfset\gets\Pi_\sfset.\algK_1(\gk,[\matr{M}]_1,[\matr{N}]_1,n)}\\
+\text{Return } \ \crs:=([\vecb{u}_1]_1,[\vecb{u}_2]_1,\crs_\GS,\crs_\sfset).\\
+(\tau_\GS\gets\GS.\algS_1(\gk)\\
+\tau_\sfset\gets\Pi_\sfset.\algS_1(\gk,[\matr{M}]_1,[\matr{N}]_1,n).\\
+\tau := (\tau_\GS,\tau_\sfset)).\\
+\\
+\end{array}
+&
+\begin{array}{l}
+{\algP(\crs, [\matr{c}]_1, \langle y, r\rangle)}\\
+\hline
+\vecb{y}\in\Z_q^{\ell} \text{ is s.t. } y=\sum_{i\in[\ell]}{y}_id^{i-1}\\
+\matr{B}\in\bits^{m\times\ell} \text{ is s.t. }\\
+\qquad\vecb{y}^\top = (2^0,\ldots,2^{m-1})\matr{B}\\
+\pi_\GS\gets\GS.\algP(\crs_\GS,\eq,\langle \vecb{y},r\rangle)\\
+\pi_\sfset \gets \Pi_\sfset.\algP(\crs_\sfset, [\matr{X}]_1,\langle\matr{B},\matr{R}\rangle)\\
+//{[\matr{X}]_1} = \GS.\Com_{\crs_\GS}(\vecb{y}^\top;\matr{R})\\
+\text{Return } \  (\pi_\GS,\pi_\sfset). \\
+\\
+\end{array}\\
+\begin{array}{l}
+{\algV(\crs,[\vecb{c}]_1,(\pi_\GS,\pi_\sfset))}\\
+\hline
+\mathsf{ans}_1 \gets \GS.\algV(\crs_\GS,\eq,\pi_\GS)\\
+\mathsf{ans}_2 \gets \Pi_\sfset.\algV(\crs_\sfset,[\matr{X}]_1,\pi_\sfset)\\
+\text{Return } \ \mathsf{ans}_1\wedge\mathsf{ans}_2.
+\\
+\\
+\end{array}
+&
+\begin{array}{l}
+{\mathsf{S}_2(\crs,[\vecb{c}]_1,\tau)}\\
+\hline
+\pi_\GS\gets \GS.\algS_2(\crs_\GS,\eq,\tau_\GS)\\
+\pi_\sfset\gets \Pi_\sfset.\algS_2(\crs_\sfset,[\matr{X}]_1,\tau_\sfset)\\
+//{[\matr{X}]_1=\GS.\Com_{\crs_\GS}(\vvar{Y};\matr{R})}\\
+\text{Return }  (\pi_\GS,\pi_\sfset).
+\end{array}
+\end{array}$$
+\end{\algSize}
+\caption{The proof system $\Pi_\rp$ for the language $\Lang_{ck,[0,2^n-1]}$. $\Pi_\sfset$ is the proof system from Sect. \ref{sec:bin-lan-constr}. The matrices $\matr{M},\matr{N}$ are defined as $\matr{M}:=\vecb{u}'_1(2^0,2^1,\ldots,2^{m-1}),\matr{N}:=\vecb{u}'_2$, where $\vecb{u}'_1,\vecb{u}'_2$ are the GS commitment keys from $\crs_\GS$. The equation $\eq$ is defined as $[\vecb{c}]_1-\sum_{i\in[\ell]}{y}_id^{i-1}[\vecb{u}_1]_1=r[\vecb{u}_2]_1$.
+\label{fig:rp}}
+\end{figure}
+

@@ -1,0 +1,36 @@
+In this Section we introduce a new commitment scheme which is a generalization of Multi-Pedersen commitments and which was implicitly used in \cite{EPRINT:GonHevRaf15}. 
+
+Given a vector $\vecb{m}\in\Z_q^m$, the Multi-Pedersen commitment in $\GG_{\gamma}$ is a single group element $[c]_\gamma:=\sum_{i\in [m]} m_i[g_i]_\gamma+r[g_{n+1}]_\gamma \in\GG_\gamma$, where $[g_i]_{\gamma}\in\GG_\gamma$, $i\in[m+1]$, and $r\gets\Z_q$. \footnote{Written in the usual multiplicative notation $c=\prod_{i\in[m]}g_i^{m_i} \cdot g_{m+1}^r$.}  The $(k+1)$-dimensional Multi-Pedersen commitments 
+differs only in that the keys and the resulting commitments are in 
+$\GG_{\gamma}^{k+1}$, for $k\geq 1$. 
+
+
+While the original MP commitments are perfectly hiding, the interest of the new commitments is that, if the keys come from the distribution $\distink$ defined in Section~\ref{sec:dec-ass}, they are perfectly binding at coordinate $i$. Intuitively, the new commitment is defined in a larger space so that not all the information about the witness is destroyed (in an information-theoretic sense). 
+
+\begin{definition} The $(k+1)$-dimensional Multi-Pedersen commitment scheme in the group $\GG_\gamma$ 
+%is parameterized by a matrix distribution $\dist_{2,n+1}$ and 
+is specified by the following three algorithms 
+	$\mathsf{MP}=(\mathsf{MP}.\algK,\mathsf{MP}.\Com,$ $ \mathsf{MP}.\algVrfy)$:
+	\begin{itemize} 
+		\item  $\mathsf{MP}.\algK$ is a randomized algorithm, which on input the group key $gk$, a natural number $n \in \N$, and the description of some matrix distribution $\dist_{k+1,n+k}$, 
+		outputs a commitment key $ck:=[\matr{G}]_\gamma$, where $\matr{G} \gets \dist_{k+1,n+k}$.
+		\item $\mathsf{MP}.\Com$ is a randomized algorithm which, on input a commitment key $ck=[\matr{G}]_\gamma$, and a message 
+		$\vecb{m}$ in the message space $\mathcal{M}_{ck}=\Z_q^{m}$, samples $\vecb{r} \gets \Z_q^k$ and outputs a commitment $\bvecb{c}_\gamma:=\bmatr{G}_\gamma\smallpmatrix{\vecb{m} \\ \vecb{r}}$ in the commitment space $\mathcal{C}_{ck}=\GG_\gamma^{k+1}$ and an opening $Op=\vecb{r}$, 
+		\item $\mathsf{MP}.\algVrfy$ is a deterministic algorithm which, on input the commitment key $ck=\bmatr{G}_\gamma$, a commitment $\bvecb{c}_\gamma$,  a message 
+		$\vecb{m} \in \Z_q^{m}$ and an opening $Op=\vecb{r}\in\Z_q^k$, outputs $1$ if $\bvecb{c}_\gamma=\bmatr{G}_\gamma\smallpmatrix{\vecb{m} \\ \vecb{r}}$
+		and $0$ otherwise. 
+	\end{itemize}
+\end{definition}
+
+\begin{theorem} \label{theo:mp} The $\MP$ scheme is computationally binding if  the discrete logarithm assumption holds in $\GG_\gamma$. Further, if 
+$\dist_{k+1,n+k}=\distink$, it holds that: 
+\begin{itemize}
+\item If $i=0$,  then $\MP$ is perfectly hiding,
+\item If $i \in [n]$, then $\MP$ is statistically binding at coordinate $i$, which means that for each $[\vecb{c}]_\gamma \in \GG_{\gamma}^{k+1}$,
+there exists a unique $\tilde{m}_i \in\Z_q$ such that for all $\vecb{m} \in\Z_q^m, \vecb{r} \in\Z_q^{k}$ such that  $\bvecb{c}_{\gamma}=\bmatr{G}_{\gamma}\smallpmatrix{\vecb{m}\\\vecb{r}}$, $m_i=\tilde{m}_i$. Further, the scheme is perfectly hiding at the rest of coordinates. 
+\end{itemize}
+\end{theorem}
+The proof is not hard to derive from the definition of the $\distink$ distribution, and can be found in Appendix \ref{app:mp}. 
+
+
+%The message space is naturally extended to matrices $\matr{M}\in\Z_q^{m\times n}$ by defining $\MP.\Com_{[\matr{G}]_\gamma}(\matr{M};\vecb{W}):=[\matr{G}]_\gamma \pmatri{\matr{M}\\ \matr{W}}\in\GG_\gamma^{(k+1)\times n}$, for $\matr{W}\in\Z_q^{k \times n}$. The columns of the resulting commitment are the commitments to the columns of $\matr{M}$. 

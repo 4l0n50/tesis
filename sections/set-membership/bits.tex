@@ -1,0 +1,67 @@
+We construct a QA-NIZK argument of membership in the language
+$$
+\Lang_{ck,\sfbits} := \{[\vecb{c}]_1\in\GG_1^{k+1} : \exists \vecb{b}\in\bits^m,\vecb{r}\in\Z_q^k \text{ s.t. } [\vecb{c}]_1 = \MP.\Com_{ck}(\vecb{b};\vecb{r})\},
+$$
+where $ck:=[\matr{G}]_1$ and $\matr{G}$ is a matrix sampled from 
+some distribution $\distink$. For simplicity, in the exposition we restrict ourselves to the case $\dist_k=\distlin_{1}$ so  $\matr{G}$ is sampled from $\distlininone$, for some $0 \leq i \leq m$.
+
+It is important to note that, as an extended MP commitment is at best only binding at one coordinate, a priori showing that it opens to $\vecb{b} \in \{0,1\}^m$ is not very meaningful, as it does open to other values as well. However, when combined with external protocols that univocally define $\vecb{b}$, it becomes a key building block to obtain the rest of the results of the paper.  
+
+The argument is implicit in \cite{AC:GonHevRaf15}, where the authors construct a QA-NIZK argument for proving that a perfectly binding commitment opens to a bit-string. More technically, to prove that a  perfectly binding commitment $[\vecb{c}']_1$ opens to a bit-string $\vecb{b}$, the argument in \cite{AC:GonHevRaf15} takes the following steps:
+\begin{enumerate}
+\item Construct two MP commitments $[\vecb{c}]_1$, 
+$[\vecb{d}]_2$ to $\vecb{b}$. 
+\item Prove that $[\vecb{c}]_1$ and $[\vecb{c}']_1$ open to the same string. 
+\item Prove that the two MP commitments $[\vecb{c}]_1$ and $[\vecb{d}]_2$ open to the same string.
+\item Prove that $\vecb{c}(\vecb{d}-\sum_{j \in [m]}
+\vecb{h}_j)^\top\in\Span(\{\vecb{g}_i\vecb{h}_j^\top:i,j\in[m+1]\}\setminus\{\vecb{g}_i\vecb{h}_i^\top:i\in[m]\})$, where $ck:=[(\vecb{g}_1,\ldots,\vecb{g}_{m+1})]_1$ and $ck':=[(\vecb{h}_1,\ldots,\vecb{h}_{m+1})]_2$.
+\end{enumerate}
+The last step guarantees that 
+$b_i(b_i-1)=0$ for all $i \in [m]$. Indeed, 
+$\vecb{c}(\vecb{d}-\sum_{j \in [m]}
+\vecb{h}_j)^\top$ can be written as a linear combination of the vectors $\{\vecb{g}_i\vecb{h}_j^\top\}$ where the coefficient of $\vecb{g}_i\vecb{h}_i^{\top}$ is $b_i(b_i-1)$. Intuitively, an adversary will be able to prove that $\vecb{c}(\vecb{d}-\sum_{j \in [m]}
+\vecb{h}_j)^\top$ is in the span of the vectors  $\{\vecb{g}_i\vecb{h}_j^\top\}$ without those pairs where $i=j$ only if $b_i(b_i-1)=0$ for all $i \in [m]$. 
+
+
+The argument we need for our results eliminates the perfectly binding commitment, which of course also means that step 2 disappears. Additionally, in the original scheme of \cite{AC:GonHevRaf15}, the distribution of $ck=[\matr{G}]_1$ is $\distlinizeroone$, while in our argument of membership in 
+$\Lang_{ck,\sfbits}$, $\matr{G}$ can follow any distribution $\distlininone$ for some $0 \leq i \leq m$. 
+However, it is not hard to adapt the original proof to these distributions (in fact, in the soundness proof of 
+\cite{AC:GonHevRaf15}, there is a game where the distribution of $\matr{G}$ is changed to $\distlininone$, for some $i \gets [m]$). The proof that $\Lang_{ck,\sfbits}$ admits a constant-size QA-NIZK argument essentially reuses parts of the proof of \cite{AC:GonHevRaf15}.  In summary, in Appendix \ref{app:bits} we prove the following result, which heavily draws on the work of \cite{AC:GonHevRaf15}. 
+
+\begin{theorem} \label{theo:bits} There exists a QA-NIZK argument $\Pi_\sfbits$ for membership in $\Lang_{ck,\sfbits}$ with proof size  
+$8|\GG_1|+10|\GG_2|$ with perfect completeness, perfect-zero knowledge and computational soundness. 
+\end{theorem}
+
+
+%either $\dist_{k+1,n+k}^0,\ldots,\dist_{k+1,n+k}^{n-1}$, or $\dist_{k+1,n+k}^n$. Unlike \cite{AC:GonHevRaf15}, we do not require perfectly binding commitments, that is $k\geq n+m-1$, and in fact $k=1$ suffices. For simplicity we stick to the case $k=1$, while the proof system can be generalized to any $k$.
+%The construction follows closely the proof system from \cite{AC:GonHevRaf15}, and in fact is a (simplified) version of a sub-protocol implicitly used there.
+%
+%\subsubsection{Intuition.} Assume that $\matr{G}\gets\dist_{2,n+1}^{i^*}$ for some $i^*\in[n]$ (security when $\dist_{2,n+1}^0$ will be a simple corollary), and let $[\vecb{c}]_1=\MP.\Com_{ck}(\matr{b};w_g)=\sum_{i\in[n]}b_i[\vecb{g}_i]_1+w_g[\vecb{g}_{n+1}]_1$ for some $\vecb{b}\in\bits^m,w_g\in\Z_q$. The statement $\vecb{b}\in\bits^n$ is equivalent to $b_i(1-b_i)=0$ for each $i\in[n]$, so the basic idea will be to allow the verifier to compute a quadratic function of $\vecb{b}$ using the pairing.
+%
+%If the prover commits to $[\vecb{d}]_2:=\MP.\Com_{ck'}(\vecb{b};w)$, where $ck':=[\matr{H}]_2$ and $\matr{H}\gets\dist_{2,n+1}^0$, the verifier can compute 
+%\newcommand{\egh}[2]{[\matr{C}_{#1,#2}]_T}
+%\begin{eqnarray*}
+%[\matr{\Theta}]_T & := &e([\vecb{c}]_1,\sum_{i\in[n]}[\vecb{h}_i]_2^\top-[\vecb{d}]_2^\top)\\
+%&=&
+%\begin{array}{ccccccccc}
+%b_1(1-b_1)\egh{1}{1}   & + & \ldots & + & b_1(1-b_n)\egh{1}{n}   & + & b_1w_h\egh{1}{n+1}+   \\
+%\vdots                 &   & \ddots &   & \vdots                 &   & \vdots                \\
+%b_n(1-b_1)\egh{n}{1}   & + & \ldots & + & b_n(1-b_n)\egh{n}{n}   & + & b_nw_h\egh{i}{n+1}+   \\
+%w_g(1-b_1)\egh{n+1}{1} & + & \ldots & + & w_g(1-b_n)\egh{n+1}{n} & + & w_gw_h\egh{n+1}{n+1}
+%\end{array}\\
+%&=&
+%\begin{array}{ccccccccc}
+%0\egh{1}{1}            & + & \ldots & + & b_1(1-b_n)\egh{1}{n}   & + & b_1w_h\egh{1}{n+1}+   \\
+%\vdots                 &   & \ddots &   & \vdots                 &   & \vdots                \\
+%b_n(1-b_1)\egh{n}{1}   & + & \ldots & + & 0\egh{n}{n}            & + & b_nw_h\egh{i}{n+1}+   \\
+%w_g(1-b_1)\egh{n+1}{1} & + & \ldots & + & w_g(1-b_n)\egh{n+1}{n} & + & w_gw_h\egh{n+1}{n+1}
+%\end{array},
+%\end{eqnarray*}
+%where $\matr{C}_{i,j}:=\vecb{g}_i\vecb{h}_j^\top$
+%
+%To guarantee that $[\vecb{c}]_1\in\Lang_{ck,\sfbits}$ the prover will additionally prove that: a)$[\vecb{c}]_1$ and $[\vecb{d}]_2$ can be opened to the same value, and c) $[\matr{\Theta}]_T\in\Span(\{[\matr{C}_{i,j}]_T:(i,j)\in\indexSet{n}{1}\})$. 
+%
+%Note that $[\vecb{c}]_1\in\Lang_{ck,\sfbits}\Longleftrightarrow b_{i^*}\in\bits$, since $[\vecb{c}]_1$ can always be opened to $(0,\ldots,0,b_{i^*},0,\ldots,0)^\top$, where $b_{i^*}$ is unique. We will change to a game where $\matr{H}\gets\dist_{2,n+1}^{i^*}$ and thus $\{\vecb{g}_{i^*},\vecb{g}_{n+1}\},\{\vecb{h}_{i^*},\vecb{h}_{n+1}\}$, and $\{\matr{C}_{i^*,i^*},\matr{C}_{i^*,n+1},\matr{C}_{n+1,i^*},\matr{C}_{n+1,n+1}\}$ are basis of $\Z_q^2$ and $\Z_q^{2\times 2}$, respectively. In this setting a) implies that $[\vecb{c}]_1$ and $[\vecb{d}]_2$ have the same and unique opening $b_{i^*}$ at position $i^*$, and by b) $[\matr{\Theta}]_T$ have a unique component $b_{i^*}(1-b_{i^*})$ for $[\matr{C}_{i^*,i^*}]_T$ and $b_{i^*}(1-b_{i^*})=0$.
+%
+%\subsubsection{Additional difficulties.}
+%Proof b) is more involved since requires to prove membership in a linear subspace of the target group and is incompatible with the decisional assumption used to change to a game where $\matr{H}\gets\dist_{2,n+1}^0$. This problem was solved in \cite{AC:GonHevRaf15} using the proof system for $\Lang_{\matr{M},\matr{N},\sfsum}$.

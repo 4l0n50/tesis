@@ -1,0 +1,112 @@
+\label{sec:instantiations}
+We construct a constant-size QA-NIZK for proving that a perfectly binding commitment opens to a 
+bit-string.  That is, we prove membership in the language:
+$$\mathcal{\mathcal{L}}_{\hmatr{U},\sfbits} := 
+    \{\hat{\vecb{c}} \in \Gr^{n+m}: 
+        \hat{\vecb{c}}:=  \hmatr{U}_1 \vecb{b}+ \hmatr{U}_2 \vecb{w}, (\vecb{b},\vecb{w}) \in \{0,1\}^{n} \times \Z_q^{m}
+    \},$$
+     where $\hmatr{U}:=(\hmatr{U}_1,\hmatr{U}_2)\in\Gr^{(n+m)\times n}\times\Gr^{(n+m)\times m}$ 
+defines perfectly binding and computationally hiding commitment keys. The witness for membership is 
+$(\vecb{b},\vecb{w})$ and $\hmatr{U} \gets \dist_{\Gamma}$, where $\dist_\Gamma$ is some witness samplable distribution. 
+
+To prove that a commitment in $\Gr$ opens to a vector of bits $\vecb{b}$, the usual strategy is to compute another commitment $\cvecb{d}\in\Hr^{\bar{n}}$ to a vector $\bar{\vecb{b}}\in\Z_q^n$ and prove 
+  (1) $b_i(\overline{b}_i-1)=0$, for all $i \in [n]$, and 
+  (2) $b_i-\overline{b}_i=0$, for all $i \in [n]$. 
+For statement  (2), since $\hmatr{U}$ is witness samplable, we can use our most efficient QA-NIZK from Sect.\ \ref{sec:aggcomms} for equal opening in different groups.  Under the $\SSDP$ Assumption, which is the $\skermdh$ Assumption of minimal size conjectured to hold in asymmetric groups, the proof is of size $2\s$. Thus, the challenge is to aggregate $n$ equations of the form $b_i(\overline{b}_i-1)=0$. We note that this is a particular case of the problem of aggregating proofs of quadratic equations, which was left open in \cite{C:JutRoy14}.
+
+We finally remark that the proof must include $\cvecb{d}$ and thus it may be not of size independent of $n$. However, it turns out that $\cvecb{d}$ needs not be perfectly binding, in fact $\bar{n}=2$ suffices.
+
+\subsection{Intuition} \label{sect:intuition}
+%GS proofs have perfect soundness because the commitment space is designed so that variables and randomness are embedded in different subspaces, which implies that a proof of satisfiability of some equation is implicitly a membership proof in some subspace of $\T^{\ell\times\ell}$. 
+%
+%For example, a
+A prover wanting to show satisfiability of the equation  $\varx(\vary-1)=0$ using GS proofs, will commit to a solution  
+$\varx=b$ and $\vary=\overline{b}$ as $\hat{\vecb{c}}=b \hat{\vecb{u}}_1 + r \hat{\vecb{u}}_2$ and 
+ $\check{\vecb{d}}=\overline{b} \check{\vecb{v}}_1 + s \check{\vecb{v}}_2$, for $r,s \leftarrow \Z_q$, and then give a pair $(\hgrkb{\theta},\cgrkb{\pi})
+\in \Gr^{2} \times \Hr^{2}$ which satisfies the following verification equation\footnote{For readers familiar with the Groth-Sahai notation, equation (\ref{eq:gsver}) corresponds to 
+$\vecb{c} \bullet \left(\vecb{d}-\iota_2(1)\right) = \vecb{u}_2 \bullet \grkb{\pi} + \grkb{\theta} \bullet \vecb{v}_2$.}:
+\begin{equation} \label{eq:gsver}
+\hat{\vecb{c}} \left(\check{\vecb{d}}-
+ \check{\vecb{v}}_1\right)^{\top}=\hat{\vecb{u}}_2  
+\check{\boldsymbol \pi}^{\top}+ \hat{\boldsymbol \theta}   \cvecb{v}_2^{\top}. 
+\end{equation}
+The reason why this works is that, if we express both sides of the equation in the basis of 
+$\T^{2\times 2}$ given by 
+$\{\hat{\vecb{u}}_1\check{\vecb{v}}_1^{\top},\hat{\vecb{u}}_2\check{\vecb{v}}_1^{\top},\hat{\vecb{u}}_1\check{\vecb{v}}_2^{\top},\hat{\vecb{u}}_2\check{\vecb{v}}_2^{\top}\}$, the coefficient of 
+$\hat{\vecb{u}}_1\check{\vecb{v}}_1^{\top}$ is $b(\overline{b}-1)$ on the left side and $0$ on the right side (regardless of
+$(\hgrkb{\theta},\cgrkb{\pi})$).
+Our observation is that the verification equation can be abstracted as saying:
+\begin{equation}\label{eq:gsabstracted}
+\hat{\vecb{c}} \left(\check{\vecb{d}}-\check{\vecb{v}}_1\right)^{\top} \ \in \mathsf{Span}(\hat{\vecb{u}}_2\check{\vecb{v}}_1^{\top},\hat{\vecb{u}}_1\check{\vecb{v}}_2^{\top},\hat{\vecb{u}}_2\check{\vecb{v}}_2^{\top}) \subset  \T^{2 \times 2}. 
+\end{equation}
+
+Now consider commitments to $(b_1,\ldots,b_n)$ and $(\overline{b}_1,\ldots,\overline{b}_n)$ constructed with some commitment key $\{(\lck_i,\rck_i): i \in [n+1]\}\subset\Gr^{\nb}\times\Hr^\nb$, for some $\nb\in\N$, to be determined later, and defined as $\hat{\vecb{c}}:=\sum_{i \in [n]} b_i \hat{\vecb{g}}_i + r \hat{\vecb{g}}_{n+1}$, 
+$\check{\vecb{d}}:=\sum_{i \in [n]} \overline{b}_i \check{\lrck}_i + s \check{\lrck}_{n+1}$, $r,s \gets \Z_q$. Suppose for a moment that 
+$\{ \lck_{i} \rck_{j}^{\top} : i,j \in [n+1]\}$ 
+is a set of linearly independent vectors. Then,  
+\begin{equation} \label{eq:gsveri}
+\hat{\vecb{c}} \left(\check{\vecb{d}}^{\top}-
+\sum_{j\in[n]} \check{\lrck}_j^{\top}\right) \in \Span\{ \lck_i\rck_j^{\top}: (i,j)\in\indexSet{n}{1} \} 
+\end{equation}
+if and only if $b_i(\overline{b}_i-1)=0$ for all $i \in [n]$,
+because $b_i(\overline{b}_i-1)$ is the coordinate of 
+$\lck_i\rck_i^{\top}$ in the left side of the equation.
+
+
+Equation \ref{eq:gsveri} suggests to use one of the constant-size QA-NIZK Arguments for linear spaces to get a constant-size proof that $b_i(\overline{b}_i-1)=0$ for all $i \in [n]$. Unfortunately, these arguments are only defined for membership in subspaces  in 
+$\Gr^m$ or $\Hr^m$ but not in $\T^m$. Our solution is to include information in the CRS to ``bring back'' 
+  this statement from $\T$ to $\Gr$, i.e.\ 
+  the matrices   $\hat{\Lqmatr}_{i,j}:=\hat{\vecb{g}}_i\lrck_j^{\top}$, for each $(i,j)\in\indexSet{n}{1}$.   
+Then, to prove that $b_i(\overline{b}_i-1)=0$ for all $i\in [n]$, the prover computes 
+$\hat{\matr{\Theta}}_{b(\overline{b}-1)}$ as a linear combination of 
+ $\Qspace:=\{\hat{\Lqmatr}_{i,j}: (i,j)\in\indexSet{n}{1}\}$ (with coefficients which depend on
+ $\vecb{b},\vecb{\bb},r,s$)
+ such that
+\begin{equation}
+\hat{\vecb{c}}\left(\check{\vecb{d}}-
+\sum_{j\in[n]}\check{\lrck}_j\right)^{\top}=
+\hmatr{\Theta}_\bub\cmatr{I}_{\nb\times\nb},
+\end{equation}
+and gives a QA-NIZK proof of  $\hmatr{\Theta}_\bub \in \mathsf{Span}(\Qspace)$.
+
+This reasoning assumes that $\{\lck_i \lrck_j^{\top}\}$ (or equivalently, $\{\Qmatr_{i,j}\}$) are linearly independent,  which can only happen if 
+$\nb \geq n+1$. If that is the case, the proof cannot be constant because $\hmatr{\Theta}_{b(\bbb-1)} \in \Gr^{\nb\times\nb}$ and this matrix is part of the proof. Instead, we choose $\lck_1,\ldots,\lck_{n+1} \in \Gr^{2}$ and $\rck_1,\ldots,\rck_{n+1} \in \Hr^{2}$, so that 
+$\{\Qmatr_{i,j}\} \subseteq \Gr^{2 \times 2}$.  Intuitively, this should still work because the prover receives these vectors as part of the CRS and he does not know their discrete logarithms, so to him, they behave as linearly independent vectors.  
+
+With this change, the statement $\hmatr{\Theta}_{b(\overline{b}-1)}\in\Span(\Qspace)$ seems no longer meaningful, as $\Span(\Qspace)$ is all of $\Gr^{2\times 2}$ with overwhelming probability. But this is not the case, because by means of decisional assumptions in $\Gr^2$ and in $\Hr^2$, we switch to a game where the matrices
+$\Qmatr_{i,j}$ span a non-trivial space of $\Gr^{2 \times 2}$. Specifically, to a game where $\Qmatr_{i^*,i^*}\notin\Span(\Qspace)$ and $i^*\gets[n]$ remains hidden to the adversary. Once we are in such a game, perfect soundness is guaranteed for equation $b_{i^*}(\bbb_{i^*}-1)=0$ and a cheating adversary is caught with probability at least $1/n$. We think this technique might be of independent interest.
+
+The last obstacle is that, 
+  using decisional assumptions on the set of vectors 
+  $\{\check{\lrck}_{j}\}_{j\in[n+1]}$ is incompatible with using the discrete logarithms of $\rck_j$ to compute the matrices $\Qmatr_{i,j}:=\lck_i \lrck_j^{\top}$ given in the CRS. 
+To account for the fact that, in some games,
+  we only know $\vecb{g}_i \in \Z_q$ and, in some others,
+  only $\lrck_j \in \Z_q$, we replace each matrix 
+  $\hat{\Lqmatr}_{i,j}$ by a pair 
+  $(\hat{\matr{C}}_{i,j},\check{\matr{D}}_{i,j})$ which is uniformly 
+  distributed conditioned on 
+  $\matr{C}_{i,j}+\matr{D}_{i,j}=\vecb{g}_i \lrck_j^{\top}$.
+This randomization completely hides the group in which we can compute 
+  $\vecb{g}_i \lrck_j^{\top}$. 
+  Finally, we use our QA-NIZK Argument for sum in a subspace (Sect.\ \ref{sec:QANIZKsum}) to prove membership in this space.
+
+\subsection{Instantiations} \label{subsec:instantiations}
+We discuss in detail two particular cases of languages $\mathcal{\mathcal{L}}_{\hmatr{U},\sfbits}$. First, in Sect.~\ref{sect:proofasym} we discuss the case when 
+\begin{itemize}
+\item[(a)] $\hvecb{c}$ is a vector in $\Gr^{n+1}$,  $\hvecb{u}_{n+1} \leftarrow \distlin_{n+1,1}$ and
+ $\hat{\matr{U}}_1:=\begin{pmatrix}\hmatr{I}_{n\times n}\\\hmatr{0}_{1\times n}\end{pmatrix} \in \Gr^{(n+1) \times n}, \hmatr{U}_2:=\hvecb{u}_{n+1} \in \Gr^{n+1}$, $\hmatr{U}=(\hmatr{U}_1|| \hmatr{U}_2)$.    
+\end{itemize}
+In this case, the vectors $\lck_i$ in the intuition are defined as $\lck_i=\matr{\Delta} \hvecb{u}_i$, where $\matr{\Delta}\gets\Z_q^{2\times(n+1)}$, and the commitment 
+to $\vecb{b}$ is computed as $\hvecb{c}:=\sum_{i\in[n]}b_i\hvecb{u}_i+w\hvecb{u}_{n+1}$.
+Then in Sect. \ref{sec:crsindivcomms} we discuss how to generalize the construction for a) to 
+\begin{itemize}
+ \item[(b)] $\hvecb{c}$ is the concatenation of $n$ GS commitments. That is, given the  GS CRS   $\mathsf{crs}_\GS=(\Gamma,\hvecb{u}_1,\hvecb{u}_2,\cvecb{v}_1,\cvecb{v}_2)$, we define,
+$$\hmatr{U}_1:=  \begin{pmatrix} \hvecb{u}_1 & \ldots & \hvecb{0}\\ \vdots & \ddots & \vdots \\   \hvecb{0} & \ldots & \hvecb{u}_1  \end{pmatrix} \in \Gr^{2n \times n},  \hmatr{U}_2:= \begin{pmatrix} \hvecb{u}_2 & \ldots & \hvecb{0}\\ \vdots & \ddots & \vdots \\  \hvecb{0} & \ldots & \hvecb{u}_2  \end{pmatrix} \in \Gr^{2n \times n}.$$ 
+\end{itemize}
+
+%\paragraph{Remark.}
+Although the proof size is constant, in both of our instantiations the commitment size is $\Theta(n)$. Specifically, $(n+1)\sG$ for case a) and $2n\sG$ for case b).
+%Furthermore, one might relax the requirement of perfectly binding commitments as long as one is able to extract a witness from $\hvecb{c}$. However, if for example $\hvecb{U}$ defines a distribution over hard instances of the Subset-Sum language, impossibility results from $\cite{STOC:GenWic11}$ imply that $\hvecb{c}$ cannot be of size $\mathsf{poly}(\lambda)n^{o(1)}$.
+
+%Although this is a limitation for some applications, \textit{e.g.} range proofs, this is a requirement for some others (like proving membership in a list).   
+

@@ -1,0 +1,445 @@
+\newcommand{\sblt}{\stackrel{s}{\bullet}}
+
+\newcommand{\algSize}{normalsize} 
+%\newcommand{\algSize}{footnotesize}
+
+\newcommand{\ps}{\Psi_{\dist_k}}
+\newcommand{\psws}{\Psi_{\overline{\dist}_k}}
+\newcommand{\sps}{\Psi_{\dist_k,\mathsf{spl}}}
+\newcommand{\spsws}{\Psi_{\overline{\dist}_k,\mathsf{spl}}}
+\newcommand{\spsmas}{\Psi_{\dist_k,+}}
+\newcommand{\spswsmas}{\Psi_{\overline{\dist}_k,+}}
+\newcommand{\spswscomm}{\Psi_{\overline{\dist}_k,\mathsf{com}}}
+\newcommand{\bbb}{\bar{b}}
+\newcommand{\capprox}{\overset{c}{\approx}}
+
+\newcommand{\latexDeMierdaEstupido}{]}
+
+\newcommand{\Comm}{\mathsf{Comm}}
+\newcommand{\Com}{\mathsf{Com}}
+\newcommand{\vect}{\mathbf{vec}}
+
+\newcommand{\lef}{{\mathtt{l}}}
+\newcommand{\rig}{{\mathtt{r}}}
+\newcommand{\stmnt}{\mathsf{stm}}
+%Commitment keys
+
+%Log Left Commitment Key
+\newcommand{\llck}{\vecb{g}}
+%Log Right Commitment Key
+\newcommand{\lrck}{\vecb{h}}
+%Left Commitment Key
+\newcommand{\lck}{\hat{\llck}}
+%Right Commitment Key
+\newcommand{\rck}{\check{\lrck}}
+\newcommand{\rcks}{\hat{\lrck}}
+
+%Commitement keys matrices
+
+%Log Left Commitment Keys
+\newcommand{\Llck}{\matr{G}}
+%Log Right Commitment Keys
+\newcommand{\Lrck}{\matr{H}}
+%Left Commitment Keys
+\newcommand{\Lck}{\hat{\Llck}}
+%Right Commitment Keys
+\newcommand{\Rck}{\check{\Lrck}}
+\newcommand{\Rcks}{\hat{\Lrck}}
+
+%For quadratic info \lck\rck^\top
+\newcommand{\Lqmatr}{\matr{C}}
+\newcommand{\Qmatr}{\hat{\Lqmatr}}
+\newcommand{\Qspace}{\mathcal{C}}
+
+% c_\Delta
+\newcommand{\lccom}{\vecb{c}_\Delta}
+\newcommand{\ccom}{\hvecb{c}_\Delta}
+
+\newcommand{\pke}{\mathsf{PKE}}
+\newcommand{\kem}{\mathsf{KEM}}
+\newcommand{\prf}{\mathsf{PRF}}
+\newcommand{\ev}{\mathsf{F}}
+\newcommand{\KEM}{\mathsf{KEM}}
+\newcommand{\gen}{\mathsf{Gen}}
+\newcommand{\enc}{\mathsf{Enc}}
+\newcommand{\Enc}{\mathsf{Enc}}
+\newcommand{\dec}{\mathsf{Dec}}
+\newcommand{\pk}{\mathit{pk}}
+\newcommand{\sk}{\mathit{sk}}
+\newcommand{\cdh}{\ensuremath{\mathsf{CDH}}}
+\newcommand{\ddh}{\ensuremath{\mathsf{DDH}}}
+\newcommand{\sxdh}{\ensuremath{\mathsf{SXDH}}}
+\newcommand{\mddh}{\ensuremath{\mathsf{MDDH}}}
+\newcommand{\mcdh}{\ensuremath{\mathsf{MCDH}}}
+\newcommand{\fmdh}{\ensuremath{\mathsf{KerMDH}}}
+\newcommand{\bddh}{\ensuremath{\mathsf{BDDH}}}
+\newcommand{\mat}[1]{\ensuremath{#1\mbox{-}\mathsf{Mat}}}
+\newcommand{\pddh}[1]{\ensuremath{#1\mbox{-}\mathsf{PDDH}}}
+\newcommand{\mlddh}[1]{\ensuremath{#1\mbox{-}\mathsf{MLDDH}}}
+\newcommand{\eddh}[1]{\ensuremath{#1\mbox{-}\mathsf{EDDH}}}
+\newcommand{\casc}[1]{\ensuremath{#1\mbox{-}\mathsf{Casc}}}
+\newcommand{\scasc}[1]{\ensuremath{#1\mbox{-}\mathsf{SCasc}}}
+\newcommand{\lin}[1]{\ensuremath{#1\mbox{-}\mathsf{Lin}}}
+\newcommand{\rlin}[1]{\ensuremath{#1\mbox{-}\mathsf{RLin}}}
+\newcommand{\re}{\mathsf{RE}_\G}
+\newcommand{\kcirc}[1]{\ensuremath{#1\mbox{-}\mathsf{Circ}}}
+\newcommand{\escQE}{\gamma}
+\newcommand{\EscQE}{\Gamma}
+
+
+% M \in Z^{\la \times \lb}, N\in Z^{\la \times \lc}, \Lambda\in Z^{\ld\times \lb}
+% x \in \Z_q^\la, b\in \Z_q^\lb, w\in\Z_q^\lc, \alpha\in \Z_q^\ld
+\newcommand{\la}{{\ell_1}}
+\newcommand{\lb}{{m}}
+\newcommand{\lc}{{\ell_2}}
+\newcommand{\ld}{{\ell_3}}
+
+
+\newcommand{\LangMN}{{\Lang_{[\matr{M}]_1,[\matr{N}]_1,\matr{\Lambda},\grkb{\alpha}}}}
+
+
+
+\newcommand{\skermdh}{\ensuremath{\mathsf{SKerMDH}}}
+\newcommand{\kermdh}{\ensuremath{\mathsf{KerMDH}}}
+
+\newcommand{\KG}{\mathsf{KeyGen}}
+\newcommand{\GS}{{\mathsf{GS}}}
+
+%HPS definitions
+\newcommand{\univo}{universal$_1$\xspace}
+\newcommand{\univt}{universal$_2$\xspace}
+\newcommand{\distance}[2]{\Delta\left[#1 \,,\, #2\right]}
+\newcommand{\entropic}{entropic\xspace}
+\newcommand{\ciphertext}{{c}}
+\def\params{\mathit{params}}
+\newcommand{\structure}{\mathcal{S}}
+\newcommand{\ciphersp}{\mathcal{C}}
+\newcommand{\conssp}{\mathcal{V}}
+\newcommand{\primeorder}{p}
+\newcommand{\keysp}{\mathcal{K}}
+\def\hps{\varfont{hps}}
+\newcommand{\advBhps}{\calB}
+\newcommand{\advBhpso}{\calB_{1}}
+\newcommand{\advBhpst}{\calB_{2}}
+\newcommand{\PK}{\mathcal{PK}}
+\newcommand{\SK}{\mathcal{SK}}
+\newcommand{\hash}{\mu}
+\newcommand{\bigiota}{\mathcal{I}}
+\newcommand{\var}[1]{{\mathsf{#1}}}
+\newcommand{\vvar}[1]{{\mathbf{\var{#1}}}}
+\newcommand{\varb}{\mathsf{b}}
+\newcommand{\varx}{\mathsf{x}}
+\newcommand{\vvarx}{\mathbf{\mathsf{x}}}
+\newcommand{\vary}{\mathsf{y}}
+\newcommand{\varz}{\mathsf{z}}
+\newcommand{\varX}{\mathsf{X}}
+\newcommand{\varY}{\mathsf{Y}}
+\newcommand{\varZ}{\mathsf{Z}}
+\newcommand{\varvecx}{\vec{\varx}}
+\newcommand{\varvecy}{\vec{\vary}}
+\newcommand{\varvecz}{\vec{\varx}}
+\newcommand{\hcx}{(\hat{x}_1,\ldots,\hat{x}_m)}
+\newcommand{\matrB}{\matr{B}} 
+\newcommand{\vecL}{(\hat{l}_1,\ldots,\hat{l}_n)}
+
+
+
+% Las instancias de SPLHS se van a llamr \Phi
+\newcommand{\SPLHSinst}{\Phi}
+\newcommand{\SG}{\mathsf{SignGen}}
+\newcommand{\SN}{\mathsf{Sign}}
+\newcommand{\SD}{\mathsf{SignDerive}}
+\newcommand{\SV}{\mathsf{Verify}}
+\newcommand{\SP}{\ensuremath{\mathsf{SP}}}
+\newcommand{\poly}{\mathsf{poly}}
+
+%Comicmens a los eltos de la listas
+\newcommand{\lcom}{\vecb{f}}
+\newcommand{\Lcom}{\matr{F}}
+
+%Definition
+\newcommand{\MP}{\mathsf{MP}}
+\newcommand{\GScom}{\mathsf{GS.Com_{\hvecb{U}}}}
+\newcommand{\MPcomg}{\mathsf{MP.Com}_{\hmatr{G}}}
+\newcommand{\MPcomh}{\mathsf{MP.Com}_{\hmatr{H}}}
+
+
+
+
+% QA-NIZK for linear spaces
+\newcommand{\ZKLinInst}{\mathsf{ZKLin}}
+\newcommand{\ZKLinK}{\mathsf{ZKLin.K}_0}
+\newcommand{\ZKLinKK}{\mathsf{ZKLin.K}_1}
+\newcommand{\ZKLinCRS}{\mathsf{ZKLin.crs}}
+
+\newcommand{\QANIZKsum}{{\spswsmas}}
+\newcommand{\QANIZKcomms}{{\spswscomm}}
+\newcommand{\QANIZKsym}{{\Psi_{\mathsf{sym}}}}
+
+\newcommand{\nb}{{\overline{n}}}
+
+\newcommand{\bb}{\overline{b}}
+\newcommand{\bub}{{b(\overline{b}-1)}}
+\newcommand{\tm}{\tilde{m}}
+
+\newcommand{\rank}{\mathbf{rank}}
+\newcommand{\HPSscheme}{\mathsf{HPS}}
+%\newcommand{\THPSscheme}{\schemefont{HPS_t}}
+% \newcommand{\THPSscheme}{\mathsf{HPS^{td}}}
+% \newcommand{\HHPSscheme}{\mathsf{HPS}_2}
+\newcommand{\HPSsys}{\mathsf{Param}}
+\newcommand{\HPSpub}{\mathsf{Pub}}
+\newcommand{\HPSpriv}{\mathsf{Priv}}
+\newcommand{\HPSdec}{\mathsf{Decide}}
+\newcommand{\eval}{\Lambda}
+%\newcommand{\hpscu}{{\notionfont{cu}_2}}
+%\newcommand{\ExpHPScu}[2]{\Exp^{\hpscu}_{#1,#2}}
+%\newcommand{\AdvHPScu}[2]{\Adv^{\hpscu}_{#1,#2}}
+%\newcommand{\hpscub}{{\notionfont{\hpscu\mbox{-}b}}}
+%\newcommand{\hpscuz}{{\notionfont{\hpscu\mbox{-}0}}}
+%\newcommand{\hpscuo}{{\notionfont{\hpscu\mbox{-}1}}}
+%\newcommand{\ExpHPScub}[2]{\Exp^{\hpscub}_{#1,#2}}
+%\newcommand{\ExpHPScuo}[2]{\Exp^{\hpscuo}_{#1,#2}}
+%\newcommand{\ExpHPScuz}[2]{\Exp^{\hpscuz}_{#1,#2}}
+% \newcommand{\pcol}{\delta}
+\newcommand{\prcol}{\delta}
+\newcommand{\trapdoor}{\omega}
+\newcommand{\witness}{r}
+\newcommand{\algD}{\mathsf{D}}
+\newcommand{\algK}{\mathsf{K}}
+\newcommand{\algG}{\mathsf{G}}
+\newcommand{\algP}{\mathsf{P}}
+\newcommand{\algV}{\mathsf{V}}
+\newcommand{\algS}{\mathsf{S}}
+\newcommand{\algF}{\mathsf{F}}
+\newcommand{\algVrfy}{\mathsf{Vrfy}}
+
+\newcommand{\R}{\mathcal{R}}
+\newcommand{\M}{\mathcal{M}}
+\newcommand{\dist}{\mathcal{D}}
+\newcommand{\distw}{\mathcal{W}}
+\newcommand{\distk}{\mathcal{K}}
+\newcommand{\distlin}{\mathcal{L}}
+\newcommand{\distrlin}{\mathcal{RL}}
+\newcommand{\distc}{\mathcal{C}}
+\newcommand{\distsc}{\mathcal{SC}}
+\newcommand{\distcirc}{\mathcal{CI}}
+\newcommand{\distu}{\mathcal{U}}
+\newcommand{\distp}{\mathcal{P}}
+\newcommand{\distink}{\dist_k^{m,i}}
+\newcommand{\distjnk}{\dist_1^{m,i}}
+
+\newcommand{\distinmk}{\dist_k^{mn,i}}
+\newcommand{\distzeronmk}{\dist_k^{mn,0}}
+\newcommand{\distzeronk}{\dist_k^{m,0}}
+\newcommand{\distlininone}{\distlin_1^{m,i}}
+\newcommand{\distlinisnone}{\distlin_1^{m,i^*}}
+\newcommand{\distlinizeroone}{\distlin_1^{m,0}}
+\newcommand{\distlinjsnzero}{\distlin_1^{n,j^*}}
+
+%\newcommand{\gets}{\leftarrow}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\G}{\mathsf{Gen}}
+\newcommand{\advD}{\mathsf{D}}
+\newcommand{\advA}{\mathsf{A}}
+\newcommand{\advB}{\mathsf{B}}
+\newcommand{\adv}{\mathbf{Adv}}
+\newcommand{\group}{{gk}}
+\newcommand{\gk}{\group}
+\newcommand{\pgroup}{\mathcal{PG}}
+\newcommand{\mgroup}[1]{\mathcal{MG}_{#1}}
+\newcommand{\ggen}{\mathsf{Gen}}
+\newcommand{\pggen}{\mathsf{PGen}}
+\newcommand{\mggen}[1]{\mathsf{MGen}_{#1}}
+\newcommand{\heading}[1]{\smallskip\noindent{\sc{#1}}}
+\newcommand{\vecb}[1]{\mathbf{#1}}
+\newcommand{\vecbt}[1]{\vec{#1}^{\ \top}}
+\newcommand{\uvecb}[1]{{\vect({\vecb{#1}})}}
+\newcommand{\tvecb}[1]{{\tilde{\vecb{#1}}}}
+\newcommand{\tgrkb}[1]{\tilde{\grkb{#1}}}
+\newcommand{\ovecb}[1]{{\overline{\vecb{#1}}}}
+\newcommand{\Pt}{\mathcal{P}}
+\newcommand{\Opt}{\mathcal{O}}
+\newcommand{\pt}[1]{\mathcal{#1}}
+\newcommand{\stbl}{\ \tilde \bullet \ }
+\newcommand{\bilgroup}{\mathcal{PG}}
+\newcommand{\matr}[1]{\mathbf{{#1}}}
+\newcommand{\vecw}{\vecb{w}}
+\newcommand{\vecr}{\vecb{r}}
+\newcommand{\vecz}{\vecb{z}}
+\newcommand{\vecy}{\vecb{y}}
+\newcommand{\vecx}{\vecb{x}}
+\newcommand{\veca}{\vecb{a}}
+\newcommand{\matrA}{\matr{A}}
+\newcommand{\hmatrA}{\hmatr{A}}
+\newcommand{\cmatrA}{\cmatr{A}}
+\newcommand{\smallpmatrix}[1]{\left(\begin{smallmatrix}#1\end{smallmatrix}\right)}
+\newcommand{\pmatri}[1]{\left(\begin{matrix}#1\end{matrix}\right)}
+\newcommand{\bmatri}[1]{\left[\begin{matrix}#1\end{matrix}\right]}
+\newcommand{\matri}[1]{{\begin{matrix}#1\end{matrix}}}
+\newcommand{\smatri}[1]{{\begin{smallmatrix}#1\end{smallmatrix}}}
+\newcommand{\sfsplit}{\mathsf{spl}}
+\newcommand{\bulletsp}{ \bullet }
+\newcommand{\newf}{\widehat{f}}
+\newcommand{\newF}{\widehat{F}}
+\newcommand{\com}{\mathsf{com}}
+\newcommand{\eq}{\mathsf{eq}}
+\newcommand{\eqd}{\equiv}
+\newcommand{\negl}{\mathit{negl}}
+\newcommand{\A}{\mathcal{A}}
+\newcommand{\GG}{\mathbb{G}}
+\newcommand{\Gr}{{\ensuremath{\hat{\mathbb{G}}}}}
+\newcommand{\Hr}{{\ensuremath{\check{\mathbb{H}}}}}
+\newcommand{\T}{\ensuremath{\mathbb{T}}}
+\newcommand{\SSDP}{\ensuremath{\mathsf{SSDP}}}
+\newcommand{\PermP}{\ensuremath{\mathsf{PermP}}}
+\newcommand{\PP}{\ensuremath{\mathsf{PP^*}}}
+\newcommand{\bmatr}[1]{\left[\matr{#1}\right]}
+\newcommand{\hmatr}[1]{{\hat{\matr{#1}}}}
+\newcommand{\cmatr}[1]{\check{\matr{#1}}}
+\newcommand{\bvecb}[1]{\left[\vecb{#1}\right]}
+\newcommand{\hvecb}[1]{{\hat{\vecb{#1}}}}
+\newcommand{\cvecb}[1]{\check{\vecb{#1}}}
+\newcommand{\bits}{\{0,1\}}
+\newcommand{\rmIm}{\mathbf{Im}}
+\newcommand{\sfGame}{\mathsf{Game}}
+\newcommand{\sfReal}{\mathsf{Real}}
+\newcommand{\grkb}[1]{{\boldsymbol #1}}
+\newcommand{\ugrkb}[1]{{\underline{\grkb{#1}}}}
+\newcommand{\hgrkb}[1]{\hat{\grkb{#1}}}
+\newcommand{\cgrkb}[1]{\check{\grkb{#1}}}
+\newcommand{\SDP}{\ensuremath{\mathsf{SDP}}}
+\newcommand{\Span}{\mathbf{Span}}
+\newcommand{\Group}{G}
+\newcommand{\Forger}{\mathsf{F}}
+\newcommand{\advSound}{\mathsf{P}^*}
+\newcommand{\Lang}{\mathcal{L}}
+\newcommand{\crs}{\mathsf{crs}}
+\newcommand{\sfproof}{\mathsf{proof}}
+\newcommand{\sfbits}{\mathsf{bits}}
+\newcommand{\sfbitsn}{{\mathsf{bits},n}}
+\newcommand{\sflin}{\mathsf{lin}}
+\newcommand{\sfcom}{\mathsf{com}}
+\newcommand{\sfbin}{\mathsf{bin}}
+\newcommand{\sfset}{\mathsf{set}}
+\newcommand{\sfsum}{\mathsf{sum}}
+\newcommand{\rp}{{\mathsf{range}\mbox{-}\mathsf{proof}}}
+\newcommand{\ovG}{\overline{\matr{G}}}
+\newcommand{\ovc}{\overline{\vecb{c}}}
+\newcommand{\ovb}{\overline{\vecb{b}}}
+
+\newcommand{\dmatrix}[1]{\begin{pamtrix}#1 & \cdots & \vecb{0}\\\vdots & \ddots & \vdots\\\vecb{0}& \ldots & #1\end{pmatrix}}
+\newcommand{\sdmatrix}[1]{\smallpmatrix{#1 & \cdots & \vecb{0}\\\vdots & \ddots & \vdots\\\vecb{0}& \ldots & #1}}
+
+
+%weas q hay que hacer pa q no webee el latex
+\newsavebox{\smlmat}% Box to store smallmatrix content
+\newsavebox{\smat}
+\savebox{\smlmat}{$\left(\begin{smallmatrix}
+\matr{G}_1 & \ldots & \vecb{0}   & \vecb{g}_{n+1} & \ldots & \vecb{0}\\
+\vdots     & \ddots & \vdots     & \vdots         & \ddots & \vdots\\
+\vecb{0}   & \ldots & \matr{G}_1 & \vecb{0}       & \ldots & \vecb{g}_{n+1}
+\end{smallmatrix}\right)$}
+
+\savebox{\smat}{$\left(\begin{matrix}
+s_1 & \ldots & s_n\\
+0   & \ldots & 0
+\end{matrix}\right)$}
+
+
+
+
+
+
+\newcommand{\sG}{|\GG_1|}
+\newcommand{\sH}{|\GG_2|}
+\newcommand{\s}{(\sG+\sH)}
+
+\newcommand{\vu}{\hat{\vecb{u}}}
+%\newcommand{\vv}{\check{\vecb{v}}}
+\newcommand{\vc}{\hat{\vecb{c}}}
+\newcommand{\vd}{\check{\vecb{d}}}
+\newcommand{\zip}{\mathbf{zip}}
+
+\newcommand{\indexSet}[2]{\mathcal{I}_{#1,#2}}
+\newcommand{\SignaturesSet}{\mathcal{S}}
+
+\newcommand{\bit}{\mathsf{bit}}
+\newcommand{\sfts}{\mathsf{ts}}
+
+%El-Gamal keys
+\newcommand{\egpk}{\hat{x}}
+\newcommand{\egsk}{x}
+\newcommand{\egvpk}{\hvecb{k}}
+\newcommand{\egvsk}{\vecb{k}}
+
+%The set of permutation matrices
+\newcommand{\matrPerms}{\mathcal{S}}
+%The set of permutations
+\newcommand{\Perms}{S}
+
+\newcommand{\duda}[1]{{\iffalse\color{red}#1\fi}}
+
+\newcommand{\cambio}[2]{{\iffalse\color{blue}Ahora: \fi#1}{\iffalse\color{red}(Antes: #2)\fi}}
+
+\newenvironment{code}
+   {\begin{tabbing}
+   \hspace{4mm} \= \hspace{4mm} \= \hspace{4mm} \= \hspace{4mm} \= \hspace{4mm} \= \kill \\
+   }
+   {\end{tabbing}}
+
+%\newcommand{\authnote}[2]{\medskip \noindent {\bf #1 says:} #2}
+\newcommand{\authnote}[2]{\medskip \noindent {\bf #1 says:} {\textcolor{blue}{#2}}}
+
+%\newtheorem{corollary}{Corollary}
+
+\newtheorem{fact}{Fact}
+\newtheorem{observation}{Observation}
+
+\newcommand{\Am}{A}
+\newcommand{\vX}{\ensuremath{\hat{\vecb{x}}}}
+\newcommand{\VX}{\ensuremath{\hat{\vecb{v}}}}
+\newcommand{\WX}{\ensuremath{\hat{\vecb{w}}}}
+\newcommand{\VY}{\ensuremath{\check{\vecb{v}}}}
+\newcommand{\WY}{\ensuremath{\check{\vecb{w}}}}
+\newcommand{\vy}{\ensuremath{\vecb{y}}}
+\newcommand{\vY}{\ensuremath{\check{\vecb{y}}}}
+\newcommand{\vx}{\ensuremath{\vecb{x}}}
+
+
+\newcommand{\U}{\ensuremath{\vecb{u}}}
+\newcommand{\V}{\ensuremath{\vecb{v}}}
+\newcommand{\vr}{\ensuremath{\vecb{r}}}
+\newcommand{\vs}{\ensuremath{\vecb{s}}}
+\newcommand{\vt}{\ensuremath{\vecb{t}}}
+
+
+\newcommand{\ux}{\ensuremath{\hat{\vecb{u}}}}
+\newcommand{\uy}{\ensuremath{\check{\vecb{u}}}}
+
+\newcommand{\minitbl}[2]{\begin{tabular}{l}{#1}\\{#2}\end{tabular}}
+
+\newcommand{\ef}{\iffalse}
+
+\makeatletter
+\newcommand*{\inlineequation}[2][]{%
+  \begingroup
+    % Put \refstepcounter at the beginning, because
+    % package `hyperref' sets the anchor here.
+    \refstepcounter{equation}%
+    \ifx\\#1\\%
+    \else
+      \label{#1}%
+    \fi
+    % prevent line breaks inside equation
+    \relpenalty=10000 %
+    \binoppenalty=10000 %
+    \ensuremath{%
+      % \displaystyle % larger fractions, ...
+      #2%
+    }%
+    ~\@eqnnum
+  \endgroup
+}
+\makeatother
