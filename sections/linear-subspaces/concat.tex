@@ -1,62 +1,53 @@
-
-
-
 Figure \ref{fig:QANIZKtwogroups} describes a QA-NIZK Argument of Membership in the language 
-$$\mathcal{L}_{\hmatr{M},\cmatr{N}}:=\{ (\hvecb{x},\cvecb{y}): \exists \vecb{w} \in \Z_q^{t}, \ \hvecb{x}=\hmatr{M}\vecb{w},   \cvecb{y}=\cmatr{N}\vecb{w} \} \subseteq \Gr^{m} \times \Hr^{n}.$$
+$$\mathcal{L}_{[\matr{M}]_1,[\matr{N}]_2}:=\{ ([\vecb{x}]_1,[\vecb{y}]_2): \exists \vecb{w} \in \Z_q^{t}, \ \vecb{x}=\matr{M}\vecb{w},   \vecb{y}=\matr{N}\vecb{w} \} \subseteq \GG_1^{m} \times \GG_2^{n}.$$
 We refer to this as the \textit{Concatenation Language}, because 
-if we define $\matr{P}$ as the concatenation of $\hmatr{M},\cmatr{N}$, that is $\matr{P}:=\smallpmatrix{\hmatr{M} \\ \cmatr{N}}$, then  $(\hvecb{x},\cvecb{y}) \in \mathcal{L}_{\hmatr{M},\cmatr{N}}$ iff $\smallpmatrix{\hvecb{x} \\ \cvecb{y}}$ is in the span of $\matr{P}$.
+if we define $\matr{P}$ as the concatenation of $[\matr{M}]_1,[\matr{N}]_2$, that is $\matr{P}:=\smallpmatrix{[\matr{M}]_1 \\ [\matr{N}]_2}$, then  $([\vecb{x}]_1,[\vecb{y}]_2) \in \mathcal{L}_{[\matr{M}]_1,[\matr{N}]_2}$ iff $\smallpmatrix{[\vecb{x}]_1 \\ [\vecb{y}]_2}$ is in the span of $\matr{P}$.
 \begin{figure}
 $$
-\begin{array}{lll}
 \begin{array}{l}
-\underline{\algK_1(\Gamma,\hmatr{M},\cmatr{N},m,n) \quad  (\mathsf{S}_1(\Gamma,\hmatr{M},\cmatr{N},m,n))}\\[.1cm]
-\matr{A} \gets \widetilde{\dist_{k}}\\
-\matr{\Lambda} \gets \Z_q^{\tilde{k} \times m}, \matr{\Xi}\gets \Z_q^{\tilde{k}\times n}, \matr{Z} \gets \Z_q^{\tilde{k} \times t}\\
-\cmatr{A}_{\Lambda}:= \matr{\Lambda}^\top \cmatr{A}\\
-\hmatr{A}_{\Xi}:= \matr{\Xi}^\top\hmatr{A}\\
-\hmatr{M}_{\Lambda}:=\matr{\Lambda} \hmatr{M}+\hmatr{Z}\\
-\cmatr{N}_{\Xi}:=\matr{\Xi} \cmatr{N}-\cmatr{Z} \\ [.1cm]
-\text{Return } \ \mathsf{crs}:=(\hmatr{M}_{\Lambda}, \cmatr{A}_\Lambda , \cmatr{A},\cmatr{N}_{\Xi},\\\hmatr{A}_{\Xi} , \hmatr{A}).\\
-(\tau_{sim}:=(\matr{\Lambda},\matr{\Xi}).)
-\\
+\begin{array}{l}
+    \underline{\algK_1(\Gamma,[\matr{M}]_1,[\matr{N}]_2,m,n) \quad  (\mathsf{S}_1(\Gamma,[\matr{M}]_1,[\matr{N}]_1,m,n))}\\[.1cm]
+    \matr{A} \gets \widetilde{\dist_{k}},\matr{\Lambda} \gets \Z_q^{\tilde{k} \times m}, \matr{\Xi}\gets \Z_q^{\tilde{k}\times n}, \matr{Z} \gets \Z_q^{\tilde{k} \times t}\\
+    {[\matr{A}_{\Lambda}]_2:= \matr{\Lambda}^\top [\matr{A}]_2},{[\matr{A}_{\Xi}]_1:= \matr{\Xi}^\top[\matr{A}]_1}\\
+    {[\matr{M}_{\Lambda}]_1:=\matr{\Lambda} [\matr{M}]_1+[\matr{Z}]_1},{[\matr{N}_{\Xi}]_2:=\matr{\Xi} [\matr{N}]_2-[\matr{Z}]_2} \\ [.1cm]
+    {\text{Return } \ \mathsf{crs}:=([\matr{M}_{\Lambda}]_1, [\matr{A}_\Lambda]_2 , [\matr{A}]_2,[\matr{N}_{\Xi}]_2,}{[\matr{A}_{\Xi}]_1 , [\matr{A}]_1).}\\
+    (\tau_{sim}:=(\matr{\Lambda},\matr{\Xi}).)
+    \\
+    \\    
 \end{array}
-&
-\begin{array}{l}
-\underline{\algP(\mathsf{crs}, \hvecb{x}, \cvecb{y}, \vecb{w})}\\[.1cm]
-\backslash \backslash (\hvecb{x}=\hmatr{M} \vecb{w}, \cvecb{y}=\cmatr{N} \vecb{w})
 \\
-\matr{z} \gets \Z_q^{\tilde{k}}\\
-\hgrkb{\rho}:=\hmatr{M}_{\Lambda} \vecb{w}+ \hvecb{z}\\
-\cgrkb{\sigma}:=\cmatr{N}_{\Xi} \vecb{w}- \cvecb{z}\\
- \text{Return } \  (\hgrkb{\rho},\cgrkb{\sigma}). \\ \\
-\underline{\algV(\mathsf{crs},(\hvecb{x},\cvecb{y}), (\hgrkb{\rho},\cgrkb{\sigma}))}\\ [.1cm]
-\text{Return } \ (\hvecb{x}^\top \cmatr{A}_\Lambda  - \hgrkb{\rho}^\top\cmatr{A}\\=  \cgrkb{\sigma}^\top \hmatr{A}-\cvecb{y}^\top \hmatr{A}_\Xi).
+\begin{array}{l}
+    \underline{\algP(\mathsf{crs}, [\vecb{x}]_1, [\vecb{y}]_2, \vecb{w})}\backslash \backslash ([\vecb{x}]_1=[\matr{M}]_1 \vecb{w}, [\vecb{y}]_2=[\matr{N}]_2 \vecb{w})
+    \\
+    \matr{z} \gets \Z_q^{\tilde{k}}\\
+    {[\grkb{\rho}]_1:=[\matr{M}_{\Lambda}]_1 \vecb{w}+ [\vecb{z}]_1},{[\grkb{\sigma}]_2:=[\matr{N}_{\Xi}]_2 \vecb{w}- [\vecb{z}]_2}\\
+     \text{Return } \  ([\grkb{\rho}]_1,[\grkb{\sigma}]_2).
+    \\
+    \\
 \end{array}
-&
+\\
 \begin{array}{l}
-\underline{\mathsf{S}_2(\crs,(\hvecb{x},\cvecb{y}),\tau_{sim})}\\[.1cm]
-\vecb{z} \gets \Z_q^{\tilde{k}} \\ 
- \hgrkb{\rho}:=\matr{\Lambda} \hvecb{x}+ \hvecb{z}\\
-\cgrkb{\sigma}:=\matr{\Xi} \cvecb{y}- \cvecb{z}\\
- \text{Return }  (\hgrkb{\rho},\cgrkb{\sigma}).
+    \underline{\algV(\mathsf{crs},([\vecb{x}]_1,[\vecb{y}]_2), ([\grkb{\rho}]_1,[\grkb{\sigma}]_2))}\\ [.1cm]
+    \text{Return } \ ([\vecb{x}^\top]_1 [\matr{A_\Lambda}]_2  - [\grkb{\rho^\top}]_1[\matr{A}]_2=  [\grkb{\sigma^\top}]_2 [\matr{A}]_1-[\vecb{y}^\top]_2 [\matr{A_\Xi}]_1).
+    \\
+    \\
+\end{array}
 \\
+\begin{array}{l}
+    \underline{\mathsf{S}_2(\crs,([\vecb{x}]_1,[\vecb{y}]_2),\tau_{sim})}\\[.1cm]
+    \vecb{z} \gets \Z_q^{\tilde{k}} \\ 
+    {[\grkb{\rho}]_1:=\matr{\Lambda} [\vecb{x}]_1+ [\vecb{z}]_1},{[\grkb{\sigma}]_2:=\matr{\Xi} [\vecb{y}]_2- [\vecb{z}]_2}\\
+    {\text{Return }  ([\grkb{\rho}]_1,[\grkb{\sigma}]_2).}
+\end{array}
 \\
-\\
-\\
-\\
-\\
-\end{array}\\
 \end{array}
 $$
-\caption{Two QA-NIZK Arguments for  $\mathcal{L}_{\hmatr{M},\cmatr{N}}$. $\sps$ is 
+\caption{Two QA-NIZK Arguments for  $\mathcal{L}_{[\matr{M}]_1,[\matr{N}]_2}$. $\sps$ is 
  defined for $\widetilde{\dist_{k}}=\dist_k$ and $\tilde{k}=k+1$, and is a generalization of  
  \cite{EC:KilWee15} Sect. 3.1 in two groups. The second construction $\spsws$ corresponds to $\widetilde{\dist_{k}}=\overline{\dist_k}$ and $\tilde{k}=k$, and is a generalization of   \cite{EC:KilWee15} Sect. 3.2 in two groups. Computational soundness is based on the $\dist_{k}$-\skermdh{} Assumption. The CRS size is $(\tilde{k}k+\tilde{k}t+mk)\sG+(\tilde{k}k+\tilde{k}t+nk)\sH$ and the proof size $\tilde{k}\s$. Verification requires $2\tilde{k}k+(m+n)k$ pairing computations. \label{fig:QANIZKtwogroups} }
 \end{figure}
 
-%\input{membtwogroups/concat-intuition-orig}
-%\input{membtwogroups/concat-intuition-nuevo}
- 
-\paragraph{Soundness Intuition.}   If we ignore for a moment that $\Gr, \Hr$ are different groups, $\sps$ (resp. $\spsws$) is almost identical to $\ps$ (resp. to $\psws$) for the language $\mathcal{L}_{\hmatr{P}}$, and $\matr{\Delta}:=(\matr{\Lambda}||\matr{\Xi})$, where  $\matr{\Lambda} \in \Z_q^{\tilde{k} \times m},\matr{\Xi} \in \Z_q^{\tilde{k} \times n}$. Further, the information that an unbounded adversary can extract from the CRS about $\matr{\Delta}$ is:
+\paragraph{Soundness Intuition.}   If we ignore for a moment that $\Gr, \Hr$ are different groups, $\sps$ (resp. $\spsws$) is almost identical to $\ps$ (resp. to $\psws$) for the language $\mathcal{L}_{[\matr{P}]_1}$, and $\matr{\Delta}:=(\matr{\Lambda}||\matr{\Xi})$, where  $\matr{\Lambda} \in \Z_q^{\tilde{k} \times m},\matr{\Xi} \in \Z_q^{\tilde{k} \times n}$. Further, the information that an unbounded adversary can extract from the CRS about $\matr{\Delta}$ is:
  \begin{enumerate}
  \item $\Big\{\matr{P}_\Delta= \matr{\Lambda} \matr{M}+ \matr{\Xi}\matr{N}, \matr{A}_{\Delta} = \matr{\Delta}^{\top}\matrA =\begin{pmatrix} \matr{\Lambda}^{\top}\matr{A} \\ \matr{\Xi}^{\top}\matr{A} \end{pmatrix}\Big\}$ from $\mathsf{crs}_{\ps}$, 
  \item $\Big\{ \matr{M}_\Lambda = \matr{\Lambda} \matr{M}+\matr{Z}, \matr{N}_\Xi = \matr{\Xi}\matr{N}-\matr{Z},  \begin{pmatrix}\matr{A}_\Lambda\\\matr{A}_\Xi\end{pmatrix} = \begin{pmatrix} \matr{\Lambda}^{\top}\matr{A} \\ \matr{\Xi}^{\top}\matr{A} \end{pmatrix} \Big\}$ from $\mathsf{crs}_{\sps}$. 
@@ -72,36 +63,125 @@ proof system with perfect completeness, computational adaptive soundness based o
 \label{theo:membtwogroups1}
 \end{theorem}
 
+\begin{proof}
+(Completeness.) Follows from the fact that
+\begin{eqnarray*}
+\vecb{x}^\top\matr{A}_\Lambda+\vecb{y}^\top\matr{A}_\Xi
+& = &
+\left(
+\begin{pmatrix}\matr{M}\\\matr{N}\end{pmatrix}\vecb{w}
+\right)^\top
+\begin{pmatrix}\matr{\Lambda}& \matr{\Xi}\end{pmatrix}^\top
+\matr{A}\\
+& = &
+\left(
+\begin{pmatrix}\matr{\Lambda}&\matr{\Xi}\end{pmatrix}
+\begin{pmatrix}\matr{M}&\matr{N}\end{pmatrix}\vecb{w}
+\right)^\top
+\matr{A}\\
+& = &
+\grkb{\rho}^\top\matr{A}+\grkb{\sigma}^\top\matr{A}.
+\end{eqnarray*}
+(Soundness.) $\advB$ receives a challenge $([\matr{A}]_1,[\matr{A}]_2)$, $\matrA \gets \dist_k$, and then it chooses $\matr{\Lambda}\gets\Z_q^{(k+1)\times m},\matr{\Xi}\gets\Z_q^{(k+1)\times n}$, samples $([\matr{M}]_1,[\matr{N}]_2) \gets \dist_{\Gamma}$ and computes 
+   $\mathsf{crs}:=([\matr{M}_{\Lambda}]_1, [\matr{A}_\Lambda]_2 ,$ $[\matr{A}]_2, [\matr{N}_{\Xi}]_2,[\matr{A}_{\Xi}]_1,[\matr{A}]_1)$ in the natural way.
+An adversary $\Forger$ against the soundness property outputs a vector $([{\vecb{x}}^*]_1,[\vecb{y}^*]_2) \notin \mathcal{L}_{[\matr{M}]_1,[\matr{N}]_2}$ and a valid proof
+$([{\boldsymbol \rho}^{*}]_1, [{\boldsymbol \sigma}^{*}]_2)$. At this point, $\advB$ computes its own proof $([{\boldsymbol \rho}^{\dagger}]_1, [{\boldsymbol \sigma}^{\dagger}]_2)$ using $\matr{\Lambda}$ and $\matr{\Xi}$. The adversary $\advB$ will output as a response to the $\dist_k$-\skermdh{} challenge the pair $([\vecb{r}]_1,[\vecb{s}]_2):=([{\boldsymbol \rho}^{*}]_1-[{\boldsymbol \rho}^{\dagger}]_1,[{  \boldsymbol \sigma}^{\dagger}]_2-[{\boldsymbol \sigma}^{*}]_2)$. We now see that with all but probability $1/q$, this is a valid 
+solution. Indeed, if $\vecb{r} \neq \vecb{s}$, we are done, because since both are valid proofs, subtraction of the verification equations yields
+\begin{equation*}
+([{\boldsymbol \rho}^{*}]_1-[{\boldsymbol \rho}^{\dagger}]_1)^{\top} [\matr{A}]_2=  ([{\boldsymbol \sigma}^{\dagger}]_2-[{\boldsymbol \sigma}^{*}]_2)^{\top} [\matr{A}]_1.
+\end{equation*}
+By definition $\vecb{r} \neq \vecb{s}$  if and only if  $\boldsymbol \rho^{*}+\boldsymbol \sigma^{*} \neq 
+\boldsymbol \rho^{\dagger}+ \boldsymbol \sigma^{\dagger}$.
+But 
+\begin{equation}
+\boldsymbol \rho^{\dagger}+ \boldsymbol \sigma^{\dagger}=\matr{\Lambda}  \vecb{x}^*+ \matr{\Xi} \vecb{y}^*=
+\matr{\Delta} \vecb{t}, \qquad \matr{\Delta}:=(\matr{\Lambda}||\matr{\Xi}), \ \vecb{t}:=\begin{pmatrix} \vecb{x}^* \\ \vecb{y}^* \end{pmatrix}
+\end{equation}
+Since $\matr{Z}$ is a uniform random value, the CRS reveals (information theoretically) only $\left\{\matr{\Delta}\smallpmatrix{\matr{M}\\\matr{N}},  \matr{\Delta}^{\top}\matrA \right\}$ about $\matr{\Delta}$.
+But since a) $([\vecb{x}^*]_1,[\vecb{y}^*]_2) \notin \mathcal{L}_{[\matr{M}]_1,[\matr{N}]_2}$, 
+$\vecb{w}$ is not in the image of $\smallpmatrix{\matr{M}\\\matr{N}}$ and b) $\matrA$ has more rows than columns, it follows by a standard argument that $\matr{\Delta}\vecb{t}$ is undetermined from the adversary's point of view.
+
+(Zero-Knowledge.) It is direct from the construction that the simulated proof follows the same distribution as an honestly computed proof.
+\end{proof}
+
+
 \begin{theorem} If $\widetilde{\dist_{k}}=\overline{\dist}_k$ and $\tilde{k}=k$,  and $\dist_{\Gamma}$ is a witness samplable distribution, Fig. \ref{fig:QANIZKtwogroups}
 describes a QA-NIZK proof system with perfect completeness, computational adaptive strong soundness based on the  $\dist_{k}$-$\skermdh$ Assumption, and perfect zero-knowledge. 
 \label{theo:membtwogroups2}
 \end{theorem}
 
-%
-%
-%
-%
-%
-%
-%Let $(\hmatr{A}',\cmatr{A}')\in\Gr^{(k+2m-t)\times k}\times\Hr^{(k+2m-t)\times k}$ and let $(\hmatr{A},\cmatr{A})\in\Gr^{k\times k}$
-%the matrices formed by the first $k$ rows of $\hmatr{A}$ and $\cmatr{A}$, respectively. Recall that $\matr{A}$
-%is invertible with overwhelming probability.
-%Let $(\matr{M},\matr{N})\gets\dist_\Gamma$ and compute $\matr{K}=\begin{pmatrix}\matr{K}_0\\\matr{K}_1\end{pmatrix}\in\Z_q^{2m\times(2m-t)}$, a basis for
-%$\ker((\matr{M}^\top\ \matr{N}^\top))$. Pick $(\matr{\Lambda}'\ \matr{\Xi}')\gets\Z_q^{k\times 2m}$ and $\matr{Z}'\gets\Z_q^{k\times m}$,
-%and implicitly define $(\matr{\Lambda}\ \matr{\Xi}) = (\matr{\Lambda}'\ \matr{\Xi}') + (\matr{A}'\matr{A}^{-1})^\top\matr{K}^\top$ 
-%and $\matr{Z} = \matr{Z}'+\matr{\Xi}\matr{N}$. Note that with this definitions
-%$\cmatr{A}_\Lambda = ((\matr{\Lambda}')^\top\ \matr{K}_0))\cmatr{A}'$, $\hmatr{A}_\Xi = ((\matr{\Xi}')^\top\ \matr{K}_1))\hmatr{A}'$
-%$\matr{M}_\Lambda = \matr{\Lambda}'\matr{M}+\matr{\Xi}'\matr{N}+\matr{Z}'$, and $\matr{N}_\Xi = -\matr{Z}'$.
-%
-%If the adversary produces a proof $(\hgrkb{\rho}^*,\cgrkb{\sigma}^*)$ for $(\hvecb{x}^*,\cvecb{y}^*)$ such that
-%$(\vecb{x}^*)^\top\matr{K}_0 \neq -(\vecb{y}^*)^\top\matr{K}_1$ and $(\hvecb{x}^*)\cmatr{A}_\Lambda-(\hgrkb{\rho}^*)^\top\cmatr{A} =
-%(\cgrkb{\sigma}^*)^\top\hmatr{A}-(\cvecb{y}^*)^\top\hmatr{A}_\Xi $, it holds that
-%$$
-%\begin{pmatrix}(\matr{\Lambda}'\hvecb{x}^*-\hgrkb{\rho}^*)^\top & (\hvecb{x}^*)^\top\matr{K}_0\end{pmatrix}^\top\cmatr{A}' =
-%\begin{pmatrix}(\cgrkb{\sigma}^* -\matr{\Xi}'\cvecb{y}^*)^\top & -(\cvecb{y}^*)^\top\matr{K}_1\end{pmatrix}^\top\hmatr{A}'.
-%$$
-%Therefore, $\begin{pmatrix}\matr{\Lambda}'\hvecb{x}^*-\hgrkb{\rho}^*\\\matr{K}_0^\top\hvecb{x}^*\end{pmatrix},
-%\begin{pmatrix}\cgrkb{\sigma}^*-\matr{\Xi}'\cvecb{y}^*\\-\matr{K}_1^\top\cvecb{y}^*\end{pmatrix}$
-%is a solution to the $\dist_{k+n-t,k}\mbox{-}\skermdh$ problem.
-%\end{proof}
+\begin{proof} (Completeness and Zero-Knowledge.) Equal as in Theorem \ref{theo:membtwogroups1}.
 
+(Soundness.)
+Define $\tm:=m+n$ and $\matr{P}:=\smallpmatrix{\matr{M}\\\matr{N}}$. 
+An adversary $\advB$ against  
+$\dist_{k}$-$\skermdh$ Assumption receives a challenge $([\matr{A}]_1,[\matrA]_2)$, $\matrA \gets \dist_k$. 
+It samples 
+$([\matr{M}]_1,[\matr{N}]_2,\matr{M},\matr{N}) \in \R_{par}$ and computes  $\matr{P}^{\perp} \in \Z_q^{\tm \times (\tm-r)}$, where $r=\mathsf{rank}(\matr{P})$, a basis of the kernel of $\matr{P}^{\top}$. 
+By definition, $\matr{P}^{\top}=(\matr{M}^{\top} ||\matr{N}^{\top})$ and $\matr{P}^{\top}\matr{P}^{\perp} =\matr{0}$, thus we can write $\matr{P}^{\perp}= \smallpmatrix{\matr{E} \\ \matr{F}}$, for some matrices such that $\matr{M}^{\top}\matr{E}=-\matr{N}^{\top} \matr{F}$.
+
+Adversary $\advB$ samples 
+$\matr{R} \in \Z_q^{(\tm-r-1) \times (k+1)}$ and defines 
+\begin{align*}
+&[\matr{A}']_1:=\begin{pmatrix} [\matr{A}]_1 \\ \matr{R} [\matr{A}]_1 \end{pmatrix} \in \Gr^{(k+\tm-r) \times k},&
+&[\matr{A}']_2:=\begin{pmatrix} [\matr{A}]_2 \\ \matr{R} [\matr{A}]_2 \end{pmatrix} \in \Hr^{(k+\tm-r) \times k}.
+\end{align*} 
+
+Then $\advB$ samples $(\widetilde{\matr{\Lambda}}||\widetilde{\matr{\Xi}}) \gets \Z_q^{k \times \tm}$.  Let $\matr{A}_0$ be the first $k$ rows of $\matrA'$ (or $\matr{A}$) and $\matrA_1'$ the rest of the rows, and $\matr{T}_{\matrA'}=\matrA'_1 \matrA_0^{-1}$. Then $\advB$ implicitly sets 
+$(\matr{\Lambda} || \matr{\Xi}):= (\widetilde{\matr{\Lambda}} || \widetilde{\matr{\Xi}})+ \matr{T}^{\top}_{\matrA'} (\matr{E}^{\top} || \matr{F}^{\top})$, and computes:
+\begin{equation}
+\begin{pmatrix}
+[\matrA_{\Lambda}]_2\\
+[\matrA_{\Xi}]_1
+\end{pmatrix}=
+\begin{pmatrix}
+\matr{\Lambda}^{\top} [\matrA_0]_2\\
+\matr{\Xi}^{\top} [\matrA_0]_1
+\end{pmatrix}:=
+\begin{pmatrix}
+(\widetilde{\matr{\Lambda}}^{\top}+ \matr{E} \matr{T}_{\matrA'}) [\matrA_0]_2 \\
+(\widetilde{\matr{\Xi}}^{\top}+ \matr{F} \matr{T}_{\matrA'}) [\matrA_0]_1
+\end{pmatrix}
+=
+\begin{pmatrix}
+(\widetilde{\matr{\Lambda}}^{\top}|| \matr{E}) [\matrA']_2 \\
+(\widetilde{\matr{\Xi}}^{\top}|| \matr{F} ) [\matrA']_1
+\end{pmatrix}
+\end{equation}
+So far the argument is very similar to \cite{EC:KilWee15} Sect. 3.2, now comes an important difference. 
+Adversary $\advB$ also needs to compute $\matr{\Lambda}[\matr{M}]_1+[\matr{Z}]_1$ and 
+$\matr{\Xi}[\matr{N}]_2-[\matr{Z}]_2$. Although the adversary $\advB$ does not know how to 
+compute $\matr{\Xi}\matr{N}$ or $\matr{\Lambda}\matr{M}$, it can compute their sum in $\Z_q$ as:
+ $$\matr{\Xi}\matr{N}+\matr{\Lambda}\matr{M}=
+    \left(
+        (\widetilde{\matr{\Lambda}} || \widetilde{\matr{\Xi}})
+        + \matr{T}^{\top}_{\matrA'}(\matr{E}^{\top}||\matr{F}^{\top})
+    \right)
+ \begin{pmatrix}
+    \matr{M} \\ \matr{N}
+ \end{pmatrix} =\widetilde{\matr{\Lambda}} \matr{M}+\widetilde{\matr{\Xi}} \matr{N}=:\matr{T}.  
+ $$
+Thus, $\advB$ picks $\matr{Z} \gets \Z_q^{k \times t}$ and outputs 
+$[\matr{N}_{\Xi}]_2:=[\matr{T}]_2-[\matr{Z}]_2$ and  $[\matr{M}_{\Xi}]_1:=[\matr{Z}]_1$.
+Now, when $\Forger$ outputs a valid proof for some $([\vecb{x}]_1,[\vecb{y}]_2) \notin \mathcal{L}_{[\matr{M}]_1,[\matr{N}]_2}$, it holds that:
+\begin{align*}
+[\vecb{x}^\top]_1 [\matr{A}_\Lambda]_2  - [\grkb{\rho}^\top]_1[\matr{A}_0]_2=  [\grkb{\sigma}^\top]_2 [\matr{A}_0]_1-[\vecb{y}^\top]_2 [\matr{A}_\Xi]_1   \Longleftrightarrow\\
+[\vecb{x}^\top]_1 (\widetilde{\matr{\Lambda}}^{\top}|| \matr{E})[\matr{A}']_2  - ([\grkb{\rho}^{\top}]_1||[\matr{0}_{1\times(\tm-r)}]_1)^\top[\matr{A}']_2 = \\
+( [\grkb{\sigma}^\top]_2 || [\matr{0}_{1\times(\tm-r)}]_2)  [\matr{A}']_1-[\vecb{y}^\top]_2 (\matr{\Xi}^{\top}|| \matr{F} ) [\matrA']_1  \Longleftrightarrow\\
+[\vecb{c}^{\top}]_1 [\matrA']_2=[\vecb{d}^{\top}]_2 [\matrA']_1,
+\end{align*}
+ where $[\vecb{c}^{\top}]_1:=([\vecb{x}^{\top}]_1\widetilde{\matr{\Lambda}}-[\grkb{\rho}^{\top}]_1|| [\vecb{x}^{\top}]_1 \matr{E})$ and $ [\vecb{d}^{\top}]_2:=([\vecb{y}^{\top}]_2\widetilde{\matr{\Xi}}-[\grkb{\sigma}^{\top}]_2|| -[\vecb{y}^{\top}]_2 \matr{F}).$
+
+Obviously 
+$$\vecb{c}-\vecb{d} \in \ker((\matrA')^{\top}) 
+\Longleftrightarrow (\vecb{c}-\vecb{d})^{\top} \matr{A}'=0 \Longleftrightarrow (\vecb{c}_1^{\top}+\vecb{c}_2^{\top} \matr{R})-(\vecb{d}_1^{\top}+\vecb{d}_2^{\top} \matr{R})
+ \in \ker(\matrA^{\top}).$$
+while, by assumption,  $([\vecb{x}]_1,[\vecb{y}]_2) \notin \mathcal{L}_{[\matr{M}]_1,[\matr{N}]_2}$ and thus
+$[\vecb{x}^{\top}]_1 \matr{E} \neq -[\vecb{y}^{\top}]_2 \matr{F}$, so $\vecb{c}-\vecb{d} \neq 0$.
+ We conclude with an information-theoretic argument: because $\matr{R}$ is only revealed to $\advB$ through $\matr{R}\matr{A}$
+the probability that  
+$(\vecb{c}_1^{\top}+\vecb{c}_2^{\top} \matr{R})\neq (\vecb{d}_1^{\top}+\vecb{d}_2^{\top} \matr{R})$ is $1-1/q$, so w.h.p, $([\vecb{c}_1^{\top}]_1+[\vecb{c}_2^{\top}]_1 \matr{R}),([\vecb{d}_1^{\top}]_2+[\vecb{d}_2^{\top}]_2 \matr{R})$ 
+solves $\dist_{k}$-\skermdh{}.
+
+This proves standard soundness. Strong soundness follows from the fact that the argument is essentially information theoretic. In particular, the knowledge of $(\matr{M},\matr{N})$ does not reveal additional information about $\matr{R}$. 
+\end{proof}
