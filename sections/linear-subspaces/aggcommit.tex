@@ -1,24 +1,24 @@
 
 Given the results for Subspace Concatenation of 
 Sect.~\ref{sec:QANIZKconcat}, it is direct to construct constant-size NIZK Arguments of membership in:
-$$\mathcal{L}_{\mathsf{com},\hmatr{U},\cmatr{V},\nu}:=\Big\{(\hvecb{c},\cvecb{d}) \in \Gr^{m} \times \Hr^{n}:  \exists (\vecb{w},\vecb{r},\vecb{s}),  
-\hvecb{c}= \hmatr{U} \begin{pmatrix} \vecb{w}\\ 
- \vecb{r} \end{pmatrix}, \cvecb{d}=\cmatr{V} \begin{pmatrix} \vecb{w} \\ \vecb{s} \end{pmatrix}\Big\},$$
-where $\hmatr{U}\in \Gr^{m \times \tilde{m}}$, 
-$\cmatr{V} \in \Hr^{n \times \tilde{n}}$
+$$\mathcal{L}_{\mathsf{com},[\matr{U}]_1,[\matr{V}]_2,\nu}:=\Big\{([\vecb{c}]_1,[\vecb{d}]_2) \in \GG_1^{m} \times \GG_2^{n}:  \exists (\vecb{w},\vecb{r},\vecb{s}),  
+[\vecb{c}]_1= [\matr{U}]_1 \begin{pmatrix} \vecb{w}\\ 
+ \vecb{r} \end{pmatrix}, [\vecb{d}]_2=[\matr{V}]_2 \begin{pmatrix} \vecb{w} \\ \vecb{s} \end{pmatrix}\Big\},$$
+where $[\matr{U}]_1\in \GG_1^{m \times \tilde{m}}$, 
+$[\matr{V}]_2 \in \GG_2^{n \times \tilde{n}}$
 and $\vecb{w} \in \Z_q^{\nu}$. The witness is 
  $(\vecb{w},\vecb{r},\vecb{s}) \in \Z_q^{\nu} \times \Z_q^{\tilde{m}-\nu} \times \Z_q^{\tilde{n}-\nu}$. This language is interesting because it can express the fact that 
-$(\hvecb{c},\cvecb{d})$ are commitments to the same vector 
+$([\vecb{c}]_1,[\vecb{d}]_2)$ are commitments to the same vector 
 $\vecb{w} \in \Z_q^{\nu}$ in different groups.
  
 The construction is an immediate consequence of the observation 
-that $\mathcal{L}_{\mathsf{com},\hmatr{U},\cmatr{V},\nu}$  can be rewritten as some concatenation language $\mathcal{L}_{\hmatr{M},\cmatr{N}}$.
-Denote by $\hmatr{U}_1$ the first $\nu$ columns of $\hmatr{U}$  and $\hmatr{U}_2$ the remaining ones, and $\cmatr{V}_1$ the first $\nu$ columns of $\cmatr{V}$ and $\cmatr{V}_2$ the remaining ones. If we define: 
+that $\mathcal{L}_{\mathsf{com},[\matr{U}]_1,[\matr{V}]_2,\nu}$  can be rewritten as some concatenation language $\mathcal{L}_{[\matr{M}]_1,[\matr{N}]_2}$.
+Denote by $\matr{U}_1$ the first $\nu$ columns of $\matr{U}$  and $\matr{U}_2$ the remaining ones, and $\matr{V}_1$ the first $\nu$ columns of $\matr{V}$ and $\matr{V}_2$ the remaining ones. If we define: 
 \begin{equation*}
- \hmatr{M} := (\hmatr{U}_1||\hmatr{U}_2||\hmatr{0}_{m\times (\tilde{n}-\nu)}) \qquad
-\cmatr{N} := (\cmatr{V}_1||\cmatr{0}_{n\times (\tilde{m}- \nu)}||\cmatr{V}_2).
+ \matr{M} := (\matr{U}_1||\matr{U}_2||\matr{0}_{m\times (\tilde{n}-\nu)}) \qquad
+\matr{N} := (\matr{V}_1||\matr{0}_{n\times (\tilde{m}- \nu)}||\matr{V}_2).
 \end{equation*}
-then it is immediate to verify that $\mathcal{L}_{\mathsf{com},\hmatr{U},\cmatr{V},\nu}=\mathcal{L}_{\hmatr{M},\cmatr{N}}$.
+then it is immediate to verify that $\mathcal{L}_{\mathsf{com},[\matr{U}]_1,[\matr{V}]_2,\nu}=\mathcal{L}_{[\matr{M}]_1,[\matr{N}]_2}$.
 
 In the rest of the paper, we denote as $\spswscomm$ the proof 
 system for $\mathcal{L}_{\mathsf{com},\hmatr{U},\cmatr{V},\nu}$ which corresponds to $\spsws$ for $\mathcal{L}_{\hmatr{M},\cmatr{N}}$, where $\hmatr{M},\cmatr{N}$ are the matrices defined above. Note that for commitment schemes we can generally assume $\hmatr{U},\cmatr{V}$ to be drawn from some witness samplable distribution. Therefore, it follows from Theorem~\ref{theo:membtwogroups2} that $\spswscomm$ satisfies the notion of strong soundness.  
