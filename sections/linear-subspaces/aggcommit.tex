@@ -1,9 +1,11 @@
-
-Given the results for Subspace Concatenation of 
-Sect.~\ref{sec:QANIZKconcat}, it is direct to construct constant-size NIZK Arguments of membership in:
-$$\mathcal{L}_{\mathsf{com},[\matr{U}]_1,[\matr{V}]_2,\nu}:=\Big\{([\vecb{c}]_1,[\vecb{d}]_2) \in \GG_1^{m} \times \GG_2^{n}:  \exists (\vecb{w},\vecb{r},\vecb{s}),  
-[\vecb{c}]_1= [\matr{U}]_1 \begin{pmatrix} \vecb{w}\\ 
- \vecb{r} \end{pmatrix}, [\vecb{d}]_2=[\matr{V}]_2 \begin{pmatrix} \vecb{w} \\ \vecb{s} \end{pmatrix}\Big\},$$
+Given $\sps$ or $\spsws$, it is direct to construct constant-size NIZK Arguments of membership in:
+$$\mathcal{L}_{\mathsf{com},[\matr{U}]_1,[\matr{V}]_2,\nu}:=\left\{([\vecb{c}]_1,[\vecb{d}]_2) \in \GG_1^{m} \times \GG_2^{n}:
+\begin{array}{l}
+    \exists (\vecb{w},\vecb{r},\vecb{s}) \text{ s.t. }\\
+    {[\vecb{c}]_1= [\matr{U}]_1 \begin{pmatrix} \vecb{w}\\ \vecb{r} \end{pmatrix} \text{ and }}\\
+    {[\vecb{d}]_2=[\matr{V}]_2 \begin{pmatrix} \vecb{w} \\ \vecb{s} \end{pmatrix}}
+\end{array}
+\right\},$$
 where $[\matr{U}]_1\in \GG_1^{m \times \tilde{m}}$, 
 $[\matr{V}]_2 \in \GG_2^{n \times \tilde{n}}$
 and $\vecb{w} \in \Z_q^{\nu}$. The witness is 
@@ -21,91 +23,4 @@ Denote by $\matr{U}_1$ the first $\nu$ columns of $\matr{U}$  and $\matr{U}_2$ t
 then it is immediate to verify that $\mathcal{L}_{\mathsf{com},[\matr{U}]_1,[\matr{V}]_2,\nu}=\mathcal{L}_{[\matr{M}]_1,[\matr{N}]_2}$.
 
 In the rest of the paper, we denote as $\spswscomm$ the proof 
-system for $\mathcal{L}_{\mathsf{com},\hmatr{U},\cmatr{V},\nu}$ which corresponds to $\spsws$ for $\mathcal{L}_{\hmatr{M},\cmatr{N}}$, where $\hmatr{M},\cmatr{N}$ are the matrices defined above. Note that for commitment schemes we can generally assume $\hmatr{U},\cmatr{V}$ to be drawn from some witness samplable distribution. Therefore, it follows from Theorem~\ref{theo:membtwogroups2} that $\spswscomm$ satisfies the notion of strong soundness.  
-
- 
-
-
-%\begin{theorem} 
-% XX
-% \end{theorem}
-% 
-% 
-% 
-% 
-% 
-% 
-% If we assume that 
-% $\dist_{\Gamma}$ is witness samplable, under the 
-% $\SSDP$ Assumption, the proof consists of $2$ elements in each $\Gr,\Hr$, \textit{i.e.}
-% $4\s$.
-%
-%\begin{figure} 
-%$$
-%\begin{array}{|l|l|}
-%\hline
-%\begin{array}{l}
-%\algK_1(\Gamma,(\hmatr{U}_1,\hmatr{U}_2\cmatr{V}_1,\cmatr{V}_2)) \quad (\mathsf{S}_1(\Gamma,(\hmatr{U}_1,\hmatr{U}_2\cmatr{V}_1,\cmatr{V}_2))\\
-%\hline
-%\text{Let } n_1,n_2 \text{ s.t. } \hmatr{U}_2\in\Gr^{m\times n_1}, \cmatr{V}_2\in\Hr^{m\times n_2}\\
-%\hmatr{M} := (\hmatr{U}_1||\hmatr{U}_2||\matr{0}_{m\times \nu_1})\\
-%\cmatr{N} := (\cmatr{V}_1||\cmatr{0}_{n\times \nu_2}||\cmatr{V}_2)\\
-%\crs\gets\Psi_{\spsws}.\algK_1(\Gamma,\hmatr{M},\cmatr{N},m,n)\\
-%\text{Return } \crs.\\
-%(\tau_{sim}\gets \spsws.\algS_1(\Gamma,\hmatr{M},\cmatr{N}))
-%\end{array}
-%&
-%\begin{array}{l}
-%{\algP(\mathsf{crs}, \hvecb{c}, \cvecb{d}, \vecb{w},\vecb{r},\vecb{s})}\\
-%\hline
-%\backslash \backslash \hvecb{c}=\hmatr{U}_1\vecb{w}+\hmatr{U}_2\vecb{r},\\
-%\backslash \backslash \cvecb{d}=\cmatr{V}_1\vecb{w}+\cmatr{V}_2\vecb{s}.\\
-%(\hgrkb{\rho},\cgrkb{\sigma}) \gets \spsws.\algP(\crs,\hvecb{c},\cvecb{d},\smallpmatrix{\vecb{w}\\\vecb{r}\\\vecb{s}})\\
-%\text{Return }(\hgrkb{\rho},\cgrkb{\sigma}).\\\\
-%\hline
-%{\algV(\mathsf{crs},(\hvecb{c},\cvecb{d}), (\hgrkb{\rho},\cgrkb{\sigma}))}\\
-%\hline
-%\text{Return }\Psi_{\dist_k,\sfsplit}.\algV(\crs,(\hvecb{c},\cvecb{d}),(\hgrkb{\rho},\cgrkb{\sigma})).
-%\end{array}
-%&
-%\begin{array}{l}
-%{\mathsf{S}_2(\crs,(\hvecb{c},\cvecb{c}),\tau_{sim})}\\
-%\hline
-% \text{Return } \Psi_{\dist_k,\sfsplit}.\algS_2(\crs,(\hvecb{c},\cvecb{c}),\tau_{sim}).
-%\\
-%\\
-%\\
-%\\
-%\\
-%\\
-%\end{array}
-%\\
-%\hline
-%\end{array}$$
-%\caption{The $\spswscomm$ proof system for proving that two sets of commitments open
-%to the same values. The commitment keys are $\hmatr{U}_1\in\Gr^{m\times \nu_1},\hmatr{U}_2\in\Gr^{m\times \nu_2}$ and
-%$\cmatr{V}_1\in\Hr^{n\times \nu_1},\cmatr{V}_2\in\Hr^{n\times \nu_3}$. The verification algorithm is exactly as $\Psi_{\dist_k,\sfsplit}.\algV$  and
-%the simulator $\algS_2$ is exactly as $\Psi_{\dist_k,\sfsplit}.\algS_2$.
-%\label{fig:twocomms}}
-%\end{figure}
-%For this proof system, we can use either of $\sps$ or $\spsws$. the schemes of section \ref{sect;memtwogroups}.
-%In Fig. \ref{fig:twocomms} we describe a proof system for proving that two sets of commitments $\hvecb{c}\in\Gr^{m}$ and $\cvecb{d}\in\Hr^{n}$ open to the same
-%values. We remark that, if $\hmatr{U}_1,\hmatr{U}_2$ and $\cmatr{V}_1,\cmatr{V}_2$ defines perfectly binding commitments, $(\hvecb{c},\cmatr{d})
-%\in\Lang_{\hmatr{U}_1,\hmatr{U}_2,\cmatr{V}_1,\cmatr{V}_2}$ implies that there exists $(\vecb{w},\vecb{r},\vecb{s})$ s.t. $\hvecb{c}=\hmatr{U}_1\vecb{w}+\hmatr{U}_2\vecb{r}$ and $\cvecb{d}=\cmatr{V}_1\vecb{w}+\cmatr{V}_2\vecb{r}$. Perfect binding implies that both commitments open to the same unique value $\vecb{w}$.
-%
-%For perfectly binding commitment keys we prove the next Theorem.
-%
-%\begin{theorem}
-%Suppose that $\Span(\hmatr{U}_1)\cap\Span(\hmatr{U}_2)=\emptyset$, $\Span(\cmatr{V}_1)\cap\Span(\cmatr{V}_2)=\emptyset$, $\rank(\hmatr{U}_1)=
-%\rank(\cmatr{V}_1)=n$, and $(\hvecb{c},\cvecb{d})\in\Lang_{\hmatr{M},\cmatr{N}}$, where $\hmatr{M}$ and $\cmatr{N}$ are the matrices defined
-%by algorithm $\algP$ in Fig. \ref{fig:twocomms}. Then, there exists unique $\vecb{x}\in\Z_q^n$ such that
-%$\hvecb{c}=\hmatr{U}_1\vecb{x}+\hmatr{U}_2\vecb{w}_1$ and $\cvecb{d}=\cmatr{V}_1\vecb{x}+\cmatr{V}_2\vecb{w}_2$.
-%\end{theorem} 
-%\begin{proof}
-%Given that $(\hvecb{c},\cvecb{d})\in\Lang_{\hmatr{M},\cmatr{N}}$ there exists $(\vecb{x},\vecb{w}_1,\vecb{w}_2)\in\Z_q^n\times\Z_q^{n_1}\times\Z_q^{n_2}$ such that 
-%$\hvecb{c}=\hmatr{U}_1\vecb{x}+\hmatr{U}_2\vecb{w}_1$ and $\cvecb{d}=\cmatr{V}_1\vecb{x}+\cmatr{V}_2\vecb{w}_2$. The assumption that
-%$\rank(\hmatr{U}_1)=\rank(\cmatr{V}_1)=n$ plus $\Span(\hmatr{U}_1)\cap\Span(\hmatr{U}_2)=\emptyset$ and $\Span(\cmatr{V}_1)\cap\Span(\cmatr{V}_2)=\emptyset$
-%implies uniqueness of $\vecb{x}$.
-%\end{proof}
-%
-%The same technique easily generalizes to get aggregation GS Proofs for two-sided linear equations in $\Z_q$. Proving that $n$ GS commitments open to the same value in different groups is equivalent to proving satisfiability of $n$ two-sided equations in $\Z_q$. We generalize this to any set of two-sided equations in $\Z_q$ in Appendix \ref{sec:aggtsZq}.
+system for $\mathcal{L}_{\mathsf{com},\hmatr{U},\cmatr{V},\nu}$ which corresponds to $\spsws$ for $\mathcal{L}_{[\matr{M}]_1,[\matr{N}]_2}$, where $[\matr{M}]_1,[\matr{N}]_2$ are the matrices defined above. Note that for commitment schemes we can generally assume $[\matr{U}]_1,[\matr{V}]_2$ to be drawn from some witness samplable distribution. Therefore, it follows from Theorem~\ref{theo:membtwogroups2} that $\spswscomm$ satisfies the notion of strong soundness.  

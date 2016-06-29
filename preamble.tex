@@ -3,13 +3,18 @@
 \newcommand{\algSize}{normalsize} 
 %\newcommand{\algSize}{footnotesize}
 
-\newcommand{\ps}{\Psi_{\dist_k}}
-\newcommand{\psws}{\Psi_{\overline{\dist}_k}}
-\newcommand{\sps}{\Psi_{\dist_k,\mathsf{spl}}}
-\newcommand{\spsws}{\Psi_{\overline{\dist}_k,\mathsf{spl}}}
-\newcommand{\spsmas}{\Psi_{\dist_k,+}}
-\newcommand{\spswsmas}{\Psi_{\overline{\dist}_k,+}}
-\newcommand{\spswscomm}{\Psi_{\overline{\dist}_k,\mathsf{com}}}
+\newcommand{\ps}{\Psi({\dist_k})}
+\newcommand{\psws}{{\Psi(\overline{\dist}_k)}}
+\newcommand{\sps}{{\Psi_{\mathsf{spl}}(\dist_k)}}
+\newcommand{\Sps}{\Psi_{\mathsf{spl}}}
+\newcommand{\spsws}{{\Psi_\mathsf{spl}(\overline{\dist}_k)}}
+\newcommand{\Spsws}{\Psi_\mathsf{spl}}
+\newcommand{\spsmas}{\Psi_{+}(\dist_k)}
+\newcommand{\Spsmas}{\Psi_{+}}
+\newcommand{\spswsmas}{\Psi_{+}(\overline{\dist}_k)}
+\newcommand{\Spswsmas}{\Psi_{+}}
+\newcommand{\spswscomm}{{\Psi_{\mathsf{com}}(\overline{\dist}_k)}}
+\newcommand{\Spswscomm}{\Psi_{\mathsf{com}}}
 \newcommand{\bbb}{\bar{b}}
 \newcommand{\capprox}{\overset{c}{\approx}}
 
@@ -129,8 +134,9 @@
 \newcommand{\vvar}[1]{{\mathbf{\var{#1}}}}
 \newcommand{\varb}{\mathsf{b}}
 \newcommand{\varx}{\mathsf{x}}
-\newcommand{\vvarx}{\mathbf{\mathsf{x}}}
+\newcommand{\vvarx}{\textbf{\textsf{x}}}
 \newcommand{\vary}{\mathsf{y}}
+\newcommand{\vvary}{\textbf{\textsf{y}}}
 \newcommand{\varz}{\mathsf{z}}
 \newcommand{\varX}{\mathsf{X}}
 \newcommand{\varY}{\mathsf{Y}}
@@ -289,8 +295,8 @@
 \newcommand{\negl}{\mathit{negl}}
 \newcommand{\A}{\mathcal{A}}
 \newcommand{\GG}{\mathbb{G}}
-\newcommand{\Gr}{{\ensuremath{\mathbb{G}_1}}}
-\newcommand{\Hr}{{\ensuremath{\mathbb{G}_2}}}
+\newcommand{\Gr}{\ensuremath{\mathbb{G}_1}}
+\newcommand{\Hr}{\ensuremath{\mathbb{G}_2}}
 \newcommand{\T}{\ensuremath{\mathbb{T}}}
 \newcommand{\SSDP}{\ensuremath{\mathsf{SSDP}}}
 \newcommand{\PermP}{\ensuremath{\mathsf{PermP}}}

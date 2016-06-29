@@ -15,7 +15,7 @@ $\advB_1,\advB_2,\advB_3,\advSound_1,\advSound_2$ such that
 \mathsf{Adv}_{\mathcal{PS}}(\advA) & \leq 
 n& \left(6/q+ \mathsf{Adv}_{\mathcal{U}_1,\Gr}(\advB_1)
 +  \mathsf{Adv}_{\mathcal{U}_1,\Hr}(\advB_2)
-+  \mathsf{Adv}_{\SP_\Hr}(\advB_3)\right. \\
++  \mathsf{Adv}_{\SP_{\Hr}}(\advB_3)\right. \\
 & & \mbox{ } 
 +  \left.\mathsf{Adv}_{\QANIZKsum}(\advSound_1)
 +
@@ -55,15 +55,15 @@ The rest of the argument goes as follows (the remaining proofs are in Appendix \
 \label{lemma:bits1}
 \end{lemma}
 
-\begin{lemma} There exists a $\mathcal{U}_1$-$\mddh_\Gr$ adversary $\advB$ such that
+\begin{lemma} There exists a $\mathcal{U}_1$-$\mddh_{\Gr}$ adversary $\advB$ such that
 $|\Pr\left[\mathsf{Game}_{1}(\advA)=1\right]$ $-\Pr\left[\mathsf{Game}_{2}(\advA)=1\right]|$ $\leq
     \mathsf{Adv}_{\mathcal{U}_1,\Gr}(\advB) + 2/q.$
 \label{lemma:bits2}
 \end{lemma}
 \begin{proof}
-The adversary $\advB$ receives $(\hvecb{s}, \hvecb{t})$ an instance of the $\mathcal{U}_1$-$\mddh_\Gr$ problem.
+The adversary $\advB$ receives $(\hvecb{s}, \hvecb{t})$ an instance of the $\mathcal{U}_1$-$\mddh_{\Gr}$ problem.
 $\advB$ defines all the parameters honestly except that
-it embeds the $\mathcal{U}_1$-$\mddh_\Gr$ challenge in the matrix 
+it embeds the $\mathcal{U}_1$-$\mddh_{\Gr}$ challenge in the matrix 
 $\Lck$.
 
 Let $\hmatr{E}:=(\hvecb{s}||\hvecb{t})$. $\advB$ picks $i^*\gets[n]$, $\matr{W}_0\gets\Z_q^{2\times(i^*-1)}$,
@@ -88,7 +88,7 @@ spanned by $\lck_{n+1}$ as in $\sfGame_2$.
 %spanned by $\lck_{n+1}$ as in $\sfGame_2$.
 \end{proof}
 
-\begin{lemma} There exists a $\mathcal{U}_1$-$\mddh_\Hr$ adversary $\advB$ such that
+\begin{lemma} There exists a $\mathcal{U}_1$-$\mddh_{\Hr}$ adversary $\advB$ such that
 $|\Pr\left[\mathsf{Game}_{2}(\advA)=1\right]$ $-\Pr\left[\mathsf{Game}_{3}(\advA)=1\right]|$ $\leq
 \mathsf{Adv}_{\mathcal{U}_1,\Hr}(\advB).$
 \label{lemma:bits3}
@@ -96,7 +96,7 @@ $|\Pr\left[\mathsf{Game}_{2}(\advA)=1\right]$ $-\Pr\left[\mathsf{Game}_{3}(\advA
 
 \begin{lemma} There exists a $\SP_{\Hr}$ adversary $\mathcal{\advB}$, a soundness adversary $\advSound_1$  for $\QANIZKsum$ and 
 a strong soundness adversary $\advSound_2$ for $\QANIZKcomms$  such that
-$$\Pr\left[\mathsf{Game}_3(\advA)=1\right] \leq 4/q + \adv_{\SP_\Hr}(\advB) +
+$$\Pr\left[\mathsf{Game}_3(\advA)=1\right] \leq 4/q + \adv_{\SP_{\Hr}}(\advB) +
 \adv_\QANIZKsum(\advSound_1)+\adv_\QANIZKcomms(\advSound_2).$$  
 \label{lemma:G3}
 \end{lemma}

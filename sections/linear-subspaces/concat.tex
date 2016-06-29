@@ -44,7 +44,7 @@ $$
 $$
 \caption{Two QA-NIZK Arguments for  $\mathcal{L}_{[\matr{M}]_1,[\matr{N}]_2}$. $\sps$ is 
  defined for $\widetilde{\dist_{k}}=\dist_k$ and $\tilde{k}=k+1$, and is a generalization of  
- \cite{EC:KilWee15} Sect. 3.1 in two groups. The second construction $\spsws$ corresponds to $\widetilde{\dist_{k}}=\overline{\dist_k}$ and $\tilde{k}=k$, and is a generalization of   \cite{EC:KilWee15} Sect. 3.2 in two groups. Computational soundness is based on the $\dist_{k}$-\skermdh{} Assumption. The CRS size is $(\tilde{k}k+\tilde{k}t+mk)\sG+(\tilde{k}k+\tilde{k}t+nk)\sH$ and the proof size $\tilde{k}\s$. Verification requires $2\tilde{k}k+(m+n)k$ pairing computations. \label{fig:QANIZKtwogroups} }
+ \cite{EC:KilWee15} Sect. 3.1 in two groups. The second construction $\spsws$ corresponds to $\widetilde{\dist_{k}}=\overline{\dist_k}$ and $\tilde{k}=k$, and is a generalization of   \cite{EC:KilWee15} Sect. 3.2 in two groups. Computational soundness is based on the $\dist_{k}$-\skermdh{} Assumption. The CRS size is $(\tilde{k}k+\tilde{k}t+mk)\sG+(\tilde{k}k+\tilde{k}t+nk)\sH$ and the proof size $\tilde{k}\s$. Verification requires $2\tilde{k}k+(m+n)k$ pairing computations. We denote by $\Sps$ the most efficient instantiation of $\sps$, which happens when $\dist_k=\bar{\distlin}_2$. \label{fig:QANIZKtwogroups} }
 \end{figure}
 
 \paragraph{Soundness Intuition.}   If we ignore for a moment that $\Gr, \Hr$ are different groups, $\sps$ (resp. $\spsws$) is almost identical to $\ps$ (resp. to $\psws$) for the language $\mathcal{L}_{[\matr{P}]_1}$, and $\matr{\Delta}:=(\matr{\Lambda}||\matr{\Xi})$, where  $\matr{\Lambda} \in \Z_q^{\tilde{k} \times m},\matr{\Xi} \in \Z_q^{\tilde{k} \times n}$. Further, the information that an unbounded adversary can extract from the CRS about $\matr{\Delta}$ is:
@@ -53,10 +53,7 @@ $$
  \item $\Big\{ \matr{M}_\Lambda = \matr{\Lambda} \matr{M}+\matr{Z}, \matr{N}_\Xi = \matr{\Xi}\matr{N}-\matr{Z},  \begin{pmatrix}\matr{A}_\Lambda\\\matr{A}_\Xi\end{pmatrix} = \begin{pmatrix} \matr{\Lambda}^{\top}\matr{A} \\ \matr{\Xi}^{\top}\matr{A} \end{pmatrix} \Big\}$ from $\mathsf{crs}_{\sps}$. 
  \end{enumerate}
 Given that the matrix $\matr{Z}$ is uniformly random,  $\mathsf{crs}_{\ps}$ and $\mathsf{crs}_{\sps}$
-reveal the same information about $\matr{\Delta}$ to an unbounded adversary. Therefore, as the proof of soundness is essentially based on the fact that parts of $\matr{\Delta}$ are information theoretically hidden to the adversary, the original proof of \cite{EC:KilWee15} can be easily adapted for the new arguments. The proofs 
-%are in Appendix \ref{sec:appmembtwogroups}.
-can be found in Appendix \ref{sect:memtwogroups-proofs}.
-
+reveal the same information about $\matr{\Delta}$ to an unbounded adversary. Therefore, as the proof of soundness is essentially based on the fact that parts of $\matr{\Delta}$ are information theoretically hidden to the adversary, the original proof of \cite{EC:KilWee15} can be easily adapted for the new arguments. 
 
 \begin{theorem} If $\widetilde{\dist_{k}}=\dist_k$ and $\tilde{k}=k+1$,  Fig. \ref{fig:QANIZKtwogroups} describes a QA-NIZK
 proof system with perfect completeness, computational adaptive soundness based on the  $\dist_{k}$-$\skermdh$ Assumption, and perfect zero-knowledge. 
@@ -99,7 +96,7 @@ But
 \end{equation}
 Since $\matr{Z}$ is a uniform random value, the CRS reveals (information theoretically) only $\left\{\matr{\Delta}\smallpmatrix{\matr{M}\\\matr{N}},  \matr{\Delta}^{\top}\matrA \right\}$ about $\matr{\Delta}$.
 But since a) $([\vecb{x}^*]_1,[\vecb{y}^*]_2) \notin \mathcal{L}_{[\matr{M}]_1,[\matr{N}]_2}$, 
-$\vecb{w}$ is not in the image of $\smallpmatrix{\matr{M}\\\matr{N}}$ and b) $\matrA$ has more rows than columns, it follows by a standard argument that $\matr{\Delta}\vecb{t}$ is undetermined from the adversary's point of view.
+$\vecb{t}$ is not in the image of $\smallpmatrix{\matr{M}\\\matr{N}}$ and b) $\matrA$ has more rows than columns, it follows by a standard argument that $\matr{\Delta}\vecb{t}$ is undetermined from the adversary's point of view.
 
 (Zero-Knowledge.) It is direct from the construction that the simulated proof follows the same distribution as an honestly computed proof.
 \end{proof}
