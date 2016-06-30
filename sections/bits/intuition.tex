@@ -1,0 +1,71 @@
+A prover wanting to show satisfiability of the equation  $\varx(\vary-1)=0$ using GS proofs, will commit to a solution  
+$\varx=b$ and $\vary=\overline{b}$ as $[\vecb{c}]_1=b [\vecb{u}_1]_1 + r [\vecb{u}_2]_1$ and 
+ $[\vecb{d}]_2=\overline{b} [\vecb{v}_1]_2 + s [\vecb{v}_2]_2$, for $r,s \leftarrow \Z_q$, and then give a pair $([\grkb{\theta}]_1,[\grkb{\pi}]_2)
+\in \Gr^{2} \times \Hr^{2}$ which satisfies the following verification equation\footnote{For readers familiar with the Groth-Sahai notation, equation (\ref{eq:gsver}) corresponds to 
+$\vecb{c} \bullet \left(\vecb{d}-\iota_2(1)\right) = \vecb{u}_2 \bullet \grkb{\pi} + \grkb{\theta} \bullet \vecb{v}_2$.}:
+\begin{equation} \label{eq:gsver}
+[\vecb{c}]_1 \left([\vecb{d}]_2-
+ [{\vecb{v}}_1]_2\right)^{\top}=[{\vecb{u}}_2]_1  
+[{\boldsymbol \pi}^{\top}]_2+ [{\boldsymbol \theta}]_1   [\vecb{v}_2^{\top}]_2. 
+\end{equation}
+The reason why this works is that, if we express both sides of the equation in the basis of 
+$\GG_T^{2\times 2}$ given by 
+$\{[\vecb{u}_1]_1[\vecb{v}_1^\top]_2,[\vecb{u}_2]_1[\vecb{v}_1^\top]_2,[\vecb{u}_1]_1[\vecb{v}_2^\top]_2,[\vecb{u}_2]_1[\vecb{v}_2^\top]_2\}$, the coefficient of 
+$[\vecb{u}_1]_1[\vecb{v}_1^\top]_2$ is $b(\overline{b}-1)$ on the left side and $0$ on the right side (regardless of
+$([\grkb{\theta}]_1,[\grkb{\pi}]_2)$).
+Our observation is that the verification equation can be abstracted as saying:
+\begin{equation}\label{eq:gsabstracted}
+[\vecb{c}]_1 \left([\vecb{d}]_2-[\vecb{v}_1]_2\right)^{\top} \ \in \mathsf{Span}([\vecb{u}_2]_1[\vecb{v}_1^\top]_2,[\vecb{u}_1]_1[\vecb{v}_2^\top]_2,[\vecb{u}_2]_1[\vecb{v}_2^\top]_2) \subset  \GG_T^{2 \times 2}. 
+\end{equation}
+
+Now consider commitments to $(b_1,\ldots,b_n)$ and $(\overline{b}_1,\ldots,\overline{b}_n)$ constructed with some commitment key $\{([\vecb{g}_i]_1,[\vecb{h}_i]_2): i \in [n+1]\}\subset\Gr^{\nb}\times\Hr^\nb$, for some $\nb\in\N$, to be determined later, and defined as $[\vecb{c}]_1:=\sum_{i \in [n]} b_i [\vecb{g}_i]_1 + r [\vecb{g}_{n+1}]_1$, 
+$[\vecb{d}]_2:=\sum_{i \in [n]} \overline{b}_i [\lrck_i]_2 + s [{\lrck}_{n+1}]_2$, $r,s \gets \Z_q$. Suppose for a moment that 
+$\{ [\vecb{g}_{i}]_1 [\vecb{h}_{j}^\top]_2 : i,j \in [n+1]\}$ 
+is a set of linearly independent vectors. Then,  
+\begin{equation} \label{eq:gsveri}
+[\vecb{c}]_1 \left([\vecb{d}^\top]_2-
+\sum_{j\in[n]} [\lrck_j^\top]_2\right) \in \Span\{ [\vecb{g}_i]_1[\vecb{h}_j^\top]_2: (i,j)\in\indexSet{n}{1} \} 
+\end{equation}
+if and only if $b_i(\overline{b}_i-1)=0$ for all $i \in [n]$,
+because $b_i(\overline{b}_i-1)$ is the coordinate of 
+$[\vecb{g}_i]_1[\vecb{h}_i^\top]_2$ in the left side of the equation.
+
+
+Equation \ref{eq:gsveri} suggests to use one of the constant-size QA-NIZK Arguments for linear spaces to get a constant-size proof that $b_i(\overline{b}_i-1)=0$ for all $i \in [n]$. Unfortunately, these arguments are only defined for membership in subspaces  in 
+$\Gr^m$ or $\Hr^m$ but not in $\GG_T^m$. Our solution is to include information in the CRS to ``bring back'' 
+  this statement from $\GG_T$ to $\Gr$, i.e.\ 
+  the matrices   $[\Lqmatr_{i,j}]_1:=[\vecb{g}_i]_1\lrck_j^{\top}$, for each $(i,j)\in\indexSet{n}{1}$.   
+Then, to prove that $b_i(\overline{b}_i-1)=0$ for all $i\in [n]$, the prover computes 
+$[\matr{\Theta}]_1$ as a linear combination (with coefficients which depend on
+ $\vecb{b},\vecb{\bb},r,s$) of the matrices $[\matr{C}_{i,j}]_1$ where $i\neq j$ when $i,j\neq n+1$. We denote this set of matrices as
+ $\Qspace:=\{[\Lqmatr_{i,j}]_1: (i,j)\in\indexSet{n}{1}\}$.
+
+The verifier checks that
+\begin{equation}
+[\vecb{c}]_1\left([\vecb{d}]_2-
+\sum_{j\in[n]}[\lrck_j]_2\right)^{\top}=
+[\matr{\Theta}]_1[\matr{I}_{\nb\times\nb}]_2,
+\end{equation}
+ and the prover gives a QA-NIZK proof of  $[\matr{\Theta}]_1 \in \mathsf{Span}(\Qspace)$.
+
+This reasoning assumes that $\{[\vecb{g}_i]_1 \lrck_j^{\top}\}$ (or equivalently, $\{[\matr{C}_{i,j}]_1\}$) are linearly independent,  which can only happen if 
+$\nb \geq n+1$. If that is the case, the proof cannot be constant because $[\matr{\Theta}]_1 \in \Gr^{\nb\times\nb}$ and this matrix is part of the proof.
+In our case $[\vecb{g}_1]_1,\ldots,[\vecb{g}_{n+1}]_1 \in \Gr^{2}$ and $[\vecb{h}_1]_2,\ldots,[\vecb{h}_{n+1}]_2 \in \Hr^{2}$, therefore 
+$\{\Qmatr_{i,j}\} \subseteq \Gr^{2 \times 2}$.  Intuitively, this should still work because the prover receives these vectors as part of the CRS and he does not know their discrete logarithms, so to him, they behave as linearly independent vectors.  
+
+Nevertheless, the statement $[\matr{\Theta}]_1\in\Span(\Qspace)$ seems no longer meaningful, as $\Span(\Qspace)$ might be all of $\Gr^{2\times 2}$ for some distributions of the commitment keys. But this is not the case, because we only work with distributions which are perfectly binding at at most \emph{one fixed coordinate} and perfectly hiding at the other coordinates. For example, if $(\vecb{g}_1,\ldots\vecb{g}_{n+1})$ come from the distribution $\distlin_2^{n,i}$, where $\vecb{g}_i\notin\Span(\{\vecb{g}_j, j\neq i\})$ and $i>0$, we might also choose $(\vecb{h}_1,\ldots,\vecb{h}_n+1)$ from $\distlin_2^{n,i}$, and the adversary might notice it only if its able to break DDH. In this new setting, any equation $\varx_j(\vary_j-1)=0$ is trivially satisfied since at the $j$-th coordinate $[\vecb{c}]_1$ and $[\vecb{d}]_2$ can be opened to any value, in particular $b_j,\bb_j\in\bits$. However, since $[\vecb{g}_i]_1\vecb{h}^\top_i\notin\Span(\Qspace)$, the equation $\varx_i(\vary_i-1)=0$ is not satisfied iff the adversary breaks the soundness of the proof that $[\matr{\Theta}]_1 \in \mathsf{Span}(\Qspace)$.
+  
+The last obstacle is that, 
+  using decisional assumptions on the set of vectors 
+  $\{[\lrck_{j}]_2\}_{j\in[n+1]}$ is incompatible with using the discrete logarithms of $[\vecb{h}_j]_2$ to compute the matrices $\Qmatr_{i,j}:=[\vecb{g}_i]_1 \lrck_j^{\top}$ given in the CRS. 
+To account for the fact that, in some games,
+  we only know $\vecb{g}_i \in \Z_q$ and, in some others,
+  only $\lrck_j \in \Z_q$, we replace each matrix 
+  $[\Lqmatr_{i,j}]_1$ by a pair 
+  $([\matr{C}_{i,j}]_1,[\matr{D}_{i,j}]_2)$ which is uniformly 
+  distributed conditioned on 
+  $\matr{C}_{i,j}+\matr{D}_{i,j}=\vecb{g}_i \lrck_j^{\top}$.
+This randomization completely hides the group in which we can compute 
+  $\vecb{g}_i \lrck_j^{\top}$. 
+  Finally, we use our QA-NIZK Argument for sum in a subspace (Sect.\ \ref{sec:QANIZKsum}) to prove membership in this space.
+

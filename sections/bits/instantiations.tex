@@ -1,0 +1,20 @@
+\subsection{Instantiations} \label{subsec:instantiations}
+We discuss in detail two particular cases of languages $\mathcal{\mathcal{L}}_{[\matr{U}]_1,\sfbits}$. First, in Sect.~\ref{sect:proofasym} we discuss the case when 
+\begin{itemize}
+\item[(a)] $[\vecb{c}]_1$ is a vector in $\Gr^{n+1}$,  $[\vecb{u}_{n+1}]_1 \leftarrow \distlin_{n+1,1}$ and
+ $[\matr{U}_1]_1:=\begin{pmatrix}{[\matr{I}_{n\times n}]_1}\\{[\matr{0}_{1\times n}]_1}\end{pmatrix} \in \Gr^{(n+1) \times n}, [\matr{U}_2]_1:=[\vecb{u}_{n+1}]_1 \in \Gr^{n+1}$, $[\matr{U}]_1=([\matr{U}_1]_1|| [\matr{U}_2]_1)$.    
+\end{itemize}
+In this case, the vectors $[\vecb{g}_i]_1$ in the intuition are defined as $[\vecb{g}_i]_1=\matr{\Delta} \hvecb{u}_i$, where $\matr{\Delta}\gets\Z_q^{2\times(n+1)}$, and the commitment 
+to $\vecb{b}$ is computed as $[\vecb{c}]_1:=\sum_{i\in[n]}b_i\hvecb{u}_i+w\hvecb{u}_{n+1}$.
+Then in Sect. \ref{sec:crsindivcomms} we discuss how to generalize the construction for a) to 
+\begin{itemize}
+ \item[(b)] $[\vecb{c}]_1$ is the concatenation of $n$ GS commitments. That is, given the  GS CRS   $\mathsf{crs}_\GS=(\Gamma,\hvecb{u}_1,\hvecb{u}_2,\cvecb{v}_1,\cvecb{v}_2)$, we define,
+$$[\matr{U}_1]_1:=  \begin{pmatrix} \hvecb{u}_1 & \ldots & [\vecb{0}]_1\\ \vdots & \ddots & \vdots \\   [\vecb{0}]_1 & \ldots & \hvecb{u}_1  \end{pmatrix} \in \Gr^{2n \times n},  [\matr{U}_2]_1:= \begin{pmatrix} \hvecb{u}_2 & \ldots & [\vecb{0}]_1\\ \vdots & \ddots & \vdots \\  [\vecb{0}]_1 & \ldots & \hvecb{u}_2  \end{pmatrix} \in \Gr^{2n \times n}.$$ 
+\end{itemize}
+
+%\paragraph{Remark.}
+Although the proof size is constant, in both of our instantiations the commitment size is $\Theta(n)$. Specifically, $(n+1)\sG$ for case a) and $2n\sG$ for case b).
+%Furthermore, one might relax the requirement of perfectly binding commitments as long as one is able to extract a witness from $[\vecb{c}]_1$. However, if for example $[\vecb{U}]_1$ defines a distribution over hard instances of the Subset-Sum language, impossibility results from $\cite{STOC:GenWic11}$ imply that $\hvecb{c}$ cannot be of size $\mathsf{poly}(\lambda)n^{o(1)}$.
+
+%Although this is a limitation for some applications, \textit{e.g.} range proofs, this is a requirement for some others (like proving membership in a list).   
+
