@@ -34,23 +34,22 @@ $[\vecb{g}_i]_1[\vecb{h}_i^\top]_2$ in the left side of the equation.
 Equation \ref{eq:gsveri} suggests to use one of the constant-size QA-NIZK Arguments for linear spaces to get a constant-size proof that $b_i(\overline{b}_i-1)=0$ for all $i \in [n]$. Unfortunately, these arguments are only defined for membership in subspaces  in 
 $\Gr^m$ or $\Hr^m$ but not in $\GG_T^m$. Our solution is to include information in the CRS to ``bring back'' 
   this statement from $\GG_T$ to $\Gr$, i.e.\ 
-  the matrices   $[\Lqmatr_{i,j}]_1:=[\vecb{g}_i]_1\lrck_j^{\top}$, for each $(i,j)\in\indexSet{n}{1}$.   
+  the matrices   $[\Lqmatr_{i,j}]_1:=[\vecb{g}_i]_1\lrck_j^{\top}$, where $i\neq j$ when $i,j\neq n+1$. We denote this set of matrices as
+ $\Qspace:=\{[\Lqmatr_{i,j}]_1: (i,j)\in\indexSet{n}{1}\}$.   
 Then, to prove that $b_i(\overline{b}_i-1)=0$ for all $i\in [n]$, the prover computes 
 $[\matr{\Theta}]_1$ as a linear combination (with coefficients which depend on
- $\vecb{b},\vecb{\bb},r,s$) of the matrices $[\matr{C}_{i,j}]_1$ where $i\neq j$ when $i,j\neq n+1$. We denote this set of matrices as
- $\Qspace:=\{[\Lqmatr_{i,j}]_1: (i,j)\in\indexSet{n}{1}\}$.
-
-The verifier checks that
+ $\vecb{b},\vecb{\bb},r,s$) of the matrices in $\Qspace$.
+Then the verifier checks that
 \begin{equation}
 [\vecb{c}]_1\left([\vecb{d}]_2-
 \sum_{j\in[n]}[\lrck_j]_2\right)^{\top}=
 [\matr{\Theta}]_1[\matr{I}_{\nb\times\nb}]_2,
 \end{equation}
- and the prover gives a QA-NIZK proof of  $[\matr{\Theta}]_1 \in \mathsf{Span}(\Qspace)$.
+ and finally the prover gives a QA-NIZK proof of  $[\matr{\Theta}]_1 \in \mathsf{Span}(\Qspace)$.
 
 This reasoning assumes that $\{[\vecb{g}_i]_1 \lrck_j^{\top}\}$ (or equivalently, $\{[\matr{C}_{i,j}]_1\}$) are linearly independent,  which can only happen if 
 $\nb \geq n+1$. If that is the case, the proof cannot be constant because $[\matr{\Theta}]_1 \in \Gr^{\nb\times\nb}$ and this matrix is part of the proof.
-In our case $[\vecb{g}_1]_1,\ldots,[\vecb{g}_{n+1}]_1 \in \Gr^{2}$ and $[\vecb{h}_1]_2,\ldots,[\vecb{h}_{n+1}]_2 \in \Hr^{2}$, therefore 
+Conversely, in our case $[\vecb{g}_1]_1,\ldots,[\vecb{g}_{n+1}]_1 \in \Gr^{2}$ and $[\vecb{h}_1]_2,\ldots,[\vecb{h}_{n+1}]_2 \in \Hr^{2}$, therefore 
 $\{\Qmatr_{i,j}\} \subseteq \Gr^{2 \times 2}$.  Intuitively, this should still work because the prover receives these vectors as part of the CRS and he does not know their discrete logarithms, so to him, they behave as linearly independent vectors.  
 
 Nevertheless, the statement $[\matr{\Theta}]_1\in\Span(\Qspace)$ seems no longer meaningful, as $\Span(\Qspace)$ might be all of $\Gr^{2\times 2}$ for some distributions of the commitment keys. But this is not the case, because we only work with distributions which are perfectly binding at at most \emph{one fixed coordinate} and perfectly hiding at the other coordinates. For example, if $(\vecb{g}_1,\ldots\vecb{g}_{n+1})$ come from the distribution $\distlin_2^{n,i}$, where $\vecb{g}_i\notin\Span(\{\vecb{g}_j, j\neq i\})$ and $i>0$, we might also choose $(\vecb{h}_1,\ldots,\vecb{h}_n+1)$ from $\distlin_2^{n,i}$, and the adversary might notice it only if its able to break DDH. In this new setting, any equation $\varx_j(\vary_j-1)=0$ is trivially satisfied since at the $j$-th coordinate $[\vecb{c}]_1$ and $[\vecb{d}]_2$ can be opened to any value, in particular $b_j,\bb_j\in\bits$. However, since $[\vecb{g}_i]_1\vecb{h}^\top_i\notin\Span(\Qspace)$, the equation $\varx_i(\vary_i-1)=0$ is not satisfied iff the adversary breaks the soundness of the proof that $[\matr{\Theta}]_1 \in \mathsf{Span}(\Qspace)$.

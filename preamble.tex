@@ -34,10 +34,10 @@
 %Log Right Commitment Key
 \newcommand{\lrck}{\vecb{h}}
 %Left Commitment Key
-\newcommand{\lck}{\hat{\llck}}
+\newcommand{\lck}{[{\llck}]_1}
 %Right Commitment Key
-\newcommand{\rck}{\check{\lrck}}
-\newcommand{\rcks}{\hat{\lrck}}
+\newcommand{\rck}{[{\lrck}]_2}
+\newcommand{\rcks}{[{\lrck}]_1}
 
 %Commitement keys matrices
 
@@ -48,12 +48,12 @@
 %Left Commitment Keys
 \newcommand{\Lck}{\hat{\Llck}}
 %Right Commitment Keys
-\newcommand{\Rck}{\check{\Lrck}}
-\newcommand{\Rcks}{\hat{\Lrck}}
+\newcommand{\Rck}{[{\Lrck}]_2}
+\newcommand{\Rcks}{[{\Lrck}]_1}
 
 %For quadratic info \lck\rck^\top
 \newcommand{\Lqmatr}{\matr{C}}
-\newcommand{\Qmatr}{\hat{\Lqmatr}}
+\newcommand{\Qmatr}{{[\Lqmatr]_1}}
 \newcommand{\Qspace}{\mathcal{C}}
 
 % c_\Delta

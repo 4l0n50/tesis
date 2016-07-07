@@ -41,12 +41,12 @@ $\mathsf{Game_0}$ except that the simulator picks a random $i^* \in [n]$, and us
     if the output of the adversary $\advA$ is such that 
     $b_{i^*}\in \bits$.  It aborts if  $b_{i^*}\in \bits$.
 \item[$\mathsf{Game}_{2}$] This game is identical to 
-$\mathsf{Game}_1$ except that now the vectors $\lck_{i}$, $i \in [n]$ and $i \neq i^*$,
-are uniform vectors in the space spanned by $\lck_{n+1}$.   
+$\mathsf{Game}_1$ except that now the vectors $[vecb{g}_{i}]_1$, $i \in [n]$ and $i \neq i^*$,
+are uniform vectors in the space spanned by $[vecb{g}_{n+1}]_1$.   
 \item[$\mathsf{Game}_{3}$] This game is identical to 
-$\mathsf{Game}_2$ except that now the vector $\rck_{i^*}$ is 
+$\mathsf{Game}_2$ except that now the vector $[vecb{h}_{i^*}]_2$ is 
 a uniform vector in $\Hr^2$, sampled independently of 
-$\rck_{n+1}$.     
+$[vecb{h}_{n+1}]_2$.     
 \end{itemize}
 It is obvious that the first two games are indistinguishable. 
 The rest of the argument goes as follows (the remaining proofs are in Appendix \ref{proof:sound}). 
@@ -68,8 +68,8 @@ $\Lck$.
 
 Let $\hmatr{E}:=(\hvecb{s}||\hvecb{t})$. $\advB$ picks $i^*\gets[n]$, $\matr{W}_0\gets\Z_q^{2\times(i^*-1)}$,
 $\matr{W}_1\gets\Z_q^{2\times(n-i^*)}$,
-$\lck_{i^*}\gets\Gr^{2}$,
-and defines $\Lck := (\hmatr{E}\matr{W}_0||\lck_{i^*}||\hmatr{E}\matr{W}_1|| \hvecb{s})$. 
+$[vecb{g}_{i^*}]_1\gets\Gr^{2}$,
+and defines $\Lck := (\hmatr{E}\matr{W}_0||[vecb{g}_{i^*}]_1||\hmatr{E}\matr{W}_1|| \hvecb{s})$. 
 In the real algorithm $\mathsf{K}_1$, the generator picks the matrix $\matr{\Delta} \in \Z_q^{2 \times (n+1)}$.
 Although $\advB$ does not know $\matr{\Delta}$,  it can compute $\hmatr{\Delta}$ as $\hmatr{\Delta}= \Lck\matr{U}^{-1}$,
 given that $\matr{U}$ is full rank and was  sampled 
@@ -79,13 +79,13 @@ common reference string  using the discrete logarithms of $\hmatr{U}$, $\Rck$ an
 In case $\hvecb{t}$ is uniform over $\Gr^{2}$, by the Schwartz-Zippel lemma $\det(\hmatr{E}) = 0$ with probability at most $2/q$.
 Thus, with probability at least $1-2/q$, the matrix $\hmatr{E}$ is full-rank and $\Lck$ is uniform over $\Gr^{2\times(n+1)}$ as in
 $\sfGame_1$.
-On the other hand, in case $\hat{\vecb{t}}=\gamma \hvecb{s}$, all of $\lck_{i}$, $i\neq i^*$, are in the space
-spanned by $\lck_{n+1}$ as in $\sfGame_2$.
+On the other hand, in case $\hat{\vecb{t}}=\gamma \hvecb{s}$, all of $[vecb{g}_{i}]_1$, $i\neq i^*$, are in the space
+spanned by $[vecb{g}_{n+1}]_1$ as in $\sfGame_2$.
 %
 %In case $\hvecb{t}$ is uniform over $\Gr^{2}$, with overwhelming probability, the matrix $\hmatr{E}$ is full-rank and $\Lck$ is uniform over $\Gr^{2\times(n+1)}$ as in
 %$\sfGame_1$.
-%On the other hand, in case $\hat{\vecb{t}}=\gamma \hvecb{s}$, all of $\lck_{i}$, $i\neq i^*$, are in the space
-%spanned by $\lck_{n+1}$ as in $\sfGame_2$.
+%On the other hand, in case $\hat{\vecb{t}}=\gamma \hvecb{s}$, all of $[vecb{g}_{i}]_1$, $i\neq i^*$, are in the space
+%spanned by $[vecb{g}_{n+1}]_1$ as in $\sfGame_2$.
 \end{proof}
 
 \begin{lemma} There exists a $\mathcal{U}_1$-$\mddh_{\Hr}$ adversary $\advB$ such that
@@ -108,8 +108,8 @@ while the verifier accepts the proof  produced by $\advA$, which is
 $ (
         \hvecb{c}_{\Delta}, \cvecb{d},
         (\hmatr{\Theta}_{b(\overline{b}-1)}, \cmatr{\Pi}_{b(\overline{b}-1)}), 
-        \{(\hat{\boldsymbol \rho}_{X}, \check{\boldsymbol \sigma}_{X})\}_{X \in \{b(\overline{b}-1), b-\overline{b}\}} ).$ Since $\{\rck_{i^*},\rck_{n+1}\}$ is a basis of $\Hr^2$,
-we can define $\overline{w}_h,\overline{b}_{i^*}$ as the unique coefficients in $\Z_q$ such that $\cvecb{d}= \overline{b}_{i^*} \rck_{i^*} + \overline{w}_h \rck_{n+1}$.
+        \{(\hat{\boldsymbol \rho}_{X}, \check{\boldsymbol \sigma}_{X})\}_{X \in \{b(\overline{b}-1), b-\overline{b}\}} ).$ Since $\{[vecb{h}_{i^*}]_2,[vecb{h}_{n+1}]_2\}$ is a basis of $\Hr^2$,
+we can define $\overline{w}_h,\overline{b}_{i^*}$ as the unique coefficients in $\Z_q$ such that $\cvecb{d}= \overline{b}_{i^*} [vecb{h}_{i^*}]_2 + \overline{w}_h [vecb{h}_{n+1}]_2$.
 We distinguish three cases:
 \begin{itemize}
 \item[1)] If $\hat{\vecb{c}}_{\Delta} \neq \matr{\Delta} \hat{\vecb{c}}$, we can construct an adversary 

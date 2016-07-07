@@ -1,0 +1,121 @@
+Many protocols use proofs that a commitment opens to a bit-string as a 
+  building block. 
+Since our commitments are still of size $\Theta(n)$,
+  our results may not apply to some of these protocols 
+  (\textit{e.g.} range proofs).
+Yet, there are several applications where 
+  bits need to be used independently and our results provide 
+  significant improvements.
+Table \ref{table:app} summarizes them.
+ 
+\subsection{Signatures} Some application examples are the signature schemes of  \cite{PKC:BFPV11,SCN:BlaPoiVer12,RSA:Camacho13,AFRICACRYPT:EscHerMor11}. For example, in the revocable attribute-based signature scheme of Escala \textit{et. al} \cite{AFRICACRYPT:EscHerMor11}, every signature includes a proof that a set of GS commitments, whose size is the number of attributes, opens to a bit-string. 
+
+Further, the proof of membership in a list which is discussed below can also be used to reduce the size of Ring Signature scheme of  \cite{ICALP:ChaGroSah07}, which is the most efficient ring signature in the standard model. To sign a message $m$, among other things, the signer picks a one-time signature key and certifies the one-time verification key by signing it with a Boneh-Boyen signature under $vk_\alpha$. Then, the signer commits to $vk_\alpha$ and shows that $vk_\alpha$ belongs to the list of Boneh-Boyen verification keys $(vk_1,\ldots,vk_n)$ of the parties in the ring $R$. 
+
+\input{sections/bits/tabla-app}
+
+\subsection{Threshold GS Proofs for PPEs} There are two approaches to construct threshold GS proofs for PPEs, i.e. proofs of satisfiability of $t$-out-of-$n$ equations. One is due to \cite{AC:Groth06} and consists of compiling the $n$ equations into a single equation which is satisfied only if $t$ of the original equations are satisfied. For the case of PPEs, this method adds new variables and proves that each of them opens to a bit.  Our result reduces the cost of this approach, but we omit any further discussion as it is quite inefficient because the number of additional variables is $\Theta(m_{var}+n)$, where $m_{var}$ is the total number of variables in the original $n$ equations.
+
+The second approach is due to R\`afols \cite{TCC:Rafols15}. The basic idea behind \cite{TCC:Rafols15}, which extends \cite{C:GroOstSah06}, follows from the observation that for each GS equation type 
+$\mathsf{tp}$,  the CRS space $\mathcal{K}$ is partitioned into a perfectly sound CRS space $\mathcal{K}^b_\mathsf{tp}$ and a perfectly witness indistinguishable CRS space $\mathcal{K}^{h}_\mathsf{tp}$.
+
+In particular, to prove satisfiability of $t$-out-of-$n$ sets of equations from $\{\mathcal{S}_i:i\in[n]\}$ of type $\mathsf{tp}$, it suffices to construct an algorithm $\mathsf{K}_{\mathsf{corr}}$ which on input
+$\mathsf{crs}_{\GS}$ and some set of indexes $A \subset [n]$, $|A|=t$, generates $n$ GS common reference strings 
+$\{\mathsf{crs}_i, i \in [n]\}$ and simulation trapdoors $\tau_{i,sim}$, $i \in A^c$, in a such a way that\footnote{More technically, this is the notion of \textit{Simulatable Verifiable Correlated Key Generation} in \cite{TCC:Rafols15}, which extends the definition of Verifiable Correlated Key Generation of \cite{C:GroOstSah06}.}:
+\begin{itemize}
+\item[a)] it can be publicly verified the set of perfectly sound keys, 
+$\{\mathsf{crs}_i : \mathsf{crs}_i \in \mathcal{K}_{\mathsf{tp}}^{b}\}$ is of size at least $t$,
+\item [b)] there exists a simulator $\mathsf{S}_{\mathsf{corr}}$ who outputs $(\mathsf{crs}_i,\tau_{i,sim})$ for all $i \in [n]$, and the distribution of $\{\mathsf{crs}_i : i \in [n]\}$ is the same as the one of the keys  output by $\mathsf{K}_{\mathsf{corr}}$ when $\mathsf{crs}_{\GS}$ is the perfectly witness-indistinguishable CRS.
+\end{itemize}
+The prover of $t$-out-of-$n$ satisfiability can run $\mathsf{K}_{\mathsf{corr}}$ and, for all $i \in [n]$, compute a real (resp. simulated) proof for 
+$\mathcal{S}_i$ with respect to $\mathsf{crs}_i$
+when $i \in A$ (resp. when $i \in A^c$).
+
+R\`afols gives two constructions for PPEs, the first one can be found in \cite{TCC:Rafols15}, App. C and the other follows from \cite[Sect.~7]{TCC:Rafols15}\footnote{The construction in \cite[Sect.~7]{TCC:Rafols15} is for other equation types but can be used to prove that $t$-out-of-$n$ of $\mathsf{crs}_1,\ldots,\mathsf{crs}_n$ are perfectly binding for PPEs.
+}. 
+Our algorithm $\mathsf{K}_\mathsf{corr}$ for PPEs\footnote{Properly speaking the construction is for PPEs which are left-simulatable in the terminology of \cite{TCC:Rafols15}.} goes as follows:
+
+\begin{itemize}
+\item Define $(b_1,\ldots,b_n)$ as $b_i=1$
+if $i \in A$ and $b_i=0$ if $i \in A^c$. For all $i \in [n]$, let $[\vecb{z}_i]_1:=\mathsf{GS.Comm}_{ck}(b_i)=b_i [\vecb{u}_1]_1+ r_i [\vecb{u}_2]_1$, $r_i \in \Z_q$, and define $\tau_{sim,i}=r_i$, for all $i \in A^c$. Define $\mathsf{crs}_i:=(\Gamma,[\vecb{z}_i]_1,[\vecb{u}_2]_1,[\vecb{v}_1]_2,[\vecb{v}_2]_2)$. 
+\item Prove that $([\vecb{c}_1]_1,\ldots,[\vecb{c}_n]_1)$ opens to $\vecb{b} \in \{0,1\}^{n}$ and that $\sum_{i\in[n]} b_i=t$.
+\end{itemize}
+The simulator just defines $\vecb{b}=\vecb{0}$. The reason why this works is that when $b_i=1$, $([\vecb{z}_i]_1-[\vecb{u}_1]_1) \in \mathsf{Span}( [\vecb{u}_2]_1)$, therefore $\mathsf{crs}_i \in \mathcal{K}^{b}_{PPE}$ and when
+$b_i=0$,  $([\vecb{z}_i]_1-[\vecb{u}_1]_1) \notin \mathsf{Span}( [\vecb{u}_2]_1)$ so $\mathsf{crs}_i \in \mathcal{K}^{h}_{PPE}$.
+
+\subsection{More Efficient Proof of Membership in a List} Chandran \textit{et al.} construct a ring signature of size $\Theta(\sqrt{n})$ \cite{ICALP:ChaGroSah07}, which is the most efficient ring signature in the standard model. Their construction uses as a subroutine a non-interactive proof of membership in some list $L=([l_1]_1,\ldots,[l_n]_1)$ which is of size $\Theta(\sqrt{n})$.  The trick of Chandran \textit{et al.} to achieve this asymptotic complexity is to view $L$ as a matrix $[\matr{L}]_1\in\Gr^{m\times m}$, for $m=\sqrt{n}$, where the $i,j$ th element of $[\matr{L}]_1$ is $[l_{i,j}]_1 := [l_{(i,j)}]_1$ and $(i,j):=(i-1)m+j$. Given a commitment $[\vecb{c}]_1$ to some element $[l_{\alpha}]_1$, where $\alpha = (i_\alpha,j_\alpha)$, their construction in asymmetric bilinear groups works as follows :
+\begin{enumerate}
+\item Compute GS commitments in $\Hr$ to $b_1\ldots,b_m$ and $b'_1,\ldots,b'_m$,
+      where $b_i = 1$ if $i=i_\alpha$ and $0$ otherwise, and $b'_{j}=1$ if $j=j_\alpha$, and $0$ otherwise.
+\item Compute a GS proof that $b_i \in \{0,1\}$ and $b'_j \in \{0,1\}$ for all $i,j\in[m]$, and that $\sum_{i\in[m]}b_i=1$, and $\sum_{j\in[m]}b'_j=1$.
+\item Compute GS commitments to $[x_1]_1:=[l_{(i_\alpha,1)}]_1,\ldots,[x_m]_1:=[l_{(i_\alpha,m)}]_1$.
+\item Compute a GS proof that $[x_j]_1 = \sum_{i\in[m]}b_i[l_{(i,j)}]_1$, for all $j\in[m]$, is satisfied. 
+\item Compute a GS proof that $[l_{\alpha}]_1 = \sum_{j\in[m]}b'_j[x_j]_1$ is satisfied.
+\end{enumerate}
+With respect to the naive use of GS proofs, Step $2$ was improved by R\`afols \cite{TCC:Rafols15}.  Using our proofs for bit-strings of weight $1$ from Sect. \ref{sec:bits-extensions}, we can further reduce the size of the proof in step 2, 
+see table.
+
+We note that although in step 4 the equations are all two-sided linear equations, proofs can only be aggregated if the list comes from a witness samplable distribution and the CRS is set to depend on that specific list. 
+This is not useful for the application 
+to ring signatures, since the CRS should be independent of the ring $R$ (which defines the list). If aggregation is possible then the size of the proof in step 4 is reduced from $(2\sG+4\sH)\sqrt{n}$ to $4\sG+8\sH$.
+
+Next we describe the construction generalized to vectors and then we show that
+when the CRS depends on the list and the list is witness samplable, the proof can be further reduced to $\Theta(\sqrt[3]{n})$.
+
+\subsubsection{More Efficient Proof of Membership in a List of Vectors}  
+Here we describe an improvement of the proof of membership in a list of Chandran \textit{et al.}  
+extended to vectors, i.e. to the case where $L=([\vecb{l}_1]_1,\ldots,[\vecb{l}_n]_1)$ is a list of vectors of length $\ell$. In such a proof, we show that some commitment $[\vecb{c}]_1$ opens to a vector $[\vecb{l}_{\alpha}]_1$, where $\alpha=(i_\alpha,j_\alpha)$ (recall that $(i,j)=\sqrt{n}(i-1)+j$).
+
+\begin{enumerate}
+\item Compute GS commitments in $\Hr$ to $b_1\ldots,b_m$ and $b'_1,\ldots,b'_m$,
+      where $b_i = 1$ if $i=i_\alpha$ and $0$ otherwise, and $b'_{j}=1$ if $j=j_\alpha$, and $0$ otherwise.
+\item Compute a proof that $b_i \in \{0,1\}$ and $b'_j \in \{0,1\}$ for all $i,j\in[m]$, using the proof system of Sect.
+~ \ref{sec:bits-scheme}.
+\item Compute GS proofs that $\sum_{i\in[m]}b_i=1$ and $\sum_{j\in[m]}b'_j=1$. 
+\item Compute GS commitments to each coordinate of $[\vecb{x}_1]_1:=[\vecb{l}_{(i_\alpha,1)}]_1,\ldots,[\vecb{x}_m]_1:=[\vecb{l}_{(i_\alpha,m)}]_1$.
+\item Compute an aggregated GS proof that the equations $[\vecb{x}_j]_1 = \sum_{i\in[m]}b_i[\vecb{l}_{(i,j)}]_1$, for all $j\in[m]$, are satisfied, as detailed in Sect.~\ref{sec:aggcommit}.
+\item Compute a GS proof that $[\vecb{l}_{\alpha}]_1 = \sum_{j\in[m]}b'_j[\vecb{x}_j]_1$ is satisfied.
+\end{enumerate}
+
+We emphasize that the CRS depends on the list $L$. This is necessary to aggregate the proofs as in Step 4. More  specifically, to aggregate the proof of the equations  $[\vecb{x}_j]_1 = \sum_{i\in[m]}b_i [\vecb{l}_{(i,j)}]_1$ , $j\in[m]$ (that is, a total of $\ell k$ equations), we need to include in the CRS some information which depends on the coordinates of $[\vecb{l}_{(i,j)}]_1$.
+
+\begin{theorem}\label{theo:listsquarevect}
+If $L$ is witness samplable, the above protocol is a perfectly complete, computationally sound, and computationally zero-knowledge proof system for the language of commitments to elements from the list $L$.
+\end{theorem}
+
+\begin{proof} Completeness follows directly from the completeness of the 
+building blocks. Soundness follows directly from the perfect soundness of GS proofs together with the computational soundness of aggregation of GS proofs. For computational zero-knowledge, if  
+$\crs_\GS:=(\Gamma,[\vecb{u}_1]_1,[\vecb{u}_2]_1,[\vecb{v}_1]_2,[\vecb{v}_2]_2)$ is the GS common reference string in the soundness setting as defined in Sect.~ \ref{sec:gs-proofs}, switch to a game where $[\vecb{v}_1]_2= \epsilon [\vecb{v}_2]_2$. Under the DDH Assumption in $\Hr$, the new CRS is computationally indistinguishable from the original CRS. In a simulated proof, commit to $b_i=0$, $b'_j=0$ for all $i,j \in [m]$. In step 2, simply compute a real proof. In step 3, use the GS simulation algorithm  (with trapdoor $\epsilon$) to simulate the proof. In Step 4, set $[\vecb{x}_j]_1=[\vecb{0}]_1$. Finally, in step 6, simulate a proof using $\epsilon$. It is not hard to see that such a proof can be simulated even without knowledge of an opening of $[\vecb{c}]_1$. 
+\end{proof}
+
+\subsection{A $\Theta(\sqrt[3]{n})$ Proof of Membership in a Witness Samplable and Static List} We give a proof of membership in a list with improved asymptotic proof size when the list is drawn from a witness samplable distribution and the CRS depends on the list.
+
+The main idea is to combine the previous proof of membership in a list with a Split Kernel Assumption. Specifically, the CRS includes a matrix $[\matr{A}]_2$, $\matr{A} \gets\dist_{m,2}$, whose rows are denoted $[\grkb{a}_1]_2,\ldots,[\grkb{a}_m]_2$ and a list 
+$$L':=\left(\sum_{i\in[m]}\grkb{a}_i[l_{(i,1,1)}]_1,\sum_{i\in[m]}\grkb{a}_i[l_{(i,1,2)}]_1,\ldots,\sum_{i\in[m]}\grkb{a}_i[l_{(i,m,m)}]_1\right)\in\Gr^{2\times m^2},$$
+where $m:=\sqrt[3]{n}$, $(i,j,k)=m^2(i-1)+m(j-1)+k\in[n]$. As before, the goal to prove is that a commitment $[\vecb{c}]_1$ opens to some $[l_{\alpha}]_1 \in L=([l_1]_1,\ldots,[l_n]_1)$ and  $(i_{\alpha},j_{\alpha},k_{\alpha})$ are such that $\alpha=(i_{\alpha},j_{\alpha},k_{\alpha})$.
+
+\begin{enumerate}
+\item Commit to $[\vecb{y}]_1:=\sum_{i\in[m]}\grkb{a}_i[l_{(i,j_\alpha,k_\alpha)}]_1$ such that $\alpha=(i_\alpha,j_\alpha,k_\alpha)$.
+\item Using the  proof of membership in a list of vectors, show that $[\vecb{y}]_1$ is an element of $L'$.
+\item Compute commitments to $[z_i]_1:=[l_{(i,j_\alpha,k_\alpha)}]_1$, for each $i\in[m]$.
+\item Compute a GS proof for the equations $[\vecb{y}]_1[h]_2=\sum_{i\in[n]}[\grkb{a}_i]_2 [z_i]_1$. 
+\item Compute GS commitments in $\Hr$ to $b_1\ldots,b_m\in\bits$,
+      where $b_i = 1$ if $i=i_\alpha$ and $0$ otherwise.
+\item Using our proof system from Sect. \ref{sec:bits-scheme} prove that $b_i\in\bits$ for all $i\in[m]$.
+\item Compute GS proofs for the satisfiability of equations $\sum_{i\in[m]}b_i=1$ and $[l_{\alpha}]_1=\sum_{i\in[m]}b_i[z_i]_1$.
+\end{enumerate}
+
+The first step is to commit to $[\vecb{y}]_1:= \sum_{i\in[m]} \grkb{a}_i [l_{(i,j_\alpha,k_\alpha)}]_1$ and use the previous proof system to prove $[\vecb{y}]_1 \in L'$. The next step is to commit to $[z_i]_1:=[l_{(i,j_\alpha,k_\alpha)}]_1$ and prove that $\sum_{i\in[m]}[\grkb{a}_i]_2[z_i]_1 = [h]_2[\vecb{y}]_1$ holds. Finally, steps 5 and 6 prove that $[l_{\alpha}]_1$ is an element of the list $([z_1]_1,\ldots,[z_m]_1)$. For the last statement, compute GS commitments to $b_i$, $i \in [m]$, 
+and prove that $\sum_{i\in[m]}b_i[z_i]_1=[l_{\alpha}]_1$, $\sum_{i\in[m]}b_i=1$ and $b_i \in \{0,1\}$.\footnote{Such statement can also be proven using again the proof of membership in a list, and the proof will be of size $\Theta(\sqrt[6]{n})$. Note this is not exactly a proof of membership in a list, since only the  commitments to the elements in the list are public. However, it is not hard to construct a proof system for that statement using the same ideas as Chandran \textit{et al.} }
+
+\begin{theorem}
+If $L$ is witness samplable, the above protocol is a perfectly complete, computationally sound, and computationally zero-knowledge proof system for the language of commitments to elements from the list $L$.
+\end{theorem}
+
+\begin{proof} Completeness follows directly from the completeness of the 
+building blocks.  Soundness can be argued as follows. If the list is witness samplable, the CRS can be generated given an instance of the $\dist_{m,2}-\skermdh$ Assumption, $([\matr{A}]_1, [\matr{A}]_2)$. By the soundness of the extension to vectors of the proof of Chandran \textit{et al.}, it holds that $[\vecb{y}]_1 = \sum_{i\in[m]}\grkb{a}_i[l_{(i,j,k)}]_1$ for some $j,k\in[m]$.
+Because of the perfect soundness of GS proofs it must hold that $\sum_{i\in[m]}[\grkb{a}_i]_2[z_i]_1=[\vecb{y}]_1[h]_2=\sum_{i\in[m]}[\grkb{a}_i]_2[l_{(i,j,k)}]_1$. It must also be the case that $[z_1]_1=[l_{(1,j,k)}]_1,\ldots,[z_m]_1=[l_{(m,j,k)}]_1$, because otherwise the pair $([\grkb{\rho}]_1,[\grkb{0}]_2)$, where 
+$[\grkb{\rho}]_1:=([z_1]_1-[l_{(1,j,k)}]_1,\ldots,[z_m]_1-[l_{(m,j,k)}]_1)$ is a solution to the $\dist_{m,2}\mbox{-}\skermdh$ challenge, as $[\grkb{\rho}]_1[\matr{A}]_2=[\grkb{0}]_2[\matr{A}]_1$. Soundness of the last step implies that $b_i\in\bits$, for all $i\in[m]$, and that $\sum_{i\in[m]} b_i=1$. Therefore, there exists a unique $i\in[m]$ such that $b_i=1$. Finally, $[l_{\alpha}]_1=\sum_{i\in[m]}b_i[z_i]_1$ implies that $[\vecb{c}]_1$ opens to $[l_{\alpha}]_1=[z_i]_1=[l_{(i,j,k)}]_1$.
+Zero-knowledge follows from the same argument as in the proof of Theorem \ref{theo:listsquarevect}.
+\end{proof} 
+

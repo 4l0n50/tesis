@@ -12,7 +12,7 @@ $\hvecb{c}=\hmatr{U}\binom{\vecb{b}}{w}$. The relation $\R_{par}$ consists of pa
 Let $\lrck_{n+1}\gets \Z_q^2$
 and for all $i \in [n]$, $\lrck_{i}:=\epsilon_{i}\lrck_{n+1}$, where
 $\epsilon_{i} \leftarrow \Z_q$. Define
-$\Rck := (\rck_1|| \ldots ||\rck_{n+1})$.
+$\Rck := ([vecb{h}_1]_2|| \ldots ||[vecb{h}_{n+1}]_2)$.
 Choose 
 $\matr{\Delta} \leftarrow \Z_q^{2 \times (n+1)}$,
 define $\Lck := \matr{\Delta}\hmatr{U}$
@@ -20,7 +20,7 @@ and $\hat{\llck}_{i}:=\matr{\Delta} \hat{\vecb{u}}_i \in \Gr^2$, for all $i \in 
 Let $\vecb{a} \leftarrow \distlin_{1}$ and define $\cvecb{a}_{\Delta}:=\matr{\Delta}^\top\cvecb{a} \in \Hr^{n+1}$. 
 For any pair $(i,j) \in \indexSet{n}{1}$, let 
 $\matr{T}_{i,j}\gets\Z_q^{2\times2}$ and set:
-$$\hmatr{C}_{i,j}:=\lck_i \lrck_j^{\top} - \hmatr{T}_{i,j}  \in \Gr^{2 \times 2},
+$$\hmatr{C}_{i,j}:=[vecb{g}_i]_1 \lrck_j^{\top} - \hmatr{T}_{i,j}  \in \Gr^{2 \times 2},
 \qquad \qquad 
 \cmatr{D}_{i,j}:=\cmatr{T}_{i,j} \in \Hr^{2 \times 2}.$$ 
 Note that $\hmatr{C}_{i,j}$ can be efficiently computed 
@@ -105,7 +105,7 @@ using $\vecb{b},w_g$, and $w_h$.
 \begin{equation}\label{eq:ver1}\hvecb{c}_{\Delta}
 \left(
     \check{\vecb{d}}-
-    \sum_{j \in [n]} \rck_{j}
+    \sum_{j \in [n]} [vecb{h}_{j}]_2
 \right)^{\top} =
     \hmatr{\Theta}_{b(\overline{b}-1)} \cmatr{I}_{2 \times 2} +
     \hmatr{I}_{2 \times 2}\cmatr{\Pi}_{b(\overline{b}-1)}.
