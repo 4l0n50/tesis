@@ -1,33 +1,33 @@
 \subsubsection{CRS Generation for Individual Commitments.}
 A natural way to extend our construction to individual commitments (distribution (b) from Sect.\ \ref{subsec:instantiations}) is the following. The only change is that the matrix $\matr{\Delta}$ is sampled uniformly from  $\Z_q^{2 \times 2n}$ (the distribution of $\Rck$ is not changed). Thus, the matrix 
-$\hmatr{G}:=\matr{\Delta} \hmatr{U}$ has $2n$ columns instead of $n+1$ and 
-$\hvecb{c}_{\Delta} := \Lck \smallpmatrix{\vecb{b} \\ \vecb{w}_g}$ for some $\vecb{w}_g \in \Z_q^{n}$.   
+$[\matr{G}]_1:=\matr{\Delta} [\matr{U}]_1$ has $2n$ columns instead of $n+1$ and 
+$[\vecb{c}_{\Delta}]_1 := \Lck \smallpmatrix{\vecb{b} \\ \vecb{w}_g}$ for some $\vecb{w}_g \in \Z_q^{n}$.   
 In the soundness proof, the only change is that in $\mathsf{Game}_2$, the extra columns are also changed to span a one-dimensional space, \textit{i.e.} in this game $[\vecb{g}_{i}]_1$, $i \in [2n-1]$ and $i \neq i^*$, are uniform vectors in the space spanned by $[\vecb{g}_{2n}]_1$.
 With this approach, the proof size is still constant and the changes to the original construction are minimal but the CRS is considerably larger. Further, we do not know how to make the CRS linear for bit-strings of weight $1$. 
 
-Therefore, we propose an alternative way to extend our result to individual commitments. In this new construction, the matrix $\Lck$ is independent from $\hmatr{U}$ and for all $i \in [n]$, $[\vecb{g}_{i}]_1 = \mu_i [\vecb{g}_{n+1}]_1$, $\mu_i \gets \Z_q$ and   $[\vecb{g}_{n+1}]_1\gets\Z_q^2$. 
+Therefore, we propose an alternative way to extend our result to individual commitments. In this new construction, the matrix $\Lck$ is independent from $[\matr{U}]_1$ and for all $i \in [n]$, $[\vecb{g}_{i}]_1 = \mu_i [\vecb{g}_{n+1}]_1$, $\mu_i \gets \Z_q$ and   $[\vecb{g}_{n+1}]_1\gets\Z_q^2$. 
 
-The proof is defined in a slightly different way. Now one computes $\hvecb{c}_\Delta:=\Lck\smallpmatrix{\vecb{b}\\w'_g}$, $w'_g\gets\Z_q$, and one proves that the three commitments, $\hvecb{c},\hvecb{c}_\Delta,\cvecb{d}$ open to the same value.  Intuitively, this replaces in the original construction the proofs that $\matr{\Delta}\hvecb{c}=\hvecb{c}_\Delta$ and that $\matr{\Delta}\hvecb{c}$ and $\cvecb{d}$ open to the same value. More specifically, this is proven by showing that $(\smallpmatrix{\hvecb{c}\\\hvecb{c}_\Delta}, \cvecb{d})\in\Lang_{\hmatr{M},\cmatr{N}}$, where.
-$$
-\hmatr{M} := 
+The proof is defined in a slightly different way. Now one computes $[\vecb{c}_\Delta]_1:=\Lck\smallpmatrix{\vecb{b}\\w'_g}$, $w'_g\gets\Z_q$, and one proves that the three commitments, $[\vecb{c}]_1,[\vecb{c}_\Delta]_1,[\vecb{d}]_2$ open to the same value.  Intuitively, this replaces in the original construction the proofs that $\matr{\Delta}[\vecb{c}]_1=[\vecb{c}_\Delta]_1$ and that $\matr{\Delta}[\vecb{c}]_1$ and $[\vecb{d}]_2$ open to the same value. More specifically, this is proven by showing that $(\smallpmatrix{{[\vecb{c}]_1}\\{[\vecb{c}_\Delta]_1}}, [\vecb{d}]_2)\in\Lang_{[\matr{M}]_1,[\matr{N}]_2}$, where.
+\begin{align*}
+&\matr{M} := 
 \pmatri
 {
-    \hmatr{U}_1 & \hmatr{U}_2           & \hmatr{0}_{2n\times 1} & \hmatr{0}_{2n\times 1}\\
-    [\vecb{G}_1]_1      & \hmatr{0}_{2\times n} & [\vecb{g}_{n+1}]_1             & \hmatr{0}_{2\times 1}\\
+    \matr{U}_1 & \matr{U}_2           & \matr{0}_{2n\times 1} & \matr{0}_{2n\times 1}\\
+    \vecb{G}_1      & \matr{0}_{2\times n} & \vecb{g}_{n+1}             & \matr{0}_{2\times 1}\\
 }
 \text{ and }
-\cmatr{N} :=
+\matr{N} :=
 \pmatri{
-    [\vecb{H}_1]_2      & \cmatr{0}_{2\times n} & \cmatr{0}_{2\times 1}  & [\vecb{h}_{n+1}]_2
+    \vecb{H}_1      & \matr{0}_{2\times n} & \matr{0}_{2\times 1}  & \vecb{h}_{n+1}
 }.
-$$
+\end{align*}
 The advantage of this alternative approach is that the matrix $\Lck$ has now $n+1$ columns as in the original construction as opposed to $2n$ in the first extension to individual commitments.  
 
 
-The proof of soundness must be modified in the following way.  In the proof of Lemma \ref{lemma:bits2} one sets $[\vecb{g}_{n+1}]_1:=\hvecb{s}$ and $[\vecb{g}_{i^*}]_1:=\hvecb{t}$, similarly as done in Lemma \ref{lemma:bits3}. This guarantees that, as in the original construction, in the last game  $[\vecb{g}_{i^*}]_1$ (resp. $[\vecb{h}_{i^*}]_2$) is linearly independent of the rest of columns of $\Lck$ (resp. $\Rck$). In the last game we need to show that $\hvecb{c}_{\Delta}=b_{i^*}[\vecb{g}_{i^*}]_1+\tilde{w}_g[\vecb{g}_{n+1}]_1$ and $\cvecb{d}=b_{i^*}[\vecb{h}_{i^*}]_2+\tilde{w}_h[\vecb{h}_{n+1}]_2$, for some $\tilde{w}_g,\tilde{w}_h\in\Z_q$ and that $b_{i^*} \in \{0,1\}$. Note that the fact that $(\smallpmatrix{\hvecb{c}\\\hvecb{c}_\Delta}, \cvecb{d})\in\Lang_{\hmatr{M},\cmatr{N}}$ implies that there is some $\grkb{\gamma}\in\Z_q^{2n+2}$ such that $\smallpmatrix{\hvecb{c}\\\hvecb{c}_\Delta\\\cvecb{d}}=\smallpmatrix{\hmatr{M}\\\cmatr{N}}\grkb{\gamma}$, and the fact that $\hvecb{c}$ is perfectly binding together with the form of $\hmatr{M},\cmatr{N}$ implies that $\grkb{\gamma}=\smallpmatrix{\vecb{b}\\\grkb{\gamma}'}$. In particular, $\hvecb{c}_\Delta = \Lck\smallpmatrix{\vecb{b}\\\gamma_{2n+1}}=b_{i^*}+\tilde{w}_g[\vecb{g}_{n+1}]_1$ and $\cvecb{d}=\Rck\smallpmatrix{\vecb{b}\\\gamma_{2n+2}}=b_{i^*}[\vecb{h}_{i^*}]_2+\tilde{w}_h[\vecb{h}_{n+1}]_2$ for some unique $b_{i^*}$. To conclude the proof of soundness we just need to argue that $b_{i^*} \neq \{0,1\}$, leads to a contradiction. This follows from the same argument as the original proof. 
+The proof of soundness must be modified in the following way.  In the proof of Lemma \ref{lemma:bits2} one sets $[\vecb{g}_{n+1}]_1:=[\vecb{s}]_1$ and $[\vecb{g}_{i^*}]_1:=[\vecb{t}]_1$, similarly as done in Lemma \ref{lemma:bits3}. This guarantees that, as in the original construction, in the last game  $[\vecb{g}_{i^*}]_1$ (resp. $[\vecb{h}_{i^*}]_2$) is linearly independent of the rest of columns of $\Lck$ (resp. $\Rck$). In the last game we need to show that $[\vecb{c}_{\Delta}]_1=b_{i^*}[\vecb{g}_{i^*}]_1+\tilde{w}_g[\vecb{g}_{n+1}]_1$ and $[\vecb{d}]_2=b_{i^*}[\vecb{h}_{i^*}]_2+\tilde{w}_h[\vecb{h}_{n+1}]_2$, for some $\tilde{w}_g,\tilde{w}_h\in\Z_q$ and that $b_{i^*} \in \{0,1\}$. Note that the fact that $(\smallpmatrix{{[\vecb{c}]_1}\\{[\vecb{c}_\Delta]_1}}, {[\vecb{d}]_2})\in\Lang_{[\matr{M}]_1,[\matr{N}]_2}$ implies that there is some $\grkb{\gamma}\in\Z_q^{2n+2}$ such that $\smallpmatrix{{[\vecb{c}]_1}\\{[\vecb{c}_\Delta]_1}\\{[\vecb{d}]_2}}=\smallpmatrix{{[\matr{M}]_1}\\{[\matr{N}]_2}}\grkb{\gamma}$, and the fact that $[\vecb{c}]_1$ is perfectly binding together with the form of $[\matr{M}]_1,[\matr{N}]_2$ implies that $\grkb{\gamma}=\smallpmatrix{\vecb{b}\\\grkb{\gamma}'}$. In particular, $[\vecb{c}_\Delta]_1 = \Lck\smallpmatrix{\vecb{b}\\\gamma_{2n+1}}=b_{i^*}+\tilde{w}_g[\vecb{g}_{n+1}]_1$ and $[\vecb{d}]_2=\Rck\smallpmatrix{\vecb{b}\\\gamma_{2n+2}}=b_{i^*}[\vecb{h}_{i^*}]_2+\tilde{w}_h[\vecb{h}_{n+1}]_2$ for some unique $b_{i^*}$. To conclude the proof of soundness we just need to argue that $b_{i^*} \neq \{0,1\}$, leads to a contradiction. This follows from the same argument as the original proof. 
 
 
-For zero-knowledge, observe that $\hvecb{c}_{\Delta}$ is just a uniform vector in $\Span([vecb{g}_{n+1}]_1)$. The simulator just picks a random $\hvecb{c}_{\Delta}$ and simulates the proof that $(\smallpmatrix{\hvecb{c}\\\hvecb{c}_\Delta}, \cvecb{d})\in\Lang_{\hmatr{M},\cmatr{N}}$ with the appropriate trapdoor. The rest of the proof is identical to the simulated proof in the original construction.  
+For zero-knowledge, observe that $[\vecb{c}_{\Delta}]_1$ is just a uniform vector in $\Span([\vecb{g}_{n+1}]_1)$. The simulator just picks a random $[\vecb{c}_{\Delta}]_1$ and simulates the proof that $\left(\smallpmatrix{{[\vecb{c}]_1}\\{[\vecb{c}_\Delta]_1}}\right.,\allowbreak\left.\allowbreak {[\vecb{d}]_2}\right)\in\Lang_{[\matr{M}]_1,[\matr{N}]_2}$ with the appropriate trapdoor. The rest of the proof is identical to the simulated proof in the original construction.  
 
 
 \subsubsection{Linear Equations Satisfied by Bit-Strings}\label{sec:linear-eqs-bitstrings}
@@ -44,7 +44,7 @@ This is justified because
 $\matr{B}\vecb{u}_i = \matr{B}\vecb{e}^{n+1}_i=\beta_i\vecb{e}_1^{2}$, and then
 $ \matr{B}\vecb{c}- t \vecb{e}^{2}_{1}=w  \matr{B} \vecb{u}_{n+1}+ \sum_{i \in [n]} b_i \matr{B} \vecb{u}_{i} - t \vecb{e}^{2}_1=w\matr{B}\vecb{u}_{n+1}+\left(\sum_{i\in[n]}\beta_i b_i-t\right)\vecb{e}_1^2$.
 So to be able to prove that $\sum_{i \in [n]} \beta_i b_i=t$, we just need to add to the CRS the necessary elements to prove membership 
-in $\mathcal{L}_{B\vu_{n+1}}:=\{ [\vecb{x}]_1 \in \Gr^2: \exists w \in \Z_q,  \vecb{x} = w\matr{B}\vecb{u}_{n+1} \}$ using one of the constructions of Sect. 
+in $\mathcal{L}_{B[\vecb{u}_{n+1}]_1}:=\{ [\vecb{x}]_1 \in \Gr^2: \exists w \in \Z_q,  \vecb{x} = w\matr{B}\vecb{u}_{n+1} \}$ using one of the constructions of Sect. 
 \ref{sect:QANIZKlinspace}.
 
 \subsubsection{Bit-Strings of Weight 1}  In the special

@@ -3,13 +3,13 @@ In this section we discuss two different ways to aggregate GS equations. The fir
 \subsection{Aggregating Two-Sided Linear Equations in $\Z_q$}
 \label{sec:ts-zq}
 We note that proving that $n$ pairs of GS commitments open (pairwise) to the same elements in $\Z_q$ is simply a special case of 
-the proof of equal commmitment opening in Sect.~\ref{sec:aggcommit}. Indeed, the concatenation of $n$ GS commitments is just a commitment to a vector of scalars. In particular,  given $\mathsf{crs}_\GS=(\Gamma,[\vecb{u}_1]_1,[\vecb{u}_2]_1,[\vecb{v}_1]_2,[\vecb{v}_2]_2)$,  it is easy to see that  $n$ commitments to $x_i \in \Z_q$, which are of the form:
+the proof of equal commmitment opening in Sect.~\ref{sec:aggcommit}. Indeed, the concatenation of $n$ GS commitments is just a commitment to a vector of scalars. In particular,  given $\mathsf{crs}_\GS=({gk},[\vecb{u}_1]_1,[\vecb{u}_2]_1,[\vecb{v}_1]_2,[\vecb{v}_2]_2)$,  it is easy to see that  $n$ commitments to $x_i \in \Z_q$, which are of the form:
  $[\vecb{c}_i]_1= x_i [\vecb{u}_1]_1 +r_i [\vecb{u}_2]_1$ for some $r_i \in \Z_q$ (recall that $\iota_1(x_i)= x_i [\vecb{u}_1]_1$), can be written as  
  $$\begin{pmatrix} [\vecb{c}_1]_1 \\ \vdots \\ [\vecb{c}_n]_1 \end{pmatrix}=   \begin{pmatrix} [\vecb{u}_1]_1 & \ldots & [\vecb{0}]_1\\ \vdots & \ddots & \vdots \\   [\vecb{0}]_1 & \ldots & [\vecb{u}_1]_1  \end{pmatrix} \begin{pmatrix} x_1 \\ \vdots \\ x_n \end{pmatrix}
  + \begin{pmatrix} [\vecb{u}_2]_1 & \ldots & [\vecb{0}]_1\\ \vdots & \ddots & \vdots \\  [\vecb{0}]_1 & \ldots & [\vecb{u}_2]_1  \end{pmatrix}
  \begin{pmatrix} r_1 \\ \vdots \\ r_n \end{pmatrix},
  $$
-and similarly the concatenation of $n$ commitments $[\vecb{d}_i]_2$, $i \in [\ell]$ can be written as $[\matr{V}_1]_2\vecb{y}+[\matr{V}_2]_2 \vecb{s}$, where $[\matr{V}_i]_2$ is the block-wise concatenation of $n$ copies of $[\vecb{v}_i]_2$.  
+and similarly the concatenation of $n$ commitments $[\vecb{d}_i]_2$, $i \in [\ell]$ can be written as $[\matr{V}^1]_2\vecb{y}+[\matr{V}^2]_2 \vecb{s}$, where $[\matr{V}^i]_2$ is the block-wise concatenation of $n$ copies of $[\vecb{v}_i]_2$.  
 
 In particular, proving that $n$ GS commitments open to the same value can be also seen as the aggregation of the proof  of $n$ GS equations of the form $\varx_\ell -\vary_\ell=0$. The aggregation of any other set of two-sided linear equations in $\Z_q$
 easily reduces to this case using the homomorphic properties of GS commitments. Indeed, given $n$ equations of the form:
@@ -26,7 +26,7 @@ In this section, we revisit their construction. We give an alternative, simpler,
 
 Let $A_1,A_2,A_T$ be $\Z_q$-vector spaces compatible with some 
 Groth-Sahai equation as detailed in Sect.
-\ref{sec:gs-proofs}.  Let $\dist_{\Gamma}$ be a witness samplable distribution which outputs $n$ pairs of vectors
+\ref{sec:gs-proofs}.  Let $\dist_{{gk}}$ be a witness samplable distribution which outputs $n$ pairs of vectors
 $(\grkb{\alpha}_\ell, \grkb{\beta}_\ell) \in A_1^{m_y} \times A_2^{m_x}$, $\ell \in [n]$, for some 
 $m_x,m_y \in \mathbb{N}$. Given some fixed pairs $(\grkb{\alpha}_\ell,
 \grkb{\beta}_\ell)$, we define, for each $\vecb{\tilde{t}} \in A_{T}^{n}$, the set of equations $\mathcal{S}_{\vecb{\tilde{t}}}$ as:
@@ -43,14 +43,14 @@ Given the equation types for which we can construct NIZK GS proofs (and not only
  change $\iota_2(a_{\ell,i}),  \iota_1(t_{\ell})$ for $\iota_1(a_{\ell,i}),  \iota_2(t_{\ell})$ in the construction below. 
 
 \begin{description}
-\item[$\algK_0(1^\lambda)$:]  Return $\Gamma := (q,\Gr,\Hr,\GG_T,e,\mathcal{P}_1,\mathcal{P}_2) \leftarrow \ggen_a(1^{\lambda})$.
+\item[$\algK_0(1^\lambda)$:]  Return ${gk} := (q,\Gr,\Hr,\GG_T,e,\mathcal{P}_1,\mathcal{P}_2) \leftarrow \ggen_a(1^{\lambda})$.
 
-\item[$\dist_\Gamma$:] $\dist_\Gamma$ is some distribution over $n$ pairs of vectors  $(\grkb{\alpha}_{\ell}$, $\grkb{\beta}_{\ell}) \in A_1^{m_x} \times A_2^{m_y}$.
+\item[$\dist_{gk}$:] $\dist_{gk}$ is some distribution over $n$ pairs of vectors  $(\grkb{\alpha}_{\ell}$, $\grkb{\beta}_{\ell}) \in A_1^{m_x} \times A_2^{m_y}$.
 
-\item[$\algK_1(\Gamma, \mathcal{S}_{\vecb{\tilde{t}}})$:]
+\item[$\algK_1({gk}, \mathcal{S}_{\vecb{\tilde{t}}})$:]
 Let $\matr{A}=(a_{i,j}) \gets \dist_{n,k}$. Define 
 $$\crs:=\left(\crs_{\GS}, \left\{\sum_{\ell\in[n]}\iota_1(a_{\ell,i} \grkb{\alpha}_\ell), \sum_{\ell\in[n]} \iota_2(a_{\ell,i} \grkb{\beta}_\ell), \big\{\iota_{2}(a_{\ell,i}): \ell \in [n]\big\}: i \in [k]\right\}\right)$$
-\item[$\algP(\Gamma, \mathcal{S}_{\vecb{\tilde{t}}},\vecb{x},\vecb{y})$:] 
+\item[$\algP({gk}, \mathcal{S}_{\vecb{\tilde{t}}},\vecb{x},\vecb{y})$:] 
 Given a solution $\vvarx=\vecb{x}$,  $\vvary=\vecb{y}$ to $\mathcal{S}_{\vecb{\tilde{t}}}$, the prover proceeds as follows:
 \begin{itemize}
 \item Commit to all $x_j \in A_1$ as $[\vecb{c}_j]_1\gets\mathsf{GS.Com}(x_j)$, and to all 
@@ -67,15 +67,15 @@ $$\sum_{\ell\in[n]} a_{\ell,i} E_{\ell}(\vvarx,\vvary)= \sum_{\ell \in [n]} f(t_
 \begin{theorem}
 The above protocol is a QA-NIZK proof system for two-sided linear equations.
 \end{theorem}  
-\begin{proof}\ \\
-{\textbf{Completeness.}}  Observe that for each $i\in[k]$
+\begin{proof}\ 
+(Completeness.)  Observe that for each $i\in[k]$
 \begin{equation}
 \sum_{\ell\in[n]} a_{\ell,i} E_{\ell}(\vvarx,\vvary)= \sum_{\ell\in[n]} a_{\ell,i}\tilde{t}_\ell=\sum_{\ell\in[n]}f(t_\ell,a_{\ell,i}).
 \end{equation}  Completeness follows 
 from the observation that to efficiently compute the proof, the GS Prover only needs, apart from a satisfying assignment to the equation, the randomness used in the commitments plus a way to compute the inclusion map of all involved constants, in this case $\iota_1(a_{\ell,i} \alpha_{\ell,j})$,
 $\iota_2(a_{\ell,i} \beta_{\ell,j})$, and the latter is part of the CRS.
  
- \noindent{\textbf{Soundness.}} We change to a game $\mathsf{Game}_{1}$ where we know the discrete logarithm of the GS commitment key, as well as the discrete logarithms of $(\grkb{\alpha}_{\ell},\grkb{\beta}_{\ell})$, $\ell \in [n]$. This is possible because they are both chosen from a witness samplable distribution.
+\noindent{(Soundness.)} We change to a game $\mathsf{Game}_{1}$ where we know the discrete logarithm of the GS commitment key, as well as the discrete logarithms of $(\grkb{\alpha}_{\ell},\grkb{\beta}_{\ell})$, $\ell \in [n]$. This is possible because they are both chosen from a witness samplable distribution.
 
 We now prove that an adversary against the soundness in $\mathsf{Game}_{1}$ can be used to construct an adversary $\advB$ against the 
 $\dist_{n,k}\mbox{-}\skermdh$ Assumption, where 
@@ -109,12 +109,12 @@ Thus, for all $i\in[k]$,
 \end{equation}
 which implies that $[\grkb{\rho}]_1[\matr{A}]_2=[\grkb{\sigma}]_2[\matr{A}]_1$.
 
-\noindent{\textbf{Zero-Knowledge.}}  The same simulator of GS proofs can be used. Specifically
+\noindent{(Zero-Knowledge.)}  The same simulator of GS proofs can be used. Specifically
 the simulated proof corresponds to $k$ simulated GS proofs.
 \end{proof}
 
 \subsubsection{One-Sided Equations.} In the case when $\grkb{\alpha}_{\ell}=\matr{0}$ and $\tilde{t}_{\ell}=f(t_{\ell},\mathsf{base}_{2})$ for some $t_{\ell} \in A_1$, for all $\ell\in[n]$, proofs can be aggregated under a standard Kernel Assumption (and thus, in asymmetric bilinear groups we can choose $k=1$). Indeed, 
-in this case, in the soundness proof, the adversary $\advB$ receives $[\matr{A}]_2\in\Hr^{n\times k}$, an instance of the $\dist_{n,k}-\kermdh_{\Hr}$ problem. The adversary $\advB$ outputs $[\grkb{\rho}]_1:=(\grkb{\beta}_1^\top[\vecb{x}]_1 -[{t}_{1}]_1,\ldots,
+in this case, in the soundness proof, the adversary $\advB$ receives $[\matr{A}]_2\in\Hr^{n\times k}$, an instance of the $\dist_{n,k}\mbox{-}\kermdh_{\Hr}$ problem. The adversary $\advB$ outputs $[\grkb{\rho}]_1:=(\grkb{\beta}_1^\top[\vecb{x}]_1 -[{t}_{1}]_1,\ldots,
 \grkb{\beta}_{n}^\top[\vecb{x}]_1 -[{t}_{n}]_1) $ as a solution to the challenge. To see why this works, note that, when $\grkb{\alpha}_{\ell}=\matr{0}$ for all $\ell\in[n]$, equation (\ref{eq:gs-ker}) reads $\sum_{\ell\in[n]} [{a}_{\ell,i}]_2 \left(\grkb{\beta}_\ell^\top [\vecb{x}]_1 - [{t}_{\ell}]_1 \right)  = [{0}]_T$ and thus $[\grkb{\rho}]_1[\matr{A}]_2=[\matr{0}]_T$.  The case when $\grkb{\beta}_\ell=\matr{0}$ and $\tilde{t}_{\ell}=f(\mathsf{base}_{1},t_{\ell})$ for some $t_{\ell} \in A_2$, for all $\ell\in[n]$, is analogous. 
 
 \subsubsection{Public Parameters.} The size of the CRS of the construction above depends on the number of elements needed to represent $[\matr{A}]_2$. In this sense, it is interesting to sample $[\matr{A}]_2$ from some family of matrix assumptions with good representation size. As we assume that $n>k$, it is interesting to instantiate this scheme with the \textit{Circulant Matrix Distribution} of \cite{EPRINT:MorRafVil15}, which has a representation size of $n$ --- independent of $k$. 

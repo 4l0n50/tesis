@@ -1,0 +1,56 @@
+In this section we recall the two constructions of QA-NIZK arguments of membership in linear spaces given by 
+Kiltz and Wee \cite{EC:KilWee15}, for the language:
+ $$\mathcal{L}_{[\matr{M}]_1}:=\{ [\vecb{x}]_1 \in \Gr^{n}:  \exists \vecb{w} \in \Z_q^{t}, \  [\vecb{x}]_1=[\matr{M}]_1\vecb{w} \}.$$ 
+\noindent Algorithm $\algK_0(1^\lambda)$ just outputs $gk := (q,\Gr,\Hr,\GG_T,e,\mathcal{P}_1,\mathcal{P}_2) \leftarrow \ggen_a(1^{\lambda})$, the rest of the algorithms are described in Fig.~\ref{fig:QANIZKlinear}. 
+
+\begin{figure} 
+$$
+\begin{array}{ll}
+\begin{array}{l}
+\underline{\algK_1(gk,[\matr{M}]_1,n) \qquad  (\mathsf{S}_1(gk,[\matr{M}]_1,n)})\\[.1cm]
+
+\matr{A} \gets \widetilde{\dist_{k}}, \matr{\Delta} \gets \Z_q^{\tilde{k} \times n}\\
+{[\matr{A}_{\Delta}]_2:= \matr{\Delta}^\top[\matr{A}]_2, [\matr{M}_{\Delta}]_1:=\matr{\Delta} [\matr{M}]_1} \\
+\text{Return} \ \mathsf{crs}:=([\matr{M}_{\Delta}]_1, [\matr{A}_\Delta]_2, [\matr{A}]_2)\\ [.1cm]
+(\tau_{sim}:=\matr{\Delta})
+\end{array}
+&
+\begin{array}{l}
+\underline{\algP(\mathsf{crs},[\vecb{x}]_1, \vecb{w}) \  \backslash \backslash [\vecb{x}]_1=[\matr{M}]_1 \vecb{w}} \\[.1cm]
+
+ \text{Return } [\grkb{\sigma}]_1:=[\matr{M}_{\Delta}]_1 \vecb{w}.
+\\
+\\
+\\
+\vspace*{.2cm}
+\end{array}
+\\
+\\
+\begin{array}{l}
+\underline{\mathsf{S}_2(\crs,[\vecb{x}]_1,\tau_{sim})}   \\ [.1cm]
+  \text{Return} \ [\grkb{\sigma}]_1:= \matr{\Delta} [\vecb{x}]_1
+\end{array}
+&
+\begin{array}{l}
+\underline{\algV(\mathsf{crs},[\vecb{x}]_1,[\grkb{\sigma}]_1)}\\ [.1cm]
+\text{Return} \ ([\vecb{x}]_1^\top [\matr{A}_\Delta]_2 = [\grkb{\sigma}]_1^\top[\matr{A}]_2)
+\end{array}
+\end{array}
+$$
+\caption{The figure describes $\ps$ when $\widetilde{\dist_{k}}=\dist_k$ and  $\tilde{k}=k+1$ and $\psws$ when $\widetilde{\dist_{k}}=\overline{\dist}_k$ and  $\tilde{k}=k$. Both are QA-NIZK arguments for $\mathcal{L}_{[\matr{M}]_1}$. 
+$\ps$  is the construction of \cite[Sect.~3.1]{EC:KilWee15},
+  which is a generalization 
+of Libert \textit{et al}'s QA-NIZK \cite{EC:LPJY14} to any $\dist_k\mbox{-}\fmdh_{\Hr}$ Assumption. $\psws$ is the construction of  \cite[Sect.\ 3.2.]{EC:KilWee15}%
+  .}
+\label{fig:QANIZKlinear}
+\end{figure}
+
+\begin{theorem}[Theorem 1 of \cite{EC:KilWee15}] If $\widetilde{\dist_{k}}=\dist_k$ and $\tilde{k}=k+1$,  Fig. \ref{fig:QANIZKlinear} describes a QA-NIZK
+proof system with perfect completeness, computational adaptive soundness based on the  $\dist_{k}$-$\fmdh{}_{\Hr}$ Assumption, perfect zero-knowledge, and proof size $k+1$. 
+\label{theo:qanizk1}
+\end{theorem}
+
+\begin{theorem}[Theorem 2 of \cite{EC:KilWee15}] If $\widetilde{\dist_{k}}=\overline{\dist}_k$ and $\tilde{k}=k$,  and $\dist_{gk}$ is a witness samplable distribution, Fig. \ref{fig:QANIZKlinear} describes a QA-NIZK
+proof system with perfect completeness, computational adaptive soundness based on the  $\dist_{k}$-$\fmdh{}_{\Hr}$ Assumption, perfect zero-knowledge, and proof size~$k$. 
+\label{theo:qanizk2}
+\end{theorem}

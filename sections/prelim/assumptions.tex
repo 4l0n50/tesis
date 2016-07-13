@@ -1,0 +1,128 @@
+\begin{definition}   \label{def:matrixdef}
+Let $\ell,k \in \N$.
+We call $\dist_{\ell,k}$ a matrix distribution if it outputs (in poly time, with overwhelming probability) matrices in $\Z_q^{\ell \times k}$. We define $\dist_k := \dist_{k+1,k}$. 
+\end{definition}
+
+For the following decisional assumption to hold, it is a necessary condition that $\ell>k$. However, in other contexts, we might need $\dist_{\ell,k}$ distributions where 
+$\ell \geq k$. 
+
+\begin{definition}[Matrix Diffie-Hellman Assumption in $\GG_{\gamma}$, $\gamma \in \{1,2\}$ \cite{C:EHKRV13}]\label{def:mdh}
+Let $\dist_{\ell,k}$ be a matrix distribution  and $\gk\gets \ggen_a(1^\lambda)$. We say that the $\dist_{\ell,k}$-Matrix Diffie-Hellman ($\dist_{\ell,k}$-$\mddh_{\GG_\gamma}$)
+Assumption holds relative to $\ggen_a$ if for all PPT adversaries $\advD$,
+\begin{eqnarray*}
+\adv_{\dist_{\ell,k},\ggen_a}(\advD) & := &
+    \left|
+        \Pr[\advD(\group,[\matr{A}]_\gamma,[\matr{A}\vecb{w}]_\gamma)=1]-
+        \Pr[\advD(\group,[\matr{A}]_\gamma, [\vecb{z}]_\gamma) =1]
+    \right|
+\end{eqnarray*}
+is negligible in $k$,
+where the probability is taken over $\gk \gets \ggen_a(1^\lambda)$, $\matr{A} \gets \dist_{\ell,k}, \vecb{w} \gets \Z_q^k, [\vecb{z}]_\gamma  \gets \GG_\gamma^{\ell}$ and the coin tosses of adversary $\advD$.
+\end{definition}
+ 
+
+In this work we will refer to the following matrix distributions: 
+\[
+\distlin_{k}:\matrA = \left( \begin{smallmatrix}
+    a_1 & 0 &  \ldots & 0 \\
+    0 &  a_2 &  \ldots & 0\\
+    \tiny{\vdots} &  \tiny{\vdots}  &  \tiny{\ddots} & \tiny{\vdots} \\
+    0 & 0 &  \ldots  & a_{k}\\
+    1 & 1 & \ldots & 1
+\end{smallmatrix} \right),
+\ 
+\mathcal{U}_{\ell,k}: \matrA = \left( \begin{smallmatrix}
+    a_{1,1} &  \ldots & a_{1,k}  \\
+    \tiny{\vdots} & \tiny{\ddots}  & \tiny{\vdots} \\
+    a_{\ell,1} &  \ldots &  a_{\ell,k} 
+\end{smallmatrix} \right),
+\]
+where $a_i,a_{i,j}\leftarrow \Z_q$.  The $\distlin_{k}$-$\mddh$ Assumption is the $k$-linear family of Decisional Assumptions
+and corresponds to 
+ the Decisional Diffie-Hellman (DDH)
+Assumption in $\GG_\gamma$ when $k=1$. The SXDH Assumption states that DDH holds in $\GG_\gamma$ for all $\gamma \in \{1,2\}$. The $\mathcal{U}_{\ell,k}$ Assumption is the \textit{Uniform} Assumption and is the weakest of all assumptions of size $\ell \times k$. 
+
+Further, given any matrix distribution $\dist_{k}$, $m \in \mathbb{N}$ and any $i \in [m]$, we introduce the distribution $\distink$, which is defined as follows: 
+\[ \distzeronk: \matrA = \left(\begin{smallmatrix} \matr{B}\vecb{w}_1 & \ldots &  
+  \matr{B}\vecb{w}_{m} & \matr{B}  \end{smallmatrix} \right)  \qquad
+\distink:\matrA = \left(\begin{smallmatrix} \matr{B}\vecb{w}_1 & \ldots & \matr{B}\vecb{w}_{i-1} 
+& \vecb{z} &  \matr{B}\vecb{w}_{i+1} & \ldots &  
+  \matr{B}\vecb{w}_{m} & \matr{B}  \end{smallmatrix} \right) 
+\]
+where $\matr{B} \leftarrow \dist_{k}$, $\vecb{w}_i \leftarrow \Z_q^k$ and $\vecb{z} \leftarrow \Z_q^{k+1}$. The following are two trivial properties of the $\distink$ distribution. 
+
+\begin{lemma} Under the $\dist_{k}$-$\mddh$ Assumption in $\GG_\gamma$, for any $0 < i \leq n$, the distribution of  $[\matrA]_\gamma$ when $\matrA \leftarrow \distzeronk$ and when $\matrA \leftarrow \distink$ are computationally indistinguishable. Further, if $\ell>k$, for any $i>0$, if $\matr{A} \leftarrow \distink$, then with overwhelming probability its ith column is linearly independent of the rest. \label{lemma:dist-i}
+\end{lemma}
+
+\subsection{Computational Assumptions}
+Additionally, we will be using the following family  computational assumptions:
+\begin{definition}[Kernel Diffie-Hellman Assumption in $\GG_{\gamma}$ \cite{EPRINT:MorRafVil15}]Let  $\gk 
+\hspace*{-1pt}
+\gets
+\hspace*{-1pt}
+\ggen_a(1^\lambda)$.
+The Kernel Diffie-Hellman Assumption in $\GG_\gamma$  ($\dist_{\ell,k}\mbox{-}\kermdh_{\GG_\gamma}$) says that every PPT Algorithm has negligible advantage in the following  game: given $[\matr{A}]_\gamma$, where $\matrA \gets \dist_{\ell,k}$, find $[\vecb{x}]_{3-\gamma} \in \GG_{3-\gamma}^{\ell}$, $\vecb{x} \neq \vecb{0}$, such that 
+$[\vecb{x}]_{3-\gamma}^{\top}[\matr{A}]_{\gamma}=[\vecb{0}]_T$. 
+\end{definition}
+
+The  Simultaneous Pairing Assumption in $\GG_\gamma$  (\SP$_{\GG_{\gamma}}$) is the $ \mathcal{U}_1\mbox{-}\kermdh_{\GG_{\gamma}}$ Assumption. The Kernel Diffie-Hellman assumption is a generalization and abstraction of this assumption to other matrix distributions. 
+The $\dist_{\ell,k}\mbox{-}\kermdh_{\GG_{\gamma}}$ Assumption is weaker than the $\dist_{\ell,k}\mbox{-}\mddh_{\GG_{\gamma}}$ Assumption, since a solution to the former allows to decide membership in $\rmIm([\matr{A}]_{\gamma})$.
+
+In asymmetric bilinear groups, there is a natural variant of this assumption which we introduced in \cite{AC:GonHevRaf15}.  
+\begin{definition}[Split Kernel Diffie-Hellman Assumption]
+Let  $\gk \hspace*{-3pt} \gets
+\hspace*{-3pt}
+\ggen_a(1^\lambda)$.
+The Split Kernel Diffie-Hellman Assumption in $\GG_1,\GG_2$  ($\dist_{\ell,k}\mbox{-}\skermdh$) says that every PPT Algorithm has negligible advantage in the following  game: given $([\matr{A}]_1,[\matr{A}]_2)$, $\matr{A} \leftarrow \dist_{\ell,k}$, find a pair of vectors $([\vecb{r}]_1,[\vecb{s}]_2) \in \GG_1^{\ell} \times \GG_2^{\ell}$, $\vecb{r} \neq \vecb{s}$, such that 
+$[\vecb{r}]_1^{\top}[\matr{A}]_2=[\vecb{s}]_2^{\top}[\matr{A}]_1$. 
+\end{definition}
+
+While the Kernel Diffie-Hellman Assumption says one cannot find a non-zero vector in one of the groups which is in the co-kernel of $\matr{A}$, the split assumption says one cannot find a pair of vectors in $\GG_1^{\ell} \times \GG_2^{\ell}$ such that the difference of the vector of their discrete logarithms is in the co-kernel of $\matr{A}$. 
+As a particular case we consider the \emph{Split Simultaneous Double Pairing Assumption in} $\GG_1,\GG_2$ ($\SSDP$) which is the $\distrlin_{2}\mbox{-}\skermdh$ Assumption, where 
+$\distrlin_{2}$ is the distribution which results of sampling a matrix from $\distlin_{2}$ and replacing the last row by random elements. 
+
+To gain confidence in this assumption, we first note that it implies the Kernel MDH Assumption and then we prove that the reciprocal is true in the generic bilinear model. 
+
+We use the natural generalization of Shoup's generic group model \cite{EC:Shoup97} to the (a)symmetric bilinear setting, as it was used for instance in \cite{EC:BonBoyGoh05}. In such a model an adversary can only access elements of $\Gr,\Hr$ or $\GG_T$ via a query to a group oracle, which gives him a randomized  encoding of the queried element. The group oracle must be consistent with the group operations (allowing to query for the encoding of constants in either group, for the encoding of the sum of previously queried elements in the same group and for the encoding of the product of pairs in $\Gr\times \Hr$. More details, can be found for instance in  \cite{EC:BonBoyGoh05}.
+
+
+
+\begin{lemma} $\dist_{\ell,k}\mbox{-}\skermdh \Rightarrow \dist_{\ell,k}\mbox{-}\kermdh_{\Hr}$.
+\end{lemma}
+\begin{proof} Suppose there exists an adversary $\advB$ against the 
+$\dist_{\ell,k}\mbox{-}\kermdh_{\Hr}$ assumption. We show how to construct an adversary $\advA$ against the  $\dist_{\ell,k}\mbox{-}\skermdh$ Assumption. Adversary $\advA$ receives as a challenge $([\matr{A}]_1,[\matr{A}]_2)$ and forwards $[\matr{A}]_2$ to $\advB$, who outputs with non-negligible probability a vector $[\vecb{r}]_1$ such that $[\vecb{r}]_1^{\top} [\matr{A}]_2=[\vecb{0}]_{T}$. Then $\advA$  simply outputs $([\vecb{r}]_1,[\vecb{0}]_2)$ as a solution to the $\dist_{\ell,k}\mbox{-}\skermdh$ challenge. 
+\end{proof}
+
+\begin{lemma} If $\dist_{\ell,k}\mbox{-}\kermdh$ holds in generic symmetric bilinear groups, then $\dist_{\ell,k}\mbox{-}\skermdh$ holds in generic asymmetric bilinear groups. 
+\end{lemma}
+
+\begin{proof} Suppose there is an adversary $\advA$  in the asymmetric generic bilinear group model against the $\dist_{\ell,k}\mbox{-}\skermdh$ assumption.  We show how to construct an adversary $\advB$ against the  $\dist_{\ell,k}\mbox{-}\kermdh_{\Hr}$ Assumption in the symmetric generic group model. 
+
+
+Adversary $\advB$ has oracle access to the randomized encodings $\sigma: \Z_q \to \{0,1\}^n$, 
+and $\sigma_T: \Z_q \to \{0,1\}^n$. It receives as a challenge $\{ \sigma(a_{ij})\}_{1\leq i \leq \ell, 1\leq j \leq k}$.
+
+Adversary $\advB$ simulates the generic hardness game for $\advA$ as follows. It defines encodings  $\xi_1: \Z_q \to \{0,1\}^n$, $\xi_2: \Z_q \to \{0,1\}^n$ and $\xi_T: \Z_q \to \{0,1\}^n$ as $\xi_1=\sigma$, $\xi_T=\sigma_T$ and $\xi_2$ a random encoding function. $\advB$ keeps a list $L_\advA$  with the values that have been queried by $\advA$ to the group oracle. The list is initialized as 
+$L_\advA=\{  \{(A_{i,j},\xi_1(a_{ij}),1),(A_{i,j},\xi_2(a_{ij}),2)\}_{1\leq i \leq \ell, 1\leq j \leq k}\}$, where $\xi_2(a_{ij}) \in \{0,1\}^n$ are chosen uniformly at random conditioned on being pairwise distinct.  Adversary $\advB$ also keeps a list $L_\advB$ with the queries 
+it makes to its own group oracle. The list $L_\advB$ is initialized as 
+$L_\advB=\{  \{(A_{i,j},\sigma(a_{ij}),1)\}_{1\leq i \leq \ell, 1\leq j \leq k}\}$
+
+Each element in the list $L_\advA$ is a tuple $(P_i,s_i,x_i)$, where $P_i \in \Z_q[A_{11}, \ldots,A_{\ell k}]$, $x_i \in \{1,2,T\}$ and $s_i=\xi_{x_i}(P_i(a_{11},\ldots,a_{\ell k}))$. The polynomial $P_i$ is one of the following:  a) $P_i=A_{ij}$, i.e. it is one of the initial values in the query list  
+$L_\advA$  or b) a constant polynomial or c) $P_i=P_c+P_d$ for some $(P_c,s_c,x),(P_d,s_d,x) \in L_\advA$ or d) $P_i=P_cP_d$ for some $(P_c,s_c,1),(P_d,s_d,2) \in L_\advA$, $x_i=T$. For $L_\advB$ the same holds except that $x_i \in \{1,T\}$ and except that d) is changed to: d) $P_i=P_cP_d$ for some $(P_c,s_c,1),(P_d,s_d,1) \in L_\advB$ and $x_i=T$. 
+
+Without loss of generality we can identify the queries of $\advA$ with 
+pairs $(P_i,x_i)$ meeting the restrictions described above. If $(P_i,x_i)$ was queried before, it replies with the same answer $s_i$.
+
+Else, when $\advB$ receives a (valid) query $(P_i,x_i)$, if $x_i \in \{1,T\}$ it simply forwards  the query to its own group oracle, who replies with $s_i$. Then $(P_i,s_i,x_i)$ is appended to $L_\advB$ and to $L_\advA$. If $x_i =2$, then it forwards the query to its own group oracle as $(P_i,1)$. When it receives the answer $s_i$, 
+$\advB$ appends $(P_i,s_i,1)$ to $L_\advB$ and it looks for the set $S$ of all  tuples $(P_j,s_j,1) \in L_\advB$, $P_j \neq P_i$,  such that $s_j=s_i$. 
+For every tuple in $S$, $\advB$ checks if there is some $\tilde{s}$ such that $(P_j,\tilde{s},2)$ is in $L_\advA$ (note that, because of the way $L_\advA$ is constructed, if such $\tilde{s}$ exists it is the same for all $P_j$). 
+
+If such $\tilde{s}$ exists, it appends $(P_i, \tilde{s},2)$ in $L_\advA$ and it replies with $\tilde{s}$.  Else it chooses some $\tilde{s}$ uniformly at random conditioned on being distinct from all other values $s$ such that there exist some $P$ such that $(P,s,2)$ is in $L_\advA$. Finally, it appends  $(P_i, \tilde{s},2)$ in $L_\advA$.  
+
+
+Finally, $\advA$ will output as a solution to the challenge a pair $s_q,s_r$ such that 
+$(Q,s_q,1),(R,s_r,2) \in L_\advA$. Because of the way $L_\advA$ and $L_\advB$ were constructed,  there exists some $s'_r$ such that $(Q,s_q,1),(R,s'_r,1) \in L_\advA$. $\advB$ queries its group oracle for $(R-Q,1)$ and obtains as a reply some string $s_{R-Q}$. Finally, it outputs $s_{R-Q}$ as a solution to its challenge. 
+It easily follows that $\advA$ and $\advB$ have exactly the same probability of success.
+\end{proof} 
+
+Finally, we note that the $\distlin_{2}\mbox{-}\skermdh$ Assumption is implied by a decisional assumption introduced in \cite{EPRINT:LPJY15}. The assumption says that, given $([\matr{A}]_1,[\matr{A}]_2)$, where $\matr{A}\gets\distlin_2$, the vector $([\matr{A}]_1\vecb{w},[\matr{A}]_2\vecb{w})$, $\vecb{w}\gets\Z_q^2$, is computationally indistinguishable from $([\vecb{u}]_1,[\vecb{u}]_2)$, $\vecb{u}\gets\Z_q^3$. The proof is analogous to the proof that $\dist_{\ell,k}\mbox{-}\mddh\Rightarrow\dist_{\ell,k}\mbox{-}\kermdh$. Suppose that $([\vecb{r}]_1,[\vecb{s}]_2)$ is a solution to the $\distlin_2\mbox{-}\skermdh$ Assumption, then $[\vecb{r}]_1^\top[\matr{A}]_2\vecb{w}-[\vecb{s}]_2^\top[\matr{A}]_1\vecb{w}=([\vecb{r}]_1^\top[\matr{A}]_2-[\vecb{s}]_2^\top[\matr{A}]_1)\vecb{w}=[0]_T$, while $[\vecb{r}]_1^\top[\vecb{u}]_2-[\vecb{s}]_2^\top[\vecb{u}]_1=[0]_T$ only with negligible probability whenever $\vecb{r}\neq\vecb{s}$. 
