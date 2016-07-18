@@ -6,7 +6,7 @@
 
     \section{Bilinear Groups}
 
-    \section{Matrix Diffie-Hellman  Assumptions}
+    \section{Matrix Diffie-Hellman  Assumptions} \label{sec:mddh}
 
         \input{sections/prelim/assumptions}
 
@@ -48,41 +48,53 @@
         \input{sections/linear-subspaces/agg-gs}
 
 \chapter {QA-NIZK Arguments for Bit-Strings} \label{sec:bits}
- 
-    \input{sections/bits/main}
 
-    \section{Intuition} \label{sec:bits-intuition}
+    \input{sections/bits/intro}
 
-        \input{sections/bits/intuition} 
+    \section{The Perfectly Binding case} \label{sec:bits-binding} 
+    
+        \input{sections/bits/perfectly-binding}
 
-    \section{The Scheme} \label{sec:bits-scheme}
+        \subsection{Intuition} \label{sec:bits-intuition}
 
-        \input{sections/bits/bits-scheme}
+            \input{sections/bits/intuition} 
 
-    \section{Extensions} \label{sec:bits-extensions}
+        \subsection{Instantiations} \label{sec:bits-instantiations}
 
-        \input{sections/bits/extensions}
+            \input{sections/bits/instantiations}
 
-    \section{Applications} \label{sec:bits-applications}
+        \subsection{The Scheme} \label{sec:bits-scheme}
 
-        \input{sections/bits/applications}
+            \input{sections/bits/bits-scheme}
+
+        \subsection{Extensions} \label{sec:bits-extensions}
+
+            \input{sections/bits/extensions}
+
+        \subsection{Applications} \label{sec:bits-applications}
+
+            \input{sections/bits/applications}
+
+    \section{The Non-binding Case} \label{sec:bits-non-binding}
+
+        \input{sections/bits/bits-non-binding}
+
+        \subsection{Constant-Size Argument for $\Lang_{ck,\sfbits}^n$}
+
+            \input{sections/bits/matr-bits}
+
 
 \chapter{New Techniques for Non-Interactive Shuffle and Range Arguments}
 
     \input{sections/set-membership/intro}
 
+    \section{Overview}
+
+        \input{sections/set-membership/overview}
+
     \section{Extended Multi-Pedersen Commitments}
 
         \input{sections/set-membership/mp-comm}
-
-    \section{QA-NIZK For Bit-Strings, Revisited}
-
-        \input{sections/set-membership/bits}
-
-        \subsection{Constant-Size Argument for $\Lang_{ck,\sfbits}^n$}
-
-            \input{sections/set-membership/matr-bits}
-
 
     \section{Aggregated NIZK Set Membership Arguments}
 

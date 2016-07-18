@@ -1,11 +1,11 @@
-In this Section we introduce a new commitment scheme which is a generalization of Multi-Pedersen commitments and which was implicitly used in \cite{EPRINT:GonHevRaf15}. 
+In this Section we introduce a new commitment scheme which is a generalization of Multi-Pedersen commitments and which was implicitly used in Chapter \ref{sec:bits}. 
 
 Given a vector $\vecb{m}\in\Z_q^m$, the Multi-Pedersen commitment in $\GG_{\gamma}$ is a single group element $[c]_\gamma:=\sum_{i\in [m]} m_i[g_i]_\gamma+r[g_{n+1}]_\gamma \in\GG_\gamma$, where $[g_i]_{\gamma}\in\GG_\gamma$, $i\in[m+1]$, and $r\gets\Z_q$. \footnote{Written in the usual multiplicative notation $c=\prod_{i\in[m]}g_i^{m_i} \cdot g_{m+1}^r$.}  The $(k+1)$-dimensional Multi-Pedersen commitments 
 differs only in that the keys and the resulting commitments are in 
 $\GG_{\gamma}^{k+1}$, for $k\geq 1$. 
 
 
-While the original MP commitments are perfectly hiding, the interest of the new commitments is that, if the keys come from the distribution $\distink$ defined in Section~\ref{sec:dec-ass}, they are perfectly binding at coordinate $i$. Intuitively, the new commitment is defined in a larger space so that not all the information about the witness is destroyed (in an information-theoretic sense). 
+While the original MP commitments are perfectly hiding, the interest of the new commitments is that, if the keys come from the distribution $\distink$ defined in Sect. \ref{sec:mddh}, they are perfectly binding at coordinate $i$. Intuitively, the new commitment is defined in a larger space so that not all the information about the witness is destroyed (in an information-theoretic sense). 
 
 \begin{definition} The $(k+1)$-dimensional Multi-Pedersen commitment scheme in the group $\GG_\gamma$ 
 %is parameterized by a matrix distribution $\dist_{2,n+1}$ and 
@@ -30,7 +30,23 @@ $\dist_{k+1,n+k}=\distink$, it holds that:
 there exists a unique $\tilde{m}_i \in\Z_q$ such that for all $\vecb{m} \in\Z_q^m, \vecb{r} \in\Z_q^{k}$ such that  $\bvecb{c}_{\gamma}=\bmatr{G}_{\gamma}\smallpmatrix{\vecb{m}\\\vecb{r}}$, $m_i=\tilde{m}_i$. Further, the scheme is perfectly hiding at the rest of coordinates. 
 \end{itemize}
 \end{theorem}
-The proof is not hard to derive from the definition of the $\distink$ distribution, and can be found in Appendix \ref{app:mp}. 
+
+\begin{proof}
+(Computationally binding.) (This follows a proof due to Villar). Let $[a]_\gamma\in\GG_{\gamma}$ be the discrete logarithm challenge. To sample the commitment key according to $\distink$, choose $\matr{G}_{2} \gets \dist_k$, and define the last $k$ columns of $[\matr{G}]_\gamma$ as $[\matr{G}_{2}]_{\gamma}$. For the rest of the columns of $[\matr{G}]_\gamma$, independently  for each $j \in [n]$, $i \neq j$, sample a pair $\vecb{\alpha}_j,\vecb{\beta}_j$ and define $[\vecb{g}_{j}]_{\gamma}=[\matr{G}_{2} (a \vecb{\alpha}_j+\beta_j)]_\gamma$,
+which can be computed as $[a]_\gamma \matr{G}_{2}\vecb{\alpha}_j+[ \matr{G}_{2} \beta_j]_\gamma$. If $i \neq 0$, set $\vecb{g}_{i} \gets \Z_q^{k+1}$. In this case, with overwhelming probability,  $\vecb{g}_{i}$ is linearly independent of the rest of the columns and we will assume so in the following. 
+The commitment key is then given to the adversary against the binding property of the scheme, and it outputs a commitment $[\vecb{c}]_{\gamma}$, together with two valid openings 
+$(\vecb{m},\vecb{r}), (\vecb{m}',\vecb{r}')$ such that $\vecb{m}\neq \vecb{m}'$. It follows that $[\vecb{c}]_{\gamma}=[\matr{G}]_{\gamma} \smallpmatrix{\vecb{m} \\ \vecb{r}} = \bmatr{G}_{\gamma}\smallpmatrix{\vecb{m}' \\ \vecb{r}'}$, which implies that $[\vecb{0}]_{\gamma}=[\matr{G}]_{\gamma} \smallpmatrix{\vecb{m}-\vecb{m}' \\ \vecb{r}-\vecb{r}'}$. Further, because $\vecb{g}_i$ is linearly independent of the rest of the columns, it holds that:
+\begin{equation}\label{recovera}
+a \left(\matr{G}_{2} (\sum_{j \neq i} (m'_j-m_j)  \boldsymbol{\alpha}_j) \right) = \left(  \matr{G}_{2}  (\vecb{r}-\vecb{r}' + \sum_{j \neq i} \boldsymbol{\beta}_j  (m_j-m_j'))\right).
+\end{equation}
+W.l.o.g we can assume that $\matr{G}_{2}$ has full rank (it can be shown that if $\dist_k$-$\mddh$ is a generically hard assumptions in $k$-linear groups, then matrices sampled from $\dist_k$ have full rank with overwhelming probability).  Then, we can recover $a \in \Z_q$ from equation \ref{recovera} except if $\sum_{j \neq i} (m'_j-m_j)  \boldsymbol{\alpha}_j = \vecb{0}$. But since, for all $j$, $\boldsymbol{\alpha}_j$ is information theoretically hidden from the adversary, the probability of this event is at most 
+$1/q^k$. 
+
+(Perfectly binding at coordinate $i$.) With overwhelming probability, $\vecb{g}_i$ is linearly independent of the rest of the columns of $\matr{G}$. Therefore, given any $[\vecb{c}]_{\gamma} \in \GG_{\gamma}^{k+1}$, if $\vecb{m}\in\Z_q^n, \vecb{r} \in\Z_q^k$ are such that $\vecb{c}=\matr{G}\smallpmatrix{\vecb{m}\\ \vecb{r}}$, there exists a unique $\tilde{m}_i \in \Z_q$ such 
+that $m_i=\tilde{m}_i$. 
+
+(Perfectly hiding at coordinate $j$, $j \neq i$.) This follows immediately from the fact that $\vecb{g}_j$ is in the image 
+of $\matr{G}_{2}$. 
+\end{proof}
 
 
-%The message space is naturally extended to matrices $\matr{M}\in\Z_q^{m\times n}$ by defining $\MP.\Com_{[\matr{G}]_\gamma}(\matr{M};\vecb{W}):=[\matr{G}]_\gamma \pmatri{\matr{M}\\ \matr{W}}\in\GG_\gamma^{(k+1)\times n}$, for $\matr{W}\in\Z_q^{k \times n}$. The columns of the resulting commitment are the commitments to the columns of $\matr{M}$. 

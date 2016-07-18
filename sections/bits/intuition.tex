@@ -1,3 +1,12 @@
+To prove that a commitment in $\Gr$ opens to a vector of bits $\vecb{b}$, the usual strategy is to compute another commitment $[\vecb{d}]_2\in\Hr^{\bar{n}}$ to a vector $\bar{\vecb{b}}\in\Z_q^n$ and prove 
+  (1) $b_i(\overline{b}_i-1)=0$, for all $i \in [n]$, and 
+  (2) $b_i-\overline{b}_i=0$, for all $i \in [n]$. 
+For statement  (2), since $[\matr{U}]_1$ is witness samplable, we can use our most efficient QA-NIZK from Sect.\ \ref{sec:aggcommit} for equal opening in different groups.  Under the $\SSDP$ Assumption, which is the $\skermdh$ Assumption of minimal size conjectured to hold in asymmetric groups, the proof is of size $2\s$. Thus, the challenge is to aggregate $n$ equations of the form $b_i(\overline{b}_i-1)=0$. We note that this is a particular case of the problem of aggregating proofs of quadratic equations, which was left open in \cite{C:JutRoy14}.
+
+We finally remark that the proof must include $[\vecb{d}]_2$ and thus it may be not of size independent of $n$. However, it turns out that $[\vecb{d}]_2$ needs not be perfectly binding, in fact $\bar{n}=2$ suffices.
+
+\subsubsection{Our Approach}
+
 A prover wanting to show satisfiability of the equation  $\varx(\vary-1)=0$ using GS proofs, will commit to a solution  
 $\varx=b$ and $\vary=\overline{b}$ as $[\vecb{c}]_1=b [\vecb{u}_1]_1 + r [\vecb{u}_2]_1$ and 
  $[\vecb{d}]_2=\overline{b} [\vecb{v}_1]_2 + s [\vecb{v}_2]_2$, for $r,s \leftarrow \Z_q$, and then give a pair $([\grkb{\theta}]_1,[\grkb{\pi}]_2)
@@ -24,7 +33,7 @@ $\{ [\vecb{g}_{i}]_1 [\vecb{h}_{j}^\top]_2 : i,j \in [n+1]\}$
 is a set of linearly independent vectors. Then,  
 \begin{equation} \label{eq:gsveri}
 [\vecb{c}]_1 \left([\vecb{d}^\top]_2-
-\sum_{j\in[n]} [\lrck_j^\top]_2\right) \in \Span\{ [\vecb{g}_i]_1[\vecb{h}_j^\top]_2: (i,j)\in\indexSet{n}{1} \} 
+\sum_{j\in[n]} [\lrck_j^\top]_2\right) \in \Span\{ [\vecb{g}_i]_1[\vecb{h}_j^\top]_2: i\neq j\text{ when } i,j\neq n+1 \} 
 \end{equation}
 if and only if $b_i(\overline{b}_i-1)=0$ for all $i \in [n]$,
 because $b_i(\overline{b}_i-1)$ is the coordinate of 
@@ -35,7 +44,7 @@ Equation \ref{eq:gsveri} suggests to use one of the constant-size QA-NIZK Argume
 $\Gr^m$ or $\Hr^m$ but not in $\GG_T^m$. Our solution is to include information in the CRS to ``bring back'' 
   this statement from $\GG_T$ to $\Gr$, i.e.\ 
   the matrices   $[\Lqmatr_{i,j}]_1:=[\vecb{g}_i]_1\lrck_j^{\top}$, where $i\neq j$ when $i,j\neq n+1$. We denote this set of matrices as
- $\Qspace:=\{[\Lqmatr_{i,j}]_1: (i,j)\in\indexSet{n}{1}\}$.   
+ $\Qspace:=\{[\Lqmatr_{i,j}]_1: i\neq j\text{ when } i,j\neq n+1\}$.   
 Then, to prove that $b_i(\overline{b}_i-1)=0$ for all $i\in [n]$, the prover computes 
 $[\matr{\Theta}]_1$ as a linear combination (with coefficients which depend on
  $\vecb{b},\vecb{\bb},r,s$) of the matrices in $\Qspace$.
@@ -49,11 +58,12 @@ Then the verifier checks that
 
 This reasoning assumes that $\{[\vecb{g}_i]_1 \lrck_j^{\top}\}$ (or equivalently, $\{[\matr{C}_{i,j}]_1\}$) are linearly independent,  which can only happen if 
 $\nb \geq n+1$. If that is the case, the proof cannot be constant because $[\matr{\Theta}]_1 \in \Gr^{\nb\times\nb}$ and this matrix is part of the proof.
-Conversely, in our case $[\vecb{g}_1]_1,\ldots,[\vecb{g}_{n+1}]_1 \in \Gr^{2}$ and $[\vecb{h}_1]_2,\ldots,[\vecb{h}_{n+1}]_2 \in \Hr^{2}$, therefore 
+Instead, we choose $\vecb{g}_1,\ldots,\vecb{g}_{n+1} \in \Gr^{2}$ and $\vecb{h}_1,\ldots,\vecb{h}_{n+1} \in \Hr^{2}$, so that 
 $\{\Qmatr_{i,j}\} \subseteq \Gr^{2 \times 2}$.  Intuitively, this should still work because the prover receives these vectors as part of the CRS and he does not know their discrete logarithms, so to him, they behave as linearly independent vectors.  
 
-Nevertheless, the statement $[\matr{\Theta}]_1\in\Span(\Qspace)$ seems no longer meaningful, as $\Span(\Qspace)$ might be all of $\Gr^{2\times 2}$ for some distributions of the commitment keys. But this is not the case, because we only work with distributions which are perfectly binding at at most \emph{one fixed coordinate} and perfectly hiding at the other coordinates. For example, if $(\vecb{g}_1,\ldots\vecb{g}_{n+1})$ come from the distribution $\distlin_2^{n,i}$, where $\vecb{g}_i\notin\Span(\{\vecb{g}_j, j\neq i\})$ and $i>0$, we might also choose $(\vecb{h}_1,\ldots,\vecb{h}_n+1)$ from $\distlin_2^{n,i}$, and the adversary might notice it only if its able to break DDH. In this new setting, any equation $\varx_j(\vary_j-1)=0$ is trivially satisfied since at the $j$-th coordinate $[\vecb{c}]_1$ and $[\vecb{d}]_2$ can be opened to any value, in particular $b_j,\bb_j\in\bits$. However, since $[\vecb{g}_i]_1\vecb{h}^\top_i\notin\Span(\Qspace)$, the equation $\varx_i(\vary_i-1)=0$ is not satisfied iff the adversary breaks the soundness of the proof that $[\matr{\Theta}]_1 \in \mathsf{Span}(\Qspace)$.
-  
+Nevertheless, the statement $[\matr{\Theta}]_1\in\Span(\Qspace)$ seems no longer meaningful, as $\Span(\Qspace)$ is all of $\Gr^{2\times 2}$ with overwhelming probability. But this is not the case, because by means of decisional assumptions in $\Gr$ and in $\Hr$, we switch to a game where the matrices
+$[\matr{C}_{i,j}]_1$ span a non-trivial space of $\Gr^{2 \times 2}$. Specifically, to a game where $[\matr{C}_{i^*,i^*}]_1\notin\Span(\Qspace)$ and $i^*\gets[n]$ remains hidden to the adversary. Once we are in such a game, perfect soundness is guaranteed for equation $b_{i^*}(\bbb_{i^*}-1)=0$ and a cheating adversary is caught with probability at least $1/n$. We think this technique might be of independent interest.
+
 The last obstacle is that, 
   using decisional assumptions on the set of vectors 
   $\{[\lrck_{j}]_2\}_{j\in[n+1]}$ is incompatible with using the discrete logarithms of $[\vecb{h}_j]_2$ to compute the matrices $\Qmatr_{i,j}:=[\vecb{g}_i]_1 \lrck_j^{\top}$ given in the CRS. 
@@ -66,5 +76,5 @@ To account for the fact that, in some games,
   $\matr{C}_{i,j}+\matr{D}_{i,j}=\vecb{g}_i \lrck_j^{\top}$.
 This randomization completely hides the group in which we can compute 
   $\vecb{g}_i \lrck_j^{\top}$. 
-  Finally, we use our QA-NIZK Argument for sum in a subspace (Sect.\ \ref{sec:QANIZKsum}) to prove membership in this space.
+  Finally, we use our QA-NIZK Argument for sum in a subspace (Sect.\ \ref{sec:sum}) to prove membership in this space.
 

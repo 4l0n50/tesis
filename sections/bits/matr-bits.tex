@@ -1,0 +1,66 @@
+We give a QA-NIZK argument of membership in the language $\Lang_{ck,\sfbits}^n  = \Lang_{ck,\sfbits} \times \ldots \times \Lang_{ck,\sfbits}$ with a proof size which is independent of $n$ (but with a loss factor in the proof of soundness of $n$). The result will be crucial to get improved proof sizes for more complex statements. 
+
+\subsection{Intuition}
+\input{sections/set-membership/matr-bits-intuition}
+
+\subsection{The scheme}
+\input{sections/set-membership/matr-bits-scheme}
+The description of the protocol is in Fig. \ref{fig:bitsn} and  we prove that:
+
+\begin{theorem} \label{theo:bitsnm} The proof system from Fig. \ref{fig:bitsn} is a QA-NIZK proof system for the language $\Lang_{ck,\sfbits}^n$ with proof size  
+$10|\GG_1|+10|\GG_2|$, perfect completeness, perfect-zero knowledge, and computational soundness. 
+\end{theorem}
+
+\begin{proof}
+(Completeness.)
+Follows from the fact that $([\vecb{c}]_1,[\ovc]_1)\in\Lang_{\sfcom,[\matr{G}^n]_1,[\ovG]_1,mn}$ and that $[\ovc]_1\in\Lang_{[\ovG]_1,\sfbits}$.
+
+(Soundness.)
+When $\matr{G}\gets\distlinizeroone$ the proof follows from the proof that $[\vecb{c}]_1$ and $[\ovecb{c}]_1$ open to the same value.
+When $\matr{G}\gets\distlinisnone$, the proof follows from the indistinguishability of the following games.
+
+\begin{description}
+\item[$\mathsf{Real}$:] This is the real soundness game. The adversary wins if it outputs $([\vecb{c}_1]_1,\ldots,[\vecb{c}_n]_1)\notin\Lang_{ck,\sfbits}^n$ and the corresponding proof which is accepted by the verifier.
+\item[$\sfGame_0$:] This game is exactly as $\mathsf{Real}$ except that $\algK_1$ does not receive $[\matr{G}]_1$ as a input but it samples $\matr{G}$ itself according to $\distlinisnone$.
+\item[$\sfGame_1$:] This game is exactly as $\sfGame_0$ except that the simulator picks a random $j^*\in[n]$ and uses $\matr{G}$ to check whether $\vecb{c}_{j^*}=b_{i^*,j^*}\vecb{g}_{i^*}+\tilde{w}\vecb{g}_{n+1}$ such that $b_{i^*,j^*}\notin\bits$. It aborts if this is not the case.
+\item[$\sfGame_2$:] This game is exactly as $\sfGame_1$ except that $\overline{\matr{G}}\gets\distlin_1^{mn, m(i^*-1)+j^*}$.
+\end{description}
+
+It is obvious that the first two games are indistinguishable. 
+The rest of the argument goes as follows. 
+
+\begin{lemma} $\Pr\left[ \mathsf{Game}_1(\advA)=1\right]\geq\dfrac{1}{n}\Pr\left[\mathsf{Game}_0(\advA)=1\right].$
+\end{lemma}
+
+\begin{proof}  The probability that
+ $\mathsf{Game}_1(\advA)=1$ is the probability that  a) $\mathsf{Game}_0(\advA)=1$ and
+b)  $b_{i^*,j^*} \notin \bits$. The view of adversary $\advA$ is independent of $j^*$, while, if $\mathsf{Game_0}(\advA)=1$, then there is at least one index $\ell \in [n]$ such that $[\vecb{c}_\ell]_1\notin\Lang_{[\matr{G}]_1,\sfbits}\Longrightarrow b_{i^*,\ell} \notin \bits$. Thus, 
+the probability that the event described in b) occurs conditioned on $\mathsf{Game_0}(\advA)=1$, is greater than or equal to $1/n$ and the lemma follows.
+\end{proof}
+
+\begin{lemma} There exists a\ $\dist_1$-$\mddh_{\GG_1}$ adversary $\advD$ such that
+$|\Pr\left[\mathsf{Game}_{1}(\advA)=1\right]$ $-\Pr\left[\mathsf{Game}_{2}(\advA)=1\right]|$ $\leq
+    \mathsf{Adv}_{\distlin_1,\ggen_a}(\advD).$
+\end{lemma}
+\begin{proof}
+We construct an adversary $\advD$ that receives 
+a challenge $([\matr{A}]_1,[\vecb{u}]_1)$ of the 
+$\distlin_1$-$\mddh_{\GG_1}$ Assumption. From this challenge, $\advD$ just defines the matrix  $[\overline{\matr{G}}]_1\in\GG_1^{2\times(mn+1)}$ as the matrix whose last column consists of $[\matr{A}]_1$, the ith column consists of $[\vecb{u}]_1$ and the rest of the columns are random vectors in the image of $[\matrA]_1$. Then $\advD$ honestly simulates the rest of the CRS, gives it as input to $\advA$, and outputs whatever $\advA$ outputs.
+
+Obviously, when $[\vecb{u}]_1$ is sampled from 
+the image of $[\matr{A}]_1,$ $\overline{\matr{G}}$ follows the distribution $\distlinizeroone$ and $\advD$ perfectly simulates $\sfGame_1$, while if $[\vecb{u}]_1$ is a uniform element of $\GG^2_1$, $\overline{\matr{G}}$ follows the distribution $\distlinisnone$ and $\advD$ perfectly simulates $\sfGame_2$. 
+%It is immediate to see that adversary $\advD$ perfectly simulates $\sfGame_1$ when $\overline{\matr{G}}\gets\dist_{2,mn+1}^0$ and $\sfGame_2$ when $\overline{\matr{G}}\gets\dist_{2,mn+1}^{m(i^*-1)+j^*}$. The rest of the proof follows from Lemma \ref{lemma:dist-i}.  
+\end{proof}
+
+\begin{lemma}
+There exists adversaries $\advB_1,\advB_2$ such that $\Pr[\sfGame_2(\advA)=1]\leq\adv_{\Pi_\sfcom}(\advB_1)+\adv_{\Pi_\sfbits}(\advB_2)$.
+\end{lemma}
+
+\begin{proof}
+If $\sfGame(\advA)=1$, then $b_{i^*,j^*}\notin\bits$ while all the verification equations are accepted. Given that $\ovecb{g}_{m(i^*-1)+j^*}$ is linearly independent from $\{\ovecb{g}_j:j\neq m(i^*-1)+j^*\}$, it holds that $\{\ovecb{g}_{m(i^*-1)+j^*},\ovecb{g}_{mn+1}\}$ is a basis for $\Z_q^2$ and thus we can define $\bb_{i^*,j^*},\overline{w}_{h,i}$ as the unique coefficients in $\Z_q$ such that $\ovecb{c} = \bb_{i^*,j^*}\ovecb{g}_{m(i^*-1)+j^*}+\overline{w}_{h,i}\ovecb{g}_{mn+1}$. If $b_{i^*,j^*}\neq\bb_{i^*,j^*}$, then $([\vecb{c}]_1,[\ovecb{c}]_1)$ can not open to the same value and we can construct an adversary $\advB_1$ against $\Pi_\sfcom$. Else, it must be the case that $\bb_{i^*,j^*}=b_{i^*,j^*}\notin\bits$. Therefore, if an adversary $\advB_2$ simulates $\sfGame_2$ until $\advA$ halts and outputs $([\ovecb{c}]_1,\pi_\sfbits)$, then $\advB_2$ breaks soundness of $\Pi_\sfbits$. 
+\end{proof}
+
+(Zero-Knowledge.) Given that $\overline{\matr{G}}$ defines perfectly hiding commitments, $[\ovecb{c}]_1$ can be opened to any value. Therefore $[\ovecb{c}]_1$ and $[\vecb{c}]_1$ share a common opening and $[\ovecb{c}]_1\in\Lang_{\overline{ck},\sfbits}$, and thus $\pi_\sfcom$ and $\pi_\sfbits$ are correctly distributed.  
+\end{proof}
+
+

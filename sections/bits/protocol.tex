@@ -1,167 +1,108 @@
-\begin{description}
+\begin{description} \label{bits-proof-system}
 
-\item[$\algK_0(1^\lambda)$:]  Return $\Gamma := (q,\Gr,\Hr,\T,e,\hat{g},\check{h}) \leftarrow \ggen_a(1^{\lambda})$.
+\item[$\algK_0(1^\lambda)$:]  Return $gk := (q,\Gr,\Hr,\GG_T,e,\mathcal{P}_1,\mathcal{P}_2) \leftarrow \ggen_a(1^{\lambda})$.
 
-\item[$\dist_\Gamma$:] The distribution $\dist_\Gamma$ over $\Gr^{(n+1) \times (n+1)}$ is some witness samplable distribution which 
-defines the relation $\R_\Gamma = \{\R_{\hmatr{U}}\} 
+\item[$\dist_{gk}$:] The distribution $\dist_{gk}$ over $\Gr^{(n+1) \times (n+1)}$ is some witness samplable distribution which 
+defines the relation $\R_{gk} = \{\R_{[\matr{U}]_1}\} 
 \subseteq \Gr^{n+1}\times(\bits^{n}\times\Z_q)$,
-where $\hmatr{U}\gets\dist_\Gamma$,
-such that $(\hvecb{c},\langle\vecb{b}, w\rangle)\in\R_{\hmatr{U}}$ iff
-$\hvecb{c}=\hmatr{U}\binom{\vecb{b}}{w}$. The relation $\R_{par}$ consists of pairs $(\hmatr{U},\matr{U})$ where $\hmatr{U} \gets \dist_{\Gamma}$.
-\item[$\algK_1(\Gamma, \hmatr{U})$:]
+where $[\matr{U}]_1\gets\dist_{gk}$,
+such that $([\vecb{c}]_1,\langle\vecb{b}, w\rangle)\in\R_{[\matr{U}]_1}$ iff
+$[\vecb{c}]_1=[\matr{U}]_1\binom{\vecb{b}}{w}$. The relation $\R_{par}$ consists of pairs $([\matr{U}]_1,\matr{U})$ where $[\matr{U}]_1 \gets \dist_{{gk}}$.
+\item[$\algK_1({gk}, {[\matr{U}]_1})$:]
 Let $\lrck_{n+1}\gets \Z_q^2$
 and for all $i \in [n]$, $\lrck_{i}:=\epsilon_{i}\lrck_{n+1}$, where
 $\epsilon_{i} \leftarrow \Z_q$. Define
-$\Rck := ([vecb{h}_1]_2|| \ldots ||[vecb{h}_{n+1}]_2)$.
+$\Rck := ([\vecb{h}_1]_2|| \ldots ||[\vecb{h}_{n+1}]_2)$.
 Choose 
 $\matr{\Delta} \leftarrow \Z_q^{2 \times (n+1)}$,
-define $\Lck := \matr{\Delta}\hmatr{U}$
-and $\hat{\llck}_{i}:=\matr{\Delta} \hat{\vecb{u}}_i \in \Gr^2$, for all $i \in [n+1]$. 
-Let $\vecb{a} \leftarrow \distlin_{1}$ and define $\cvecb{a}_{\Delta}:=\matr{\Delta}^\top\cvecb{a} \in \Hr^{n+1}$. 
+define $\Lck := \matr{\Delta}[\matr{U}]_1$
+and $[\llck_{i}]_1:=\matr{\Delta} [\vecb{u}_i]_1 \in \Gr^2$, for all $i \in [n+1]$. 
+Let $\vecb{a} \leftarrow \distlin_{1}$ and define $[\vecb{a}_{\Delta}]_2:=\matr{\Delta}^\top[\vecb{a}]_2 \in \Hr^{n+1}$. 
 For any pair $(i,j) \in \indexSet{n}{1}$, let 
 $\matr{T}_{i,j}\gets\Z_q^{2\times2}$ and set:
-$$\hmatr{C}_{i,j}:=[vecb{g}_i]_1 \lrck_j^{\top} - \hmatr{T}_{i,j}  \in \Gr^{2 \times 2},
+$$[\matr{C}_{i,j}]_1:=[\vecb{g}_i]_1 \lrck_j^{\top} - [\matr{T}_{i,j}]_1  \in \Gr^{2 \times 2},
 \qquad \qquad 
-\cmatr{D}_{i,j}:=\cmatr{T}_{i,j} \in \Hr^{2 \times 2}.$$ 
-Note that $\hmatr{C}_{i,j}$ can be efficiently computed 
+[\matr{D}_{i,j}]_2:=[\matr{T}_{i,j}]_2 \in \Hr^{2 \times 2}.$$ 
+Note that $[\matr{C}_{i,j}]_1$ can be efficiently computed 
 as $\lrck_j \in \Z_q^{2}$ is the vector of discrete logarithms of $\check{\lrck}_j$.
 
-Let $\QANIZKsum$ be the proof system for Sum in Subspace 
-(Sect. \ref{sec:QANIZKsum}) and $\QANIZKcomms$
-%=(\algK_0,\algK_1,\algP,\algV,\algS_1,\algS_2)$
-be an instance of our proof system for Equal Opening (Sect. \ref{sec:aggcomms}).
+Let ${\Psi_\sfsum}$ be the proof system for Sum in Subspace 
+(Sect. \ref{sec:sum}) and ${\Psi_\sfcom}$
+be an instance of our proof system for Equal Opening (Sect. \ref{sec:aggcommit}).
 
 Let
-$\crs_\QANIZKsum \gets \algK_1(\Gamma, \{\hmatr{C}_{i,j},\cmatr{D}_{i,j}\}_{(i,j)\in\indexSet{n}{1}})$ and \footnote{We identify
+$\crs_{\Psi_\sfsum} \gets \algK_1({gk}, \{[\matr{C}_{i,j}]_1,[\matr{D}_{i,j}]_2\}_{(i,j)\in\indexSet{n}{1}})$ and \footnote{We identify
 matrices in $\Gr^{2 \times 2}$ (resp. in $\Hr^{2 \times 2}$) with vectors in $\Gr^{4}$ (resp. in $\Hr^{4}$).}  
- $\crs_\QANIZKcomms \gets \algK_1(\Gamma, \Lck,\Rck,n)$. The common reference string is given by:
+ $\crs_{\Psi_\sfcom} \gets \algK_1({gk}, \Lck,\Rck,n)$. The common reference string is given by:
 \begin{eqnarray*}
-\mathsf{crs}_P&:=&\left( \hat{\matr{U}},  \Lck,
-    \check{\Lrck}, \{\hmatr{C}_{i,j},\cmatr{D}_{i,j} \}_{(i,j) \in \indexSet{n}{1}},\crs_\QANIZKsum,\crs_\QANIZKcomms \right), \\
-\mathsf{crs}_V&:=&\left(\cvecb{a}, \cvecb{a}_\Delta, \crs_\QANIZKsum,\crs_\QANIZKcomms \right). 
+\mathsf{crs}_P&:=&\left( [\matr{U}]_1,  \Lck,
+    [\Lrck]_1, \{[\matr{C}_{i,j}]_1,[\matr{D}_{i,j}]_2 \}_{(i,j) \in \indexSet{n}{1}},\crs_{\Psi_\sfsum},\crs_{\Psi_\sfcom} \right), \\
+\mathsf{crs}_V&:=&\left([\vecb{a}]_2, [\vecb{a}_\Delta]_2, \crs_{\Psi_\sfsum},\crs_{\Psi_\sfcom} \right). 
  \end{eqnarray*}
-\item[$\algP(\mathsf{crs}_P, \hvecb{c}, \langle \vecb{b}, w_g \rangle)$:]
+\item[{$\algP(\mathsf{crs}_P, [\vecb{c}]_1, \langle \vecb{b}, w_g \rangle)$:}]
 Pick $w_h \gets \Z_q$,  $\matr{R} \gets \Z_q^{2\times 2}$ and then: 
 \begin{enumerate}
 \item Define 
-$$\hvecb{c}_{\Delta} := \Lck \begin{pmatrix} \vecb{b} \\ w_g \end{pmatrix},
-\qquad \cvecb{d} := \Rck \begin{pmatrix} \vecb{b} \\ w_h \end{pmatrix}.$$ 
+$$[\vecb{c}_{\Delta}]_1 := \Lck \begin{pmatrix} \vecb{b} \\ w_g \end{pmatrix},
+\qquad [\vecb{d}]_2 := \Rck \begin{pmatrix} \vecb{b} \\ w_h \end{pmatrix}.$$ 
 \item Compute 
- $(\hmatr{\Theta}_{b(\overline{b}-1)}, \cmatr{\Pi}_{b(\overline{b}-1)})\, :=$
+ $([\matr{\Theta}]_1, [\matr{\Pi}]_2) :=$
 \begin{eqnarray} \label{eq:ThetaPi}
-%(\hmatr{\Theta}_{b(\overline{b}-1)}, \cmatr{\Pi}_{b(\overline{b}-1)})
-%& := &
-%    \sum_{i \in [n]}\left(
-%        b_i w_h (\hmatr{C}_{i,n+1},\cmatr{D}_{i,n+1})+
-%        w_g(b_i-1) (\hmatr{C}_{n+1,i}, \cmatr{D}_{n+1,i})\right)
-%        \nonumber\\ & &           +
-%       \sum_{i \in [n]}  \sum_{\substack{j \in [n]\\ j\neq i}} b_i (b_j-1) (\hmatr{C}_{i,j}, \cmatr{D}_{i,j})\nonumber\\
-%       & &
-%     +
-%    w_gw_h (\hmatr{C}_{n+1,n+1}, \cmatr{D}_{n+1,n+1}) +  (\hmatr{R},-\cmatr{R}).
 & &
     \sum_{i \in [n]}\left(
-        b_i w_h (\hmatr{C}_{i,n+1},\cmatr{D}_{i,n+1})+
-        w_g(b_i-1) (\hmatr{C}_{n+1,i}, \cmatr{D}_{n+1,i})\right)
+        b_i w_h ([\matr{C}_{i,n+1}]_1,[\matr{D}_{i,n+1}]_2)+
+        w_g(b_i-1) ([\matr{C}_{n+1,i}]_1, [\matr{D}_{n+1,i}]_2)\right)
         \nonumber\\ & &           +
-       \sum_{i \in [n]}  \sum_{\substack{j \in [n]\\ j\neq i}} b_i (b_j-1) (\hmatr{C}_{i,j}, \cmatr{D}_{i,j})\nonumber\\
+       \sum_{i \in [n]}  \sum_{\substack{j \in [n]\\ j\neq i}} b_i (b_j-1) ([\matr{C}_{i,j}]_1, [\matr{D}_{i,j}]_2)\nonumber\\
        & &
      +
-    w_gw_h (\hmatr{C}_{n+1,n+1}, \cmatr{D}_{n+1,n+1}) +  (\hmatr{R},-\cmatr{R}).
-%\\
-%(\hmatr{\Theta}_{b-\overline{b}}, 
-%\cmatr{\Pi}_{b-\overline{b}})
-%  & := &
-%    \sum_{i\in[n]}\left(
-%        (b_i-w_h)(\hmatr{C}_{i,n+1},\cmatr{D}_{i,n+1})
-%         +
-%        (w_g-b_i)(\hmatr{C}_{n+1,i}, \cmatr{D}_{n+1,i})\right)\\
-%     & &  + \sum_{i\in[n]}\sum_{\substack{j\in[n]\\j\neq i}} (b_i-b_j)(\hmatr{C}_{i,j}, \cmatr{D}_{i,j}) 
-%\\ & &+
-%    (w_g-w_h)(\hmatr{C}_{n+1,n+1},\cmatr{D}_{n+1,n+1}) + (\hmatr{S},-\cmatr{S}).
+    w_gw_h ([\matr{C}_{n+1,n+1}]_1, [\matr{D}_{n+1,n+1}]_2) +  ([\matr{R}]_1,-[\matr{R}]_2).
  \end{eqnarray}
 
-\item Compute a proof $(\hat{\boldsymbol \rho}_{b(\overline{b}-1)},\check{\boldsymbol \sigma}_{b(\overline{b}-1)})$
-that $\matr{\Theta}_{b(\overline{b}-1)}+\cmatr{\Pi}_{b(\overline{b}-1)}$
-belongs to the space spanned by $\{\matr{C}_{i,j}+\matr{D}_{i,j}\}_{(i,j)\in\indexSet{n}{1}}$,
+\item Compute a proof $\pi_\sfsum$
+that $\matr{\Theta}+\matr{\Pi}$
+belongs to the space spanned by $\{\matr{C}_{i,j}+\matr{D}_{i,j}:(i,j)\in\indexSet{n}{1}\}$,
  and a proof 
-$(\hgrkb{\rho}_{b-\overline{b}}, \cgrkb{\sigma}_{b-\overline{b}})$
+$\pi_\sfcom$
 that
-$(\hvecb{c}_\Delta,\cvecb{d})$ open to the same value,
+$([\vecb{c}_\Delta]_1,[\vecb{d}]_2)$ open to the same value,
 using $\vecb{b},w_g$, and $w_h$. 
 \end{enumerate}
 
-\item[$\algV(
+\item[{$\algV(
     \mathsf{crs}_V,
-    \hvecb{c},
-    \langle
-        \hvecb{c}_{\Delta}, \cvecb{d},
-        (\hmatr{\Theta}_{b(\overline{b}-1)}, \cmatr{\Pi}_{b(\overline{b}-1)}), 
-        \{(\hat{\boldsymbol \rho}_{X}, \check{\boldsymbol \sigma}_{X})\}_{X \in \{b(\overline{b}-1), b-\overline{b}\}} \rangle)$:] ~
-%   
+    [\vecb{c}]_1,
+    [\vecb{c}_{\Delta}]_1, [\vecb{d}]_2,
+    ([\matr{\Theta}]_1, [\matr{\Pi}]_2), 
+    \pi_\sfsum,\pi_\sfcom)$:}] ~
 \begin{enumerate}
-\item  Check if $\hvecb{c}^\top\cvecb{a}_\Delta = \hvecb{c}_\Delta^\top\cvecb{a}$. 
+\item  Check if $[\vecb{c}]_1^\top[\vecb{a}_\Delta]_2 = [\vecb{c}_\Delta]_1^\top[\vecb{a}]_2$. 
 \item Check if 
-\begin{equation}\label{eq:ver1}\hvecb{c}_{\Delta}
+\begin{equation}\label{eq:ver1}[\vecb{c}_{\Delta}]_1
 \left(
-    \check{\vecb{d}}-
-    \sum_{j \in [n]} [vecb{h}_{j}]_2
+    [\vecb{d}]_2-
+    \sum_{j \in [n]} [\vecb{h}_{j}]_2
 \right)^{\top} =
-    \hmatr{\Theta}_{b(\overline{b}-1)} \cmatr{I}_{2 \times 2} +
-    \hmatr{I}_{2 \times 2}\cmatr{\Pi}_{b(\overline{b}-1)}.
+    [\matr{\Theta}]_1[\matr{I}_{2 \times 2}]_2 +
+    [\matr{I}_{2 \times 2}]_1[\matr{\Pi}]_2.
     \end{equation}  
-  \item Verify that $(\hgrkb{\rho}_{b(\overline{b}-1)}, \cgrkb{\sigma}_{b(\overline{b}-1)}),(\hgrkb{\rho}_{b-\overline{b}},\cgrkb{\sigma}_{b-\overline{b}})$ are valid proofs for %\linebreak 
-  $(\hmatr{\Theta}_{b(\overline{b}-1)},$ $\cmatr{\Pi}_{b(\overline{b}-1)})$
-        and $(\hvecb{c}_\Delta,\cvecb{d})$ using $\crs_\QANIZKsum$ and $\crs_\QANIZKcomms$ respectively.
+  \item Verify that $\pi_\sfsum,\pi_\sfcom$ are valid proofs for 
+  $([\matr{\Theta}]_1,[\matr{\Pi}]_2)$
+        and $([\vecb{c}_\Delta]_1,[\vecb{d}]_2)$ using $\Psi_\sfsum$ and $\Psi_\sfcom$ respectively.
 \end{enumerate}
 If any of these checks fails, the verifier outputs $0$, else it outputs $1$.
-%\item[$\mathsf{S}_1(\Gamma,\hat{\matr{U}})$:] The simulator receives as input a description of an asymmetric bilinear group $\Gamma$ and a matrix $\hat{\matr{U}} \in \Gr^{(n+1) \times (n+1)}$ sampled according to distribution $\dist_{\Gamma}$. It generates and outputs the CRS in the same way as $\algK_1$, but additionally it also  outputs the simulation trapdoor 
-%$$\tau=\left(\Lrck, \matr{\Delta}, \tau_\QANIZKsum, \tau_\QANIZKcomms\right),$$
-%where $\tau_\QANIZKsum$ and $\tau_\QANIZKcomms$ are, respectively, $\QANIZKsum$'s and $\QANIZKcomms$'s simulation trapdoors.
-%\item[$\mathsf{S}_2(\crs_P,\vc,\tau)$:] Compute $\vc_{\Delta}:=\matr{\Delta} \vc$.
-%      Then pick random $\overline{w}_h \gets \Z_q$, $\matr{R} \gets \Z_q^{2 \times 2}$ and define 
-% $\vecb{d}:= \overline{w}_{h} \lrck_{n+1}.$
-% Then set:
-%\begin{align*} 
-%\hmatr{\Theta}_{b(\overline{b}-1)} & :=  \hvecb{c}_\Delta \left(\vecb{d}-\sum_{i \in [n]} \lrck_i\right)^\top + \hmatr{R},
-%    &
-%    \cmatr{\Pi}_{b(\overline{b}-1)} & := - \cmatr{R}.
-%%\\
-%%\hmatr{\Theta}_{b-\overline{b}} & :=  \hvecb{c}_\Delta \left( \sum_{i\in[n]}\lrck_{i}^\top \right) -
-%%                          \left( \sum_{i\in[n]}\hvecb{u}_{i} \right)\vecb{d}^\top + \hmatr{S},
-%%    &
-%%    \cmatr{\Pi}_{b-\overline{b}}& := - \cmatr{S}.
-%\end{align*}
-%Finally, simulate proofs $(\hat{\boldsymbol \rho}_{X},
-%  \check{\boldsymbol \sigma}_{X})$
-%%for $(\hmatr{\Theta}_{X}, \cmatr{\Pi}_{X})$
-%for $X \in \{b(\overline{b}-1),  b-\overline{b}
-%\}$  using $\tau_\QANIZKsum$ and $\tau_\QANIZKcomms$.
-%
-%\end{description} 
-%The simulators $\algS_1$ and $\algS_2$ are defined as follows.
-%\begin{description}
-\item[$\mathsf{S}_1(\Gamma,\hat{\matr{U}})$:] The simulator receives as input a description of an asymmetric bilinear group $\Gamma$ and a matrix $\hat{\matr{U}} \in \Gr^{(n+1) \times (n+1)}$ sampled according to distribution $\dist_{\Gamma}$. It generates and outputs the CRS in the same way as $\algK_1$, but additionally it also  outputs the simulation trapdoor 
-$$\tau=\left(\Lrck, \matr{\Delta}, \tau_\QANIZKsum, \tau_\QANIZKcomms\right),$$
-where $\tau_\QANIZKsum$ and $\tau_\QANIZKcomms$ are, respectively, $\QANIZKsum$'s and $\QANIZKcomms$'s simulation trapdoors.
-\item[$\mathsf{S}_2(\crs_P,\vc,\tau)$:] Compute $\vc_{\Delta}:=\matr{\Delta} \vc$.
+\item[{$\mathsf{S}_1({gk},[\matr{U}]_1)$:}] The simulator receives as input a description of an asymmetric bilinear group ${gk}$ and a matrix $[\matr{U}]_1 \in \Gr^{(n+1) \times (n+1)}$ sampled according to distribution $\dist_{\Gamma}$. It generates and outputs the CRS in the same way as $\algK_1$, but additionally it also  outputs the simulation trapdoor 
+$$\tau=\left(\Lrck, \matr{\Delta}, \tau_{\Psi_\sfsum}, \tau_{\Psi_\sfcom}\right),$$
+where $\tau_{\Psi_\sfsum}$ and $\tau_{\Psi_\sfcom}$ are, respectively, ${\Psi_\sfsum}$'s and ${\Psi_\sfcom}$'s simulation trapdoors.
+\item[{$\mathsf{S}_2(\crs_P,[\vecb{c}]_1,\tau)$:}] Compute $[\vecb{c}_{\Delta}]_1:=\matr{\Delta}[\vecb{c}]_1$.
       Then pick random $\overline{w}_h \gets \Z_q$, $\matr{R} \gets \Z_q^{2 \times 2}$ and define 
  $\vecb{d}:= \overline{w}_{h} \lrck_{n+1}.$
  Then set:
 \begin{align*} 
-\hmatr{\Theta}_{b(\overline{b}-1)} & :=  \hvecb{c}_\Delta \left(\vecb{d}-\sum_{i \in [n]} \lrck_i\right)^\top + \hmatr{R},
+[\matr{\Theta}]_1 & :=  [\vecb{c}_\Delta]_1 \left(\vecb{d}-\sum_{i \in [n]} \lrck_i\right)^\top + [\matr{R}]_1,
     &
-    \cmatr{\Pi}_{b(\overline{b}-1)} & := - \cmatr{R}.
-%\\
-%\hmatr{\Theta}_{b-\overline{b}} & :=  \hvecb{c}_\Delta \left( \sum_{i\in[n]}\lrck_{i}^\top \right) -
-%                          \left( \sum_{i\in[n]}\hvecb{u}_{i} \right)\vecb{d}^\top + \hmatr{S},
-%    &
-%    \cmatr{\Pi}_{b-\overline{b}}& := - \cmatr{S}.
+    [\matr{\Pi}]_2 & := - [\matr{R}]_2.
 \end{align*}
-Finally, simulate proofs $(\hat{\boldsymbol \rho}_{X},
-  \check{\boldsymbol \sigma}_{X})$
-%for $(\hmatr{\Theta}_{X}, \cmatr{\Pi}_{X})$
-for $X \in \{b(\overline{b}-1),  b-\overline{b}
-\}$  using $\tau_\QANIZKsum$ and $\tau_\QANIZKcomms$.
+Finally, simulate proofs $\pi_\sfsum,\pi_\sfcom$ using $\tau_{\Psi_\sfsum}$ and $\tau_{\Psi_\sfcom}$.
 \end{description}
 
