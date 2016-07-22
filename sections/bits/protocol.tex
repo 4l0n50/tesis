@@ -7,7 +7,7 @@ defines the relation $\R_{gk} = \{\R_{[\matr{U}]_1}\}
 \subseteq \Gr^{n+1}\times(\bits^{n}\times\Z_q)$,
 where $[\matr{U}]_1\gets\dist_{gk}$,
 such that $([\vecb{c}]_1,\langle\vecb{b}, w\rangle)\in\R_{[\matr{U}]_1}$ iff
-$[\vecb{c}]_1=[\matr{U}]_1\binom{\vecb{b}}{w}$. The relation $\R_{par}$ consists of pairs $([\matr{U}]_1,\matr{U})$ where $[\matr{U}]_1 \gets \dist_{{gk}}$.
+$[\vecb{c}]_1=[\matr{U}]_1\binom{\vecb{b}}{w}$ and $\vecb{b}\in\bits^n$. The relation $\R_{par}$ consists of pairs $([\matr{U}]_1,\matr{U})$ where $[\matr{U}]_1 \gets \dist_{{gk}}$.
 \item[$\algK_1({gk}, {[\matr{U}]_1})$:]
 Let $\lrck_{n+1}\gets \Z_q^2$
 and for all $i \in [n]$, $\lrck_{i}:=\epsilon_{i}\lrck_{n+1}$, where
@@ -24,11 +24,11 @@ $$[\matr{C}_{i,j}]_1:=[\vecb{g}_i]_1 \lrck_j^{\top} - [\matr{T}_{i,j}]_1  \in \G
 \qquad \qquad 
 [\matr{D}_{i,j}]_2:=[\matr{T}_{i,j}]_2 \in \Hr^{2 \times 2}.$$ 
 Note that $[\matr{C}_{i,j}]_1$ can be efficiently computed 
-as $\lrck_j \in \Z_q^{2}$ is the vector of discrete logarithms of $\check{\lrck}_j$.
+as $\lrck_j \in \Z_q^{2}$ is the vector of discrete logarithms of $[\vecb{h}_j]_1$.
 
 Let ${\Psi_\sfsum}$ be the proof system for Sum in Subspace 
 (Sect. \ref{sec:sum}) and ${\Psi_\sfcom}$
-be an instance of our proof system for Equal Opening (Sect. \ref{sec:aggcommit}).
+be an instance of the proof system for Equal Opening (Sect. \ref{sec:aggcommit}).
 
 Let
 $\crs_{\Psi_\sfsum} \gets \algK_1({gk}, \{[\matr{C}_{i,j}]_1,[\matr{D}_{i,j}]_2\}_{(i,j)\in\indexSet{n}{1}})$ and \footnote{We identify
@@ -91,7 +91,7 @@ using $\vecb{b},w_g$, and $w_h$.
         and $([\vecb{c}_\Delta]_1,[\vecb{d}]_2)$ using $\Psi_\sfsum$ and $\Psi_\sfcom$ respectively.
 \end{enumerate}
 If any of these checks fails, the verifier outputs $0$, else it outputs $1$.
-\item[{$\mathsf{S}_1({gk},[\matr{U}]_1)$:}] The simulator receives as input a description of an asymmetric bilinear group ${gk}$ and a matrix $[\matr{U}]_1 \in \Gr^{(n+1) \times (n+1)}$ sampled according to distribution $\dist_{\Gamma}$. It generates and outputs the CRS in the same way as $\algK_1$, but additionally it also  outputs the simulation trapdoor 
+\item[{$\mathsf{S}_1({gk},[\matr{U}]_1)$:}] The simulator receives as input a description of an asymmetric bilinear group ${gk}$ and a matrix $[\matr{U}]_1 \in \Gr^{(n+1) \times (n+1)}$ sampled according to distribution $\dist_{gk}$. It generates and outputs the CRS in the same way as $\algK_1$, but additionally it also  outputs the simulation trapdoor 
 $$\tau=\left(\Lrck, \matr{\Delta}, \tau_{\Psi_\sfsum}, \tau_{\Psi_\sfcom}\right),$$
 where $\tau_{\Psi_\sfsum}$ and $\tau_{\Psi_\sfcom}$ are, respectively, ${\Psi_\sfsum}$'s and ${\Psi_\sfcom}$'s simulation trapdoors.
 \item[{$\mathsf{S}_2(\crs_P,[\vecb{c}]_1,\tau)$:}] Compute $[\vecb{c}_{\Delta}]_1:=\matr{\Delta}[\vecb{c}]_1$.

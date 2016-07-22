@@ -35,7 +35,7 @@ Actually, a prover (a mixer) does not know the randomness nor the decryptions of
 \end{equation}
 \end{itemize}
 The underlying computational assumption is that it is infeasible to find a non-trivial combination of elements of $S$ which adds to $0$, that is, given $[\vecb{s}]_1$ it is infeasible to find $[\vecb{k}]_2 \neq [\vecb{0}]_2$ such that
-$\vecb{s}^{\top} \vecb{k}=\vecb{0}$ (this is the $\dist_{n,1}$-$\kermdh$ Assumption of \cite{EPRINT:MorRafVil15}, which is a generalization of the Double Pairing Assumption, which is weaker than DDH). 
+$\vecb{s}^{\top} \vecb{k}=\vecb{0}$ (this is the $\dist_{n,1}$-$\kermdh$ Assumption from Sect. \ref{sec:mddh}). 
 
 Soundness goes as follows. First, by the soundness of the aggregated set membership proof, $[\vecb{x}]_1 \in S^{n}$ and from the fact that 
  $\sum_{i \in [n]} x_i =\sum_{i \in [n]} s_i$, it holds that if 
@@ -52,16 +52,21 @@ We note that it is crucial for our soundness argument that it is possible to dec
 Before we move to aggregated set membership proofs, we give a characterization of $\Lang_{ck,S}$ which is key to obtain our results. We observe that membership in $S$ can be written as:
 \begin{itemize}
 \item If $S \subset \GG_{\gamma}$, and we identify $S$ with $[\vecb{s}]_\gamma=([s_1]_\gamma,\ldots,[s_m]_\gamma)^\top$ then, 
-$c \in \Lang_{ck,S}$ if and only if $\exists \vecb{b} \in \Z_q^{m}$ such that
-\vspace{-0.3cm}
-$$ 1) \vecb{b} \in \{0,1\}^{m}, \ 2) c=\Com_{ck}(x;w), \ 3) x=\vecb{s}^{\top} \vecb{b}, \ 4) \sum_{i \in [m]} b_i=1.$$
-\vspace{-0.3cm}
-\item If $S=[0,d-1]$ and $m:=\log d$, then: 
-$c \in \Lang_{ck,S}$ if and only if $\exists \vecb{b} \in \Z_q^{m}$ such that:   
-\vspace{-0.3cm}
-$$ 1) \vecb{b} \in \{0,1\}^{m}, 2) c=\Com_{ck}(x;w), \ 3) x=(1,2,\ldots,2^{m-1}) \vecb{b} .$$
+$c \in \Lang_{ck,S}$ if and only if $\exists \vecb{b} \in \Z_q^{m}$ such that:
+\begin{enumerate}
+    \item $\vecb{b} \in \{0,1\}^{m}$,
+    \item $c=\GS.\Com_{ck}(x;w)$,
+    \item $x=\vecb{s}^{\top} \vecb{b}$,
+    \item $\sum_{i \in [m]} b_i=1$.
+\end{enumerate}
+\item If $S=[0,d-1]$ and $m:=\log d$, then
+$c \in \Lang_{ck,S}$ if and only if $\exists \vecb{b} \in \Z_q^{m}$ such that:
+\begin{enumerate}   
+    \item $\vecb{b} \in \{0,1\}^{m}$,
+    \item $c=\GS.\Com_{ck}(x;w)$,
+    \item $x=(1,2,\ldots,2^{m-1}) \vecb{b}$.
+\end{enumerate}
 \end{itemize} 
-\vspace{-0.2cm}
 That is, both languages can be written in a similar way, except that when $S \subset \GG_{\gamma}$ there is an additional linear constraint that $\vecb{b}$ must satisfy (condition 4)). 
 
  To avoid distinguishing all the time between both types of subsets, we note that both languages can be seen as special case of the language 
@@ -69,7 +74,7 @@ That is, both languages can be written in a similar way, except that when $S \su
 $[\vecb{x}]_1\in\Lang_{[\matr{M}]_1,[\matr{N}]_1,\matr{\Lambda},\grkb{\alpha}}$ if and only if $\exists \vecb{b}\in \Z_q^\lb,\vecb{w}\in\Z_q^\lc$ such that
 \begin{eqnarray*}
 1) \vecb{b}\in \{0,1\}^\lb
-  \wedge \ 2)
+  \text{ and } \ 2)
 \smallpmatrix
 {
     \vecb{c}\\
@@ -88,7 +93,7 @@ $[\vecb{x}]_1\in\Lang_{[\matr{M}]_1,[\matr{N}]_1,\matr{\Lambda},\grkb{\alpha}}$ 
 }.
 \end{eqnarray*}
 The basic idea is that a GS commitment is a linear combination of the commitment keys whose coefficients are the randomness and the committed values, i.e.  
-a commitment to a scalar $x \in \Z_q$ is defined as $\Com_{ck}(x;w)=x [\vecb{u}_1]_1+w [\vecb{u}_2]_1$, for $ck=(\vecb{u}_1,\vecb{u}_2)$, so essentially membership in this space amounts to some ``linear conditions'' plus proving that $\vecb{b}$ is binary. For instance in the case where $S=[0,d-1]$, it should hold that:
+a commitment to a scalar $x \in \Z_q$ is defined as $\GS.\Com_{ck}(x;w)=x [\vecb{u}_1]_1+w [\vecb{u}_2]_1$, for $ck=(\vecb{u}_1,\vecb{u}_2)$, so essentially membership in this space amounts to some ``linear conditions'' plus proving that $\vecb{b}$ is binary. For instance in the case where $S=[0,d-1]$, it should hold that:
 $
     \vecb{c} = \pmatri{\matr{M}&\matr{N}}\smallpmatrix{\vecb{b}\\ w}
 =
