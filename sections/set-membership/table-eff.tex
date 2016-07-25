@@ -1,0 +1,49 @@
+
+\begin{table}[h]
+\begin{center}
+\begin{minipage}{\textwidth}
+\begin{center}
+\begin{scriptsize}
+\begin{tabular}{|l|ll|ll|}
+\hline
+                                                   & \multicolumn{2}{c|}{Shuffle Argument} & \multicolumn{2}{c|}{Range Argument} \\
+                                                   & \cite{AC:GroLu07}          
+%& \cite{EPRINT:FauLip15}
+ & $\Pi_\mathsf{shuffle}$
+                                                   & \cite{PAIRING:RiaKohPre09} & $\Pi_{\mathsf{range}\mbox{-}\mathsf{proof}}$ 
+\\ \hline\hline
+\rule{0pt}{2.5ex}CRS size                          & $2n + 8$                   
+%& $8n + 17$
+              & $(n^2+24n+36,23n+37)$                
+                                                   & $\Theta(\frac{n}{\log n-\log\log n})$ & $(6n^2,6n^2)$ \\
+% (6n^2+13n+n+\frac{n}{klogn}+2klogn,6n^2+13n+n+\frac{n}{klogn}+34)
+\rule{0pt}{2.5ex}Proof size                        & $15n + 120$                
+%& $(5n+2,2n)$
+            & $(4n+17,14)$
+                                                   & $\Theta(\frac{n}{\log n-\log\log n})$ & $(\frac{2n}{k\log n},10)$ \\
+%$(\frac{2n}{k\log n}+2k\log n+11,10)$
+\rule{0pt}{2.5ex}$\algP$'s comp.                   & $51n + 246$               
+%& $22n + 11$
+             & $11n+17$
+                                                   & $\Theta(\frac{n}{\log n-\log\log n})$ & $2n$ \\
+%2n+\frac{3n}{klogn}+3k\log n+2
+\rule{0pt}{2.5ex}$\algV$'s comp.                   & $75n + 282$               
+%& $18n + 6$
+              & $13n+55$
+                                                   & $\Theta(\frac{n}{\log n-\log\log n})$ & $\frac{4n}{k\log n}$ \\
+%\frac{n}{k\log n}+6k\log n+62
+\rule{0pt}{2.5ex}Assumption                        & PP                        
+%& KE
+                    & SXDH+SSDP
+                                                   & $q$-HSDH                   & SXDH+SSDP \\\hline 
+\end{tabular}
+\end{scriptsize}
+\end{center}
+\caption{Comparison of our Shuffle, $\Pi_\mathsf{shuffle}$, and Range, $\Pi_{\mathsf{range}\mbox{-}\mathsf{proof}}$, arguments with the literature. To increase readability, for $\Pi_{\mathsf{range}\mbox{-}\mathsf{proof}}$ we include only the leading part of the sizes, that is, we write $f(n)$ and we mean $f(n)+o(f(n))$. Notation $(x,y)$ means $x$ elements of $\GG_1$ and $y$ elements of $\GG_2$. ``PP'' stands for the Permutation Pairing assumption.
+%and ``KE'' for Knowledge of Exponent assumption ({\color{red} ver cual}).
+The prover's computation is measured by the number of exponentiations (i.e. $z[x]_i$) and the verifier's computation is measured by the number of pairings.\label{table:eff}  } 
+\end{minipage}
+\vspace{-0.54cm}
+
+\end{center}
+\end{table}

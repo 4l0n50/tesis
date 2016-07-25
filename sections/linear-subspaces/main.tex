@@ -1,2 +1,32 @@
-In this section we construct three QA-NIZK arguments of membership in different subspaces of $\GG^{m}_1 \times \GG^{n}_2$. Their soundness relies on the Split Kernel Assumption. 
+
+In this chapter we construct three QA-NIZK \emph{constant-size} arguments of membership in different subspaces of $\GG^{m}_1 \times \GG^{n}_2$. Their soundness relies on the Split Kernel Assumption. We then show that similar techniques allow to give a \emph{constant-size} proof of satisfiability of many linear equations (aggregation of Groth-Sahai proofs). Finally, we show that the same techniques also allow to build \emph{Structure Preserving Linearly Homomorphic Signatures} where messages can be elements of $\GG_1^m\times\GG_2^n$, an extension of the signature scheme introduced by Libert et al. \cite{C:LPJY13}. 
+\section{Introduction}
+A recent line of work 
+  \cite{AC:JutRoy13,C:JutRoy14,EC:KilWee15,EC:LPJY14} 
+has succeeded in constructing constant-size  
+  arguments for very specific statements, namely, for membership in subspaces of $\Gr^{m}$, 
+  where $\Gr$ is some group equipped with a bilinear map where the discrete logarithm is hard. 
+The soundness of the schemes is based on standard, falsifiable assumptions 
+  and the proof size is independent of both $m$ and the witness size.  These improvements are in a  \textit{quasi-adaptive} 
+  model (QA-NIZK, \cite{AC:JutRoy13}).  This means that the common reference string of these proof systems is 
+  specialized to the linear space where one wants to prove membership.
+  
+Interestingly, Jutla and Roy  \cite{C:JutRoy14} also showed that their techniques to construct 
+  constant-size NIZK in linear spaces can be used to aggregate the GS proofs of $m$ equations in $n$ variables, that is,  the total proof size can be reduced to $\Theta(n)$.  Aggregation is also quasi-adaptive, 
+which means that the common reference string depends on the set of equations one wants to aggregate.   Further, it is only possible if the equations meet some restrictions. The first one is that only linear equations can be aggregated. The second one is that, in asymmetric bilinear groups, the equations must be one-sided linear, i.e. linear equations 
+  which have variables in only one of the $\Z_q$ modules $\Gr,\Hr$, 
+  or $\Z_q$.\footnote{Jutla and Roy show how to aggregate two-sided linear equations in
+  symmetric bilinear groups. The asymmetric case is not discussed, 
+  yet for one-sided linear equations it can be easily  derived from
+  their results. 
+  This is not the case for two-sided ones, see Sect.\ \ref{sec:gsasym}.} 
+
+
+Thus, it is worth to investigate if we can develop new techniques to aggregate 
+other types of equations and recover all the aggregation results of \cite{C:JutRoy14} (in particular, for two-sided linear equations) in asymmetric bilinear groups. The latter (Type III bilinear groups, according to the classification of \cite{DAM:GalPatSma08}) are the most 
+attractive 
+from the perspective of a performance and security trade off, specially since the recent attacks on discrete logarithms in finite fields by Joux \cite{SAC:Joux13} and subsequent improvements. Considerable research effort 
+(e.g. \cite{C:AGOT14a,EC:Freeman10})
+has been put into translating pairing-based cryptosystems from a setting with more structure in which design is simpler (e.g. composite-order or symmetric bilinear groups) to a more efficient setting (e.g. prime order or asymmetric bilinear groups). In this line, we aim not only at obtaining new results in the asymmetric setting but also to translate known results and develop new tools specifically designed for it which might be of independent interest.
+
 

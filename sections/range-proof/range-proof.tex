@@ -15,7 +15,20 @@ Our proof is as follows:
 Given that it must hold that $\ell=n/\log d$, the total size of the proof is $\mathsf{S}_{[0,d-1]}(\ell)+\Theta(\ell)$, where $\mathsf{S}_{[0,d-1]}(\ell)$ is the size of $\ell$ Range Proofs in the interval $[0,d-1]$.
 
 \subsection{Our Construction}
-Note that \ref{rp:b} is equivalent to show that $(\GS.\Com(y_1)||\cdots||\GS.\Com(y_\ell))\in\Lang_{ck,[0,d-1]}^\ell$. Thus, using the proof system from Sect. \ref{sec:bin-lang} we are able to aggregate $\ell$ Range Proofs in the interval $[0,d-1]$ into a single proof of size $\Theta(\log d)$. Choosing $d=n^k$ we get that $\mathsf{S}_{[0,d-1]}(\ell)=\Theta(k\log n)$ and $\ell=n/\log n^k=\frac{n}{k\log n}$, and thus the size of our Range Proof is $\Theta(\frac{n}{k\log n})$ for an arbitrarily chosen $k\in\mathbb{N}$. One would be tempted to choose $d=2^{\sqrt{n}}$ to obtain a proof of size $\Theta(\sqrt{n})$. However, the proof system from Sect. \ref{sec:bin-lang} requires membership in $\Lang_{ck,[0,d-1]}$ to be efficiently testable, which seems to be infeasible as when $d=2^{\sqrt{n}}$.
+Note that \ref{rp:b} is equivalent to show that $(\GS.\Com(y_1)||\cdots||\GS.\Com(y_\ell))\in\Lang_{ck,[0,d-1]}^\ell$. Thus, using the proof system from Sect. \ref{sec:bin-lang} we are able to aggregate $\ell$ Range Proofs in the interval $[0,d-1]$ into a single proof of size $\Theta(\log d)$. Choosing $d=n^k$ we get that $\mathsf{S}_{[0,d-1]}(\ell)=\Theta(k\log n)$ and $\ell=n/\log n^k=\frac{n}{k\log n}$, and thus the size of our Range Proof is $\Theta(\frac{n}{k\log n})$ for an arbitrarily chosen $k\in\mathbb{N}$. One would be tempted to choose $d=2^{\sqrt{n}}$ to obtain a proof of size $\Theta(\sqrt{n})$. However, the proof system from Sect. \ref{sec:aZKSMP} requires membership in $\Lang_{ck,[0,d-1]}$ to be efficiently testable, which seems to be infeasible as when $d=2^{\sqrt{n}}$.
 
-A detailed description of our proof system is in Fig. \ref{fig:rp}.
+A detailed description of our proof system is in Fig. \ref{fig:rp} and security follows from Theorem \ref{theo:rp}
 \input{sections/range-proof/detailed-construction}
+
+\begin{theorem} \label{theo:rp}
+The proof system from Fig. \ref{fig:rp} is a QA-NIZK proof system for the language $\Lang_{ck,[0,2^n-1]}$ with perfect completeness, computational soundness, and computational zero-knowledge.
+\end{theorem}
+\begin{proof}
+(Completeness.)
+If $[\vecb{c}]_1=\GS.\Com(y;r)$ and $y\in[0,2^n-1]$, then there exists $y_1,\ldots,y_\ell\in[0,d-1]$  such that $y=\sum_{i\in[\ell]}y_id^{i-1}$. Therefore $\vecb{y}=(y_1,\ldots,y_\ell)^\top$ and $r$ are solutions to $\eq$ and $[\matr{X}]_1=\GS.\Com(\vecb{y}^\top)\in\Lang_{\vecb{u}'_1,\vecb{u}'_2,d}^\ell$.
+
+(Soundness.)
+Given an adversary $\advA$ against the soundness of the proof system from Fig. \ref{fig:rp}, we construct an adversary $\advB$ against the soundness of $\Pi_\sfbin$. If $y\notin[0,2^n-1]$, then the perfect soundness of GS proofs implies that there is some $y_i\notin[0,d-1]$. Therefore $[\matr{X}]_1=\GS.\Com(\vecb{y}^\top)\notin\Lang_{\vecb{u}'_1,\vecb{u}'_2,d}^\ell$ and $\adv_{\Pi_\rp}(\advA)\leq\adv_{\Pi_\sfbin}(\advB)$.
+
+(Zero-Knowledge.) Follows directly from Zero-Knowledge of GS proofs, the fact that $\eq$ allows simulation, and the fact that $[\matr{X}]_1=\GS.\Com(\matr{0}_{1\times n})\in\Lang_{d,\vecb{u}'_1,\vecb{u}'_2}^\ell$.
+\end{proof}

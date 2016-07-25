@@ -1,9 +1,9 @@
 In a NIZK Shuffle argument one wants to prove that two lists of ciphertexts open to the same values when second list is permuted under some hidden permutation.
 We represent each list of ciphertexts as a matrix in $\GG_2^{2\times n}$ where each column is an El-Gamal ciphertext under public key $pk:=[\vecb{v}]_2\in\GG^2_2$ and we write $\enc_{pk}([\vecb{m}^\top]_2;\vecb{r}^\top):=(\enc_{pk}([m_1]_2;r_1)||\cdots||\enc_{pk}([m_n]_2;r_n))$, where $[\vecb{m}]_2\in\GG_2^n$, $\vecb{r}\in\Z_q^n$, and $\enc_{pk}([m]_2;r):=[m]_2\vecb{e}_2+r[\vecb{v}]_2$. Similarly, through this section we will sometimes write $\GS.\Com_{ck}([\vecb{x}^\top]_\gamma;\matr{R}):=$\-$(\GS.\Com_{ck}([x_1]_\gamma;\vecb{r}_1)||\cdots||$$\GS.\Com_{ck}($$[x_n]_\gamma;$$\vecb{r}_n))$, where $\matr{R}=(\vecb{r}_1||\cdots||\vecb{r}_n)\in\Z_q^{2\times n}$.
 
-The language of correct shuffles under public key $[\vecb{v}]_2\in\GG^2_2$ can can be defined as 
+The language of correct shuffles under public key $pk:=[\vecb{v}]_2\in\GG^2_2$ can can be defined as 
 \begin{align*}
-\Lang_{[\vecb{v}]_2,n,\mathsf{shuffle}}:=\{([\matr{C}]_2,&[\matr{D}]_2)\in\GG_2^{2\times n}\times \GG_2^{2\times n} :\\
+\Lang_{pk,n,\mathsf{shuffle}}:=\{([\matr{C}]_2,&[\matr{D}]_2)\in\GG_2^{2\times n}\times \GG_2^{2\times n} :\\
                                                          &\exists \matr{P}\in\mathcal{S}_n,\grkb{\delta}\in\Z_q^n \text{ s.t. } {[\matr{C}]_2\matr{P}-[\matr{D}]_2 = \Enc_{pk}([\vecb{0}_{1\times n}]_2;\grkb{\delta}^\top)}\},
 \end{align*}
 where $\mathcal{S}_n$ is the set of permutation matrices of size $n\times n$. This definition can be generalized for any ``El-Gamal like'' encryption scheme as, for example, the BBS encryption scheme from \cite{C:BonBoySha04}.
@@ -12,7 +12,7 @@ where $\mathcal{S}_n$ is the set of permutation matrices of size $n\times n$. Th
  
 \subsection{Our construction}
 
-Our proof system builds on a proof that a set of GS commitments open to elements in the set $S=\{[s_1]_1,\ldots,[s_n]_1\}$, where $\vecb{s}:=(s_1,\ldots,s_n)^\top\gets\dist_{n,1}$ and the $\dist_{n,1}\mbox{-}\kermdh$ Assumption holds in $\GG_1$. Given $[\matr{F}]_1\in\GG_1^{2\times n}$, where the $i$ th column is $[\vecb{f}_i]_1\gets\GS.\Com([x_i]_1)$, let $\vecb{x}:=({x}_1,\ldots,{x}_n)^\top=\matr{P}\vecb{s}$, for some permutation matrix $\matr{P}$, and given a commitment to $[y]_1:=[\vecb{s}^\top]_1\grkb{\delta}$, we prove that $([\matr{C}]_2,[\matr{D}]_2)\in\Lang_{[\vecb{v}]_2,n,\mathsf{shuffle}}$ as follows:
+Our proof system builds on a proof that a set of GS commitments open to elements in the set $S=\{[s_1]_1,\ldots,[s_n]_1\}$, where $\vecb{s}:=(s_1,\ldots,s_n)^\top\gets\dist_{n,1}$ and the $\dist_{n,1}\mbox{-}\kermdh$ Assumption holds in $\GG_1$. Given $[\matr{F}]_1\in\GG_1^{2\times n}$, where the $i$ th column is $[\vecb{f}_i]_1\gets\GS.\Com([x_i]_1)$, let $\vecb{x}:=({x}_1,\ldots,{x}_n)^\top=\matr{P}\vecb{s}$, for some permutation matrix $\matr{P}$, and given a commitment to $[y]_1:=[\vecb{s}^\top]_1\grkb{\delta}$, we prove that $([\matr{C}]_2,[\matr{D}]_2)\in\Lang_{pk,n,\mathsf{shuffle}}$ as follows:
 \begin{enumerate}[label=\alph*)]
 \item Show that $[\matr{F}]_1\in\Lang_{ck,S}^n$, where $ck\gets\GS.\algK(\gk)$.\label{shuffle:a}
 \item Give a GS proof for the satisfiability of $\sum_{i\in[n]}[s_i]_1-\sum_{j\in[n]}[{x}_j]_1=[0]_1$.\label{shuffle:b}
@@ -25,7 +25,57 @@ $\footnote{While using slightly different assumptions, in \cite{AC:GroLu07} this
 \subsubsection{Soundness Intuition.} Conditions \ref{shuffle:a} and \ref{shuffle:b} implies that $\vecb{x}$ is a permutation of $\vecb{s}$ or equivalently, $\matr{x}=\matr{P}\vecb{s}$ and $\matr{P}$ is a permutation matrix. Note that $\matr{P}$ is a permutation matrix iff $\matr{P}$ is a binary matrix and for each row and column there is at most one 1. Let's see in more detail why $\vecb{x}$ is a permutation of $\vecb{s}$. Condition \ref{shuffle:a} implies that each $x_i$ is an element from $\{s_1,\ldots,s_n\}$, which can be written as $\vecb{x}=\matr{P}\vecb{s}$, $\matr{P}\in\bits^{n\times n}$, where each row of $\matr{P}$ has at most one 1. But, given that there might be repeated elements, there might be also more than one 1 in some column of $\matr{P}$. For example, if $S=\{s_1,s_2,s_3\}$, it may be that $\vecb{x}=\smallpmatrix{s_2\\s_3\\s_1}=\smallpmatrix{0&1&0\\0&0&1\\1&0&0}\smallpmatrix{s_1\\s_2\\s_3}$ but also $\vecb{x}=\smallpmatrix{s_2\\s_3\\s_3}=\smallpmatrix{0&1&0\\0&0&1\\0&0&1}\smallpmatrix{s_1\\s_2\\s_3}$. Condition \ref{shuffle:b} implies that there are no repeated $x_i$s unless one can break the $\dist_{n,1}\mbox{-}\kermdh$ assumption. Indeed, there are repeated $x_i$s iff  $(1,\ldots,1)\matr{P}$ (the row vector of ``frequencies" of $\vecb{x}$, which in the first example is $(1,1,1)$ and in the second $(0,1,2)$) is not equal to $ (1,\ldots,1)$. Given that \ref{shuffle:b} is equivalent to $((1,\ldots,1)-(1,\ldots,1)\matr{P})[\vecb{s}]_1=[0]_1$, then $((1,\ldots,1)-(1,\ldots,1)\matr{P})^\top$ is solution to the $\dist_{n,1}\mbox{-}\kermdh$ problem. We conclude that $\matr{P}$ is a permutation matrix and thus $\vecb{x}$ is a permutation of $\vecb{s}$.
 
 The remainder of the proof follows essentially the proof from \cite{AC:GroLu07}. Suppose that $[\matr{C}]_2=\Enc_{[\vecb{v}]_2}([\matr{m}^\top]_2)$ and $[\matr{C}]_2=\Enc_{[\vecb{v}]_2}([\matr{n}^\top]_2)$. Let $\vecb{k}=(-v_2/v_1,1)^\top$ the ``decryption key'' (i.e. $\vecb{v}^\top\vecb{k}=0$ and $(0,1)\vecb{k}=1$)\footnote{The availability of the decryption key $\vecb{k}$ in the soundness reduction is possible since the reduction samples by itself the language parameter $\vecb{v}$. Correspondingly Groth and Lu \cite{AC:GroLu07} proved \emph{Culpable Soundness} (also called co-soundness), which essentially requires the soundness adversary to produce the decryption key.}, we multiply by $\matr{k}$, on the right, the equation from condition $\ref{shuffle:c}$ to ``decrypt'' $[\matr{C}]_2$ and $[\matr{D}]_2$. We get that
-$[\vecb{s}^\top]_1\matr{P}^\top[\matr{m}]_2-[\vecb{s}^\top]_1[\matr{n}]_2=[0]_T$, which implies that $\matr{P}^\top[\matr{m}]_2=[\matr{n}]_2$ unless $\matr{P}^\top[\matr{m}]_2-[\matr{n}]_2$ is a solution to the $\dist_{n,1}\mbox{-}\kermdh$. Finally this implies that $[\matr{C}]_2\matr{P}-[\matr{D}]_2$ is an encryption of $[\matr{0}_{n\times 1}]_2$ and thus $([\matr{C}]_2,[\matr{D}]_2)\in\Lang_{[\vecb{v}]_2,n,\mathsf{shuffle}}$.
+$[\vecb{s}^\top]_1\matr{P}^\top[\matr{m}]_2-[\vecb{s}^\top]_1[\matr{n}]_2=[0]_T$, which implies that $\matr{P}^\top[\matr{m}]_2=[\matr{n}]_2$ unless $\matr{P}^\top[\matr{m}]_2-[\matr{n}]_2$ is a solution to the $\dist_{n,1}\mbox{-}\kermdh$. Finally this implies that $[\matr{C}]_2\matr{P}-[\matr{D}]_2$ is an encryption of $[\matr{0}_{n\times 1}]_2$ and thus $([\matr{C}]_2,[\matr{D}]_2)\in\Lang_{pk,n,\mathsf{shuffle}}$.
 
-A detailed description of our construction is in Fig. \ref{fig:shuffles} and the proof of security can be found in Appendix \ref{app:shuffle}.
+A detailed description of our construction is in Fig. \ref{fig:shuffles} and the proof of security follows from Theorem \ref{theo:shuffle}
 \input{sections/shuffle/detailed-description}
+
+\begin{theorem} \label{theo:shuffle}
+The proof system from Fig. \ref{fig:shuffles} is a QA-NIZK proof system for the language $\Lang_{pk,n,\mathsf{shuffle}}$ with perfect completeness, computational soundness, and computational zero-knowledge.
+\end{theorem}
+
+\begin{proof}
+(Completeness.) If $\matr{P}$ is a permutation matrix and $\vecb{x}=\matr{P}\vecb{s}$, then $\GS.\Com(\vecb{x}^\top)\in\Lang_{S,\vecb{u}_1,\vecb{u}_2}^n$ and $\sum_{i\in[n]}[s_i]_1-\sum_{j\in[n]}[{x}_j]_1=[0]_1$. If $[y]_1=[\vecb{s}^\top]_1\grkb{\delta}$ then
+\begin{eqnarray*}
+    [\vecb{x}^\top]_1[\matr{C}^\top]_2-
+    [\vecb{s}^\top]_1[\matr{D}^\top]_2
+ = 
+    [\vecb{s}^\top]_1([\matr{C}]_2\matr{P}-[\matr{D}]_2)^\top
+ = 
+    [\vecb{s}^\top]_1([\vecb{v}]_2\grkb{\delta}^\top)^\top
+ =
+    [y]_1[\vecb{v}^\top]_2.
+\end{eqnarray*}
+
+(Soundness.)
+We will show that for any adversary $\advA$ against the soundness of the proof system from Figure \ref{fig:shuffles}, there exist an adversary $\advB_1$ against soundness of $\Pi_{\sfset}$ and an adversary $\advB_2$ against the $\dist_{n,1}\mbox{-}\kermdh$ Assumption such that
+$$\adv(\advA) \leq \adv_{\Pi_{\sfset}}(\advB_1) + \adv_{\dist_{n,1}\mbox{-}\kermdh}(\advB_2).
+$$
+
+The adversary $\advB_1$ receives as input $\crs_\sfset$ and honestly samples the rest of the CRS. Then $\advB_1$ runs $\advA$ until it halts and outputs $[\matr{F}]_1$ with the proof $\pi_\sfset$.
+
+The adversary $\advB_2$ receives as input $[\vecb{s}]_1\in\GG_1^{n}$, samples $\vecb{u}_1,\vecb{u}_2,\vecb{v}\gets \Z_q^2$, honestly simulates the rest of the CRS, and runs $\advA$ until it halts. It extracts $[\vecb{x}^\top]_1$, the opening of $[\matr{F}]_1$, using $\vecb{u}_1,\vecb{u}_2$, and aborts if $[\matr{F}]_1\notin\Lang_{\vecb{u}_1,\vecb{u}_2,S}^n$. Else $[\vecb{x}]_1=\matr{B}[\vecb{s}]_1$, where $\matr{B}\in\bits^{n\times n}$ and $\matr{B}\matr{1}_{n\times 1}=\matr{1}_{n\times 1}$. If there are repeated $x_i$s, $\advB$ outputs $(\matr{1}_{1\times n}-\matr{1}_{1\times n}\matr{B})^\top$. Else, using $\vecb{v}$, $\advB_2$ decrypts $[\matr{C}]_2$ and $[\matr{D}]_2$ obtaining $[\vecb{m}^\top]_2\in\GG_2^{1\times n}$ and $[\vecb{n}^\top]_2\in\GG_2^{1\times n}$, respectively, and returns $\matr{B}^\top[\vecb{m}]_2-[\vecb{n}]_2$.
+
+Let $E_1$ the event where $([\matr{C}]_2,[\matr{D}]_2)\in\Lang_{pk,n,\mathsf{shuffle}}$, $E_2$ the event where $[\matr{F}]_1\in\Lang_{\vecb{u}_1,\vecb{u}_2,S}^n$, and $E_3$ the event where $\matr{1}_{1\times n}=\matr{1}_{1\times n}\matr{B}\wedge\matr{B}^\top[\vecb{m}]_2-[\vecb{n}]_2=0$. Note that $E_2\wedge E_3\Longrightarrow E_1$ since $E_2$ implies that $\vecb{x}=\matr{B}\vecb{s}$, where $\matr{B}\in\bits^{n\times n}$ and $\matr{B}\matr{1}_{n\times 1}=\matr{1}_{n\times 1}$, and together with $E_3$ implies that $\matr{B}$ is a permutation. Note also that $\eq_1\wedge\eq_2\wedge\neg E_3$ implies that $(\matr{1}_{1\times n}-\matr{B}\matr{1}_{1\times n})^\top$ or $\matr{B}^\top[\vecb{m}]_1-[\vecb{n}]_2$ are solutions to the $\dist_{1,n}\mbox{-}\kermdh$. Then it holds that
+\begin{eqnarray*}
+\adv(\advA) & = &
+    \Pr[\neg E_1 \wedge \algV(\crs,([\matr{C}]_2,[\matr{D}]_2),\pi)=1]\\
+& = &
+    \Pr[\neg E_1 \wedge \algV(\crs,([\matr{C}]_2,[\matr{D}]_2),\pi)=1 \wedge \neg E_2]+\\
+& &
+    \Pr[\neg E_1 \wedge \algV(\crs,([\matr{C}]_2,[\matr{D}]_2),\pi)=1 \wedge E_2]\\
+& \leq &
+    \Pr[\neg E_2 \wedge \Pi_\sfset.\algV(\crs_\sfset,[\matr{F}]_2,\pi_\sfset)=1]+
+    \Pr[\neg E_1 \wedge \eq_1 \wedge \eq_2 \wedge E_2]\\
+& \leq &
+    \adv_{\Pi_\sfset}(\advB_1)+\Pr[\neg E_1 \wedge \eq_1 \wedge \eq_2 \wedge E_2\wedge E_3] + \Pr[\neg E_1 \wedge \eq_1 \wedge \eq_2 \wedge E_2\wedge \neg E_3]\\
+& \leq &
+    \adv_{\Pi_\sfset}(\advB_1) + \Pr[\neg E_1\wedge E_2 \wedge E_3]+
+    \Pr[\eq_1\wedge\eq_2\wedge\neg E_3]\\
+& = &
+    \adv_{\Pi_\sfset}(\advB_1)+0+\adv_{\dist_{1,n}\mbox{-}\kermdh}(\advB_2).
+\end{eqnarray*} 
+
+(Zero-Knowledge.) We need to check that the inputs to the simulators are true statements and, for the GS simulator, that the equations allow simulation. This is certainly true for $\mathsf{eq}_1$ and, if $([\matr{C}]_1,[\matr{D}]_1)\in\Lang_{pk,n,\mathsf{shuffle}}$, then is also true for $\mathsf{eq}'_2$. Furthermore, it is guaranteed that $\pi_\GS$ is computationally indistinguishable from a real proof for $\{\eq_1,\eq'_2\}$, which is identically distributed to a real proof for $\{\eq_1,\eq_2\}$ since $\eq'_2$ and $\eq_2$ accepts the same set of solutions.
+Finally, since the perfectly hiding $\crs_\GS$ is such that $\rank(\vecb{u}_1||\vecb{u}_2)=2$, then $\Lang_{\vecb{u}_1,\vecb{u}_2,S}^n=\GG_1^{2\times n}$ and thus $[\matr{F}]_1\in\Lang_{\vecb{u}_1,\vecb{u}_2,S}^n$ is always true.
+\end{proof}

@@ -191,7 +191,7 @@ $1'') \matr{B} \in \{0,1\}^{\lb \times n}$ and $3'') \forall i \in [m], \vecb{d}
     \vecb{w}_j
 }$ and $3'') \forall i \in [\lb], \vecb{d}_i=\matr{G}   \smallpmatrix{\widetilde{\vecb{b}}^*_i  \\ \widetilde{r}_i}$.
 \end{itemize}
-Again, for the first we use a slight modification\footnote{For details on the modification and why we cannot use the argument directly, see Sections~\ref{sec:bits}, \ref{sec:bits-n}.} of construction from Sect. \ref{sec:bits-scheme} and for the second, (after rewriting the equations) a QA-NIZK argument for linear spaces. With this approach, the proof remains of size $\Theta(m)$, the size of the commitments, while the rest of the proof is constant. 
+For the first we use a our aggregated proof that many commitments opens to bit-strings from Sect. \ref{sec:matr-bits} and for the second, (after rewriting the equations) a QA-NIZK argument for linear spaces. With this approach, the proof remains of size $\Theta(m)$, the size of the commitments, while the rest of the proof is constant. 
 
 The interesting part is the soundness argument. The previous reasoning for the non-aggregated case (when $n=1$) fails here because now there is no guarantee that 
  $\matr{B}=\widetilde{\matr{B}}$ (as the openings of $[\vecb{d}_i]_1$ are not unique).  However, as we said, the distribution of the MP commitment key can be chosen so that it is binding at some coordinate $j^*$. This implies that for all $i$, the $j^*$th coordinate of $\vecb{b}_i^*$ and $\widetilde{\vecb{b}}_i^*$ is equal, i.e. the $j^*$th column of $\matr{B}$ and $\widetilde{\matr{B}}$ must be equal.  
