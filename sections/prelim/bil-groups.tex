@@ -1,0 +1,51 @@
+Cryptographic Abelian groups allows to compute the addition of two group elements and, if used together with decisional assumptions, allows to compute \emph{linear functions} of a hidden value. This is the case of El-Gamal encryption, where for any integer $a$ and any group element $b$, given $c=\Enc_{pk}(\mathcal{X};r)$ one can compute $\Enc_{pk}(a\mathcal{X}+b;r')$ using the homomorphic properties of the encryption scheme.
+%This simple property allows to construct an interesting NIZK proof that two hidden values $\mathcal{X}$ and $\mathcal{Y}$ are equal (without revealing their actual values): if $c=\Enc_{pk}(x;r),d=\Enc_{pk}(\mathcal{Y};s)$ then $\pi=r-s$ is a proof that $\mathcal{X}=\mathcal{Y}$, check $\pi:=\Enc(r';s)$ $c-\Enc_{pk}(0;r')$.
+While this property have many interesting applications, there are still many other functions of the secret value which are not linear functions.
+
+The ideal solution would be to be able to compute the output of any \emph{circuit} evaluated on the encrypted value, which is known as \emph{Fully Homomorphic Encryption}. Note that to do so it is only necessary to compute quadratic functions of the encrypted value, since any circuit can be equivalently represented as a set of quadratic equations. Although fully homomorphic encryption schemes are known to exist, they are far from being practical and thus it is worthwhile to explore other solutions. 
+
+A intermediate solution is to provide a \emph{restricted} number of quadratic operations. Say, given $\mathcal{X}$ and $\mathcal{Y}$ we want to be able to compute a third value $\mathcal{Z}$ which is essentially the multiplication of $\mathcal{X}$ and $\mathcal{Y}$. Note that this rules out case when $\mathcal{X},\mathcal{Y}$ and $\mathcal{Z}$ lie in the same group, because nothing prevents to multiply $\mathcal{Z}$ again. Therefore, we need to consider three abelian groups:\footnote{One can also want to have many groups $\GG_1,\ldots,\GG_k$ and compute expressions of higher but bounded degree. Such groups are known as \emph{Multilinear Groups} which, although have many interesting applications, are out of the scope of this work.} $\GG_1,\GG_2$, and $\GG_T$ the \emph{target group}. Multiplication is provided by an efficiently computable function $e:\GG_1\times\GG_2\to\GG_T$. More formally, we define \emph{bilinear groups} as follows.
+
+\begin{definition}[Bilinear Groups] \footnote{While the usual notation for the target group has been multiplicative, we write it in additive notation. The reason is just to elude cumbersome expressions in the exponent.}
+Let $\GG_1$ and $\GG_2$ be cyclic groups of prime order $q$ and $\mathcal{P}_s$ the generator of $\GG_s$, $s\in\{1,2\}$, and $\GG_T$ be another cyclic group of order $q$. We say that $\GG_1,\GG_2,\GG_T$ form a bilinear group if there exists a map $e:\GG_1\times\GG_2\to\GG_T$ such that:
+\begin{description}
+\item[Bilinearity:] For all $a,b\in\Z_q$, for all $\mathcal{X}\in\GG_1$, and all $\mathcal{Y}\in\GG_2$
+$$
+e(a\mathcal{X},b\mathcal{Y})=ab\cdot e(\mathcal{X},\mathcal{Y}),
+$$
+\item[Non-degeneracy:] If $\mathcal{X},\mathcal{Y}\neq0$, then $e(\mathcal{X},\mathcal{Y})\neq 0$,
+\item[Computability:] $e(\mathcal{X},\mathcal{Y})$ is efficiently computable.
+\end{description} 
+\end{definition} 
+
+The first property says that $e$ allows to ``homomorphically'' compute degree 2 expressions in the field $(\Z_q,+,\cdot)$. Since any $\mathcal{X}$ can be written as $x\mathcal{P}_1$, where $x$ is some element of $\Z_q$ (and the same can be done in $\GG_2$), $e(\mathcal{X},\mathcal{Y})=xy\cdot e(\mathcal{P}_1,\mathcal{P}_2)$. Non-degeneracy says that $e$ is does not map everything to 0. While the third property says that computing $e$ is practical, the reality is that it is still an expensive operation and is one of the critical performance measures of cryptographic constructions.
+
+Galbraith et al.~classify bilinear groups in three types \cite{DAM:GalPatSma08}:
+
+\begin{description}
+\item[Type I:] $\GG_1=\GG_2$ and also known as \emph{symmetric} groups. 
+\item[Type II:] $\GG_1\neq\GG_2$ but there is an efficiently computable homomorphism $\phi:\GG_1\to\GG_2$.
+\item[Type III:] $\GG_1\neq\GG_2$ and no efficiently computable homomorphism is known. Also known as \emph{asymmetric} groups.
+\end{description}
+
+Type III bilinear groups are the most attractive from the perspective
+of a performance and security trade off, specially since the recent attacks on discrete logarithms in
+finite fields by Joux \cite{SAC:Joux13} and subsequent improvements.
+
+We denote by $\ggen_a$ the probabilistic polynomial time algorithm which on input $1^{\lambda}$, where $\lambda$ is the security parameter, returns the \emph{group key} which is the description of an asymmetric bilinear group $gk:=(q,\GG_1,\GG_2,\GG_T,e,\mathcal{P}_1,\mathcal{P}_2)$, where $\GG_1,\GG_2$
+and $\GG_T$ are groups of prime order $q$, the elements $\mathcal{P}_1, \mathcal{P}_2$ are generators of 
+$\GG_1,\GG_2$ respectively, and $e:\GG_1\times\GG_2\to\GG_T$ is an efficiently
+computable, non-degenerate bilinear map. 
+
+\subsubsection{Instantiations}
+While we have presented bilinear groups as abstract structures, they are instantiated as concrete algebraic constructions. Such constructions involve fairly complex mathematics and, given that this work can be read using only our abstract presentation, we omit any further detail of the instantiation of bilinear groups.
+
+%Koblitz and Miller independently suggested the use of \emph{Elliptic Curves} as new groups where the discrete logarithm and DDH are hard problems. However, in some Elliptic Curves the DDH problem might be hard, for example in those where a bilinear pairing can be computed $xy\mathcal{P}_1$.
+
+\subsubsection{Implicit Representation of Group Elements}
+
+Elements in $\GG_s$, are denoted implicitly as $[a]_s:=a \Pt_s$, where $s \in \{1,2,T\}$ and $\Pt_T:=e(\Pt_1,\Pt_2)$. 
+The pairing operation will be written as a product $\cdot$, that is $[a]_1 \cdot [b]_2=[a]_1 [b]_2=e([a]_1,[b]_2)=[ab]_T$. Given a matrix $\matr{T}=(t_{i,j})$, $[\matr{T}]_s$ is
+the natural embedding of $\matr{T}$ in $\GG_s$, that is, the matrix whose $(i,j)$th entry
+is $t_{i,j}\mathcal{P}_s$. We denote by $|\GG_s|$ the bit-size of the elements of $\GG_s$.
+
