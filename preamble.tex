@@ -69,6 +69,7 @@
 \newcommand{\enc}{\mathsf{Enc}}
 \newcommand{\Enc}{\mathsf{Enc}}
 \newcommand{\dec}{\mathsf{Dec}}
+\newcommand{\Dec}{\mathsf{Dec}}
 \newcommand{\pk}{\mathit{pk}}
 \newcommand{\sk}{\mathit{sk}}
 \newcommand{\cdh}{\ensuremath{\mathsf{CDH}}}
@@ -448,4 +449,9 @@ s_1 & \ldots & s_n\\
     ~\@eqnnum
   \endgroup
 }
+\makeatother
+
+\makeatletter
+\renewcommand*{\@opargbegintheorem}[3]{\trivlist
+  \item[\hskip \labelsep{\bfseries #1\ #2}] \textbf{(#3)}\ \itshape}
 \makeatother

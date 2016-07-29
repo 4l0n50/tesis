@@ -16,7 +16,7 @@ The admissible equation types must be in the following form:
 
 When $t=f(t_1,1)$ or $t=f(1,t_2)$, for some $t_1\in\Am_1$ or $t_2\in\Am_2$, we say that the equation allows simulation (see \cite[Sect. 11]{SIAMJC:GroSah12}) and the proof is zero-knowledge (rather than just witness-indistinguishable). Note that this is always the case for equations other than PPEs, but for PPEs it depends on the distribution from which $t$ is sampled {\color{red} (No me gusta esto, hay que revisarlo bien)}
 
-\subsection{Commit-and-Prove.} The GS Proof system works as a commit-and-prove scheme: first the prover commits to 
+\subsection{Commit-and-Prove} The GS Proof system works as a commit-and-prove scheme: first the prover commits to 
 all the variables in an equation with the \emph{Groth-Sahai commitment scheme}, defined in the next section, and then it ``proves'' that the committed values satisfy the equation. The commitment to an element in the module $A_i$ lives in a module $B_i$ of larger dimension where interesting decisional assumptions exist and to prove that the equation is satisfied one checks some equations in these larger fields.
 
 \subsection{Groth-Sahai Commitments} 
