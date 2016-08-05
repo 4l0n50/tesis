@@ -1,0 +1,14 @@
+In this thesis we show that \textbf{all linear equations} and \textbf{all quadratic equations over $\Z_q$} admit a proof of size $\Theta(m)$.  We use this results to improve the efficiency of many protocols. 
+
+In the first part of this thesis we develop new techniques to aggregate 
+other types of linear equations, recovering all the aggregation results of \cite{C:JutRoy14} (in particular, two-sided linear equations) in asymmetric bilinear groups. The latter (Type III bilinear groups, according to the classification of \cite{DAM:GalPatSma08}) are the most 
+attractive 
+from the perspective of a performance and security trade off, specially since the recent attacks on discrete logarithms in finite fields by Joux \cite{SAC:Joux13} and subsequent improvements. Considerable research effort 
+(e.g. \cite{C:AGOT14a,EC:Freeman10})
+has been put into translating pairing-based cryptosystems from a setting with more structure in which design is simpler (e.g. composite-order or symmetric bilinear groups) to a more efficient setting (e.g. prime order or asymmetric bilinear groups). In this line, we aim not only at obtaining new results in the asymmetric setting but also to translate known results and develop new tools specifically designed for it which might be of independent interest.
+
+The second part of this thesis is devoted to obtain efficient proofs for quadratic equations over the integers. We construct constant size proof for the satisfiability of many equations of the form $b(b-1)=0$. While this is just a particular type of quadratic equation, it is the most representative type of quadratic equation and other efficient proofs for other equations can be build using the same techniques. We then show how to apply our results to build more efficient signature schemes and more efficient proofs tht \emph{1 out of many} equations are satisfied.
+
+The last part of this thesis focuses on obtaining efficiency improvements for non-interactive arguments based on falsifiable assumptions for two of interesting zero-knowledge proofs, namely, range proofs and proofs of correctness of a shuffle. Apart from efficiency improvements, we obtain a unified modular for the to problems mentioned above, while the state of the art solutions are build from different techniques and assumptions. We build a solution for the two problems from a common building block which we call \emph{Aggegated Zero-Knowledge Set-Membership Proofs}, and we construct this building block from standard falsifiable assumptions.
+
+

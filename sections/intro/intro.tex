@@ -1,0 +1,55 @@
+With the growth and ubiquity of Internet more and more of our life have been moving from the ``physical world'' to the ``digital world''. Along with this changes new problems have raised: we moved from a world where communication was mostly without any intermediary to a world where communication goes through an uncontrollable set of servers from which no privacy or secrecy guarantee can be given. Cryptography have raised as an answer to this and many other related problems, providing \emph{provable secure} methods for securing information.  
+
+Among the vast variety of cryptographic construction, this thesis is concerned with the study of \emph{Non-Interactive Zero-Knowledge Proofs}.
+A Zero-Knowledge proofs is a proof that reveal nothing beyond its validity, and \emph{Non-Interactive Zero-Knowledge Proofs} restrict the proof to consist of a single message (in opposition of an interactive protocol).
+The importance of non-interactive zero-knowledge proofs in cryptography was early recognized, but for many years the existing constructions were either completely impractical or could only be realized under very strong assumptions like the random oracle model, via the Fiat-Shamir heuristic \cite{C:FiaSha86}. 
+
+Ideally, a NIZK proof system should be both expressive and efficient, meaning that it should allow to prove
+statements which are general enough to be useful in practice using a small amount of resources.
+Furthermore, it should be constructed under
+mild security assumptions.
+As it is usually the case for most cryptographic primitives, there is a trade off between these three design goals.
+For instance,
+to prove very general statements, one can use the NIZK proof 
+system for circuit satisfiability of Groth, Ostrovsky, and Sahai 
+\cite{EC:GroOstSah06}, which is based on standard assumptions but 
+whose proof size depends on the number of gates. 
+Alternatively,
+there exist constant-size proofs for any language in NP
+  (e.g. \cite{EC:GGPR13}) but based on very strong and controversial assumptions, 
+  namely knowledge-of-exponent type of assumptions 
+  (which are non-falsifiable, according to Naor's classification 
+  \cite{C:Naor03}) or the random oracle model. 
+\footnote{There is evidence that the use of knowledge-of-exponent type of  assumptions 
+may be unavoidable for constant-size NIZK proofs for NP-complete languages \cite{STOC:GenWic11}.}
+
+The Groth-Sahai proof system (GS proofs) \cite{SIAMJC:GroSah12} 
+  is an outstanding example of how these three goals (expressivity, 
+  efficiency, and mild assumptions) can be combined successfully.  
+It provides a proof system for satisfiability of quadratic equations over 
+  bilinear groups. This language suffices to capture almost all of the 
+  statements which appear 
+  in practice when designing public-key cryptographic schemes over bilinear groups.  
+Although GS proofs are quite efficient, proving satisfiability of $m$ equations in $n$ variables requires 
+sending some commitments of size $\Theta(n)$ and some proofs of size $\Theta(m)$ and they 
+easily get expensive unless the statement is very simple. For this reason, several recent works 
+ have focused on further improving proof efficiency 
+ (e.g.\ \cite{PKC:EscGro14,C:EHKRV13,TCC:Rafols15})
+
+Among those, a recent line of work 
+  \cite{AC:JutRoy13,C:JutRoy14,EC:KilWee15,EC:LPJY14} 
+has succeeded in constructing constant-size  
+  arguments for very specific statements, namely, for membership in subspaces of $\Gr^{m}$, 
+  where $\Gr$ is some group equipped with a bilinear map where the discrete logarithm is hard. 
+The soundness of the schemes is based on standard, falsifiable assumptions 
+  and the proof size is independent of both $m$ and the witness size.  These improvements are in a  \textit{quasi-adaptive} 
+  model (QA-NIZK, \cite{AC:JutRoy13}).  This means that the common reference string of these proof systems is 
+  specialized to the linear space where one wants to prove membership.
+  
+Interestingly, Jutla and Roy  \cite{C:JutRoy14} also showed that their techniques to construct 
+  constant-size NIZK in linear spaces can be used to aggregate the GS proofs of $m$ equations in $n$ variables, that is,  the total proof size can be reduced to $\Theta(n)$. However, aggregation is only possible if the equations meet some restrictions. The first one is that only linear equations can be aggregated. The second one is that, in asymmetric bilinear groups, the equations must be one-sided linear, i.e. linear equations 
+  which have variables in only one of the $\Z_q$ modules $\Gr,\Hr$, 
+  or $\Z_q$.
+
+At this point we face to the main questions of this thesis: which kind of equations admit a proofs of size $\Theta(m)$? The previous question may be irrelevant if we do not take in count applicability, thus our second question is: what efficient cryptographic schemes can be constructed from this $\Theta(m)$ proofs?
+
