@@ -1,0 +1,412 @@
+In this section we show that, for any subset $S\subset\Z_q$ or non-adaptively chosen subsets $S\subset\mathbb{G}_s$, $s\in\{1,2\}$, one can get aZKSMP whose size is $\Theta(\log|S|)$. The proof system from Sect. \ref{sec:aZKSMP} achieves the same proof size, but only when $S$ is a range of the form $[0,2^n-1]$. Our proof bears some similarities with the work of Groth and Kohlweiss \cite{EC:GroKoh15} -- both allows to construct proofs of membership in a set of logarithmic size using the binary encoding of the element index -- but they are in general incomparable since Groth and Kohlweiss's construction is on a different setting (interactive, without pairings) and does not support aggregation of many proofs.
+
+\subsection{Intuition}
+
+For simplicity, we will restrict to the case $S=\{s_1,\ldots,s_n\}\subset\Z_q$ without aggregation, that is, there is a single commitment $[\vecb{c}]_1=\GS.\Com_{ck}(x;r)$ and we want to show that $x=s_\alpha$, for some $\alpha\in[n]$. Then we will show how to derive the general case.
+
+The (non-aggregated) proof from Sect. \ref{sec:aZKSMP} essentially codifies the position $\alpha$ as a weight 1 binary vector of size $n$ such that $x=\sum_{i\in[n]}b_is_i$ and
+$b_i=1$ if $i=\alpha$ and $0$ if not.\footnote{The case $S\subset\Z_q$ is not really discussed in Sect. \ref{sec:aZKSMP}, but it is straightforward that the same techniques from the case $S\subset\GG_s$ apply.} A step further in efficiency was given by Chandran et al. \cite{ICALP:ChaGroSah07} (already discussed in Sect. \ref{sec:bits-applications}), there the position $\alpha$ is codified as two weight 1 binary vectors of size $\sqrt{n}$ such that
+$$
+\begin{pmatrix}
+x_1\\\vdots\\x_{\sqrt{n}}
+\end{pmatrix}
+=\sum_{i=1}^{\sqrt{n}}b_i
+\begin{pmatrix}
+s_{(i-1)\sqrt{n}+1}\\\vdots\\s_{(i-1)\sqrt{n}+\sqrt{n}}
+\end{pmatrix},
+\text{ } x=\sum_{i=1}^{\sqrt{n}}b'_ix_i,$$
+and $b_i=1$ iff $i=i_\alpha$ and $b'_j=1$ iff $j=j_\alpha$, where $\alpha=(i_\alpha-1)\sqrt{n}+j_\alpha$. Note that $\sqrt{n}$ new variables have been added and thus, $\sqrt{n}$ new commitments must been given as part of the proof. However, this does not not affect the asymptotic size of the proof which is $O(\sqrt{n})$ anyway.
+
+Let $m:=\log n$. The natural next step is to codify $\alpha$ as $m$ weight 1 binary vectors of size 2 (note that a weight 1 binary vectors of size 2 can be always written as $(1-b,b)$, $b\in\bits$ ) such that
+\begin{align}
+&\begin{pmatrix}
+x_{1,1}\\\vdots\\ x_{1,n/2}
+\end{pmatrix}
+=
+(1-b_1)
+\begin{pmatrix}
+s_1\\\vdots\\ s_{n/2}
+\end{pmatrix}
++
+b_1
+\begin{pmatrix}
+s_{n/2+1}\\\vdots\\ s_{n}
+\end{pmatrix},\label{eq-log-1}\\
+&\begin{pmatrix}
+x_{i,1}\\\vdots\\x_{i,n/{2^i}}
+\end{pmatrix}
+=
+(1-b_i)
+\begin{pmatrix}
+x_{i-1,1}\\\vdots\\x_{n/{2^i}}
+\end{pmatrix}
++
+b_i
+\begin{pmatrix}
+x_{n/{2^i}+1}\\\vdots\\x_{n/{2^{i-1}}}
+\end{pmatrix}
+\text{ if } 1 <  i \leq m,\label{eq-log-2}\\
+&
+x= x_{m,1}\label{eq-log-3},
+\end{align}
+and $\alpha=\sum_{i=1}^{m}b_i2^{m-i}+1$. Note that we are assuming that $n=2^m$, for some $m\in\mathbb{N}$, which can be always the case if we instead work with the (multi-)set $S'=S\biguplus_{i=1}^{n-2^{\lceil \log n \rceil}}\{s_n\}$.
+
+Similarly as in the Chandran et al. proof, new variables have been added and thus new commitments must be added to the proof. In contrast with Chandran et al. proof, in this case the additional commitments do increase the asymptotic size of the proof since $n/2+n/2^2+\ldots+1=O(n)$ new variables have been added. This problem can be solved using the length reducing Multi-Pedersen commitments from Sect. \ref{sec:ext-mp} computing
+\begin{align*}
+&[\vecb{c}_1]_1=\MP.\Com_{ck_1}((x_{1,1},\ldots,x_{1,n/2})^\top;r_1),\\
+&[\vecb{c}_2]_1=\MP.\Com_{ck_2}((x_{2,1},\ldots,x_{1,n/2^2})^\top;r_2),\\
+&\quad\vdots\\
+&[\vecb{c}_{m}]_1=\MP.\Com_{ck_{m}}((x_{m-1,1},x_{m-1,2})^\top;r_{m-1}).
+\end{align*}
+
+The problem now is how to extract from $[\vecb{c}_{i-1}]_1$ two additional commitments $[\vecb{c}_{i-1,1}]_1$ and $[\vecb{c}_{i-1,2}]$, respectively to $x_{i-1,1},\ldots,x_{i-1,n/2^i}$ and to $x_{i-1,n/2^i+1},\ldots,x_{n/2^{i-1}}$, in order to prove that equation (\ref{eq-log-2}) is satisfied. For $1\leq i \leq m$, let $ck_i:=([\matr{G}_i]_1,[\vecb{g}_{i,n/2^i+1}]_1)\in\GG_1^{2\times{n/2^i+1}}$ a commitment key of the MP commitment scheme and let
+\begin{align*}
+&\matr{G}_i=\matr{G}_{i,1}||\matr{G}_{i,2},
+&\matr{G}_{i,1}=
+\begin{pmatrix}
+    \vecb{g}_{i,1}&\cdots&\vecb{g}_{i,2^{i+1}}
+\end{pmatrix},
+&\matr{G}_{i,2}=
+\begin{pmatrix}
+    \vecb{g}_{i,n/2^{i+1}+1}&\cdots&\vecb{g}_{i,n/2^i}
+\end{pmatrix}.
+\end{align*}
+Our solution splits $[\vecb{c}_{i-1}]_1$ in two different commitments to the first and last halves of $(x_{i-1,1},\ldots,x_{i-1,2^{i-1}})$ and proves that the following linear system is satisfied
+{\begin{align}
+&\begin{pmatrix}
+\vecb{c}_{i-1}\\
+\vecb{c}_{i,1}\\
+\vecb{c}_{i,2}
+\end{pmatrix}
+=
+&\left(\begin{array}{cc|ccc}
+\matr{G}_{i-1,1}         & \matr{G}_{i-1,2}         & \vecb{g}_{i-1,n/2^{i-1}+1} & \vecb{0}             & \vecb{0}\\
+\matr{G}_{i}             & \matr{0}_{2\times n/2^i} & \vecb{0}                   & \vecb{g}_{i,n/2^i+1} & \vecb{0} \\
+\matr{0}_{2\times n/2^i} & \matr{G}_{i}             & \vecb{0}                   & \vecb{0}             & \vecb{g}_{i,n/2^i+1}
+\end{array}\right)
+\vecb{w},\label{eq-log-split}
+\end{align}}%
+for some $\vecb{w}\in\Z_q^{n/2^{i-1}+3}$.
+Intuitively, $\vecb{w}$ should be equal to $(x_{i-1,1},\ldots,x_{i-1,n/2^{i-1}},\allowbreak r_{i-1},r_{i-1,1},r_{i-1,2})$ and thus 
+\begin{align*}
+&[\vecb{c}_{i,1}]_1=\MP.\Com_{gk}(\allowbreak(x_{i-1,1},\ldots,x_{i-1,n/2^{i}})^\top;r_{i-1,1})\text{ and }\\
+&[\vecb{c}_{i,2}]_1=\MP.\Com_{gk}((x_{i-1,2^i+1},\ldots, x_{i-1,n/2^{i-1}})^\top;r_{i-1,2}).
+\end{align*}
+However, since Multi-Pedersen commitments have multiple openings it might be the case that the satisfying witness of the proof is other different than $(x_{i-1,1},\ldots,x_{i-1,n/2^{i-1}},r_{i-1},r_{i-1,1},r_{i-1,2})$ and thus the intuitive reasoning is invalid.
+Despite this flawed reasoning, we will show that the argument is still sound. But first lets see how the argument goes in a little more detail.
+
+\subsubsection{The Scheme}
+Given $[\vecb{c}]_1=\GS.\Com_{ck}(s_\alpha;r)$, $\alpha=\sum_{i=1}^{m}b_i2^{m-i}+1$, the prover computes
+\begin{align*}
+&[\vecb{c}_i]_1:=\MP.\Com_{ck_i}((x_{i,1},\ldots,x_{i,n/2^i})^\top;r_i) \text{ for } 1\leq i \leq m, \text{ and}\\
+&[\vecb{c}_{i,1}]_1:=\MP.\Com_{ck_i}((x_{i,1},\ldots,x_{i,n/2^{i+1}})^\top;r_{i,1}),\\
+&[\vecb{c}_{i,2}]_1:=\MP.\Com_{ck_i}((x_{i,2^{i+1}+1},\ldots, x_{i,n/2^i})^\top;r_{i,2})\text{ for }1 < i \leq m,
+\end{align*}
+where $r_i,r_{i,1},r_{i,2}\gets\Z_q$ and the variables $x_{i,j}$ are the ones defined in equations (\ref{eq-log-1}) and (\ref{eq-log-2}). Then the prover shows that
+$[\vecb{c}_1]_1$ opens to the first or second half (depending on the value of $b_1$) of $(s_1,\ldots,s_n)$, that $[\vecb{c}_{2,1}]_1$ and $[\vecb{c}_{2,2}]$ opens to the first and second half, respectively, of an opening of $[\vecb{c}_{1}]$, and so on. This statement can be proven with a GS proof of
+ the satisfiability of
+\begin{align}
+&[\vecb{c}_1]_1-\left((1-b_1)\sum_{i=1}^{n/2}s_i[\vecb{g}_{1,i}]_1 + b_1\sum_{i=1}^{n/2} s_{n/2+i}[\vecb{g}_{1,i}]_1\right) = y_1[\vecb{g}_{1,n/2+1}]_1 \label{eq-log-4}\\
+&[\vecb{c}_i]_1-\left((1-b_i)[\vecb{c}_{i,1}]_1+b_i[\vecb{c}_{i,2}]_1\right) = y_i[\vecb{g}_{i,n/2+1}]_1, \text{ for } 1 < i \leq m,  \label{eq-log-5}
+\end{align}
+a QA-NIZK proof that
+\begin{equation}
+[\vecb{c}]_1\text{ and }[\vecb{c}_m]_1\text{ open to the same value}, \label{eq-log-6}
+\end{equation}
+and also a QA-NIZK proof that equation (\ref{eq-log-split}) is satisfied for each $1<i\leq m$.
+
+The verifier accepts the proof iff the proofs for (\ref{eq-log-split}), (\ref{eq-log-4}), (\ref{eq-log-5}), and (\ref{eq-log-6}) are valid.
+
+\subsubsection{Soundness}
+We assume $b_1,\ldots,b_m$ are bits. Note that this can be proven (with perfect soundness) with a GS proof of size $O(\log n)$ or using the more efficient proofs of Sect. \ref{sec:bits}.
+
+Suppose that an adversary outputs GS commitments to $b_1,\ldots,b_{m}\in\bits$, outputs commitments $[\vecb{c}_i]_1$ and $[\vecb{c}_{i,j}]_1$, $1< i\leq m$ and $j\in\{1,2\}$, GS proofs of the satisfiability of equations (\ref{eq-log-4}) and (\ref{eq-log-5}), and a QA-NIZK proofs of (\ref{eq-log-5}) and (\ref{eq-log-split}) for each $1<i<m$.
+
+In the next argument it will be useful to use the notation $(b_1\cdots b_m):=\sum_{i=1}^{m}b_i2^{m-i}+1$ and we define $(b_i\cdots b_m)=1$ if $i>m$.
+In the security reduction we will choose an index $(b'_2,\ldots,b'_m)\gets[n/2]$ and will choose the commitment key $ck_i$, $1\leq i \leq \log n$ from the distributions $\distlin_1^{n/2^i,(b'_{i+1}\cdots b'_m)}$, that is $\vecb{g}_{i,(b'_{i+1}\ldots b'_m)}$ is linearly independent from the other vectors in the commitment key $ck_i$. The reduction will abort if $(b'_2\cdots b'_m)\neq\sum_{i=2}^{m} b_i2^{m-i}+1$, which happens with the non negligible probability of $2/n$. From now onwards we assume that we are in the case $(b'_2,\ldots,b'_m)=\sum_{i=2}^{m} b_i2^{m-i}+1$, therefore our reduction will have a security loss factor of $2/n$.
+
+We prove by induction on $i$ that $\vecb{c}_i=s_{(b_1\cdots b_m)}\vecb{g}_{i,(b_{i+1}\cdots b_m)}+\tilde{r}_i\vecb{g}_{i,n/2^i+1}$. If this is the case, the soundness of proof (\ref{eq-log-3}) together with the fact that $ck_m$ is perfectly binding implies that $x=x_{m,1}=s_{(b_1\cdots b_m)}\in S$ and we are ready. In the base case, equation (\ref{eq-log-4}) and the fact that $\vecb{g}_{1,j}\in\Span(\vecb{g}_{1,n/2+1})$ if $j\neq (b_2\cdots b_m)$ implies that 
+\begin{align*}
+\vecb{c}_1 &= (1-b_1)s_{0b_2\cdots b_m} \vecb{g}_{1,(b_2\cdots b_m)}+b_1s_{1b_2\cdots b_m}\vecb{g}_{1,(b_2\cdots b_m)}+\tilde{r}_1\vecb{g}_{1,n/2+1}\\
+&=s_{(b_1\cdots b_m)}\vecb{g}_{1,(b_2\cdots b_m)}+\tilde{r}_1\vecb{g}_{1,n/2+1},
+\end{align*} for some $\tilde{r}_1\in\Z_q$.
+
+In the inductive case we assume that $\vecb{c}_{i-1}=s_{(b_1\cdots b_m)}\vecb{g}_{i-1,(b_i\cdots b_m)}+\tilde{r}_{i-1}\vecb{g}_{i-1,n/2^{i-1}+1}$. Since $\vecb{g}_{i-1,(b_i\cdots b_m)}$ is linearly independent from the rest of vectors in $ck_{i-1}$, any solution to equation (\ref{eq-log-split}) is equal to $s_{(b_1\cdots b_m)}$ at position $(b_i\cdots b_m)$. An analysis of the two cases $b_i=0$ or $b_i=1$ shows that $\vecb{c}_{i,b_i+1}=s_{(b_1\cdots b_m)}\vecb{g}_{i,(b_{i+1}\cdots b_m)}+\tilde{r}_{i,b_i+1}\vecb{g}_{i,2^i+1}$. Finally, equation (\ref{eq-log-5}) implies that $\vecb{c}_i=s_{(b_1\cdots b_m)}\vecb{g}_{i,(b_{i+1}\cdots b_m)}+\tilde{r}_i\vecb{g}_{i,n/2^i+1}$ for some $\tilde{r}_{i}\in\Z_q$.
+
+\subsection{The Aggregated Case}
+Let $m:=\log |S|$. The statement is now $[\grkb{\zeta}_1]=\GS.\Com_{ck}(x_1;r_1),\ldots,[\grkb{\zeta}_n]_1=\GS.\Com_{ck}(x_n;r_n)$ (note that we are not defining $n$ as $|S|$) and the prover want to show that $x_i=s_{\alpha_i}$, for all $1\leq i\leq n$ and some $\alpha_i=\sum_{j=1}^m b_{i,j}2^m+1$. We need restate equations (\ref{eq-log-1}), (\ref{eq-log-2}), and (\ref{eq-log-3}) to take in count the new variables. For $1\leq \ell\leq m,1\leq j\leq n$, define
+\begin{align*}
+&\vecb{x}_j^\ell:=
+\begin{pmatrix}
+\vecb{x}^\ell_{1,j}\\
+\hline
+\vecb{x}^\ell_{2,j}
+\end{pmatrix}
+:=
+\begin{pmatrix}
+x^\ell_{1,j}\\\vdots\\x^\ell_{|S|^{\ell+1},j}\\
+\hline
+x^\ell_{|S|/2^{\ell+1}+1,j}\\\vdots\\x^\ell_{|S|/2^\ell,j}
+\end{pmatrix},
+&\vecb{b}_\ell := 
+\begin{pmatrix}
+b_{1,\ell}\\\vdots\\b_{n,\ell}
+\end{pmatrix},\\
+&\vecb{x}_{1,j}^0 := \begin{pmatrix}
+s_1\\\vdots\\s_{|S|/2}
+\end{pmatrix},\text{ and }
+&\vecb{x}_{2,j}^0 := \begin{pmatrix}
+s_{|S|/2+1}\\\vdots\\s_{|S|}.
+\end{pmatrix}.
+\end{align*}
+We define new equations for each $1\leq j\leq n$ and $1\leq \ell \leq m$
+\begin{align}
+&\vecb{x}^\ell_j=\vecb{x}^{\ell-1}_{1,j}({1}-{b}_{j,\ell})+\vecb{x}^{\ell-1}_{2,j}{b}_{j,\ell},\label{eq-alog-1}\\
+&x_j= \vecb{x}_{j}^m\label{eq-alog-1}
+\end{align}
+
+Next, we construct a QA-NIZK proof system for the language
+$$
+\Lang_{ck,\mathsf{set}}^n:=\left\{\begin{array}{l}
+([\grkb{\zeta}_1]_1,\ldots,[\grkb{\zeta}_n]_1,S):\exists w_1,\ldots,w_n\in\Z_q \text{ s.t. } S\subset\Z_q\vee S\subset \GG_1\\
+\text{ and } \forall 1\leq i\leq n\ [\grkb{\zeta}_i]_1=\GS.\Com_{ck}(x_i;w_i)\wedge x_i\in S
+\end{array}\right\}.
+$$
+The construction follows the intuition outlined before but it ``aggregates'' many instances in a single $\Theta(\log |S|)$ proof. From a high level this is done as follows:
+\begin{itemize}
+\item Given that now there are $n$ bit-strings of size $m$, they are ``shrinked'' into $m$ Multi-Pedersen commitments whose commitment keys are $[\vecb{h}]_2,\ldots,[\vecb{h}_{n+1}]_2$. The $i$ th bit-string will be contained in $m$ coefficients of $[\vecb{h}_i]_2$.
+\item Commitments $[\vecb{c}_\ell]$ (we switched from index $i$ to $\ell$) from the intuition, which contain the $|S|/2^\ell$ elements from $S$ whose index prefix is $(b_1\cdots b_{\ell})$, should now contain $n|S|/2^\ell$ elements. Consequently, the commitment key $ck_\ell$ is enlarged so that is is able to contain the extra elements, and the coefficients of the $i$ th element are the ones from $[\vecb{g}_{i,1}^\ell]_1,\ldots,[\vecb{g}_{i,|S|/2^\ell}^\ell]_1$.
+\item Equation (\ref{eq-log-split}) is proven in the same way, enlarging the matrix as consequence of the enlargement of commitment keys.
+\item Equations (\ref{eq-log-4}) and (\ref{eq-log-5}) are no longer proven using GS proofs, but using similar techniques as the ones from Chapter \ref{sec:bits}. We will have commitments whose discrete logs can be written as linear combinations of $\vecb{g}_{i,1}^\ell,\ldots,\vecb{g}_{n,|S|/2^\ell}^\ell$ and $\vecb{h}_1,\ldots,\vecb{h}_{n+1}$. If we re-write equations (\ref{eq-log-4}) and (\ref{eq-log-5}) replacing $b's$ with commitments and multiplication with the \emph{kronecker product} (that is, $\vecb{x}\vecb{y}^\top$), we will obtain an expression which at certain coefficients of $\vecb{g}_{i,k}^\ell\vecb{h}_j^\top$ contains what we want and at others contains ``junk''. Similarly as done in Chapter \ref{sec:bits}, we will add two matrices $\matr{\Theta}$ and $\matr{\Pi}$ which will ``contain'' this junk and will help to balance the equation. It is only left to show that this new matrices are in the appropriate subspace and thus, they do not alter the equations we want to show to hold. 
+\end{itemize}
+\subsubsection{The Scheme}
+
+\begin{description}
+
+\item[{$\algK_1(\gk, ck)$}:]
+For each $1\leq \ell\leq m$ let $\matr{G}^\ell:=\matr{G}^\ell_1||\cdots||\matr{G}^\ell_n||\vecb{g}^\ell_{n|S|/2^\ell+1}\gets\distlin_1^{n|S|/2^\ell,0}$, where
+$$\matr{G}^\ell_i=
+(\matr{G}^\ell_{i,1}|\matr{G}^\ell_{i,2})
+=
+(\vecb{g}^\ell_{i,1}\cdots\vecb{g}^\ell_{i,|S|/2^{\ell+1}}|\vecb{g}^\ell_{i,|S|/2^{\ell+1}+1}\cdots\vecb{g}^\ell_{i,|S|/2^\ell})
+\in\Z_q^{2\times|S|/2^\ell},$$ $1\leq i\leq n$, and define $ck_\ell:=[\matr{G}^\ell]_1$.
+Let $\matr{H}=\begin{pmatrix}\vecb{h}_1&\cdots&\vecb{h}_n&\vecb{h}_{n+1}\end{pmatrix}\gets\distlin_1^{n,0}$ and define $ck':=[\matr{H}]_2$. 
+
+Pick $\matr{T}\gets\Z_q^{2\times 2}$ and for each $1\leq \ell\leq m$, $1\leq i \leq n|S|/2^\ell+1$, $1\leq j\leq n+1$, such that $i\neq j$ or $i=n|S|/2^\ell+1,j=n+1$, define matrices
+$$\matr{\Delta}:=([\matr{C}_{i,j}^\ell]_1,[\matr{D}_{i,j}^\ell]_2):=([\vecb{g}_{i_1,i_2}^\ell\vecb{h}_j^{\top}+\matr{T}]_1,[-\matr{T}]_2),$$
+where $i=(i_1-1)|S|/2^\ell+i_2$ for some $1\leq i_1\leq n,1\leq i_2 \leq |S|/2^\ell$. For $1\leq \ell\leq m$ let $\mathcal{C}_\ell$ the set of the matrices whose super-index is $\ell$.
+
+
+Let $\Pi_\sfsum$ be the proof system for Sum in Subspace 
+(Sect. \ref{sec:sum}), $\Pi_\mathsf{lin}$ the proof system for membership in linear subspaces from Sect. \ref{sect:QANIZKlinspace}, $\Pi_\sfbits$ the proof system for proving that many commitments open to bit-strings from section \ref{sec:matr-bits}, and $\Pi_\sfcom$
+be an instance of the proof system for Equal Commitment Opening (Sect. \ref{sec:aggcommit}).
+
+Let
+$\crs_{\sfsum,\ell} \gets \Pi_\sfsum.\algK_1(\gk, \mathcal{C}_\ell)$.\footnote{We identify
+matrices in $\GG_1^{2 \times 2}$ (respectively in $\GG_2^{2 \times 2}$) with vectors in $\GG_1^{4}$ (resp. in $\GG_2^{4}$).}, let $\crs_{\mathsf{lin},\ell}\gets \Pi_\mathsf{lin}.\algK_1(gk;[\matr{G}^\ell_{\mathsf{split}}]_1,n|S|/2^{\ell}+3)$, let $\crs_\sfbits\gets\Pi_\sfbits.\algK_1(gk,[\matr{H}]_2,m)$, and let $\crs_\sfcom \gets \Pi_\sfcom.\algK_1(\gk, \bmatr{G}_1,\bmatr{H}_2,m)$, where
+$$
+\matr{G}_\mathsf{split}^\ell:=
+\begin{pmatrix}
+\matr{G}^{\ell}_{1,1} & \matr{G}^{\ell}_{1,2} & \cdots & \matr{G}^{\ell}_{n,1} & \matr{G}^{\ell}_{n,2} & \vecb{g}^{\ell}_{n|S|/2^{\ell}+1} & \matr{0}                       & \matr{0}\\
+\matr{G}^{\ell+1}_{1} & \matr{0}           & \cdots & \matr{G}^{\ell+1}_{n} & \matr{0}           & \matr{0}                    &\vecb{g}^{\ell+1}_{n|S|/2^{\ell+1}+1} & \matr{0}\\
+\matr{0}           & \matr{G}^{\ell+1}_{1} & \cdots & \matr{0}           & \matr{G}^{\ell+1}_{n} & \matr{0}                    & \matr{0}                       & \vecb{g}^{\ell+1}_{n|S|/2^{\ell+1}+1}
+\end{pmatrix}.
+$$
+The common reference string is given by:
+\begin{eqnarray*}
+\mathsf{crs}&:=&\left( gk, [\matr{G}]_1,
+    [\matr{H}]_2, \{\mathcal{C}_\ell,\crs_{\sfsum,\ell},\crs_{\mathsf{lin},\ell}:1\leq \ell\leq m\},\crs_\sfbits,\crs_\sfcom \right).
+ \end{eqnarray*}
+
+
+\item[{$\algP(\mathsf{crs}, ([\grkb{\zeta}_1]_1, \ldots, [\grkb{\zeta}_n]_1,S), \langle (x_1,\ldots,x_n),(w_1,\ldots,w_n) \rangle)$}:]
+The prover compute commitments
+\begin{align*}
+&[\vecb{c}_\ell]_1:=\MP.\Com_{ck_\ell}({\vecb{x}^\ell_1}^\top,\ldots,{\vecb{x}^\ell_n}^\top;r_\ell), \text{ for }1\leq \ell \leq m,\\
+&[\vecb{c}_{\ell,1}]_1:=\MP.\Com_{ck_\ell}({\vecb{x}^\ell_{1,1}}^\top,\ldots,{\vecb{x}^\ell_{1,n}}^\top;r_{1,\ell}),\\
+&[\vecb{c}_{\ell,2}]_1:=\MP.\Com_{ck_\ell}({\vecb{x}^\ell_{2,1}}^\top,\ldots,{\vecb{x}^\ell_{2,n}}^\top;r_{2,\ell}), \text{ for } 1<\ell\leq m\\
+&[\vecb{d}_\ell]_2:=\MP.\Com_{ck'}(\vecb{b}_\ell;t_\ell),\text{ for } 1\leq i\leq m
+\end{align*}
+ where $r_\ell,r_{\ell,1},r_{\ell,2},t_j\gets\Z_q$ and the variables $x^\ell_{j,\ell}$ are the ones defined in equation (\ref{eq-alog-1}). The prover computes a proof $\pi_\sfbits$ that $[\vecb{d}_1]_2,\ldots,[\vecb{d}_m]_2$ open to bit-strings. Then, for $1\leq\ell\leq m$, the prover pick matrices $\matr{R}_\ell\gets\Z_q^{2\times 2}$, computes
+\begin{align*}
+([\matr{\Theta}_\ell]_1,[\matr{\Pi}_\ell]_2)  = & \sum_{i=1}^n\sum_{j\neq i}\sum_{k=1}^{|S|/2^\ell}(x^\ell_{k,i}-x^{\ell-1}_{k,i}(1-b_{j,\ell})-x^{\ell-1}_{|S|/2^\ell+k,j}b_{j,\ell})\matr{\Delta}_{(i-1)|S|/2^\ell+k,j}^\ell\\
+&+ \sum_{i=1}^n\sum_{k=1}^{|S|/2^\ell}t_\ell(x^{\ell-1}_{k,i}-x^{\ell-1}_{|S|/2^{\ell}+k,i})\matr{\Delta}_{(i-1)|S|/2^\ell+k,n+1}^\ell \\
+&+ \sum_{j=1}^n (r_\ell-r_{1,\ell}(1-b_{j,\ell})-r_{2,\ell}b_{j,\ell})\matr{\Delta}_{n|S|/2^\ell+1,j}^\ell \\
+&+(r_{1,\ell}-r_{2,\ell})t_\ell\matr{\Delta}^\ell_{n|S|/2^\ell+1,n+1}+([\matr{R}_\ell]_1,[-\matr{R}_\ell]_2),
+\end{align*}
+where $r_{1,1}=r_{2,1}=0$, and computes proofs that
+\begin{align*}
+&\begin{pmatrix}
+\vecb{c}_{\ell}\\\vecb{c}_{\ell+1,1}\\\vecb{c}_{\ell+1,2}
+\end{pmatrix}\in
+\Span(\matr{G}^{\ell}_\mathsf{split})\ (\text{ if }\ell< m), &\matr{\Theta_\ell}+\matr{\Pi_\ell}\in\Span(\mathcal{C}_\ell).
+\end{align*}
+Finally, it proves that $([\grkb{\zeta}_1]_1,\ldots,[\grkb{\zeta}_n]_1$ and $[\vecb{c}_m]_1$ open to the same value.
+
+The proof is $\pi:=(\{([\vecb{c}_\ell]_1,[\vecb{c}_{\ell,1}]_1,[\vecb{c}_{\ell,2}]_1,[\vecb{d}_\ell]_2,[\matr{\Theta}_\ell]_1,[\matr{\Pi}_\ell]_2,\pi_{\mathsf{lin},\ell},\pi_{\sfsum,\ell}):1\leq\ell\leq m\},\pi_\sfbits,\pi_\sfcom)$.
+
+\item[{$\algV(\crs,([\grkb{\zeta}_1]_1, \ldots, [\grkb{\zeta}_n]_1,S),\pi)$}:]
+Let $[\vecb{c}_{1,1}]_1:=\MP.\Com_{ck_1}(s_1,\ldots,s_{|S|/2};0),[\vecb{c}_{1,2}]:=\MP.\Com_{ck_1}(s_{|S|/2+1},\ldots,s_{|S|};0)$. The verifier checks the validity of $\pi_\sfbits,\pi_\sfcom$ 
+and, for each $1\leq \ell\leq m$, checks the validity of $\pi_{\mathsf{lin},\ell},\pi_{\sfsum,\ell}$ and of equations
+\begin{align}
+&[\vecb{c}_\ell]_1\left(\sum_{j=1}^n [\vecb{h}_j]_2\right)^\top-
+[\vecb{c}_{\ell,1}]_1\left(\sum_{j=1}^n[\vecb{h}_j]_2-[\vecb{d}_\ell]_2\right)^\top-
+[\vecb{c}_{\ell,2}]_1[\vecb{d}_\ell]_2^\top = \nonumber\\
+&[\matr{\Theta}_\ell]_1[\matr{I}]_2+[\matr{I}]_1[\matr{\Pi}_\ell]_2.  \label{eq-alog-5}
+\end{align}
+
+\end{description}
+
+We prove the following Theorem.
+
+\begin{theorem} \label{theo:bits}
+The proof system described above is a QA-NIZK proof system for the language $\Lang_{ck,\mathsf{set}}^n$
+ with Perfect Completeness, Computational Soundness, and Perfect Zero-Knowledge.
+\end{theorem}	
+
+\subsubsection{Completeness}
+Completeness follows from completeness of $\Pi_\sfsum,\Pi_\mathsf{lin},\Pi_\sfbits,\Pi_\sfcom$, and from the fact that equation (\ref{eq-alog-5}) is satisfied for each $1\leq\ell\leq m$:
+\begin{align*}
+&\vecb{c}_\ell\left(\sum_{j=1}^n \vecb{h}_j\right)^\top-
+\vecb{c}_{\ell,1}\left(\sum_{j=1}^n\vecb{h}_j-\vecb{d}_\ell\right)^\top-
+\vecb{c}_{\ell,2}\vecb{d}_\ell^\top &= \\
+&\sum_{i=1}^n\sum_{j=1}^n\matr{G}^\ell_i\vecb{x}^\ell_i\vecb{h}_j^\top+\sum_{j=1}^nr_\ell\vecb{g}_{n|S|/2^\ell+1}^\ell\vecb{h}_j^\top
+-\sum_{i=1}^n\sum_{j=1}^n\matr{G}^\ell_i\vecb{x}^{\ell-1}_{1,i}(1-b_{j,\ell})\vecb{h}_j^\top\\
+&+\sum_{i=1}^n\matr{G}^\ell_i\vecb{x}^{\ell-1}_{1,i} t_\ell\vecb{h}_{n+1}^\top-\sum_{j=1}^nr_{1,\ell}\vecb{g}^\ell_{n|S|/2^\ell+1}\vecb{h}_j^\top+ r_{1,\ell}t_\ell\vecb{g}^\ell_{n|S|/2^\ell+1}\vecb{h}_{n+1}^\top\\
+&-\sum_{i=1}^n\sum_{j=1}^n\matr{G}^\ell_i\vecb{x}^{\ell-1}_{2,i}b_{j,\ell}\vecb{h}_j^\top-\sum_{i=1}^n\matr{G}^\ell_i\vecb{x}^{\ell-1}_{2,i} t_\ell\vecb{h}_{n+1}^\top-\sum_{j=1}^nr_{2,\ell}\vecb{g}^\ell_{n|S|/2^\ell+1}\vecb{h}_j^\top\\
+&- r_{2,\ell}t_\ell\vecb{g}^\ell_{n|S|/2^\ell+1}\vecb{h}_{n+1}^\top &=\\
+&\sum_{i=1}^n\sum_{j\neq i}\matr{G}^\ell_i(\vecb{x}^\ell_i-(\vecb{x}^{\ell-1}_{1,i}(1-b_{j,\ell})+\vecb{x}^{\ell-1}_{2,1}b_{j,\ell}))\vecb{h}_j^\top+\\
+&\sum_{i=1}^n\matr{G}^\ell_i(\vecb{x}^{\ell-1}_{1,i}-\vecb{x}^{\ell-1}_{2,i})t_\ell\vecb{h}_{n+1}^\top+\sum_{j=1}^n(r_\ell-r_{1,\ell}-r_{2,\ell})\vecb{g}_{n|S|/2^\ell+1}^\ell\vecb{h}_{j}^\top\\
+&+(r_{1,\ell}-r_{2,\ell})t_\ell\vecb{g}^\ell_{n|S|/2^\ell+1}\vecb{h}_{n+1}^\top &=\\
+&\sum_{i=1}^n\sum_{j\neq i}\sum_{k=1}^{|S|/2^\ell}(x_{k,i}^\ell-(x_{k,i}^{\ell-1}(1-b_{j,\ell})+x_{|S|/2^\ell+k,i}^{\ell-1}b_{j,\ell})))\vecb{g}_{(i-1)|S|/2^\ell+k}^\ell\vecb{h}_j^\top\\
+&+\sum_{i=1}^n\sum_{k=1}^{|S|/2^\ell}t_\ell(x_{k,i}^{\ell-1}-x_{|S|/2^\ell+k,i}^{\ell-1})\vecb{g}_{(i-1)|S|/2^\ell+k}^\ell\vecb{h}_{n+1}^\top\\
+&\sum_{j=1}^n(r_\ell-r_{1,\ell}-r_{2,\ell})\vecb{g}_{n|S|/2^\ell+1}^\ell\vecb{h}_{j}^\top+(r_{1,\ell}-r_{2,\ell})t_\ell\vecb{g}^\ell_{n|S|/2^\ell+1}\vecb{h}_{n+1}^\top &=\\
+&\matr{\Theta}\matr{I}+\matr{I}\matr{\Pi}.
+\end{align*}
+
+\subsubsection{Soundness}
+
+The following theorem guarantees Soundness. 
+ 
+\begin{theorem} Let $\mathsf{Adv}_{\mathcal{PS}}(\advA)$ 
+be the advantage of an adversary $\advA$ against the soundness of 
+the proof system  described above. There exist PPT adversaries
+$\advB_1,\advB_2,\advB_3,\advSound_1,\advSound_2$ such that 
+\begin{eqnarray*}
+\mathsf{Adv}_{\mathcal{PS}}(\advA) & \leq 
+n& \left(6/q+ \mathsf{Adv}_{\mathcal{U}_1,\Gr}(\advB_1)
++  \mathsf{Adv}_{\mathcal{U}_1,\Hr}(\advB_2)
++  \mathsf{Adv}_{\SP_{\Hr}}(\advB_3)\right. \\
+& & \mbox{ } 
++  \left.\mathsf{Adv}_{{\Psi_\sfsum}}(\advSound_1)
++
+ \mathsf{Adv}_{{\Psi_\sfcom}}(\advSound_2)\right).
+\end{eqnarray*}
+\label{teo:bitstr-soundness}
+\end{theorem}
+
+The proof follows from the indistinguishability of the following games:
+\begin{itemize}
+\item[$\mathsf{Real}$:] This is the real Soundness game. The output is 1 if the adversary submits some $([\grkb{\zeta}_1]_1,\ldots,[\grkb{\zeta}_n]_1,S)\notin\Lang_{ck,\mathsf{set}}^n$ and the corresponding proof which is accepted by the verifier.
+\item[$\sfGame_0$:] This identical to $\mathsf{Real}$, except that $\algK_1$ does not receive $ck$ as a input but
+it samples $ck$ itself together with its discrete logarithms.
+\item[$\sfGame_1$:] This game is identical to $\sfGame_0$ except that now it choose random $j^*\in[n]$ and it aborts if $x_{j^*}\notin S$.
+\item[$\sfGame_2$:] This game is identical to $\sfGame_1$ except that now $\matr{H}\gets\distlin^{n,j^*}_n$.
+\item[$\sfGame_3$:] This game is identical to $\sfGame_2$ except that now it chooses $(b'_{j^*,2}\cdots b'_{j^*,m})\gets |S|/2$ (recall that $(b_1\cdots b_m)=\sum_{i=1}b_i2^{m-i}+1$) and aborts if $(b_1,\ldots,b_m)\notin\bits^m$ or $(b'_{j^*,2}\cdots b'_{j^*,m})\neq(b_{j^*,2}\cdots b_{j^*,m})$, where $b_{j^*,2},\ldots,b_{j^*,m}$ are the openings of $[\vecb{d}_2]_2,\ldots,[\vecb{d}_m]_2$ at coordinate $j^*$, respectively.
+\item[$\sfGame_4$:] This game is identical to $\sfGame_3$ except that now $\matr{G}^\ell\gets\distlin_1^{n|S|/2^\ell,(j^*-1)|S|/2^\ell+(b_{\ell+1}\cdots b_m)}$, for $1\leq\ell\leq m$.
+\end{itemize}
+
+It is obvious that the first two games are indistinguishable. The rest of the argument goes as follows.
+
+\begin{lemma}
+$\Pr\left[ \mathsf{Game}_1(\advA)=1\right]\geq\dfrac{1}{n}\Pr\left[\mathsf{Game}_0(\advA)=1\right].$
+\end{lemma}
+
+\begin{proof}  The probability that
+ $\mathsf{Game}_1(\advA)=1$ is the probability that  a) $\mathsf{Game}_0(\advA)=1$ and
+b)  $x_{j^*} \notin S$. The view of adversary $\advA$ is independent of $j^*$, while, if $\mathsf{Game_0}(\advA)=1$, then there is at least one index $j \in [n]$ such that  
+such that  $x_{j} \notin S$. Thus, 
+the probability that the event described in b) occurs conditioned on $\mathsf{Game_0}(\advA)=1$, is greater than or equal to $1/n$ and the lemma follows.
+\end{proof}
+
+\begin{lemma} There exists a\ $\distlin_1$-$\mddh_{\GG_2}$ adversary $\advD_1$ such that
+$|\Pr\left[\mathsf{Game}_{1}(\advA)=1\right]\linebreak-\Pr\left[\mathsf{Game}_{2}(\advA)=1\right]|$ $\leq \mathsf{Adv}_{\distlin_1,\ggen_a}(\advD_1).$
+\end{lemma}
+\begin{proof}
+We construct an adversary $\advD_1$ that receives 
+a challenge $([\vecb{a}]_2,[\vecb{u}]_2)$ of the 
+$\distlin_1$-$\mddh_{\GG_2}$ Assumption. From this challenge, $\advD_1$ just defines the matrix  $[\matr{H}]_2\in\GG_2^{2\times(n+1)}$ as the matrix whose last column is $[\vecb{a}]_2$, the ith column is $[\vecb{u}]_2$, and the rest of the columns are random vectors in the image of $[\vecb{a}]_2$. 
+Obviously, when $[\vecb{u}]_2$ is sampled from 
+the image of $[\vecb{a}]_2,$ $\matr{H}$ follows the distribution $\distlinizeroone$, while if $[\vecb{u}]_2$ is a uniform element of $\GG^2$, $\matr{H}$ follows the distribution $\distlin_1^{n,j^*}$. 
+ 
+Adversary $\advD_1$ samples
+$\matr{G}^\ell \gets \distlin_1^{n|S|/2^\ell,0}$. Given that $\advD_1$ does not know the discrete logarithms of $[\matr{H}]_2$, it cannot compute the pairs $(\matr{C}^\ell_{i,j},\matr{D}^\ell_{i,j})$ exactly as in $\sfGame_0$. Nevertheless, for each $i,j,\ell$ it can compute identically distributed pairs by picking $\matr{T}\gets\Z_q^{2\times 2}$ and defining
+$$
+([\matr{C}^\ell_{i,j}]_1,[\matr{D}^\ell_{i,j}]_2):=([\matr{T}]_1,\vecb{g}_{i_1,i_2}^\ell[\vecb{h}_j]_2^\top-[\matr{T}]_2),
+$$
+where $i=(i_1-1)|S|/2^\ell+i_2$ for some $1\leq i_1\leq n,1\leq i_2 \leq |S|/2^\ell$.
+
+The rest of the elements of the CRS are honestly computed. When $\matr{H}\gets\distlin_1^{n,0}$, $\advD_1$ perfectly simulates $\sfGame_0$, and when $\matr{H}\gets\distlin_1^{n,j^*}$, $\advD_1$ perfectly simulates $\sfGame_1$, which concludes the proof. 
+\end{proof}
+
+\begin{lemma} There exists an adversary $\advB_\sfbits$ against $\Pi_\sfbits$ such that
+$\Pr\left[ \mathsf{Game}_2(\advA)=1\right]\geq\dfrac{2}{|S|}(\Pr\left[\mathsf{Game}_3(\advA)=1\right]+\adv_{\Pi_\sfbits}(\advB_\sfbits)).$
+\end{lemma}
+
+\begin{proof}  The probability that
+ $\mathsf{Game}_3(\advA)=1$ is the probability that  a) $\mathsf{Game}_2(\advA)=1$ and
+b) $(b_1,\ldots,b_m)\notin\bits^m$ or $(b'_2\cdots b'_m) \neq (b_2\cdots b_m)$. If $(b_1,\ldots,b_m)\notin\bits^m$ we can build an adversary $\advB_\sfbits$ against $\Pi_\sfbits$ and thus, the probability that $(b_1,\ldots,b_m)\in\bits^m$ is less than $\adv_{\Pi_\sfbits}(\advB_1)$. The view of adversary $\advA$ is independent of $(b'_2\cdots b'_m)$, while, if $\mathsf{Game_2}(\advA)=1$ and $(b_1,\ldots,b_m)\in\bits^{m}$, then $(b_2\cdots b_m)\in[|S|/2]$. Thus, 
+the probability that the event described in b) occurs conditioned on $\mathsf{Game_0}(\advA)=1$ and $(b_1,\ldots,b_m)\in\bits^{m}$, is greater than or equal to $2/|S|$ and the lemma follows.
+\end{proof}
+
+\begin{lemma} There exists a $\distlin_1$-$\mddh_{\GG_1}$ adversary $\advD_2$ such that
+$|\Pr\left[\mathsf{Game}_{3}(\advA)=1\right]\allowbreak-\Pr\left[\mathsf{Game}_{4}(\advA)=1\right]|$ $\leq
+    \mathsf{Adv}_{\distlin_1,\GG_1}(\advD_2).$
+\label{lemma:bits2}
+\end{lemma}
+
+\begin{proof}
+We construct an adversary $\advD_2$ that receives 
+a challenge $([\vecb{a}]_1,[\vecb{u}]_1)$ of the 
+$\distlin_1$-$\mddh_{\GG_1}$ Assumption. From this challenge, $\advD_2$ defines for each $1\leq\ell\leq m$ the matrix  $[\matr{G}^\ell]_1$ as the matrix whose  $(j^*-1)|S|/2^\ell+(b_{\ell+1}\cdots b_m)$ th column is $[\vecb{u}]_1$, and the rest of the columns are random vectors in the image of $[\vecb{a}]_1$. 
+Obviously, when $[\vecb{u}]_1$ is sampled from 
+the image of $[\vecb{a}]_1$, $[\matr{G}^\ell]_1$ follows the distribution $\distlin_1^{n|S|/2^\ell,0}$, while if $[\vecb{u}]_2$ is a uniform element of $\GG^2$, $[\matr{G}^\ell]_1$ follows the distribution $\distlin_1^{n|S|/2^\ell,(j^*-1)|S|/2^\ell+(b_{\ell+1}\cdots b_m)}$. 
+ 
+The rest of the elements of the CRS are honestly computed. When $[\vecb{u}]_1$ is sampled from the image of $[\matr{a}]_1$, $\advD_1$ perfectly simulates $\sfGame_3$, and when $[\vecb{u}]_1$ is uniform, $\advD_1$ perfectly simulates $\sfGame_4$, which concludes the proof. 
+
+\end{proof}
+
+
+\begin{lemma}
+There exist adversaries $\advB_1$, against the strong soundness of $\Pi_\sfcom$, and $\advB_2$, against the soundness of $\Pi_\sfsum$, such that $\Pr[\sfGame_1(\advA)=1]\leq 4/q+ \adv_{\Pi_\sfcom}(\advB_1)+\adv_{\Pi_\sfsum}(\advB_2)$.
+\end{lemma}
+\begin{proof}
+With probability $1-4/q$, $\{\vecb{g}_{i^*},\vecb{g}_{m+1}\}$ and $\{\vecb{h}_{i^*},\vecb{h}_{m+1}\}$ are both bases of $\Z_q^2$,
+we can define $b_{i^*},\overline{w}_g,\overline{w}_h,\overline{b}_{i^*}$ as the unique coefficients in $\Z_q$ such that $\vecb{c}=b_{i^*}\vecb{g}_{i^*} + \overline{w}_g \vecb{g}_{m+1}$ and $\vecb{d}= \bb_{i^*} \vecb{h}_{i^*} + \overline{w}_h \vecb{h}_{m+1}$.
+
+In particular, if $\advA$ breaks soundness, this implies that $b_{i^*} \notin \{0,1\}$ (since for $i\neq i^*$, 
+$\vecb{c}$ can always be opened to 
+  choose $b_i=0$). Further, the verifier accepts the proof proof:
+$ (
+        [\vecb{d}]_2,
+        ([\matr{\Theta}]_1, [\matr{\Pi}]_2), 
+        \pi_\sfcom,\pi_\sfsum )$
+  produced by $\advA$.
+We distinguish two cases:
+\begin{description}
+\item[$b_{i^*} \neq \overline{b}_{i^*}$:] Given that $[\vecb{c}]_1$ and $[\vecb{d}]_2$ are perfectly binding at coordinate $i^*$, if $b_{i^*}\neq\bb_{i^*}$ it is not possible that $[\vecb{c}]_1$ and $[\vecb{d}]_2$ open to the same value. We construct an adversary $\advB_1$ against the strong soundness 
+of $\Pi_\sfcom$ that simulates game $\sfGame_1$ with $\advA$ (using $\matr{H}$ to simulate the CRS) until it halts and outputs $([\vecb{c}]_1,[\vecb{d}]_2,\pi_\sfcom)$. If $b_{i^*}\neq\bb_{i^*}$, $\pi_\sfcom$ is a fake proof for $([\vecb{c}]_1,[\vecb{d}]_2)$ opening to the same value and then $\advB_1$ breaks the strong soundness of $\Pi_\sfcom$.
+\item[$b_{i^*} = \overline{b}_{i^*}$, 
+$b_{i^*}(\overline{b}_{i^*} -1) \neq 0$:]
+If we express $\matr{\Theta}+\matr{\Pi}$
+as a linear combination of $\{\vecb{g}_{i}\vecb{h}_{j}^{\top}:i,j\in[n+1]\}$, the coordinate of
+$\vecb{g}_{i^*}\vecb{h}_{i^*}^\top$ is $b_{i^*}(\bb_{i^*}-1)\neq 0$ and thus $\matr{\Theta}+\matr{\Pi}\notin\Span(\{\matr{C}_{i,j}+\matr{D}_{i,j}:(i,j)\in\indexSet{m}{1}\})$. We construct an adversary $\advB_2$ against the soundness of $\Pi_\sfsum$ that simulates game $\sfGame_1$ with $\advA$ until it halts and outputs $([\matr{\Theta}]_1,[\matr{\Pi}]_2,\pi_\sfsum)$. If $b_{i^*} = \overline{b}_{i^*}$ but $b_{i^*}(\overline{b}_{i^*} -1) \neq 0$, $\pi_\sfsum$ is a fake proof for $([\matr{\Theta}]_1,[\matr{\Pi}]_2)$ and then $\advB_2$ breaks the soundness of $\Pi_\sfsum$.
+\end{description}
+\end{proof}
+
+\subsubsection{Perfect Zero-Knowledge}
+First, note that the vector $[\vecb{d}]_2 \in \GG_2^2$ output by the prover and the vector output by $\algS_2$ follow exactly the same distribution. This is because $\matr{H}\gets\distlinizeroone$ defines perfectly hiding commitments. In particular, although the simulator $\algS_2$ does not know $\vecb{b} \in \{0,1\}^{m}$ such that $[\vecb{c}]_1=[\matr{G}]_1\smallpmatrix{\vecb{b}\\r}$, for some $r\in\Z_q$, 
+there exists $s \in \Z_q$ such that $[\vecb{d}]_2=[\matr{H}]_2\smallpmatrix{\vecb{b}\\ s}$. 
+
+Since $\matr{R}$ is chosen uniformly at random in $\Z_q^{2 \times 2}$, the proof $([\matr{\Theta}]_1, [\matr{\Pi}]_2)$ is uniformly distributed conditioned on satisfying check 1) of algorithm $\algV$.
+ Finally, the rest of the proof follows from Zero-Knowledge of $\Pi_\sfsum$ and $\Pi_\sfcom$.
