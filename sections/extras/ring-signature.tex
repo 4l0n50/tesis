@@ -1,3 +1,44 @@
+Ring signatures, introduced by Rivest, Shamir and Tauman, \cite{AC:RivShaTau01}, allows the holder of the secret key for a signature scheme to \emph{anonymously} sign a message on behalf of a \emph{ring} of users $R=\{vk_1,\ldots,vk_n\}$, where $vk_i$ is the verification key of party $P_i$, only if $sk$ is the corresponding secret key of one of the verfication keys in $R$.
+
+The literature on ring signatures is vast, and, while there exist even constant size solutions \cite{EC:DKNS04}, most of them rely on the non standard \emph{Random Oracle Model}. Without random oracles the history is not so nice: most of the constructions have signatures of size linear in the size of the ring, with the sole exception of the Ring Signature of Chandran et al. \cite{ICALP:ChaGroSah07} (already discussed, and optimized, in Sect. \ref{sec:bits-applications}). We remark that no asymptotic improvements to Chandran et al. construction have been made since their introduction (only improvements in the constants by R\`afols \cite{TCC:Rafols15} and the improvements from Sect. \ref{sec:bits-applications}).\footnote{In \cite{ACISP:BosDasRan15}, Bose et al. claimed to construct a constant-size Ring Signature in the standard model. However, they construct a weak Ring Signature where: a) the public keys are generated all at once in a correlated way; b) the set of parties which are able to participate in a ring is fixed as well as the maximum ring size; and c) the key size is linear in the maximum ring size. In the work of Chandran et al. and also in our setting: a) the key generation is independently run by the user using only the CRS as input; b) any party is able to belong to a ring as long as she has a verification key and the maximum ring size is unbounded; and c) the key size is constant. This stronger requirements are in line with the original spirit of \emph{non-coordination} of  Rivest et al. \cite{AC:RivShaTau01}.}
+
+In this section we present the first Ring Signature whose signature size is asymptoticaly smaller than Chandran's et al. Specifically, our Ring Signature is of size $\Theta(\sqrt[3]{n})$. Interestingly, the security of our construction rely on a security assumption introduced by Groth and Lu \cite{AC:GroLu07} in an unrelated setting: Proofs of Correctness of a Shuffle. While the assumption is ``non-standard'', in the sense that is not a ``DDH like'' assumption, it is a falsifiable assumption and it was proven to be generically hard by Groth and Lu.
+
+\subsection{High Level Description}
+
+Our Ring signature follows the Ring Signature of Chandran et al. Given a Boneh-Boyen Signature secret/verification keys $(sk,[vk]_1)$, $sk=vk\in\Z_q$, a message $m$, and a ring $R=\{[vk_1]_1,\ldots,[vk_n]_1\}$: a) pick a one-time signature key, sing $m$ with the one-time signature, and sign the one time verification key with $vk$; b) commit to the signature of the one time verification key and $[vk]_1$ and show that it is a valid signature key using GS proofs; c) Show that $[vk]_1\in R$. The most costly part is c) and our contribution is a proof of size $\Theta(\sqrt[3]{n})$ of c).
+
+Our construction is similar to the proof system for set membership with proof size $\Theta(\sqrt[3]{n})$ from Sect. \ref{sec:bits-applications}. Note that proof system from Sect. \ref{sec:bits-applications} does not suffice for constructing a ring signature because the CRS is fixed to a specific set and thus, the resulting ring signature will be fixed to a specific ring. 
+%We will show how to overcome this problem, but first it will be useful to see how the ``flawed'' ring signature looks like.
+
+%We will define the ring signature CRS as the part which is independent of the ring, that is the matrix $[\matr{A}]_2$, and the other part will be the public keys. Given the ring $R=\{P_1,\ldots,P_n\}$, the public key of party $P=P_\alpha$, where $i=m^2(i_\alpha-1)+m(j_\alpha-1)+k_\alpha$, is $[vk_\alpha]_1$ and we also need to add $\vecb{a}_{i_\alpha}[vk_\alpha]_1$ to carry on the proof of membership in $R$. 
+
+%Given that we are assuming that the ring is $R=\{\ldots,P_\alpha,\ldots\}$ we are not prepared for another ring $R'$ where $P_\alpha$ appears in other position. One possible solution is to enlarge the public key including also $\vecb{a}_{1}[vk_\alpha]_1,\ldots,\vecb{a}_{m}[vk_\alpha]_1$, however the maximum ring size will be fixed and the public key size will be $\Theta(\sqrt[3]{n})$ and not constant. We would like to build a scheme without this disadvantages.
+
+In our scheme the secret/verification keys of party $P$ are $(sk,\vecb{vk})$, where $\vecb{vk}=([vk]_1,[\vecb{a}]_2,\vecb{a}[vk]_1)$, $(sk,[vk]_1)$ are secret/verification keys of the Boneh-Boyen signature scheme, and $\vecb{a}\gets\dist_{k,1}$ is chosen independently for each key. Now, using the $\Theta(\sqrt{n})$ set membership proof from Sect. \ref{sec:bits-applications} (the one where the set is not fixed) and given the ring $R=\{\vecb{vk}_{(1,1,1)},\ldots,\vecb{vk}_{(m,m,m)}\}$ (recall notation $(i,j,k):=(i-1)m^2+(j-1)m+k$, where $m=\sqrt[3]{n}$), the prover selects an element $[\vecb{x}]_2$ from the set $S_1=\{\sum_{i\in[m]}[\vecb{a}_{(i,1,1)}]_2,\ldots,\sum_{i\in[m]}[\vecb{a}_{(i,m,m)}]_2\}$ and an element $[\vecb{y}]_1$ from the set $S_2=\{\sum_{i\in[m]}\vecb{a}_{(i,1,1)}[vk_{(i,1,1)}]_1,\ldots,\sum_{i\in[m]}\vecb{a}_{(i,m,m)}[vk_{(i,m,m)}]_1\}$. Both sets are of size $n^{2/3}$ and thus the set membership proof is of size $\Theta(\sqrt[3]{n})$.
+
+Now that the prover has selected elements $[\vecb{x}]_2=\sum_{i\in[m]}[\vecb{a}_{(i,j_\alpha,k_\alpha)}]_2$ and $[\vecb{y}]_1=\sum_{i\in[m]}\vecb{a}_{(i,j_\alpha,k_\alpha)}[vk_{(i,j_\alpha,k_\alpha)}]_1$, we would like to extract from them  $[vk_\alpha]_1=[vk_{(i_\alpha,j_\alpha,k_\alpha)}]_1$. To do so we will use the following assumption introduced by Groth and Lu \cite{AC:GroLu07}.
+
+\begin{definition}[Permutation Pairing Assumption]
+Let $\dist_{k,m}=\underbrace{\dist_{k,1}||\ldots||\dist_{k,1}}_{m\text{ times}}$, where concatenation of matrix distributions is defined in the natural way. We say that the $m$-Permutation Pairing Assumption holds relative to $\G$ if for any adversary $\advA$
+$$
+\Pr\left[
+\begin{array}{l}
+gk\gets\G(1^k);\vecb{a}\gets\dist_{k,m};[\vecb{z}]_2\gets\advA(gk,[\vecb{a}]_2):\\
+\sum_{i\in[m]}[\vecb{z}_i]_2=\sum_{i\in[m]}[\vecb{a}_i]_2\text{ and }
+\vecb{z}\text{ is not a permutation of }\vecb{a}
+\end{array}
+\right]
+$$
+is negligible in $k$.
+\end{definition}
+
+The prover additionally commits to $[\kappa_1]_1:=[vk_{(1,j_\alpha,k_\alpha)}]_1,\ldots,[\kappa_m]_1:=[vk_{(m,j_\alpha,k_\alpha)}]_1$ and $[\vecb{z}_1]_2:=[\vecb{a}_{(1,j_\alpha,k_\alpha)}]_2,\ldots,[\vecb{z}_m]_2:=[\vecb{a}_{(m,j_\alpha,k_\alpha)}]_2$. A proof that $\sum_{i\in[m]}[\vecb{z}_i]_2=[\vecb{x}]_2$ guarantees that $[\vecb{z}_1]_2,\ldots,[\vecb{z}_m]_2$ is a permutation of $[\vecb{a}_{(1,j_\alpha,k_\alpha)}]_2,\ldots,[\vecb{a}_{(m,j_\alpha,k_\alpha)}]_2$, unless one can break the $m$-Permutation Pairing assumption, and a proof that $\sum_{i\in[m]}[\kappa_i]_1[\vecb{z}_i]_2=[\vecb{y}]_1[1]_2$ guarantees that $[\kappa_1]_1,\ldots,[\kappa_m]_1$ is a permutation of $[vk_{(1,j_\alpha,k_\alpha)}]_1,\ldots,[vk_{(m,j_\alpha,k_\alpha)}]_1$, unless one can break the $\dist_{k,m}\mbox{-}\kermdh$ assumption.
+
+At this point the prover can simply select an element from $[\kappa_1]_1,\ldots,[\kappa_m]_1$, which is guaranteed to be an element from the ring.
+
+\paragraph{Remark.}
+A natural question is if this technique can be applied once again. That is, to compute a $\Theta(\sqrt[4]{n})$  proof, compute commitments to an element from $S_1=\{\sum_{i\in[m]}\vecb{a}_{(i,1,1,1)}[vk_{(i,1,1,1)}]_1,\ldots,\sum_{i\in[m]}\vecb{a}_{(i,m,m,m)}[vk_{(i,m,m,m)}]_1\}$ and $S_2=\allowbreak\{\sum_{i\in[m]}[\vecb{a}_{(i,1,1,1)}]_2,\ldots,\sum_{i\in[m]}[\vecb{a}_{(i,m,m,m)}]_2\}$, and then prove that they belong to the respective sets with the proof of size $\Theta(\sqrt[3]{n})$. Since $|S_1|=|S_2|=n^{3/4}$, proof will be of size $\Theta(\sqrt[3]{n^{3/4}})=\Theta(\sqrt[4]{n})$. However, this is not possible since the $\Theta(\sqrt[3]{n})$ proof is not a set membership proof for arbitrary sets, but only for sets where each element is of the form $([vk]_1,\vecb{a}[vk]_1,[\vecb{a}]_2)$.
 
 \subsection{Definition}
 We follow the definitions from \cite{ICALP:ChaGroSah07} described below.
@@ -8,7 +49,7 @@ PPT algorithms $(\mathsf{CRSGen}, \mathsf{Gen}, \mathsf{Sign}, \mathsf{Verify})$
 reference string, generate keys for a user, sign a message, and verify the signature of a
 message.
 \begin{itemize}
-\item $\mathsf{CRSGen}(1^k)$, where $k$ is a security parameter, outputs the common reference
+\item $\mathsf{CRSGen}(gk)$, where $gk$ is the group key, outputs the common reference
 string $\rho$.
 \item $\mathsf{Gen}(\rho)$ is run by the user. It outputs a public verification key $vk$ and a private
 signing key $sk$.
@@ -28,8 +69,9 @@ We require that a user can sign any message on behalf of a ring where she is a m
 has perfect correctness if for all adversaries $\advA$ we have:
 $$
 \Pr\left[\begin{array}{l}
-\rho\gets\mathsf{CRSGen}(1^k);(vk,sk)\gets\mathsf{Gen}(\rho);(m,R)\gets\advA(\rho,vk,sk);\\
-\sigma\gets\mathsf{Sign}_{\rho,sk}(m;R):\mathsf{Verify}_{\rho,R}(m,\sigma)\text{ or }vk\notin R
+gk\gets\G_a(1^\lambda);\rho\gets\mathsf{CRSGen}(gk);(vk,sk)\gets\mathsf{Gen}(\rho);\\
+(m,R)\gets\advA(\rho,vk,sk);\sigma\gets\mathsf{Sign}_{\rho,sk}(m;R):\\
+\mathsf{Verify}_{\rho,R}(m,\sigma)\text{ or }vk\notin R
 \end{array}\right]=1
 $$
 \end{definition}
@@ -42,11 +84,11 @@ is unforgeable when for any non-uniform polynomial
 time adversaries $\advA$ we have that
 $$
 \Pr\left[\begin{array}{l}
-\rho\gets\mathsf{CRSGen}(1^k);(m,R,\sigma)\gets\advA^{\mathsf{VKGen},\mathsf{Sign},\mathsf{Corrupt}}(\rho):\\
+gk\gets\G_a(1^\lambda);\rho\gets\mathsf{CRSGen}(gk);(m,R,\sigma)\gets\advA^{\mathsf{VKGen},\mathsf{Sign},\mathsf{Corrupt}}(\rho):\\
 \mathsf{Verify}_{\rho,R}(m,\sigma)=1
 \end{array}\right]
 $$
-is negligible in $k$, where
+is negligible in th security parameter, where
 
 \begin{itemize}
 \item $\mathsf{VKGen}$ on query number $i$ selects a randomizer $w_i$, runs $(vk_i,sk_i) \gets \mathsf{Gen}(\rho; w_i)$
@@ -62,7 +104,7 @@ only contains keys $vk_i$ generated by $\mathsf{VKGen}$ where $i$ has not been c
 
 \begin{definition}[Perfect Anonymity]
 A ring signature scheme
-$(\mathsf{CRSGen}, \mathsf{Gen}, \mathsf{Sign}, \mathsf{Verify})$ has perfect anonymity, if a signature on a message
+$(\mathsf{CRSGen},\allowbreak \mathsf{Gen},\allowbreak \mathsf{Sign}, \mathsf{Verify})$ has perfect anonymity, if a signature on a message
 $m$ under a ring $R$ and key $vk_{i_0}$
 looks exactly the same as a signature on the
 message $m$ under the ring $R$ and key $vk_{i_1}$. This means that the signer's key is hidden
@@ -70,46 +112,58 @@ among all the honestly generated keys in the ring. Formally, we require that for
 adversary $\advA$:
 \begin{align*}
 &\Pr\left[\begin{array}{l}
-\rho\gets\mathsf{CRSGen}(1^k);(m,i_0,i_1,R)\gets\advA^{\mathsf{Gen}(\rho)}(\rho):\\
-\sigma\gets\mathsf{Sign}_{\rho,sk_{i_0}}(m,R):\advA(\sigma)=1
+gk\gets\G_a(1^\lambda);\rho\gets\mathsf{CRSGen}(gk);\\
+(m,i_0,i_1,R)\gets\advA^{\mathsf{Gen}(\rho)}(\rho);\sigma\gets\mathsf{Sign}_{\rho,sk_{i_0}}(m,R):\\
+\advA(\sigma)=1
 \end{array}\right]
 =\\
 &\Pr\left[\begin{array}{l}
-\rho\gets\mathsf{CRSGen}(1^k);(m,i_0,i_1,R)\gets\advA^{\mathsf{Gen}(\rho)}(\rho):\\
-\sigma\gets\mathsf{Sign}_{\rho,sk_{i_1}}(m,R):\advA(\sigma)=1
+gk\gets\G_a(1^\lambda);\rho\gets\mathsf{CRSGen}(gk);\\
+(m,i_0,i_1,R)\gets\advA^{\mathsf{Gen}(\rho)}(\rho);\sigma\gets\mathsf{Sign}_{\rho,sk_{i_1}}(m,R):\\
+\advA(\sigma)=1
 \end{array}\right]
 \end{align*}
 where $\advA$ chooses $i_0, i_1$ such that $(vk_{i_0}, sk_{i_0}),(vk_{i_1}, sk_{i_1})$ have been generated by the
 oracle $\mathsf{Gen(\rho)}$.
 \end{definition}
 
-\subsection{High Level Description}
-The starting point of this construction is the proof system for set membership with proof size $\Theta(\sqrt[3]{n})$ from Sect. \ref{sec:bits-applications}. Such construction does not suffice to construct a ring signature because the CRS is fixed to a specific set and thus, the resulting ring signature will be fixed to a specific ring. We will show how to overcome this problem, but first it will be useful to see how the ``flawed'' ring signature looks like.
+\subsection{Our Construction}
 
-We will define the ring signature CRS as the part which is independent of the ring, that is the matrix $[\matr{A}]_2$, and the other part will be the public keys. Given the ring $R=\{P_1,\ldots,P_n\}$, the public key of party $P=P_\alpha$, where $i=m^2(i_\alpha-1)+m(j_\alpha-1)+k_\alpha$, is $[vk_\alpha]_1$ and we also need to add $\vecb{a}_{i_\alpha}[vk_\alpha]_1$ to carry on the proof of membership in $R$. 
+\begin{description}
+\item[$\mathsf{CRSGen}(gk)$:] Pick a perfectly hiding CRS for the Groth-Sahai proof system $\crs_\GS$, and a CRS for the proof of the $\Theta(\sqrt{n})$ proof of membership in a set $\crs_\sfset$, and output $\rho:=(gk,\crs_\GS,\crs_\sfset).$
+\item[$\mathsf{Gen}(\rho)$:] Pick $\vecb{a}\gets\dist_{k,1}$ and $(sk,[vk]_1)\gets\mathsf{BB}.\mathsf{Gen}(gk)$. The secret key is $sk$ and the verification key is $\vecb{vk}:=([vk]_1,[\vecb{a}]_2,\vecb{a}[vk]_1)$.
+\item[$\mathsf{Sign}_{\rho,sk}(m,R)$:]
+\begin{enumerate}
+\item Compute $(sk_\mathsf{ot},vk_\mathsf{ot})\gets\mathsf{OT}.\mathsf{Gen}(gk)$ and $\sigma_\mathsf{ot}\gets\mathsf{OT}.\mathsf{Sign}_{sk_\mathsf{ot}}(m,R)$.
+\item Compute $[\vecb{c}]_1:=\GS.\Com_{ck}([vk]_1;r)$, $r\gets\Z_q$, $[\sigma]_1\gets\mathsf{BB}.\mathsf{Sign}_{sk}(vk_\mathsf{ot})$, $[\vecb{d}]_1:=\GS.\Com_{ck}([\sigma]_1;s)$, and a GS proof $\pi_\GS$ that $\mathsf{BB}.\mathsf{Ver}_{[vk]_1}([\sigma]_1,[vk_\mathsf{ot}])=1$ (which can be expressed as a set of pairing product equations).
+\item Parse $R$ as $\{\vecb{vk}_{(1,1,1)},\ldots,\vecb{vk}_{(m,m,m)}\}$, where $m:=\sqrt[3]{|R|}$, and let $\alpha=(i_\alpha,j_\alpha,k_\alpha)$ the index of $\vecb{vk}$ in $R$. Define the sets $S_1=\{\sum_{i\in[m]}[\vecb{a}_{(i,1,1)}]_2,\allowbreak\ldots,\sum_{i\in[m]}[\vecb{a}_{(i,m,m)}]_2\}$ and $S_2=\{\sum_{i\in[m]}\vecb{a}_{(i,1,1)}[vk_{(i,1,1)}]_1,\allowbreak\ldots,\sum_{i\in[m]}\vecb{a}_{(i,m,m)}[vk_{(i,m,m)}]_1\}$.
+\item Compute GS commitments to $[\vecb{x}]_1:=\sum_{i\in[m]}[\vecb{a}_{(i,j_\alpha,k_\alpha)}]_2$ and $[\vecb{y}]_1=\sum_{i\in[m]}\vecb{a}_{(i,j_\alpha,k_\alpha)}[vk_{(i,j_\alpha,k_\alpha)}]_1$, and compute proofs $\pi_1$ and $\pi_2$ that they belong to $S_1$ and $S_2$, respectively.
+\item Compute GS commitments to $[\kappa_1]_1:=[vk_{(1,j_\alpha,k_\alpha)}]_1,\ldots,[\kappa_m]_1:=[vk_{(m,j_\alpha,k_\alpha)}]_1$ and $[\vecb{z}_1]_2:=[\vecb{a}_{(1,j_\alpha,k_\alpha)}]_2,\ldots,[\vecb{z}_m]_2:=[\vecb{a}_{(m,j_\alpha,k_\alpha)}]_2$, and GS proof $\pi_\kappa$ that $\sum_{i\in[m]}[\kappa]_1[\vecb{z}_i]_2=[\vecb{y}]_1[1]_2$ and a GS proof $\pi_z$ that $\sum_{i\in[m]}[\vecb{z}_i]_2=[\vecb{x}]_2$.
+\item Compute a proof $\pi_3$ that $[vk]$ belongs to $S_3=\{[\kappa_1]_1,\ldots,[\kappa_m]_1\}$.
+\item Return the signature $\grkb{\sigma}:=(vk_\mathsf{ot},\sigma_\mathsf{ot},[\vecb{c}]_1,[\vecb{d}]_1,\pi_1,\pi_2,\pi_3,\pi_\kappa,\pi_z)$. (GS proofs includes commitments to variables).
+\end{enumerate}
+\item[$\mathsf{Verify}_{\rho,R}(m,\grkb{\sigma})$:] Verify the validity of the one-time signature and of all the proofs. Return 0 if any of this checks fails and 1 otherwise.
+\end{description}
 
-Given that we are assuming that the ring is $R=\{\ldots,P_\alpha,\ldots\}$ we are not prepared for another ring $R'$ where $P_\alpha$ appears in other position. One possible solution is to enlarge the public key including also $\vecb{a}_{1}[vk_\alpha]_1,\ldots,\vecb{a}_{m}[vk_\alpha]_1$, however the maximum ring size will be fixed and the public key size will be $\Theta(\sqrt[3]{n})$ and not constant. We would like to build a scheme without this disadvantages.
+\begin{theorem}
+The scheme presented in this section is a ring signature scheme
+with perfect correctness, perfect anonymity and computational unforgeability under the
+$m$-pairing product assumption, the $\dist_{k,m}\mbox{-}\kermdh$ assumption, the SXDH assumption, and the assumption
+that the one-time signature and the Boneh-Boyen signature are unforgeable.
+\end{theorem}
+\begin{proof}
+Perfect correctness follows directly from the definitions. Perfect anonymity follows from the fact that the perfectly hiding Groth-Sahai CRS defines perfectly hiding and perfect zero-knowledge proofs, information theoretically hiding any information about $\vecb{vk}$.
 
-In our scheme the public key of party $P$ will be $[vk]_1$, $[\vecb{a}]_2$, and $\vecb{a}[vk]_1$, where $\vecb{a}\gets\dist_{k,1}$ is chosen independently for each key. Now, using the $\Theta(\sqrt{n})$ set membership proof from Sect. \ref{sec:bits-applications} (the one where the set is not fixed) and given the ring $R=\{[vk_{(1,1,1)}]_1,\ldots,[vk_{(m,m,m)}]_1\}$ (recall notation $(i,j,k):=(i-1)m^2+(j-1)m+k$, where $m=\sqrt[3]{n}$), the prover selects an element $[\vecb{x}]_2$ from the set $S_1=\{\sum_{i\in[m]}[\vecb{a}_{(i,1,1)}]_2,\ldots,\sum_{i\in[m]}[\vecb{a}_{(i,m,m)}]_2\}$ and an element $[\vecb{y}]_1$ from the set $S_2=\{\sum_{i\in[m]}\vecb{a}_{(i,1,1)}[vk_{(i,1,1)}]_1,\ldots,\sum_{i\in[m]}\vecb{a}_{(i,m,m)}[vk_{(i,m,m)}]_1\}$. Both sets are of size $n^{2/3}$ and thus the set membership proof is of size $\Theta(\sqrt[3]{n})$.
+Computational unforgeability is proven as follows. The SXDH assumption implies that $\crs_\GS$ can be changed to a perfectly binding CRS, at the cost of a negligible security lost. Fore the sake of contradiction, suppose that $\vecb{vk}\notin R$. Soundness of Groth-Sahai proofs and of the $\Theta(\sqrt{n})$ proof of set membership, implies that there exists $j_\alpha,k_\alpha\in[m]$ such that
+\begin{align}
+&\sum_{i\in[m]}[\kappa_i]_1[\vecb{z}_i]_2=\sum_{i\in[m]}\vecb{a}_{(i,j_\alpha,k_\alpha)}[vk_{(i,j_\alpha,k_\alpha)}]_1\text{ and }\label{eq-rs-1}\\
+&\sum_{i\in[m]}[\vecb{z}_i]_2=\sum_{i\in[m]}[\vecb{a}_{(i,j_\alpha,k_\alpha)}]_2, \label{eq-rs-2}
+\end{align}
+and that $[vk]_1=[\kappa_{i^*}]$, for some $i^*\in[m]$. Equation (\ref{eq-rs-2}) implies that $(\vecb{z}_1,\ldots,\vecb{z}_m)$ is a permutation of $(\vecb{a}_{(1,j_\alpha,k_\alpha)}\ldots,\vecb{a}_{(m,j_\alpha,k_\alpha)})$ unless one can break the $m$-permutation pairing assumption. Therefore, equation (\ref{eq-rs-1}) implies that there is a permutation $\pi$ such that
+\begin{align}
+\sum_{i\in[m]}(\kappa_i-vk_{(\pi(i),j_\alpha,k_\alpha)})\vecb{a}_i=0.
+\end{align}
+Given that $[\kappa_{i^*}]_1\notin R$, $([\kappa_1]_1-[vk_{(\pi(1),j_\alpha,k_\alpha)}]_1,\ldots,[\kappa_m]_1-[vk_{(\pi(m),j_\alpha,k_\alpha)}]_1)\neq [\vecb{0}]_1$ is a solution to the $\dist_{m,k}\mbox{-}\kermdh$ problem. We conclude that $\vecb{vk}\in R$.
 
-Now that the prover has selected elements $[\vecb{x}]_2=\sum_{i\in[m]}[\vecb{a}_{(i,j_\alpha,k_\alpha)}]_2$ and $[\vecb{y}]_1=\sum_{i\in[m]}\vecb{a}_{(i,j_\alpha,k_\alpha)}[vk_{(i,j_\alpha,k_\alpha)}]_1$, we would like to extract from them  $[vk_\alpha]_1=[vk_{(i_\alpha,j_\alpha,k_\alpha)}]_1$. To do so we will use the following assumption introduced by Groth and Lu \cite{AC:GroLu07}.
-
-\begin{definition}[Permutation Pairing Assumption]
-Let $\dist_{k,m}=\underbrace{\dist_{k,1}||\ldots||\dist_{k,1}}_{m\text{ times}}$, where concatenation of matrix distributions is defined in the natural way. We say that the $m$-Permutation Pairing Assumption holds relative to $\G$ if for any adversary $\advA$
-$$
-\Pr\left[
-\begin{array}{l}
-gk\gets\G(1^k);\vecb{a}\gets\dist_{k,m};[\vecb{z}]_2\gets\advA(gk,[\vecb{a}]_2):\\
-\sum_{i\in[m]}[\vecb{z}_i]_2=\sum_{i\in[m]}[\vecb{a}_i]_2\text{ and }
-\vecb{z}\text{ is not a permutation of }\vecb{a}
-\end{array}
-\right]
-$$
-is negligible in $k$.
-\end{definition}
-
-The prover additionally commits to $[\kappa_1]_1:=[vk_{(1,j_\alpha,k_\alpha)}]_1,\ldots,[\kappa_m]_1:=[vk_{(m,j_\alpha,k_\alpha)}]_1$ and $[\vecb{z}_1]_2:=[\vecb{a}_{(1,j_\alpha,k_\alpha)}]_2,\ldots,[\vecb{z}_m]_2:=[\vecb{a}_{(m,j_\alpha,k_\alpha)}]_2$. A proof that $\sum_{i\in[m]}[\vecb{z}_i]_2=[\vecb{x}]_2$ guarantees that $[\vecb{z}_1]_2,\ldots,[\vecb{z}_m]_2$ is a permutation of $[\vecb{a}_{(1,j_\alpha,k_\alpha)}]_2,\ldots,[\vecb{a}_{(m,j_\alpha,k_\alpha)}]_2$, unless one can break the $m$-Permutation Pairing assumption, and a proof that $\sum_{i\in[m]}[\kappa]_1[\vecb{z}_i]_2=[\vecb{y}]_1[1]_2$ guarantees that $[\kappa_1]_1,\ldots,[\kappa_m]_1$ is a permutation of $[vk_{(1,j_\alpha,k_\alpha)}]_1,\ldots,[vk_{(m,j_\alpha,k_\alpha)}]_1$, unless one can break the $\dist_{k,m}\mbox{-}\kermdh$ assumption.
-
-At this point the prover can simply select an element from $[\kappa_1]_1,\ldots,[\kappa_m]_1$, which is guaranteed to be an element from the ring.
-
-\subsection{Detailed Description}
+Finally, since $[\vecb{c}]$ is a commitment to a valid signature of $vk_\mathsf{ot}$ under $[vk]_1$ and given that $vk_\mathsf{ot}$ has not been previously used, $[\sigma]_1$ is a forgery of the Boneh-Boyen signature scheme. By the unforgeability of the Boneh-Boyen signature scheme, this happens only with negligible probability.
+\end{proof}
