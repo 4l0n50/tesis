@@ -2,7 +2,7 @@ Ring signatures, introduced by Rivest, Shamir and Tauman, \cite{AC:RivShaTau01},
 
 The literature on ring signatures is vast, and, while there exist even constant size solutions \cite{EC:DKNS04}, most of them rely on the non standard \emph{Random Oracle Model}. Without random oracles the history is not so nice: most of the constructions have signatures of size linear in the size of the ring, with the sole exception of the Ring Signature of Chandran et al. \cite{ICALP:ChaGroSah07} (already discussed, and optimized, in Sect. \ref{sec:bits-applications}). We remark that no asymptotic improvements to Chandran et al. construction have been made since their introduction (only improvements in the constants by R\`afols \cite{TCC:Rafols15} and the improvements from Sect. \ref{sec:bits-applications}).\footnote{In \cite{ACISP:BosDasRan15}, Bose et al. claimed to construct a constant-size Ring Signature in the standard model. However, they construct a weak Ring Signature where: a) the public keys are generated all at once in a correlated way; b) the set of parties which are able to participate in a ring is fixed as well as the maximum ring size; and c) the key size is linear in the maximum ring size. In the work of Chandran et al. and also in our setting: a) the key generation is independently run by the user using only the CRS as input; b) any party is able to belong to a ring as long as she has a verification key and the maximum ring size is unbounded; and c) the key size is constant. This stronger requirements are in line with the original spirit of \emph{non-coordination} of  Rivest et al. \cite{AC:RivShaTau01}.}
 
-In this section we present the first Ring Signature whose signature size is asymptoticaly smaller than Chandran's et al. Specifically, our Ring Signature is of size $\Theta(\sqrt[3]{n})$. Interestingly, the security of our construction rely on a security assumption introduced by Groth and Lu \cite{AC:GroLu07} in an unrelated setting: Proofs of Correctness of a Shuffle. While the assumption is ``non-standard'', in the sense that is not a ``DDH like'' assumption, it is a falsifiable assumption and it was proven to be generically hard by Groth and Lu.
+In this section we present the first Ring Signature whose signature size is asymptoticaly smaller than Chandran's et al. Specifically, our Ring Signature is of size $\Theta(\sqrt[3]{n})$. Interestingly, the security of our construction rely on a security assumption introduced by Groth and Lu \cite{AC:GroLu07} in an unrelated setting: Proofs of Correctness of a Shuffle. While the assumption is ``non-standard'', in the sense that is not a ``DDH like'' assumption, it is a falsifiable assumption and it was proven to be generically hard by Groth and Lu. For simplicity, we work on simmetric groups ($\GG_1=\GG_2$), but our techniques can be easily extendeed to asymmetric groups if a natural translation to asymetric groups of the underlying assumption is given. 
 
 \subsection{High Level Description}
 
@@ -15,30 +15,32 @@ Our construction is similar to the proof system for set membership with proof si
 
 %Given that we are assuming that the ring is $R=\{\ldots,P_\alpha,\ldots\}$ we are not prepared for another ring $R'$ where $P_\alpha$ appears in other position. One possible solution is to enlarge the public key including also $\vecb{a}_{1}[vk_\alpha]_1,\ldots,\vecb{a}_{m}[vk_\alpha]_1$, however the maximum ring size will be fixed and the public key size will be $\Theta(\sqrt[3]{n})$ and not constant. We would like to build a scheme without this disadvantages.
 
-In our scheme the secret/verification keys of party $P$ are $(sk,\vecb{vk})$, where $\vecb{vk}=([vk]_1,[\vecb{a}]_2,\vecb{a}[vk]_1)$, $(sk,[vk]_1)$ are secret/verification keys of the Boneh-Boyen signature scheme, and $\vecb{a}\gets\dist_{k,1}$ is chosen independently for each key. Now, using the $\Theta(\sqrt{n})$ set membership proof from Sect. \ref{sec:bits-applications} (the one where the set is not fixed) and given the ring $R=\{\vecb{vk}_{(1,1,1)},\ldots,\vecb{vk}_{(m,m,m)}\}$ (recall notation $(i,j,k):=(i-1)m^2+(j-1)m+k$, where $m=\sqrt[3]{n}$), the prover selects an element $[\vecb{x}]_2$ from the set $S_1=\{\sum_{i\in[m]}[\vecb{a}_{(i,1,1)}]_2,\ldots,\sum_{i\in[m]}[\vecb{a}_{(i,m,m)}]_2\}$ and an element $[\vecb{y}]_1$ from the set $S_2=\{\sum_{i\in[m]}\vecb{a}_{(i,1,1)}[vk_{(i,1,1)}]_1,\ldots,\sum_{i\in[m]}\vecb{a}_{(i,m,m)}[vk_{(i,m,m)}]_1\}$. Both sets are of size $n^{2/3}$ and thus the set membership proof is of size $\Theta(\sqrt[3]{n})$.
+In our scheme the secret/verification keys of party $P$ are $(sk,\vecb{vk})$, where $\vecb{vk}=([vk]_1,[\vecb{a}]_1,\vecb{a}[vk]_1)$, $(sk,[vk]_1)$ are secret/verification keys of the Boneh-Boyen signature scheme, and $\vecb{a}\gets\dist_{2,1}$ is chosen independently for each key. Now, using the $\Theta(\sqrt{n})$ set membership proof from Sect. \ref{sec:bits-applications} (the one where the set is not fixed) and given the ring $R=\{\vecb{vk}_{(1,1,1)},\ldots,\vecb{vk}_{(m,m,m)}\}$ (recall notation $(i,j,k):=(i-1)m^2+(j-1)m+k$, where $m=\sqrt[3]{n}$), the prover selects an element $[\vecb{x}]_1$ from the set $S_1=\{\sum_{i\in[m]}[\vecb{a}_{(i,1,1)}]_1,\ldots,\sum_{i\in[m]}[\vecb{a}_{(i,m,m)}]_1\}$ and an element $[\vecb{y}]_1$ from the set $S_2=\{\sum_{i\in[m]}\vecb{a}_{(i,1,1)}[vk_{(i,1,1)}]_1,\ldots,\sum_{i\in[m]}\vecb{a}_{(i,m,m)}[vk_{(i,m,m)}]_1\}$. Both sets are of size $n^{2/3}$ and thus the set membership proof is of size $\Theta(\sqrt[3]{n})$.
 
-Now that the prover has selected elements $[\vecb{x}]_2=\sum_{i\in[m]}[\vecb{a}_{(i,j_\alpha,k_\alpha)}]_2$ and $[\vecb{y}]_1=\sum_{i\in[m]}\vecb{a}_{(i,j_\alpha,k_\alpha)}[vk_{(i,j_\alpha,k_\alpha)}]_1$, we would like to extract from them  $[vk_\alpha]_1=[vk_{(i_\alpha,j_\alpha,k_\alpha)}]_1$. To do so we will use the following assumption introduced by Groth and Lu \cite{AC:GroLu07}.
+Now that the prover has selected elements $[\vecb{x}]_1=\sum_{i\in[m]}[\vecb{a}_{(i,j_\alpha,k_\alpha)}]_1$ and $[\vecb{y}]_1=\sum_{i\in[m]}\vecb{a}_{(i,j_\alpha,k_\alpha)}[vk_{(i,j_\alpha,k_\alpha)}]_1$, we would like to extract from them  $[vk_\alpha]_1=[vk_{(i_\alpha,j_\alpha,k_\alpha)}]_1$. To do so we will use the following assumption introduced by Groth and Lu \cite{AC:GroLu07}.
 
 \begin{definition}[Permutation Pairing Assumption]
-Let $\dist_{k,m}=\underbrace{\dist_{k,1}||\ldots||\dist_{k,1}}_{m\text{ times}}$, where concatenation of matrix distributions is defined in the natural way. We say that the $m$-Permutation Pairing Assumption holds relative to $\G$ if for any adversary $\advA$
+Let $\dist_{2,m}=\underbrace{\dist_{2,1}||\ldots||\dist_{2,1}}_{m\text{ times}}$, where concatenation of matrix distributions is defined in the natural way and 
+$$\dist_{2,1}: \vecb{a}=\pmatri{x\\x^2},\quad x\gets\Z_q.$$
+We say that the $m$-Permutation Pairing Assumption holds relative to $\G$ if for any adversary $\advA$
 $$
 \Pr\left[
 \begin{array}{l}
-gk\gets\G(1^k);\vecb{a}\gets\dist_{k,m};[\vecb{z}]_2\gets\advA(gk,[\vecb{a}]_2):\\
-\sum_{i\in[m]}[\vecb{z}_i]_2=\sum_{i\in[m]}[\vecb{a}_i]_2\text{ and }
-\vecb{z}\text{ is not a permutation of }\vecb{a}
+gk\gets\G(1^k);\matr{A}\gets\dist_{2,m};[\matr{Z}]_1\gets\advA(gk,[\matr{A}]_1):\\
+\sum_{i\in[m]}[\vecb{z}_i]_1=\sum_{i\in[m]}[\vecb{a}_i]_1,\forall i\in[m]\ z_{2,i}=z_{1,i}^2,\\
+\text{ and }\matr{Z}\text{ is not a permutation of the columns of }\matr{A}
 \end{array}
 \right]
 $$
 is negligible in $k$.
 \end{definition}
 
-The prover additionally commits to $[\kappa_1]_1:=[vk_{(1,j_\alpha,k_\alpha)}]_1,\ldots,[\kappa_m]_1:=[vk_{(m,j_\alpha,k_\alpha)}]_1$ and $[\vecb{z}_1]_2:=[\vecb{a}_{(1,j_\alpha,k_\alpha)}]_2,\ldots,[\vecb{z}_m]_2:=[\vecb{a}_{(m,j_\alpha,k_\alpha)}]_2$. A proof that $\sum_{i\in[m]}[\vecb{z}_i]_2=[\vecb{x}]_2$ guarantees that $[\vecb{z}_1]_2,\ldots,[\vecb{z}_m]_2$ is a permutation of $[\vecb{a}_{(1,j_\alpha,k_\alpha)}]_2,\ldots,[\vecb{a}_{(m,j_\alpha,k_\alpha)}]_2$, unless one can break the $m$-Permutation Pairing assumption, and a proof that $\sum_{i\in[m]}[\kappa_i]_1[\vecb{z}_i]_2=[\vecb{y}]_1[1]_2$ guarantees that $[\kappa_1]_1,\ldots,[\kappa_m]_1$ is a permutation of $[vk_{(1,j_\alpha,k_\alpha)}]_1,\ldots,[vk_{(m,j_\alpha,k_\alpha)}]_1$, unless one can break the $\dist_{k,m}\mbox{-}\kermdh$ assumption.
+The prover additionally commits to $[\kappa_1]_1:=[vk_{(1,j_\alpha,k_\alpha)}]_1,\ldots,[\kappa_m]_1:=[vk_{(m,j_\alpha,k_\alpha)}]_1$ and $[\vecb{z}_1]_1:=[\vecb{a}_{(1,j_\alpha,k_\alpha)}]_1,\ldots,[\vecb{z}_m]_1:=[\vecb{a}_{(m,j_\alpha,k_\alpha)}]_1$. A proof that $\sum_{i\in[m]}[\vecb{z}_i]_1=[\vecb{x}]_1$ guarantees that $[\vecb{z}_1]_1,\ldots,[\vecb{z}_m]_1$ is a permutation of $[\vecb{a}_{(1,j_\alpha,k_\alpha)}]_1,\ldots,[\vecb{a}_{(m,j_\alpha,k_\alpha)}]_1$, unless one can break the $m$-Permutation Pairing assumption, and a proof that $\sum_{i\in[m]}[\kappa_i]_1[\vecb{z}_i]_1=[\vecb{y}]_1[1]_1$ guarantees that $[\kappa_1]_1,\ldots,[\kappa_m]_1$ is a permutation of $[vk_{(1,j_\alpha,k_\alpha)}]_1,\ldots,[vk_{(m,j_\alpha,k_\alpha)}]_1$, unless one can break the $\dist_{2,m}\mbox{-}\kermdh$ assumption.
 
 At this point the prover can simply select an element from $[\kappa_1]_1,\ldots,[\kappa_m]_1$, which is guaranteed to be an element from the ring.
 
 \paragraph{Remark.}
-A natural question is if this technique can be applied once again. That is, to compute a $\Theta(\sqrt[4]{n})$  proof, compute commitments to an element from $S_1=\{\sum_{i\in[m]}\vecb{a}_{(i,1,1,1)}[vk_{(i,1,1,1)}]_1,\ldots,\sum_{i\in[m]}\vecb{a}_{(i,m,m,m)}[vk_{(i,m,m,m)}]_1\}$ and $S_2=\allowbreak\{\sum_{i\in[m]}[\vecb{a}_{(i,1,1,1)}]_2,\ldots,\sum_{i\in[m]}[\vecb{a}_{(i,m,m,m)}]_2\}$, and then prove that they belong to the respective sets with the proof of size $\Theta(\sqrt[3]{n})$. Since $|S_1|=|S_2|=n^{3/4}$, proof will be of size $\Theta(\sqrt[3]{n^{3/4}})=\Theta(\sqrt[4]{n})$. However, this is not possible since the $\Theta(\sqrt[3]{n})$ proof is not a set membership proof for arbitrary sets, but only for sets where each element is of the form $([vk]_1,\vecb{a}[vk]_1,[\vecb{a}]_2)$.
+A natural question is if this technique can be applied once again. That is, to compute a $\Theta(\sqrt[4]{n})$  proof, compute commitments to an element from $S_1=\{\sum_{i\in[m]}\vecb{a}_{(i,1,1,1)}[vk_{(i,1,1,1)}]_1,\ldots,\sum_{i\in[m]}\vecb{a}_{(i,m,m,m)}[vk_{(i,m,m,m)}]_1\}$ and $S_2=\allowbreak\{\sum_{i\in[m]}[\vecb{a}_{(i,1,1,1)}]_1,\ldots,\sum_{i\in[m]}[\vecb{a}_{(i,m,m,m)}]_1\}$, and then prove that they belong to the respective sets with the proof of size $\Theta(\sqrt[3]{n})$. Since $|S_1|=|S_2|=n^{3/4}$, proof will be of size $\Theta(\sqrt[3]{n^{3/4}})=\Theta(\sqrt[4]{n})$. However, this is not possible since the $\Theta(\sqrt[3]{n})$ proof is not a set membership proof for arbitrary sets, but only for sets where each element is of the form $([vk]_1,\vecb{a}[vk]_1,[\vecb{a}]_1)$.
 
 \subsection{Definition}
 We follow the definitions from \cite{ICALP:ChaGroSah07} described below.
@@ -131,14 +133,14 @@ oracle $\mathsf{Gen(\rho)}$.
 
 \begin{description}
 \item[$\mathsf{CRSGen}(gk)$:] Pick a perfectly hiding CRS for the Groth-Sahai proof system $\crs_\GS$, and a CRS for the proof of the $\Theta(\sqrt{n})$ proof of membership in a set $\crs_\sfset$, and output $\rho:=(gk,\crs_\GS,\crs_\sfset).$
-\item[$\mathsf{Gen}(\rho)$:] Pick $\vecb{a}\gets\dist_{k,1}$ and $(sk,[vk]_1)\gets\mathsf{BB}.\mathsf{Gen}(gk)$. The secret key is $sk$ and the verification key is $\vecb{vk}:=([vk]_1,[\vecb{a}]_2,\vecb{a}[vk]_1)$.
+\item[$\mathsf{Gen}(\rho)$:] Pick $\vecb{a}\gets\dist_{2,1}$ and $(sk,[vk]_1)\gets\mathsf{BB}.\mathsf{Gen}(gk)$. The secret key is $sk$ and the verification key is $\vecb{vk}:=([vk]_1,[\vecb{a}]_1,\vecb{a}[vk]_1)$.
 \item[$\mathsf{Sign}_{\rho,sk}(m,R)$:]
 \begin{enumerate}
 \item Compute $(sk_\mathsf{ot},vk_\mathsf{ot})\gets\mathsf{OT}.\mathsf{Gen}(gk)$ and $\sigma_\mathsf{ot}\gets\mathsf{OT}.\mathsf{Sign}_{sk_\mathsf{ot}}(m,R)$.
 \item Compute $[\vecb{c}]_1:=\GS.\Com_{ck}([vk]_1;r)$, $r\gets\Z_q$, $[\sigma]_1\gets\mathsf{BB}.\mathsf{Sign}_{sk}(vk_\mathsf{ot})$, $[\vecb{d}]_1:=\GS.\Com_{ck}([\sigma]_1;s)$, and a GS proof $\pi_\GS$ that $\mathsf{BB}.\mathsf{Ver}_{[vk]_1}([\sigma]_1,[vk_\mathsf{ot}])=1$ (which can be expressed as a set of pairing product equations).
-\item Parse $R$ as $\{\vecb{vk}_{(1,1,1)},\ldots,\vecb{vk}_{(m,m,m)}\}$, where $m:=\sqrt[3]{|R|}$, and let $\alpha=(i_\alpha,j_\alpha,k_\alpha)$ the index of $\vecb{vk}$ in $R$. Define the sets $S_1=\{\sum_{i\in[m]}[\vecb{a}_{(i,1,1)}]_2,\allowbreak\ldots,\sum_{i\in[m]}[\vecb{a}_{(i,m,m)}]_2\}$ and $S_2=\{\sum_{i\in[m]}\vecb{a}_{(i,1,1)}[vk_{(i,1,1)}]_1,\allowbreak\ldots,\sum_{i\in[m]}\vecb{a}_{(i,m,m)}[vk_{(i,m,m)}]_1\}$.
-\item Compute GS commitments to $[\vecb{x}]_1:=\sum_{i\in[m]}[\vecb{a}_{(i,j_\alpha,k_\alpha)}]_2$ and $[\vecb{y}]_1=\sum_{i\in[m]}\vecb{a}_{(i,j_\alpha,k_\alpha)}[vk_{(i,j_\alpha,k_\alpha)}]_1$, and compute proofs $\pi_1$ and $\pi_2$ that they belong to $S_1$ and $S_2$, respectively.
-\item Compute GS commitments to $[\kappa_1]_1:=[vk_{(1,j_\alpha,k_\alpha)}]_1,\ldots,[\kappa_m]_1:=[vk_{(m,j_\alpha,k_\alpha)}]_1$ and $[\vecb{z}_1]_2:=[\vecb{a}_{(1,j_\alpha,k_\alpha)}]_2,\ldots,[\vecb{z}_m]_2:=[\vecb{a}_{(m,j_\alpha,k_\alpha)}]_2$, and GS proof $\pi_\kappa$ that $\sum_{i\in[m]}[\kappa]_1[\vecb{z}_i]_2=[\vecb{y}]_1[1]_2$ and a GS proof $\pi_z$ that $\sum_{i\in[m]}[\vecb{z}_i]_2=[\vecb{x}]_2$.
+\item Parse $R$ as $\{\vecb{vk}_{(1,1,1)},\ldots,\vecb{vk}_{(m,m,m)}\}$, where $m:=\sqrt[3]{|R|}$, and let $\alpha=(i_\alpha,j_\alpha,k_\alpha)$ the index of $\vecb{vk}$ in $R$. Define the sets $S_1=\{\sum_{i\in[m]}[\vecb{a}_{(i,1,1)}]_1,\allowbreak\ldots,\sum_{i\in[m]}[\vecb{a}_{(i,m,m)}]_1\}$ and $S_2=\{\sum_{i\in[m]}\vecb{a}_{(i,1,1)}[vk_{(i,1,1)}]_1,\allowbreak\ldots,\sum_{i\in[m]}\vecb{a}_{(i,m,m)}[vk_{(i,m,m)}]_1\}$.
+\item Compute GS commitments to $[\vecb{x}]_1:=\sum_{i\in[m]}[\vecb{a}_{(i,j_\alpha,k_\alpha)}]_1$ and $[\vecb{y}]_1=\sum_{i\in[m]}\vecb{a}_{(i,j_\alpha,k_\alpha)}[vk_{(i,j_\alpha,k_\alpha)}]_1$, and compute proofs $\pi_1$ and $\pi_2$ that they belong to $S_1$ and $S_2$, respectively.
+\item Compute GS commitments to $[\kappa_1]_1:=[vk_{(1,j_\alpha,k_\alpha)}]_1,\ldots,[\kappa_m]_1:=[vk_{(m,j_\alpha,k_\alpha)}]_1$ and $[\vecb{z}_1]_1:=[\vecb{a}_{(1,j_\alpha,k_\alpha)}]_1,\ldots,[\vecb{z}_m]_1:=[\vecb{a}_{(m,j_\alpha,k_\alpha)}]_1$, and GS proof $\pi_\kappa$ that $\sum_{i\in[m]}[\kappa]_1[\vecb{z}_i]_1=[\vecb{y}]_1[1]_1$ and a GS proof $\pi_{z}$ that $\sum_{i\in[m]}[\vecb{z}_i]_1=[\vecb{x}]_1$ and $[z_{2,i}]_1[1]_1=[z_{1,i}]_1[z_{1,i}]_1$ for each $i\in[m]$.
 \item Compute a proof $\pi_3$ that $[vk]$ belongs to $S_3=\{[\kappa_1]_1,\ldots,[\kappa_m]_1\}$.
 \item Return the signature $\grkb{\sigma}:=(vk_\mathsf{ot},\sigma_\mathsf{ot},[\vecb{c}]_1,[\vecb{d}]_1,\pi_1,\pi_2,\pi_3,\pi_\kappa,\pi_z)$. (GS proofs includes commitments to variables).
 \end{enumerate}
@@ -148,7 +150,7 @@ oracle $\mathsf{Gen(\rho)}$.
 \begin{theorem}
 The scheme presented in this section is a ring signature scheme
 with perfect correctness, perfect anonymity and computational unforgeability under the
-$m$-pairing product assumption, the $\dist_{k,m}\mbox{-}\kermdh$ assumption, the SXDH assumption, and the assumption
+$m$-pairing product assumption, the $\dist_{2,m}\mbox{-}\kermdh$ assumption, the SXDH assumption, and the assumption
 that the one-time signature and the Boneh-Boyen signature are unforgeable.
 \end{theorem}
 \begin{proof}
@@ -156,14 +158,15 @@ Perfect correctness follows directly from the definitions. Perfect anonymity fol
 
 Computational unforgeability is proven as follows. The SXDH assumption implies that $\crs_\GS$ can be changed to a perfectly binding CRS, at the cost of a negligible security lost. Fore the sake of contradiction, suppose that $\vecb{vk}\notin R$. Soundness of Groth-Sahai proofs and of the $\Theta(\sqrt{n})$ proof of set membership, implies that there exists $j_\alpha,k_\alpha\in[m]$ such that
 \begin{align}
-&\sum_{i\in[m]}[\kappa_i]_1[\vecb{z}_i]_2=\sum_{i\in[m]}\vecb{a}_{(i,j_\alpha,k_\alpha)}[vk_{(i,j_\alpha,k_\alpha)}]_1\text{ and }\label{eq-rs-1}\\
-&\sum_{i\in[m]}[\vecb{z}_i]_2=\sum_{i\in[m]}[\vecb{a}_{(i,j_\alpha,k_\alpha)}]_2, \label{eq-rs-2}
+&\sum_{i\in[m]}[\kappa_i]_1[\vecb{z}_i]_1=\sum_{i\in[m]}\vecb{a}_{(i,j_\alpha,k_\alpha)}[vk_{(i,j_\alpha,k_\alpha)}]_1\text{ and }\label{eq-rs-1}\\
+&\sum_{i\in[m]}[\vecb{z}_i]_1=\sum_{i\in[m]}[\vecb{a}_{(i,j_\alpha,k_\alpha)}]_1, \label{eq-rs-2}\\
+&[z_{i,2}]_1[1]_1=[z_{i,1}]_1[z_{i,1}]_1 \text{ for all }i\in[m],\label{eq-rs-3}
 \end{align}
-and that $[vk]_1=[\kappa_{i^*}]$, for some $i^*\in[m]$. Equation (\ref{eq-rs-2}) implies that $(\vecb{z}_1,\ldots,\vecb{z}_m)$ is a permutation of $(\vecb{a}_{(1,j_\alpha,k_\alpha)}\ldots,\vecb{a}_{(m,j_\alpha,k_\alpha)})$ unless one can break the $m$-permutation pairing assumption. Therefore, equation (\ref{eq-rs-1}) implies that there is a permutation $\pi$ such that
+and that $[vk]_1=[\kappa_{i^*}]$, for some $i^*\in[m]$. Equations (\ref{eq-rs-2}) and (\ref{eq-rs-3}) implies that $(\vecb{z}_1,\ldots,\vecb{z}_m)$ is a permutation of $(\vecb{a}_{(1,j_\alpha,k_\alpha)}\ldots,\vecb{a}_{(m,j_\alpha,k_\alpha)})$ unless one can break the $m$-permutation pairing assumption. Therefore, equation (\ref{eq-rs-1}) implies that there is a permutation $\pi$ such that
 \begin{align}
 \sum_{i\in[m]}(\kappa_i-vk_{(\pi(i),j_\alpha,k_\alpha)})\vecb{a}_i=0.
 \end{align}
 Given that $[\kappa_{i^*}]_1\notin R$, $([\kappa_1]_1-[vk_{(\pi(1),j_\alpha,k_\alpha)}]_1,\ldots,[\kappa_m]_1-[vk_{(\pi(m),j_\alpha,k_\alpha)}]_1)\neq [\vecb{0}]_1$ is a solution to the $\dist_{m,k}\mbox{-}\kermdh$ problem. We conclude that $\vecb{vk}\in R$.
 
-Finally, since $[\vecb{c}]$ is a commitment to a valid signature of $vk_\mathsf{ot}$ under $[vk]_1$ and given that $vk_\mathsf{ot}$ has not been previously used, $[\sigma]_1$ is a forgery of the Boneh-Boyen signature scheme. By the unforgeability of the Boneh-Boyen signature scheme, this happens only with negligible probability.
+Finally, since $[\vecb{c}]_1$ is a commitment to a valid signature of $vk_\mathsf{ot}$ under $[vk]_1$ and given that $vk_\mathsf{ot}$ has not been previously used, $[\sigma]_1$ is a forgery of the Boneh-Boyen signature scheme. By the unforgeability of the Boneh-Boyen signature scheme, this happens only with negligible probability.
 \end{proof}
