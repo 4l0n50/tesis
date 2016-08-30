@@ -1,6 +1,6 @@
 Perhaps the most groundbreaking achievement in modern Cryptography was the work of Diffie and Hellman \cite{DifHel76} where they introduce \emph{Public Key Cryptography}. Diffie and Hellman conceived systems where each entity publish a \emph{public key} $\mathcal{X}$ while keeping her \emph{secret key} $x$.  It should be computationally infeasible to compute the secret key from the public, which was supposed to be true when $x$ is the \emph{discrete logarithm} of $\mathcal{X}$ on a \emph{Cyclic Abelian Group}.\footnote{A couple years after Diffie and Hellman seminal paper,  Rivest, Shamir, and Adlelman came up with the first realization of a public key cryptosystem, the RSA cryptosystem. The RSA cryptosystem was build on top of the hardness of factorizing big numbers, and thus it rely on \emph{composite order} groups with unknown factorization. Although such groups have many interesting applications, this work only focus on prime order groups and we will not refer to composite order groups anymore.{\color{red} MmMmMmMm ni idea si esto esta del todo bien}}
 \begin{definition}[Abelian Group]\footnote{Historically, the discrete logarithm problem was defined in multiplicative groups. However in this work we will be using additive notation to avoid tangled expressions in the exponent.} 
-An Abelian group is a set $\GG$ together with a map $+:\GG\times\GG\to\GG$ (written in infix notation) and  it holds that
+An abelian group is a set $\GG$ together with a map $+:\GG\times\GG\to\GG$ (written in infix notation) and  it holds that
 \begin{description}
 \item[Associativity]
 For all $\mathcal{X}, \mathcal{Y}$, and $\mathcal{Z}$ in $\GG$, $(\mathcal{X} + \mathcal{Y}) + \mathcal{Z}= \mathcal{X} + (\mathcal{Y} + \mathcal{Z})$ holds.
@@ -44,9 +44,9 @@ gk\gets\G(1^\lambda); x,y,z\gets\Z_q,b\gets\bits;\mathcal{X}:=x\mathcal{P};\math
 $$
 \end{definition}
 
-Later, ElGamal introduced the first \emph{Semantically Secure Encryption Scheme} based on the DDH assumption \cite{ElGamal85}. The idea was simple and clean: encrypt a message $\mathcal{M}$ under public key $pk:=\mathcal{X}$ picking $r\gets\Z_q$ and computing the ciphertext $\Enc_{pk}(\mathcal{M};r):=(\mathcal{C}_1,\mathcal{C}_2)=(r\mathcal{P},\mathcal{M}+r\mathcal{X})$; and decrypt a ciphertext using the secret key $x$ and computing $\Dec_{sk}(\mathcal{C}_1,\mathcal{C}_2)=\mathcal{C}_2-x\mathcal{C}_1$. It follows that $(\mathcal{C}_1,\mathcal{C}_2)$ hides $\mathcal{M}$ since $r\mathcal{X}$, by the DDH assumption, looks like fresh random value, independent of $\mathcal{C}_1$, making $\mathcal{M}+r\mathcal{X}$ independent of $\mathcal{M}$. Formally, it can be shown that ElGamal cryptosystem is \emph{Indistinguishable under Chosen Plaintext Attacks} (also called semantically secure and IND-CPA for short).
+Later, ElGamal introduced the first \emph{Semantically Secure Encryption Scheme} based on the DDH assumption \cite{ElGamal85}. The idea was simple and clean: encrypt a message $\mathcal{M}$ under public key $pk:=\mathcal{X}$ picking $r\gets\Z_q$ and computing the cyphertext $\Enc_{pk}(\mathcal{M};r):=(\mathcal{C}_1,\mathcal{C}_2)=(r\mathcal{P},\mathcal{M}+r\mathcal{X})$; and decrypt a cyphertext using the secret key $x$ and computing $\Dec_{sk}(\mathcal{C}_1,\mathcal{C}_2)=\mathcal{C}_2-x\mathcal{C}_1$. It follows that $(\mathcal{C}_1,\mathcal{C}_2)$ hides $\mathcal{M}$ since $r\mathcal{X}$, by the DDH assumption, looks like fresh random value, independent of $\mathcal{C}_1$, making $\mathcal{M}+r\mathcal{X}$ independent of $\mathcal{M}$. Formally, it can be shown that ElGamal cryptosystem is \emph{Indistinguishable under Chosen Plaintext Attacks} (also called semantically secure).
 
-\begin{definition}[IND-CPA \cite{GolMic84}]
+\begin{definition}[Indistinguishability under Chosen Plaintext Attacks (IND-CPA) \cite{GolMic84}]
 We say that $(\KG,\Enc,\Dec)$ is IND-CPA secure if for any $\advA_1,\advA_2$
 $$
 \Pr\left[\begin{array}{l}

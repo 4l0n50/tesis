@@ -1,4 +1,4 @@
-In this section we review \emph{Matrix Diffie-Hellman Assumptions} of Escala et al. \cite{C:EHKRV13} which are abstractions and generalizations of Diffie-Hellman like assumptions. We also review \emph{Kernel Matrix Diffie-Hellman Assumptions} of Morillo et al. \cite{EPRINT:MorRafVil15}, which are the natural computational counterpart of Matrix Diffie-Hellman assumptions. We also put forward a new Kernel assumption which is specific to asymmetric groups, and we prove its security in the \emph{Generic Group Model}.
+In this section we review \emph{Matrix Diffie-Hellman Assumptions} of Escala et al. \cite{C:EHKRV13} which are abstractions and generalizations of Diffie-Hellman like assumptions. We also review \emph{Kernel Matrix Diffie-Hellman Assumptions} of Morillo et al. \cite{EPRINT:MorRafVil15}, which are the natural computational counterpart of Matrix Diffie-Hellman assumptions. We also put forward a new Kernel assumption which is specific to assymetric groups, and we prove its security in the \emph{Generic Group Model}.
 
 \begin{definition}   \label{def:matrixdef}
 Let $\ell,k \in \N$.

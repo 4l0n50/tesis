@@ -1,7 +1,7 @@
-With the growth and ubiquity of Internet more and more of our life have been moving from the ``physical world'' to the ``digital world''. Along with this changes new problems have raised: we moved from a world where communication was mostly without any intermediary to a world where communication goes through an uncontrollable set of servers from which no privacy or secrecy guarantee can be given. Cryptography have raised as an answer to this and many other related problems, providing \emph{provable secure} methods for securing information.  
+With the growth and ubiquity of Internet more and more of our life have been moving from the ``physical world'' to the ``digital world''. Along with this changes new problems have raised: we moved from a world where communication was mostly without any intermediary to a world where communication goes through an uncontrollable set of servers from which no privacy or secrecy guarantee can be given. Modern Cryptography have raised as an answer to this and many other related problems, providing \emph{provable} methods for securing information.  
 
-Among the vast variety of cryptographic construction, this thesis is concerned with the study of \emph{Non-Interactive Zero-Knowledge Proofs}.
-A Zero-Knowledge proofs is a proof that reveal nothing beyond its validity, and \emph{Non-Interactive Zero-Knowledge Proofs} restrict the proof to consist of a single message (in opposition of an interactive protocol).
+Among the vast variety of cryptographic constructions, this thesis is concerned with the study of \emph{Non-Interactive Zero-Knowledge Proofs}.
+A Zero-Knowledge proof is a proof that reveal nothing beyond its validity, and \emph{Non-Interactive Zero-Knowledge Proofs} restrict the proof to consist of a single message (in opposition of an interactive protocol).
 The importance of non-interactive zero-knowledge proofs in cryptography was early recognized, but for many years the existing constructions were either completely impractical or could only be realized under very strong assumptions like the random oracle model, via the Fiat-Shamir heuristic \cite{C:FiaSha86}. 
 
 Ideally, a NIZK proof system should be both expressive and efficient, meaning that it should allow to prove
@@ -47,9 +47,9 @@ The soundness of the schemes is based on standard, falsifiable assumptions
   specialized to the linear space where one wants to prove membership.
   
 Interestingly, Jutla and Roy  \cite{C:JutRoy14} also showed that their techniques to construct 
-  constant-size NIZK in linear spaces can be used to aggregate the GS proofs of $m$ equations in $n$ variables, that is,  the total proof size can be reduced to $\Theta(n)$. However, aggregation is only possible if the equations meet some restrictions. The first one is that only linear equations can be aggregated. The second one is that, in asymmetric bilinear groups, the equations must be one-sided linear, i.e. linear equations 
+  constant-size NIZK in linear spaces can be used to aggregate the GS proofs of $m$ equations in $n$ variables, that is, the proof --without considering the $n$ commitments to variables-- is of size $\Theta(1)$. However, aggregation is only possible if the equations meet some restrictions. The first one is that only linear equations can be aggregated. The second one is that, in asymmetric bilinear groups, the equations must be one-sided linear, i.e. linear equations 
   which have variables in only one of the $\Z_q$ modules $\Gr,\Hr$, 
   or $\Z_q$.
 
-At this point we face to the main questions of this thesis: which kind of equations admit a proofs of size $\Theta(m)$? The previous question may be irrelevant if we do not take in count applicability, thus our second question is: what efficient cryptographic schemes can be constructed from this $\Theta(m)$ proofs?
+At this point we face to the main questions of this thesis: which other kinds of equations admit more efficient proofs? The previous question may be irrelevant if we do not take in count applicability, thus our second question is: what efficient cryptographic schemes can be constructed from this more efficient proofs?
 
