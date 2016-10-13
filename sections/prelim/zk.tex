@@ -1,18 +1,22 @@
-Zero-Knowledge Proofs are proofs that reveal nothing beyond their validity. Since their introduction by Goldreich et al.~\cite{GolMicRac89}, Zero-Knowledge proofs have played a central role in cryptography and complexity theory from both the theoretical side --it have been the inspiration of \emph{Probabilistic Checkable Proofs} and the groundbreaking results on \emph{Hardness of Approximation}-- and the practical side --applications ranges from \emph{Multi-Party Computation} to \emph{Electronic voting} and \emph{E-commerce}.
+Zero-Knowledge Proofs are proofs that reveal nothing beyond their validity. Since their introduction by Goldreich et al.~\cite{GolMicRac89}, Zero-Knowledge proofs have played a central role in cryptography and complexity theory from both the theoretical side --they have been the inspiration of \emph{Probabilistic Checkable Proofs} and the groundbreaking results on \emph{Hardness of Approximation}-- and the practical side --applications ranges from \emph{Multi-Party Computation} to \emph{Electronic voting} and \emph{E-commerce}.
 
 In a Zero-Knowledge proof a \emph{prover} $\algP$ in possession of a secret $w$ wants to convince a \emph{verifier} $\algV$ that some statement $x$ is true, namely that $x$ belongs to some language $\Lang$. To do so the prover and the verifier engage on an \emph{interactive protocol}: the prover starts with a message $a_1$, the verifier answers with $b_1$, and so on. At the end the verifier outputs a bit $b\in\bits$ indicating whether it rejects or accepts the proofs.
 
 There are two basic requirements for a Zero-Knowledge proof: \emph{Completeness}, which says that the prover should be successful when convincing the verifier about a true statement, and \emph{Soundness}, which says that the verifier rejects false statements with \emph{high probability}. There is also a third requirement which  gives the name to Zero-Knowledge proofs and it aims to require that the verifier does not learn nothing beyond the fact that $x$ is true. This is done by requiring the existence of an efficient algorithm $\algS$, the simulator, which, for any true statement, it is able to construct a \emph{transcript} of the interactive execution of $\algP$ and $\algV$ even without knowing any secret $w$.
 A weaker variant of a Zero-Knowledge proof is a \emph{Witness-Indistinguishable Proof}, this proofs are not necessarily simulatable and only guarantee to reveal the same information when using two different secrets $w,w'$. 
 
-The focus of this work is \emph{Non-Interactive Zero-Knowledge Proofs} (NIZK), where the prover sends a single message, the \emph{proof}, to the verifier. Since their introduction by Blum et al.~\cite{STOC:BluFelMic88}, it was known that a ``pre-shared'' information, known as the \emph{Common Reference String} (CRS), allows to construct NIZK proof systems (later it was shown a necessary condition if the statement is not trivial \cite{JC:GolOre94}). Thereby, the simulator is allowed to simulate the CRS and thus is able to compute \emph{trapdoors} associated to it. The knowledge of such trapdoors enhance the possibilities of $\algS$ of successfully simulate proofs.
+The focus of this work are \emph{Non-Interactive Zero-Knowledge Proofs} (NIZK), where the prover sends a single message, the \emph{proof}, to the verifier. Since their introduction by Blum et al.~\cite{STOC:BluFelMic88}, it was known that a ``pre-shared'' information, known as the \emph{Common Reference String} (CRS), allows to construct NIZK proof systems (later it was shown a necessary condition if the statement is not trivial \cite{JC:GolOre94}). Thereby, the simulator is allowed to simulate the CRS and thus is able to compute \emph{trapdoors} associated to it. The knowledge of such trapdoors enhance the possibilities of $\algS$ to successfully simulate proofs.
 
-In this work we will use two different definitions of NIZK: \emph{Composable} NIZK \cite{EC:GroSah08} and  \emph{Quasi-Adaptive} NIZK \cite{AC:JutRoy13}. Both deals with the case when the statement is \emph{randomized}, say $x$ it is not true or false \emph{per se} but depends on how the CRS was sampled. Concretely, the CRS might contain the group key $gk$ defining a bilinear group and, if the statement is true if $x$ is an element of $\GG_1$ and some additional property holds, it might be the case that for some choices of the group key $x$ is not even a well formed group element. Quasi-Adaptive NIZK goes even further, the language might also depend on group constants defined in the CRS. In this case the Zero-Knowledge definition is more complex since knowledge of the associated discrete logs might trivialize the construction of a simulator.
+Sintactically, a NIZK proof system consists of three probabilistic polynomial time algorithms: a CRS
+generation algorithm $\algK$, a prover $\algP$, and a verifier $\algV$.
+The CRS generation algorithm takes a group description $gk$ as input and produces a CRS $\sigma$ (which we assume includes $gk$). The prover takes as input $(\sigma, x, w)$ and produces a proof $\pi$. The verifier takes as input $(\sigma, x, \pi)$ and outputs 1 if the proof is acceptable and 0 if rejecting the proof.
+
+In this work we will consider two particular cases of NIZK: \emph{Composable} NIZK \cite{EC:GroSah08} and  \emph{Quasi-Adaptive} NIZK \cite{AC:JutRoy13}. Both deals with the case of \emph{CRS dependent languages}, say the language language is parametrized by some values which are (randomly) sampled within the CRS. Concretely, the CRS might contain the group key $gk$ defining a bilinear group and the language might be some set of satisfiable equations over that gruoup. Quasi-Adaptive NIZK goes even further, the language might also depend on group constants defined in the CRS. In this case the Zero-Knowledge definition is more complex since knowledge of the associated discrete logs might trivialize the construction of a simulator.
 
 \subsection{Composable Witness-Indistinguishability and Zero-Knowledge}
 The following definitions are taken from \cite{SIAMJC:GroSah12}.
 
-\begin{definition}[Group dependant languages] Let $\mathcal{R}$ be an efficiently computable ternary relation.
+\begin{definition}[Group dependent languages] Let $\mathcal{R}$ be an efficiently computable ternary relation.
 For triplets $(gk, x, w)\in \mathcal{R}$ we call $gk$ the group key, $x$ the statement, and $w$ the witness.
 Given some $gk$, we let $\Lang$ be the language consisting of statements $x$ that have a
 witness $w$ so $(gk, x, w) \in \mathcal{R}$. For a relation that ignores $gk$ this is, of course, the
@@ -20,7 +24,7 @@ standard definition of an NP-language. We will be more interested in the case wh
 $gk$ describes a bilinear group, though.
 \end{definition}
 
-\begin{definition}[Composable NIZK proof system] We say that $(\algK,\algP,\algV)$ is a composable NIZK proof system if
+\begin{definition}[Composable NIZK proof system] We say that a non-interactive proof system $(\algK,\algP,\algV)$ is a composable NIZK proof system with respect to $\G_a$ if
 \begin{description}
 \item[Perfect Completeness:] For any $x,w$
 $$
@@ -69,7 +73,7 @@ gk\gets\G_a(1^\lambda);(\sigma,\tau)\gets\algS_1(gk);(x,w)\gets\advA_2(gk,\sigma
 \end{description}
 \end{definition}
 
-\begin{definition}[Composable NIWI proof system] We say that $(\algK,\algP,\algV)$ is a composable NIWI proof system if it have Perfect Completeness and Soundness as defined above and also
+\begin{definition}[Composable NIWI proof system] We say that a non-interactive proof system $(\algK,\algP,\algV)$ is a composable NIWI proof system with respect to $\G_a$ if it have Perfect Completeness and Soundness as defined above and also
 \begin{description}
 \item[Composable Witness-Indistinguishability:] There exists and efficient algorithm $\algS_1$ such that for any adversaries $\advA_1,\advA_2$
 \begin{align*}
@@ -110,8 +114,9 @@ in the \emph{parameter language} $\Lang_\mathsf{par}$ can be efficiently verifie
 While the Common Reference String can be set based on $\rho$, the zero-knowledge simulator is required to be a single probabilistic polynomial time
 algorithm that works for the whole collection of relations $\R_\gk$. 
 
-A tuple of algorithms $(\algK_0,\algK_1,\algP,\algV)$ is called a QA-NIZK proof system for witness-relations
-$\R_\gk = \{\R_\rho\}_{\rho \in \mathrm{sup}(\dist_\gk)}$
+\begin{definition}[Quasi-Adaptive NIZK (QA-NIZK) proof system]
+A non-interactive proof system  $(\algK,\algP,\algV)$ is called a QA-NIZK proof system with respect to $\G_a$ for witness-relations
+$\R_\gk = \{\R_\rho\}_{\rho \in \mathrm{sup}(\dist_\gk)}$,
 with parameters sampled from a distribution $\dist_\gk$ over associated parameter language
 $\Lang_\mathsf{par}$, if there exists a probabilistic polynomial time simulator $(\algS_1, \algS_2)$,
 such that for all non-uniform PPT adversaries $\advA_1$, $\advA_2$, $\advA_3$ we have:
@@ -119,31 +124,31 @@ such that for all non-uniform PPT adversaries $\advA_1$, $\advA_2$, $\advA_3$ we
 \begin{description}
 \item[Quasi-Adaptive Completeness:]
 $$\Pr\begin{bmatrix*}[l]
-    \gk \gets \algK_0(1^\lambda);
+    \gk \gets \G_a(1^\lambda);
     \rho \gets \dist_\gk;
-    \psi \gets \algK_1(\gk, \rho);
+    \psi \gets \algK(\gk, \rho);
     (x, w) \gets \advA_1(\gk, \psi);\\
     \pi \gets \algP(\psi, x, w) :
         \algV(\psi, x, \pi) = 1 \text{ if } \R_\rho(x, w)
 \end{bmatrix*} = 1.$$
 \item[Computational Quasi-Adaptive Soundness:]
 $$\Pr\begin{bmatrix*}[l]
-    \gk \gets \algK_0(1^\lambda);
+    \gk \gets \G_a(1^\lambda);
     \rho \gets \dist_\gk;
-    \psi \gets \algK_1(\gk, \rho); \\
+    \psi \gets \algK(\gk, \rho); \\
     (x, \pi) \gets \advA_2(\gk, \psi) :
         \algV(\psi, x, \pi) = 1 \text{ and } \neg (\exists w : \R_\rho(x, w))
 \end{bmatrix*} \approx 0.$$ 
 \item[Perfect Quasi-Adaptive Zero-Knowledge:]
 \begin{eqnarray*}
 \Pr[
-    \gk \gets \algK_0(1^\lambda);
+    \gk \gets \G_a(1^\lambda);
     \rho \gets \dist_\gk;
-    \psi \gets \algK_1(\gk, \rho):
+    \psi \gets \algK(\gk, \rho):
         \advA_3^{\algP(\psi,\cdot, \cdot)}(\gk,\psi) = 1]
 =\;\;\;\\
 \Pr[
-    \gk \gets \algK_0(1^\lambda);
+    \gk \gets \G_a(1^\lambda);
     \rho \gets \dist_\gk;
     (\psi,\tau) \gets \algS_1(\gk, \rho):
         \advA_3^{\algS(\psi,\tau,\cdot,\cdot)}(\gk,\psi)=1]
@@ -158,14 +163,15 @@ $\algS_2(\psi,\tau, x)$ if $(x, w) \in \R_\rho$ and $\perp$ if $(x, w) \notin \R
 \end{description}
 Note that $\psi$ is the CRS in the above definitions.
 We assume that $\psi$ contains an encoding of $\rho$, which is thus available to $\algV$.
+\end{definition}
 
 For witness samplable distributions, a stronger notion of soundness, where the adversary has also access to a witness of the parameter $\rho$, is defined in the full version of \cite{AC:GonHevRaf15}.
 \begin{description}
 \item[Computational Quasi-Adaptive Strong Soundness:]
 $$\Pr\begin{bmatrix*}[l]
-    \gk \gets \algK_0(1^\lambda);
+    \gk \gets \G_a(1^\lambda);
     (\rho,\omega) \gets \dist_\gk^\mathsf{par};
-    \psi \gets \algK_1(\gk, \rho); \\
+    \psi \gets \algK(\gk, \rho); \\
     (x, \pi) \gets \advA_2(\gk, \omega,\psi) :
         \algV(\psi, x, \pi) = 1 \text{ and } \neg (\exists w : \R_\rho(x, w))
 \end{bmatrix*} \approx 0.$$ 

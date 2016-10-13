@@ -2,7 +2,7 @@ In this section we review \emph{Matrix Diffie-Hellman Assumptions} of Escala et 
 
 \begin{definition}   \label{def:matrixdef}
 Let $\ell,k \in \N$.
-We call $\dist_{\ell,k}$ a matrix distribution if it outputs (in poly time, with overwhelming probability) matrices in $\Z_q^{\ell \times k}$. We define $\dist_k := \dist_{k+1,k}$. 
+We call $\dist_{\ell,k}$ a matrix distribution if it outputs (in poly time, with overwhelming probability) matrices in $\Z_q^{\ell \times k}$. We define $\dist_k := \dist_{k+1,k}$ and $\overline{\dist}_{k}$ the distribution of the first $k$ rows of $\matr{A}$ when $\matr{A}\gets\dist_{k}$. 
 \end{definition}
 
 For the following decisional assumption to hold, it is a necessary condition that $\ell>k$. However, in other contexts, we might need $\dist_{\ell,k}$ distributions where 
@@ -22,7 +22,6 @@ is negligible in $k$,
 where the probability is taken over $\gk \gets \ggen_a(1^\lambda)$, $\matr{A} \gets \dist_{\ell,k}, \vecb{w} \gets \Z_q^k, [\vecb{z}]_\gamma  \gets \GG_\gamma^{\ell}$ and the coin tosses of adversary $\advD$.
 \end{definition}
  
-
 In this work we will refer to the following matrix distributions: 
 \[
 \distlin_{k}:\matrA = \left( \begin{smallmatrix}

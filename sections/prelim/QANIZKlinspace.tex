@@ -1,13 +1,13 @@
 In this section we recall the two constructions of QA-NIZK arguments of membership in linear spaces given by 
 Kiltz and Wee \cite{EC:KilWee15}, for the language:
  $$\mathcal{L}_{[\matr{M}]_1}:=\{ [\vecb{x}]_1 \in \Gr^{n}:  \exists \vecb{w} \in \Z_q^{t}, \  [\vecb{x}]_1=[\matr{M}]_1\vecb{w} \}.$$ 
-\noindent Algorithm $\algK_0(1^\lambda)$ just outputs $gk := (q,\Gr,\Hr,\GG_T,e,\mathcal{P}_1,\mathcal{P}_2) \leftarrow \ggen_a(1^{\lambda})$, the rest of the algorithms are described in Fig.~\ref{fig:QANIZKlinear}. 
+The proof system is described in Fig.~\ref{fig:QANIZKlinear}. 
 
 \begin{figure} 
 $$
 \begin{array}{ll}
 \begin{array}{l}
-\underline{\algK_1(gk,[\matr{M}]_1,n) \qquad  (\mathsf{S}_1(gk,[\matr{M}]_1,n)})\\[.1cm]
+\underline{\algK(gk,[\matr{M}]_1,n) \qquad  (\mathsf{S}_1(gk,[\matr{M}]_1,n)})\\[.1cm]
 
 \matr{A} \gets \widetilde{\dist_{k}}, \matr{\Delta} \gets \Z_q^{\tilde{k} \times n}\\
 {[\matr{A}_{\Delta}]_2:= \matr{\Delta}^\top[\matr{A}]_2, [\matr{M}_{\Delta}]_1:=\matr{\Delta} [\matr{M}]_1} \\

@@ -4,7 +4,7 @@ The admissible equation types must be in the following form:
 \begin{equation}\label{gseq}
 \sum_{j=1}^{m_y} f(\alpha_j, \vary_j)+\sum_{i=1}^{m_x} f(\varx_i, \beta_i)+\sum_{i=1}^{m_x} \sum_{j=1}^{m_y}  f(\varx_i,\escQE_{i,j} \vary_j)=t,
 \end{equation}
- where $\Am_1,\Am_2,\Am_T$ are $\Z_q$-vector spaces equipped with some bilinear map $f:\Am_1\times \Am_2 \rightarrow \Am_T$, $\boldsymbol \alpha  \in \Am_1^{m_y}$, $\boldsymbol \beta  \in \Am_2^{m_x}$, $\matr{\EscQE}=(\escQE_{i,j}) \in \Z_q^{m_x\times m_y}$, $t \in \Am_T$. The modules and the map $f$ can be defined in different ways as:
+ where $\Am_1,\Am_2,\Am_T$ are $\Z_q$-vector spaces equipped with some bilinear map $f:\Am_1\times \Am_2 \rightarrow \Am_T$, $\boldsymbol \alpha  \in \Am_1^{m_y}$, $\boldsymbol \beta  \in \Am_2^{m_x}$, $\matr{\EscQE}=(\escQE_{i,j}) \in \Z_q^{m_x\times m_y}$, $t \in \Am_T$. The vector spaces and the map $f$ can be defined in different ways as:
 \begin{itemize}
 \item[(a)] in pairing-product equations (PPEs), $\Am_1=\Gr$, $\Am_2=\Hr$, $\Am_T=\GG_T$, $f([x]_1,[y]_2)=[x]_1 [y]_2 \in \GG_T$,
 \item[(b1)] in multi-scalar multiplication equations in $\Gr$ (MMEs), $\Am_1=\Gr$, $\Am_2=\Z_q$, $\Am_T=\Gr$, $f([x]_1,y)=y [x]_1 \in \Gr$,
@@ -14,10 +14,10 @@ The admissible equation types must be in the following form:
  An equation is linear if $\matr{\EscQE}=\vecb{0}$, 
  it is \textit{two-sided linear} if both $\boldsymbol \alpha \neq \vecb{0}$ and $\boldsymbol \beta \neq \vecb{0}$, and \textit{one-sided} otherwise.
 
-When $t=f(t_1,1)$ or $t=f(1,t_2)$, for some $t_1\in\Am_1$ or $t_2\in\Am_2$, we say that the equation allows simulation (see \cite[Sect. 11]{SIAMJC:GroSah12}) and the proof is zero-knowledge (rather than just witness-indistinguishable). Note that this is always the case for equations other than PPEs, but for PPEs it depends on the distribution from which $t$ is sampled {\color{red} (No me gusta esto, hay que revisarlo bien)}
+When $t=f(t_1,1)$ or $t=f(1,t_2)$, for some efficiently computable $t_1\in\Am_1$ or $t_2\in\Am_2$, we say that the equation allows simulation (see \cite[Sect. 11]{SIAMJC:GroSah12}) and the proof is zero-knowledge (rather than just witness-indistinguishable). Note that this is always the case for equations other than PPEs.
 
 \subsection{Commit-and-Prove} The GS Proof system works as a commit-and-prove scheme: first the prover commits to 
-all the variables in an equation with the \emph{Groth-Sahai commitment scheme}, defined in the next section, and then it ``proves'' that the committed values satisfy the equation. The commitment to an element in the module $A_i$ lives in a module $B_i$ of larger dimension where interesting decisional assumptions exist and to prove that the equation is satisfied one checks some equations in these larger fields.
+all the variables in an equation with the \emph{Groth-Sahai commitment scheme}, defined in the next section, and then it ``proves'' that the committed values satisfy the equation. The commitment to an element in the vector space $A_i$ lives in another vector space $B_i$ of larger dimension where interesting decisional assumptions exist. To prove that the equation is satisfied the verifier checks some equations in these larger fields.
 
 \subsection{Groth-Sahai Commitments} 
  
@@ -42,9 +42,8 @@ $$
 \mathcal{H}:\matr{U}=(\vecb{u}_1||\vecb{u}_2),\text{ where } \vecb{u}_2\gets\distlin_1\text{ and } \vecb{u}_1 :=\mu\vecb{u}_2-\vecb{e}_2, \mu\gets\Z_q.
 $$
 
-\begin{theorem}[\cite{SIAMJC:GroSah12}] If $ck\gets\algK(gk,\mathcal{B})$ (resp. $ck\gets\algK(gk,\mathcal{H})$) the Groth-Sahai commitment scheme is perfectly binding (resp. computationally binding) and computationally hiding (resp. perfectly hiding).
+\begin{theorem}[\cite{SIAMJC:GroSah12}] If $ck\gets\algK(gk,\mathcal{B})$ (resp. $ck\gets\algK(gk,\mathcal{H})$), where $gk\gets\G_a(1^\lambda)$ , the Groth-Sahai commitment scheme is perfectly binding (resp. computationally binding if the DL assumption relative to $\G_a$ holds) and computationally hiding if the SXDH assumption relative to $\G_a$ holds (resp. perfectly hiding).
 
-{\color{red} En estricto rigor, este teorema no aparece en GS12 ni en ningun otro lado (creo)}
 \end{theorem}
 
 \subsection{The Scheme}
