@@ -11,8 +11,8 @@ Sintactically, a NIZK proof system consists of three probabilistic polynomial ti
 generation algorithm $\algK$, a prover $\algP$, and a verifier $\algV$.
 The CRS generation algorithm takes a group description $gk$ as input and produces a CRS $\sigma$ (which we assume includes $gk$). The prover takes as input $(\sigma, x, w)$ and produces a proof $\pi$. The verifier takes as input $(\sigma, x, \pi)$ and outputs 1 if the proof is acceptable and 0 if rejecting the proof.
 
-In this work we will consider two particular cases of NIZK: \emph{Composable} NIZK \cite{EC:GroSah08} and  \emph{Quasi-Adaptive} NIZK \cite{AC:JutRoy13}. Both deals with the case of \emph{CRS dependent languages}, say the language language is parametrized by some values which are (randomly) sampled within the CRS. Concretely, the CRS might contain the group key $gk$ defining a bilinear group and the language might be some set of satisfiable equations over that gruoup. Quasi-Adaptive NIZK goes even further, the language might also depend on group constants defined in the CRS. In this case the Zero-Knowledge definition is more complex since knowledge of the associated discrete logs might trivialize the construction of a simulator.
-
+In this work we will consider two particular cases of NIZK: \emph{Composable} NIZK \cite{EC:GroSah08} and  \emph{Quasi-Adaptive} NIZK \cite{AC:JutRoy13}. Both deals with the case of \emph{CRS dependent languages}, say the language language is parametrized by some values which are (randomly) sampled within the CRS. For example, the CRS might contain the group key $gk$ defining a bilinear group and the language might be some set of satisfiable equations over that gruoup. Quasi-Adaptive NIZK goes further and the language might also depend on group constants defined in the CRS.
+ 
 \subsection{Composable Witness-Indistinguishability and Zero-Knowledge}
 The following definitions are taken from \cite{SIAMJC:GroSah12}.
 
@@ -112,7 +112,7 @@ We say that $\dist_\gk$ is \emph{witness samplable} if there exists an efficient
 algorithm that samples $(\rho,\omega)$ from a distribution $\dist_\gk^{\mathsf{par}}$ such that $\rho$ is distributed according to $\dist_\gk$, and membership of $\rho$
 in the \emph{parameter language} $\Lang_\mathsf{par}$ can be efficiently verified with $\omega$.
 While the Common Reference String can be set based on $\rho$, the zero-knowledge simulator is required to be a single probabilistic polynomial time
-algorithm that works for the whole collection of relations $\R_\gk$. 
+algorithm that works for the whole collection of relations $\R_\gk:=\{\R_\rho\}_{\rho \in \mathrm{sup}(\dist_\gk)}$. 
 
 \begin{definition}[Quasi-Adaptive NIZK (QA-NIZK) proof system]
 A non-interactive proof system  $(\algK,\algP,\algV)$ is called a QA-NIZK proof system with respect to $\G_a$ for witness-relations
