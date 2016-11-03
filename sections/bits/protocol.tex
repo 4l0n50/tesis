@@ -1,14 +1,14 @@
 \begin{description} \label{bits-proof-system}
 
-\item[$\algK_0(1^\lambda)$:]  Return $gk := (q,\Gr,\Hr,\GG_T,e,\mathcal{P}_1,\mathcal{P}_2) \leftarrow \ggen_a(1^{\lambda})$.
+%\item[$\algK_0(1^\lambda)$:]  Return $gk := (q,\Gr,\Hr,\GG_T,e,\mathcal{P}_1,\mathcal{P}_2) \leftarrow \ggen_a(1^{\lambda})$.
 
-\item[$\dist_{gk}$:] The distribution $\dist_{gk}$ over $\Gr^{(n+1) \times (n+1)}$ is some witness samplable distribution which 
-defines the relation $\R_{gk} = \{\R_{[\matr{U}]_1}\} 
-\subseteq \Gr^{n+1}\times(\bits^{n}\times\Z_q)$,
-where $[\matr{U}]_1\gets\dist_{gk}$,
-such that $([\vecb{c}]_1,\langle\vecb{b}, w\rangle)\in\R_{[\matr{U}]_1}$ iff
-$[\vecb{c}]_1=[\matr{U}]_1\binom{\vecb{b}}{w}$ and $\vecb{b}\in\bits^n$. The relation $\R_{par}$ consists of pairs $([\matr{U}]_1,\matr{U})$ where $[\matr{U}]_1 \gets \dist_{{gk}}$.
-\item[$\algK_1({gk}, {[\matr{U}]_1})$:]
+%\item[$\dist_{gk}$:] The distribution $\dist_{gk}$ over $\Gr^{(n+1) \times (n+1)}$ is some witness samplable distribution which 
+%defines the relation $\R_{gk} = \{\R_{[\matr{U}]_1}\} 
+%\subseteq \Gr^{n+1}\times(\bits^{n}\times\Z_q)$,
+%where $[\matr{U}]_1\gets\dist_{gk}$,
+%such that $([\vecb{c}]_1,\langle\vecb{b}, w\rangle)\in\R_{[\matr{U}]_1}$ iff
+%$[\vecb{c}]_1=[\matr{U}]_1\binom{\vecb{b}}{w}$ and $\vecb{b}\in\bits^n$. The relation $\R_{par}$ consists of pairs $([\matr{U}]_1,\matr{U})$ where $[\matr{U}]_1 \gets \dist_{{gk}}$.
+\item[$\algK({gk}, {[\matr{U}]_1})$:]
 Let $\lrck_{n+1}\gets \Z_q^2$
 and for all $i \in [n]$, $\lrck_{i}:=\epsilon_{i}\lrck_{n+1}$, where
 $\epsilon_{i} \leftarrow \Z_q$. Define
@@ -18,7 +18,7 @@ $\matr{\Delta} \leftarrow \Z_q^{2 \times (n+1)}$,
 define $\Lck := \matr{\Delta}[\matr{U}]_1$
 and $[\llck_{i}]_1:=\matr{\Delta} [\vecb{u}_i]_1 \in \Gr^2$, for all $i \in [n+1]$. 
 Let $\vecb{a} \leftarrow \distlin_{1}$ and define $[\vecb{a}_{\Delta}]_2:=\matr{\Delta}^\top[\vecb{a}]_2 \in \Hr^{n+1}$. 
-For any pair $(i,j) \in \indexSet{n}{1}$, let 
+For any pair $(i,j) \in \indexSet{n}{1}$ (as defined in Sect. \ref{sec:notation}), let 
 $\matr{T}_{i,j}\gets\Z_q^{2\times2}$ and set:
 $$[\matr{C}_{i,j}]_1:=[\vecb{g}_i]_1 \lrck_j^{\top} - [\matr{T}_{i,j}]_1  \in \Gr^{2 \times 2},
 \qquad \qquad 
@@ -31,12 +31,12 @@ Let ${\Psi_\sfsum}$ be the proof system for Sum in Subspace
 be an instance of the proof system for Equal Opening (Sect. \ref{sec:aggcommit}).
 
 Let
-$\crs_{\Psi_\sfsum} \gets \algK_1({gk}, \{[\matr{C}_{i,j}]_1,[\matr{D}_{i,j}]_2\}_{(i,j)\in\indexSet{n}{1}})$ and \footnote{We identify
+$\crs_{\Psi_\sfsum} \gets \algK_1({gk}, \{[\matr{C}_{i,j}]_1,[\matr{D}_{i,j}]_2:(i,j)\in\indexSet{n}{1}\})$ and \footnote{We identify
 matrices in $\Gr^{2 \times 2}$ (resp. in $\Hr^{2 \times 2}$) with vectors in $\Gr^{4}$ (resp. in $\Hr^{4}$).}  
  $\crs_{\Psi_\sfcom} \gets \algK_1({gk}, \Lck,\Rck,n)$. The common reference string is given by:
 \begin{eqnarray*}
 \mathsf{crs}_P&:=&\left( [\matr{U}]_1,  \Lck,
-    [\Lrck]_1, \{[\matr{C}_{i,j}]_1,[\matr{D}_{i,j}]_2 \}_{(i,j) \in \indexSet{n}{1}},\crs_{\Psi_\sfsum},\crs_{\Psi_\sfcom} \right), \\
+    [\Lrck]_1, \{[\matr{C}_{i,j}]_1,[\matr{D}_{i,j}]_2 :(i,j) \in \indexSet{n}{1}\},\crs_{\Psi_\sfsum},\crs_{\Psi_\sfcom} \right), \\
 \mathsf{crs}_V&:=&\left([\vecb{a}]_2, [\vecb{a}_\Delta]_2, \crs_{\Psi_\sfsum},\crs_{\Psi_\sfcom} \right). 
  \end{eqnarray*}
 \item[{$\algP(\mathsf{crs}_P, [\vecb{c}]_1, \langle \vecb{b}, w_g \rangle)$:}]

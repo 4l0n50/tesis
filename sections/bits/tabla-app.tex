@@ -10,25 +10,25 @@
 \hline
 Proof System & Author                                                    & Proof Size 
 \\ \hline\hline
-\multirow{3}{*}{Threshold GS} & R\`afols \cite{TCC:Rafols15} (1) & $(m_x + 3(n-t) + 2\bar{n})\sG$     \\
-\cline{2-3}                   & R\`afols \cite{TCC:Rafols15} (2) & $2(n-t+1)\sH + 2n\s$         \\
-\cline{2-3}                   & This work                         & $2(n+1)\sG + 10\s$             \\
+\multirow{3}{*}{Threshold GS} & R\`afols \cite{TCC:Rafols15} (1) & $(m_x + 3(n-t) + 2\bar{n},0)$     \\
+\cline{2-3}                   & R\`afols \cite{TCC:Rafols15} (2) & $2(n-t+1,n)$         \\
+\cline{2-3}                   & This work                         & $(2n+12,10)$             \\
 \hline
-\multirow{3}{*}{\minitbl{Dynamic List}{(Ring Signature)}} & Chandran et al. \cite{ICALP:ChaGroSah07}  
-&  $(16\sqrt{n}+4)\s$    \\
+\multirow{3}{*}{\minitbl{Set-Membership proof}{(Ring Signature)}} & Chandran et al. \cite{ICALP:ChaGroSah07}  
+&  $(16\sqrt{n}+4,16\sqrt{n}+4)$    \\
 \cline{2-3}
-                                         & R\`afols \cite{TCC:Rafols15}              &  $(8\sqrt{n}+6)\sG+12\sqrt{n}\sH$    \\
+                                         & R\`afols \cite{TCC:Rafols15}              &  $(8\sqrt{n}+6,12\sqrt{n})$    \\
 \cline{2-3} 
-                                         & This work                                 & $(4 \sqrt{n}+14)\sG+(8\sqrt{n}+14)\sH$ \\ \hline
-\multirow{2}{*}{Static List}  & This work (first scheme)                  & $(4\sqrt{n}+16)\sG+ (2\sqrt{n}+22)\sH$\\
+                                         & This work                                 & $(4 \sqrt{n}+14,8\sqrt{n}+14)$ \\ \hline
+\multirow{2}{*}{\minitbl{Set-Membership proof}{(static set)}}  & This work (first scheme)                  & $(4\sqrt{n}+16,2\sqrt{n}+22)$\\
 \cline{2-3}
-                                         & This work (second scheme)                 & {$(6 \sqrt[3]{n}+36)\sG+$}{$(6\sqrt[3]{n}+60)\sH$}\\ \hline
+                                         & This work (second scheme)                 & {$(6 \sqrt[3]{n}+36,6\sqrt[3]{n}+60)$}\\ \hline
 % using proof of memb in a list again \minitbl{$(8 \sqrt[3]{n}+6 \sqrt[6]{n}+28)\sG+$}{$(2\sqrt[3]{n}+6\sqrt[6]{n}+38)\sH$}
 \end{tabular}
 \end{small}
 \end{center}
-\caption{Comparison of the application of our techniques and results from the literature. In rows labeled  as ``Threshold GS'' 
-we give the size of the proof of satisfiability of $t$-out-of-$n$ sets $\mathcal{S}_i$, where $m_x$ is the sum of the number of variables in $\Gr$ in each set $\mathcal{S}_i$, and $\bar{n}$ is the total number of two-sided and quadratic equations in $\bigcup_{i\in[n]}\mathcal{S}_i$. For all rows, we must add to the proof size the cost of a GS proof of each equation in one of the sets $\mathcal{S}_i$. In the other rows $n$ is the size of the list.\label{table:app}}
+\caption{Comparison of the application of our techniques and results from the literature. Notation $(a,b)$ means $a$ elements of $\GG_1$ and $b$ elements of $\GG_2$. In rows labeled  as ``Threshold GS'' 
+we give the size of the proof of satisfiability of $t$-out-of-$n$ sets $\mathcal{S}_i$, where $m_x$ is the sum of the number of variables in $\Gr$ in each set $\mathcal{S}_i$, and $\bar{n}$ is the total number of two-sided and quadratic equations in $\bigcup_{i\in[n]}\mathcal{S}_i$. For all rows, we must add to the proof size the cost of a GS proof of each equation in one of the sets $\mathcal{S}_i$. In the other rows $n$ is the size of the set.\label{table:app}}
 \end{minipage}
 \end{center}
 \end{table}

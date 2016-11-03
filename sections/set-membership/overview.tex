@@ -5,9 +5,11 @@ In other words, an aggregated set membership argument proves that each $c_1,\ldo
 $$
 \Lang_{ck,S}:=\{c: \exists x\in S, \vecb{w}\in\Z_q^r \text{ s.t. } c=\Com_{ck}(x;\vecb{w})\}\text{, where }ck\gets\distk,
 $$
-and $c=\Com_{ck}(x;\vecb{w})$ is a Groth-Sahai commitment to $x$ with randomness $\vecb{w}$. The proof is Quasi-Adaptive, in the sense that the language and the common reference string depends on $ck$ and $S$, which are assumed to be sampled from some distribution $\dist$. Further, the marginal distribution of $ck$ is assumed to be witness samplable, which essentially means it can be sampled along with its discrete logarithms. The argument is said to be \textit{aggregated} because the size of the proof is independent of $n$ ($\Theta(\log d)$ when $S=[0,d-1]$ and $\Theta(|S|)$ when $S\subset\GG_\gamma$). However, in the soundness proof we will loose a factor of $n$ in the reduction. 
+and $c=\Com_{ck}(x;\vecb{w})$ is a Groth-Sahai commitment to $x$ with randomness $\vecb{w}$.
 
-Before discussing how to construct such an argument, we come back on showing how to use it as a building block for range and shuffle proofs.  
+The proof that we construct in Sect. \ref{sec:aZKSMP} is Quasi-Adaptive, in the sense that the language and the common reference string depends on $ck$ and $S$, which are assumed to be sampled from some distribution $\dist$. Further, the marginal distribution of $ck$ is witness samplable, that is, it can be sampled along with its discrete logarithms. The argument is \textit{aggregated} because the size of the proof is independent of $n$ ($\Theta(\log d)$ when $S=[0,d-1]$ and $\Theta(|S|)$ when $S\subset\GG_\gamma$). However, in the soundness proof we will loose a factor of $n$ in the reduction. 
+
+%Before discussing how to construct such an argument, we come back on showing how to use it as a building block for range and shuffle proofs.  
 \subsection{Range Argument}
 A Range argument is a tool often required in e-voting and e-cash scenarios, with the purpose of showing that the opening $y$ of some commitment $c$ is an integer in some interval $[A,B]$. For simplicity, the range considered is usually $[0,2^n-1]$ since a proof in any interval can be reduced to a proof in this interval.
 
@@ -21,9 +23,9 @@ The statement $\exists x_1,\ldots,x_\ell \in[0,d-1]$ can be proven by showing th
 While this way of constructing range arguments has been widely used in the literature (for example \cite{AC:CamChaShe08,PAIRING:RiaKohPre09}), with the addition of our techniques we get a smaller proof-size. Indeed, the total cost of the range proof is $\Theta(\ell)+\Theta(m)$ ($\ell$ is due to the size of the commitments $c_1,\ldots,c_\ell$ and $m$ to the size of an aggregated proof of membership in $\Lang_{ck,[0,d-1]}^\ell$).  Setting $d=n^{k}$ for arbitrary $k$ leads to a proof size of $\Theta(\frac{n}{k \log n})$. Compared to previous approaches, the novelty of ours is that the cost of proving that $x_1,\ldots,x_\ell\in[0,d-1]$ is significantly reduced.
 
 \subsection{Shuffle Argument}
-An argument of Correctness of a Shuffle is an essential tool in the construction of \emph{Mix-nets} \cite{CACM:Chaum81}. A Mix-net consists of a series of \emph{mixers}, each of which receives as input a set of $n$ ciphertexts and  outputs a \emph{shuffle} of the input ciphertexts. That is, a \emph{rerandomization} of the set of ciphertexts obtained after applying a \emph{random permutation} to the input set of ciphertexts. To enforce the honest behavior of mixers they are required to produce a zero-knowledge argument that the shuffle was correctly computed.  
+An argument of Correctness of a Shuffle is an essential tool in the construction of \emph{Mix-nets} \cite{CACM:Chaum81}. A Mix-net, in turn, is a distributed protocol between many \emph{mixers}, where each mixer receives as input a set of $n$ ciphertexts and  outputs a \emph{shuffle} of the input ciphertexts. That is, a \emph{rerandomization} of the set of ciphertexts obtained after applying a \emph{random permutation} to the input set of ciphertexts. To enforce the honest behavior of mixers they are required to produce a zero-knowledge argument that the shuffle was correctly computed.  
 
-The proof is partially inspired by the non-interactive shuffle of \cite{AC:GroLu07}. The statement we want to prove in a correctness of a shuffle argument is : ``Given two vectors of ciphertexts which open, respectively, to vectors of plaintexts $[\vecb{m}_1]_2, [\vecb{m}_2]_2$, prove that 
+Our proof is partially inspired by the non-interactive shuffle of \cite{AC:GroLu07}. The statement we want to prove in a correctness of a shuffle argument is : ``Given two vectors of ciphertexts which open, respectively, to vectors of plaintexts $[\vecb{m}_1]_2, [\vecb{m}_2]_2$, prove that 
  $[\vecb{m}_2]_2$ is a permutation of $[\vecb{m}_1]_2$''.  Roughly, our strategy is the following:  
 \begin{itemize}
 \item[1)] Publish some vector of group elements $[\vecb{s}]_1 =([s_1]_1,\ldots,[s_n]_1)^\top$ (which we identify with the set $S$ of its components) in the common reference string, where $\vecb{s}$ is sampled from some distribution $\dist_{n,1}$.
@@ -46,156 +48,4 @@ one can extract from   $[\vecb{m}_1]_2,[\vecb{m}_2]_2$ the coefficients of some 
 This soundness argument is an augmentation and translation into asymmetric groups of the argument of Groth and Lu \cite{AC:GroLu07}. Essentially, the argument there also consists of two parts: one devoted to proving that some GS commitments open to a permutation of some set in the CRS (in \cite{AC:GroLu07} this is done via the (non-standard) pairing permutation assumption), while the second part (Step 4) is proven very similarly (in particular, its soundness also follows from some Kernel Assumption secure in symmetric bilinear groups). 
 
 We note that it is crucial for our soundness argument that it is possible to decrypt the ciphertexts (otherwise we cannot extract solutions to the Kernel problems). This is possible in our case because public key for encryption is assumed to be witness-samplable and the argument is quasi-adaptive. This explains why we do not refer to the notion of culpable soundness, as in \cite{AC:GroLu07,EPRINT:FauLip15}.
-
-
-\subsection{Set Membership Proofs}
-Before we move to aggregated set membership proofs, we give a characterization of $\Lang_{ck,S}$ which is key to obtain our results. We observe that membership in $S$ can be written as:
-\begin{itemize}
-\item If $S \subset \GG_{\gamma}$, and we identify $S$ with $[\vecb{s}]_\gamma=([s_1]_\gamma,\ldots,[s_m]_\gamma)^\top$ then, 
-$c \in \Lang_{ck,S}$ if and only if $\exists \vecb{b} \in \Z_q^{m}$ such that:
-\begin{enumerate}
-    \item $\vecb{b} \in \{0,1\}^{m}$,
-    \item $c=\GS.\Com_{ck}(x;w)$,
-    \item $x=\vecb{s}^{\top} \vecb{b}$,
-    \item $\sum_{i \in [m]} b_i=1$.
-\end{enumerate}
-\item If $S=[0,d-1]$ and $m:=\log d$, then
-$c \in \Lang_{ck,S}$ if and only if $\exists \vecb{b} \in \Z_q^{m}$ such that:
-\begin{enumerate}   
-    \item $\vecb{b} \in \{0,1\}^{m}$,
-    \item $c=\GS.\Com_{ck}(x;w)$,
-    \item $x=(1,2,\ldots,2^{m-1}) \vecb{b}$.
-\end{enumerate}
-\end{itemize} 
-That is, both languages can be written in a similar way, except that when $S \subset \GG_{\gamma}$ there is an additional linear constraint that $\vecb{b}$ must satisfy (condition 4)). 
-
- To avoid distinguishing all the time between both types of subsets, we note that both languages can be seen as special case of the language 
- $\Lang_{[\matr{M}]_1,[\matr{N}]_1,\matr{\Lambda},\grkb{\alpha}}\subseteq\GG_1^\la$, defined as: 
-$[\vecb{x}]_1\in\Lang_{[\matr{M}]_1,[\matr{N}]_1,\matr{\Lambda},\grkb{\alpha}}$ if and only if $\exists \vecb{b}\in \Z_q^\lb,\vecb{w}\in\Z_q^\lc$ such that
-\begin{eqnarray*}
-1) \vecb{b}\in \{0,1\}^\lb
-  \text{ and } \ 2)
-\smallpmatrix
-{
-    \vecb{c}\\
-    \grkb{\alpha}
-}
-=
-\smallpmatrix
-{
-    \matr{M}       & \matr{N}\\
-    \matr{\Lambda} & \matr{0}_{\ld\times \lc}
-}
-\smallpmatrix
-{
-    \vecb{b}\\
-    \vecb{w}
-}.
-\end{eqnarray*}
-The basic idea is that a GS commitment is a linear combination of the commitment keys whose coefficients are the randomness and the committed values, i.e.  
-a commitment to a scalar $x \in \Z_q$ is defined as $\GS.\Com_{ck}(x;w)=x [\vecb{u}_1]_1+w [\vecb{u}_2]_1$, for $ck=(\vecb{u}_1,\vecb{u}_2)$, so essentially membership in this space amounts to some ``linear conditions'' plus proving that $\vecb{b}$ is binary. For instance in the case where $S=[0,d-1]$, it should hold that:
-$
-    \vecb{c} = \pmatri{\matr{M}&\matr{N}}\smallpmatrix{\vecb{b}\\ w}
-=
-\begin{pmatrix}
-    (\vecb{u}_1 & \ &2 \vecb{u}_1  &   \ & \ldots    & \  &  2^{m-1} \vecb{u}_1)& \ &  \vecb{u}_2
-\end{pmatrix}
-\smallpmatrix
-{
-    \vecb{b}\\
-    w
-}$.
-(In this case, because there is no condition 4) $\matr{\Lambda}, \grkb{\alpha}$ are zero and are ignored). 
-%For the purposes of this high-level explanation of our results, it is not too relevant to see how $[\matr{M}]_1$, $[\matr{N}]_1$, $\matr{\Lambda}$ and $\grkb{\alpha}$ look like in each of our two examples (they depend of the commitment key, the set $S$ and the linear constraints expressed by 4)). 
-
-
-\subsubsection{Proof Strategy} The most efficient strategy we are aware of for proving this type of statements follows a 
- commit-and-prove approach. Namely, to prove that such a vector $\vecb{b}$ exists, one computes 
-GS commitments $[\vecb{d}_i]_1$, $i \in [m]$, to all coordinates of $\vecb{b}$ and then it proves two independent statements, namely that:
-\vspace{-0.2cm}
-\begin{itemize}
-\item $\exists \vecb{b}\in \Z_q^\lb, \vecb{r} \in \Z_q^m$ such that  
-$\text{1')} \vecb{b}\in \{0,1\}^\lb$ and $\text{3')} \forall i \in [\lb], \vecb{d}_i=\begin{pmatrix} \vecb{u}_1 &   \vecb{u}_2 \end{pmatrix}   \smallpmatrix{b_i  \\ r_i}$,
-\item   $\exists \widetilde{\vecb{b}} \in \Z_q^\lb,  \widetilde{\vecb{r}} \in \Z_q^m, \vecb{w} \in\Z_q^\lc$ such that  
-   $\text{2')} \smallpmatrix
-{
-    \vecb{c}\\
-    \grkb{\alpha}
-}
-=
-\smallpmatrix{
-    \matr{M}       & \matr{N}\\
-    \matr{\Lambda} & \matr{0}_{\ld\times \lc}
-}
-\smallpmatrix
-{
-    \widetilde{\vecb{b}}\\
-    \vecb{w}
-}$ and $\text{3')} \forall i \in [m], \vecb{d}_i=\begin{pmatrix} \vecb{u}_1 &   \vecb{u}_2 \end{pmatrix}   \smallpmatrix{
-\widetilde{b}_i  \\ r_i}$.
-\end{itemize}
-For the first, one can use the QA-NIZK argument for bit-strings of \cite{AC:GonHevRaf15}, and for the second, the QA-NIZK argument for linear spaces of \cite{C:JutRoy14,EC:KilWee15} (for the latter, note that conditions 2') and 3') can be written down as a single system of equations with a large matrix $\widetilde{\matr{M}}$. Satisfiability of 
-2') and 3') is equivalent to  $(\vecb{c}^{\top},\grkb{\alpha}^{\top},\vecb{d}_1^{\top}, \ldots, \vecb{d}_m^{\top})^\top$ being in the span 
-of this matrix $\widetilde{\matr{M}}$).
-
-Since both proofs are constant-size, the resulting proof size is dominated by the cost of the commitments to $b_i$, which is $\Theta(m)$. 
-For soundness, the important point here is that we never prove that $\vecb{b}=\widetilde{\vecb{b}}$, but, since GS commitments are perfectly binding (or, said otherwise, because $\begin{pmatrix} \vecb{u}_1 &   \vecb{u}_2 \end{pmatrix}$
-has full rank), equality holds. This immediately proves that the statement is in the language.  
-\subsection{Aggregated Set Membership Proofs}
-An aggregated set membership proof amounts to proving membership in $\Lang_{[\matr{M}]_1,[\matr{N}]_1,\matr{\Lambda},\grkb{\alpha}}^n$. By definition, $([\vecb{c}_1]_1,\ldots, [\vecb{c}_n]_1) \in\Lang_{[\matr{M}]_1,[\matr{N}]_1,\matr{\Lambda},\grkb{\alpha}}^n$ if and only if  $\forall j \in [n], \exists \vecb{b}_j\in \Z_q^\lb,\vecb{w}_j\in\Z_q^\lc$ such that
-$$
- 1) \vecb{b}_j\in \{0,1\}^\lb
-  \wedge \ 2)
-\smallpmatrix
-{
-    \vecb{c}_j\\
-    \grkb{\alpha}
-}
-=
-\smallpmatrix
-{
-    \matr{M}       & \matr{N}\\
-    \matr{\Lambda} & \matr{0}_{\ld\times \lc}
-}
-\smallpmatrix
-{
-    \vecb{b}_j\\
-    \vecb{w}_j
-}.
-$$
-Recall that we want a proof size independent of $n$. This rules out the naive approach of computing GS commitments to all the coordinates of $\vecb{b}_j$, for all $j \in [n]$, as the cost is $\Theta(nm)$. Therefore, to improve on the asymptotic size of the proof, we are forced to use shrinking commitments to $b_{i,j}$. We stress that it is far from clear how to do this, as it might break down the soundness argument completely (e.g. in the single proof, we used in a fundamental way the uniqueness of the commitment openings). In fact, overcoming this problem is one of the main technical contributions of this chapter. 
-
-Our idea is to use as a shrinking commitment a two-dimensional generalization of Multi-Pedersen commitments, which was used implicitly in Chapter \ref{sec:bits}. Given some matrix $\matr{G} \in \Z_q^{2 \times (n+1)}$ sampled from some distribution $\dist_{2,n+1}$ (as defined on Sect. \ref{sec:mddh}), the commitment to $\vecb{y}\in\Z_q^n$ using randomness $r\in\Z_q$ is computed as $\mathsf{MP}.\Com(\vecb{y};r):=[\matr{G}]_1 \smallpmatrix{\vecb{y} \\ r}$. The special thing about these commitments is that one can set a ``hidden'' linearly independent column of 
-$\matr{G}$, and thus commitments are perfectly binding at some coordinate $j^*\in[n]$ which is computationally hidden to the adversary.
-
-Define the matrix $\matr{B}=(\vecb{b}_1|| \ldots || \vecb{b}_n) \in \{0,1\}^{\lb \times n}$ and let $\vecb{b}_i^*$ be the $i$th row of $\matr{B}$. To prove $([\vecb{c}_1]_1,\ldots, [\vecb{c}_n]_1) \in\Lang_{[\matr{M}]_1,[\matr{N}]_1,\matr{\Lambda},\grkb{\alpha}}^n$, we first compute MP commitments $[\vecb{d}_i]_1$, $i \in [\lb]$, to $\vecb{b}_i^*$.  As before, 
-the proof actually consists of two independent statements:
-\begin{itemize}
-\item $\exists \vecb{r} \in \Z_q^\lb, \matr{B} \in \Z_q^{\lb \times n}$ such that  
-$1'') \matr{B} \in \{0,1\}^{\lb \times n}$ and $3'') \forall i \in [m], \vecb{d}_i=\matr{G}\smallpmatrix{\vecb{b}_i^*  \\ r_i}$,
-\item $\exists \widetilde{\vecb{r}}\in\Z_q^\lb, \vecb{w}_1,\ldots,\vecb{w}_n \in\Z_q^\lc, \widetilde{\matr{B}} \in \Z_q^{\lb \times n}$, (whose rows are denoted as $\widetilde{\vecb{b}}_i^*$, $i \in [\lb]$, and the columns $\widetilde{\vecb{b}}_j$, $j \in [n]$), such that  
-   $2'')\forall i\in[n], \smallpmatrix
-{
-    \vecb{c}_j\\
-    \grkb{\alpha}
-}
-=
-\smallpmatrix
-{
-    \matr{M}       & \matr{N}\\
-    \matr{\Lambda} & \matr{0}_{\ld\times \lc}
-}
-\smallpmatrix
-{
-    \vecb{b}_j\\
-    \vecb{w}_j
-}$ and $3'') \forall i \in [\lb], \vecb{d}_i=\matr{G}   \smallpmatrix{\widetilde{\vecb{b}}^*_i  \\ \widetilde{r}_i}$.
-\end{itemize}
-For the first we use a our aggregated proof that many commitments opens to bit-strings from Sect. \ref{sec:matr-bits} and for the second, (after rewriting the equations) a QA-NIZK argument for linear spaces. With this approach, the proof remains of size $\Theta(m)$, the size of the commitments, while the rest of the proof is constant. 
-
-The interesting part is the soundness argument. The previous reasoning for the non-aggregated case (when $n=1$) fails here because now there is no guarantee that 
- $\matr{B}=\widetilde{\matr{B}}$ (as the openings of $[\vecb{d}_i]_1$ are not unique).  However, as we said, the distribution of the MP commitment key can be chosen so that it is binding at some coordinate $j^*$. This implies that for all $i$, the $j^*$th coordinate of $\vecb{b}_i^*$ and $\widetilde{\vecb{b}}_i^*$ is equal, i.e. the $j^*$th column of $\matr{B}$ and $\widetilde{\matr{B}}$ must be equal.  
-
-Thus, we have that for the coordinate $j^*$, the proof is sound (because $\vecb{b}_j^*$ is uniquely determined, which was the uniqueness of openings which was necessary to prove soundness for $n=1$). That is, the adversary cannot break soundness for any tuple $([\vecb{c}_1]_1,\ldots, [\vecb{c}_n]_1)$ such that $[\vecb{c}_j^*]_1 \notin \Lang_{[\matr{M}]_1,[\matr{N}]_1,\matr{\Lambda},\grkb{\alpha}}$. But since $j^*$ is computationally hidden 
-from the adversary, we can reduce soundness to one coordinate soundness with a loss in the reduction of $1/n$. 
 

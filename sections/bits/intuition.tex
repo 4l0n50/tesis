@@ -52,17 +52,17 @@ Then the verifier checks that
 \begin{equation}
 [\vecb{c}]_1\left([\vecb{d}]_2-
 \sum_{j\in[n]}[\lrck_j]_2\right)^{\top}=
-[\matr{\Theta}]_1[\matr{I}_{\nb\times\nb}]_2,
+[\matr{\Theta}]_1[\matr{I}_{\nb}]_2,
 \end{equation}
  and finally the prover gives a QA-NIZK proof of  $[\matr{\Theta}]_1 \in \mathsf{Span}(\Qspace)$.
 
 This reasoning assumes that $\{[\vecb{g}_i]_1 \lrck_j^{\top}\}$ (or equivalently, $\{[\matr{C}_{i,j}]_1\}$) are linearly independent,  which can only happen if 
 $\nb \geq n+1$. If that is the case, the proof cannot be constant because $[\matr{\Theta}]_1 \in \Gr^{\nb\times\nb}$ and this matrix is part of the proof.
 Instead, we choose $\vecb{g}_1,\ldots,\vecb{g}_{n+1} \in \Gr^{2}$ and $\vecb{h}_1,\ldots,\vecb{h}_{n+1} \in \Hr^{2}$, so that 
-$\{\Qmatr_{i,j}\} \subseteq \Gr^{2 \times 2}$.  Intuitively, this should still work because the prover receives these vectors as part of the CRS and he does not know their discrete logarithms, so to him, they behave as linearly independent vectors.  
+$\{[\matr{C}_{i,j}]_1\} \subseteq \Gr^{2 \times 2}$.  Intuitively, this should still work because the prover receives these vectors as part of the CRS and he does not know their discrete logarithms, so to him, they behave as linearly independent vectors.  
 
 Nevertheless, the statement $[\matr{\Theta}]_1\in\Span(\Qspace)$ seems no longer meaningful, as $\Span(\Qspace)$ is all of $\Gr^{2\times 2}$ with overwhelming probability. But this is not the case, because by means of decisional assumptions in $\Gr$ and in $\Hr$, we switch to a game where the matrices
-$[\matr{C}_{i,j}]_1$ span a non-trivial space of $\Gr^{2 \times 2}$. Specifically, to a game where $[\matr{C}_{i^*,i^*}]_1\notin\Span(\Qspace)$ and $i^*\gets[n]$ remains hidden to the adversary. Once we are in such a game, perfect soundness is guaranteed for equation $b_{i^*}(\bbb_{i^*}-1)=0$ and a cheating adversary is caught with probability at least $1/n$. We think this technique might be of independent interest.
+$[\matr{C}_{i,j}]_1$ span a non-trivial space of $\Gr^{2 \times 2}$. Specifically, to a game where $[\matr{C}_{i^*,i^*}]_1\notin\Span(\Qspace)$, were $i^*$ is a random integer in $[n]$ which remains hidden to the adversary. Once we are in such a game, perfect soundness is guaranteed for equation $b_{i^*}(\bbb_{i^*}-1)=0$ and a cheating adversary is caught with probability at least $1/n$. We think this technique might be of independent interest.
 
 The last obstacle is that, 
   using decisional assumptions on the set of vectors 

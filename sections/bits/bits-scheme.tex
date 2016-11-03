@@ -40,15 +40,13 @@ $[\matr{C}_{i,j}]_1[\matr{I}_{2\times2}]_2 + [\matr{I}_{2\times2}]_1 [\matr{D}_{
 \end{align*}
 Finally, the rest of the proof follows from completeness of ${\Psi_\sfcom}$ and ${\Psi_\sfsum}$. 
 
-(Soundness.) Soundness is proven in Theorem \ref{teo:bitstr-soundness}.
+(Soundness.) Soundness is proven in Theorem \ref{teo:bits-bind-soundness}.
 
 (Zero-Knowledge.) First, note that the vector $[\vecb{d}]_2 \in \Hr^2$ output by the prover and the vector output by $\mathsf{S}_2$ follow exactly the same distribution. This is because the rank of $\Rck$ is $1$. In particular, although the simulator $\mathsf{S}_2$ does not know the opening of $[\vecb{c}]_1$, which is some $\vecb{b} \in \{0,1\}^{n}$, 
 there exists $w_h \in \Z_q$ such that $[\vecb{d}]_2=\Rck\smallpmatrix{\vecb{b}\\ w_h}$. 
 Since $\matr{R}$ is chosen uniformly at random in $\Z_q^{2 \times 2}$, the proof $([\matr{\Theta}]_1, [\matr{\Pi}]_2)$ is uniformly distributed conditioned on satisfying check 2) of algorithm $\algV$.
 Therefore, these elements of the simulated proof have the same distribution as in a real proof. This fact combined with the perfect zero-knowledge property of ${\Psi_\sfsum}$  and ${\Psi_\sfcom}$ concludes the proof. 
 \end{proof}
-
-The following theorem guarantees Soundness. 
  
 \begin{theorem} Let $\mathsf{Adv}_{\mathcal{PS}}(\advA)$ 
 be the advantage of an adversary $\advA$ against the soundness of 
@@ -64,7 +62,7 @@ n& \left(6/q+ \mathsf{Adv}_{\mathcal{U}_1,\Gr}(\advB_1)
 +
  \mathsf{Adv}_{{\Psi_\sfcom}}(\advSound_2)\right).
 \end{eqnarray*}
-\label{teo:bitstr-soundness}
+\label{teo:bits-bind-soundness}
 \end{theorem}
 
 The proof follows from the indistinguishability of the following games:
@@ -76,7 +74,7 @@ some $[\vecb{c}]_1 = [\matr{U}]_1\left(\begin{smallmatrix}\vecb{b}\\ w_g\end{sma
 $\vecb{b}\notin \bits^n$ and $w \in \Z_q$, and
 the corresponding proof which is accepted by the verifier.
 \item[$\mathsf{Game}_0$] This game is identical to 
-$\mathsf{Real}$ except that algorithm $\algK_1$ does not receive $[\matr{U}]_1$ as a input but it samples
+$\mathsf{Real}$ except that algorithm $\algK$ does not receive $[\matr{U}]_1$ as a input but it samples
 $([\matr{U}]_1,\matr{U}) \in \mathcal{R}_{par}$
 itself according to $\dist_{{gk}}$.
 \item[$\mathsf{Game}_1$] This game is identical to 
@@ -120,7 +118,7 @@ Let $[\matr{E}]_1:=([\vecb{s}]_1||[\vecb{t}]_1)$. $\advB$ picks $i^*\gets[n]$, $
 $\matr{W}_1\gets\Z_q^{2\times(n-i^*)}$,
 $[\vecb{g}_{i^*}]_1\gets\Gr^{2}$,
 and defines $\Lck := ([\matr{E}]_1\matr{W}_0||[\vecb{g}_{i^*}]_1||[\matr{E}]_1\matr{W}_1|| [\vecb{s}]_1)$. 
-In the real algorithm $\mathsf{K}_1$, the generator picks the matrix $\matr{\Delta} \in \Z_q^{2 \times (n+1)}$.
+In the real algorithm $\algK$, the generator picks the matrix $\matr{\Delta} \in \Z_q^{2 \times (n+1)}$.
 Although $\advB$ does not know $\matr{\Delta}$,  it can compute $[\matr{\Delta}]_1$ as $[\matr{\Delta}]_1= \Lck\matr{U}^{-1}$,
 given that $\matr{U}$ is full rank and was  sampled 
 by $\advB$, so it can compute the rest of the elements of the

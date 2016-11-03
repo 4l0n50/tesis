@@ -2,20 +2,20 @@
 \begin{figure}
 \begin{\algSize}
 $$
-\begin{array}{ll}
 \begin{array}{l}
-\algK_1(\gk,[\matr{G}]_1,n)\quad (\mathsf{S}_1(\gk,[\matr{G}]_1,n))\\
+\begin{array}{l}
+\algK(\gk,[\matr{G}]_1,n)\quad (\mathsf{S}_1(\gk,[\matr{G}]_1,n))\\
 \hline
-{[\overline{\matr{G}}]_1 \gets \MP.\algK(1^\lambda,mn,\distlin_1^{mn,0})}\\
-\crs_\sfcom\gets\Pi_\sfcom.\algK_1(\gk,[\vecb{G}^n_1||\vecb{g}_{n+1}^n]_1,[\ovG]_1, mn)\\
-\crs_\sfbits\gets\Pi_\sfbits.\algK_1(\gk,[\overline{\matr{G}}]_1)\\
+{[\overline{\matr{G}}]_1 \gets \MP.\algK(gk,mn,\distlin_1^{mn,0})}\\
+\crs_\sfcom\gets\Pi_\sfcom.\algK(\gk,[\vecb{G}^n_1||\vecb{g}_{n+1}^n]_1,[\ovG]_1, mn)\\
+\crs_\sfbits\gets\Pi_\sfbits.\algK(\gk,[\overline{\matr{G}}]_1)\\
 \text{Return } \ \mathsf{crs}:=(\crs_\sfcom,\crs_\sfbits).\\
 (\tau_\sfcom\gets\Pi_\sfcom.\mathsf{S}_1(\gk,[\matr{G}^n]_1,[\ovG]_1,mn)\\
 \tau_\sfbits\gets\Pi_\sfbits.\mathsf{S}_1(\gk,[\overline{\matr{G}}]_1).\\
 \tau := (\vecb{a},\tau_\sflin,\tau_\sfbits)).\\
 \\
 \end{array}
-&
+\\
 \begin{array}{l}
 {\algP(\mathsf{crs}, ([\vecb{c}]_1,\ldots,[\vecb{c}_n]_1), \langle (\vecb{b}_1,\ldots,\vecb{b}_n), \vecb{w}\rangle)}\\
 \hline
@@ -23,9 +23,6 @@ $$
 {\pi_\sfcom \gets \Pi_{\sfcom}.\algP(\crs_\sfcom,[\vecb{c}]_1,[\ovecb{c}]_1,}{\langle\vecb{b},\vecb{w},\overline{w}\rangle)}\\
 \pi_\sfbits \gets \Pi_\sfbits.\algP(\crs_\sfbits,[\ovc]_1,\langle \vecb{b},\overline{w}\rangle)\\
 \text{Return } \  ([\ovc]_1,\pi_\sfcom,\pi_\sfbits). \\
-\\
-\\
-\\
 \\
 \end{array}\\
 \begin{array}{l}
@@ -37,7 +34,7 @@ $$
 \\
 \\
 \end{array}
-&
+\\
 \begin{array}{l}
 {\mathsf{S}_2(\crs,([\vecb{c}_1]_1,\ldots,[\vecb{c}_n]_1),[\matr{D}]_1,\tau)}\\
 \hline

@@ -5,14 +5,14 @@ $$
 where $ck:=[\matr{G}]_1$ and $\matr{G}$ is a matrix sampled from 
 some distribution $\distink$ (as defined on Sect. \ref{sec:mddh}). For simplicity, in the exposition we restrict ourselves to the case $\dist_k=\distlin_{1}$ so  $\matr{G}$ is sampled from $\distlininone$, for some $0 \leq i \leq m$.
 
-It is important to note that, as an extended MP commitment is at best only binding at one coordinate, a priori showing that it opens to $\vecb{b} \in \{0,1\}^m$ is not very meaningful, as it does open to other values as well. However, when combined with external protocols that univocally define $\vecb{b}$, it becomes a key building block to obtain the the results of chapter \ref{sec:shuf-rp}.
+It is important to note that, as an extended MP commitment is at best only binding at one coordinate, a priori showing that it opens to $\vecb{b} \in \{0,1\}^m$ is not very meaningful, as it does open to other values as well. However, when combined with external protocols that unequivocally define $\vecb{b}$, it becomes a key building block to obtain the the results of chapter \ref{sec:shuf-rp}.
 
 The argument is implicit in Sect. \ref{sec:bits-binding}, where we construct a QA-NIZK argument for proving that a perfectly binding commitment opens to a bit-string. More technically, to prove that a  perfectly binding commitment $[\vecb{c}']_1$ opens to a bit-string $\vecb{b}$, the argument in Sect. \ref{sec:bits-binding} takes the following steps:
 \begin{enumerate}
 \item Construct two MP commitments $[\vecb{c}]_1$, 
 $[\vecb{d}]_2$ to $\vecb{b}$. 
-\item Prove that $[\vecb{c}]_1$ and $[\vecb{c}']_1$ open to the same string. 
-\item Prove that the two MP commitments $[\vecb{c}]_1$ and $[\vecb{d}]_2$ open to the same string.
+\item Prove that $[\vecb{c}]_1$ and $[\vecb{c}']_1$ open to the same value. 
+\item Prove that the two MP commitments $[\vecb{c}]_1$ and $[\vecb{d}]_2$ open to the same value.
 \item Prove that $\vecb{c}(\vecb{d}-\sum_{j \in [m]}
 \vecb{h}_j)^\top\in\Span(\{\vecb{g}_i\vecb{h}_j^\top:i,j\in[m+1]\}\setminus\{\vecb{g}_i\vecb{h}_i^\top:i\in[m]\})$, where $ck:=[(\vecb{g}_1,\ldots,\vecb{g}_{m+1})]_1$ and $ck':=[(\vecb{h}_1,\ldots,\vecb{h}_{m+1})]_2$.
 \end{enumerate}
@@ -26,10 +26,14 @@ $[\vecb{d}]_2$ to $\vecb{b}$.
 The argument we need for our results eliminates the perfectly binding commitment, which of course also means that step 2 disappears. Additionally, in the original scheme from Sect. \ref{sec:bits-binding}, the distribution of $ck=[\matr{G}]_1$ is uniform over $\GG_1^{2\times(n+1)}$, while in our argument of membership in 
 $\Lang_{ck,\sfbits}$, $\matr{G}$ can follow any distribution $\distlininone$ for some $0 \leq i \leq m$. 
 However, it is not hard to adapt the original proof to these distributions (in fact, in the soundness proof of 
-Lemma \ref{lemma:bits1}, there is a game where the distribution of $\matr{G}$ is changed to $\distlininone$, for some $i \gets [m]$). The proof that $\Lang_{ck,\sfbits}$ admits a constant-size QA-NIZK argument essentially reuses parts of the proof of Theorem \ref{teo:bitstr-soundness}.  In summary, we prove the following result. 
+Lemma \ref{lemma:bits1}, there is a game where the distribution of $\matr{G}$ is changed to $\distlininone$, for some $i \gets [m]$). The proof that $\Lang_{ck,\sfbits}$ admits a constant-size QA-NIZK argument essentially reuses parts of the proof of Theorem \ref{teo:bitstr-soundness}. For completeness, we give a full description of the scheme for the non-binding case below. 
 
+\subsubsection{Detailed Description}
+\input{sections/bits/detailed-description-nb}
+
+\subsubsection{Security Proof}
 \begin{theorem} \label{theo:bits}
-The proof system described on Sect. \ref{sec:bits-scheme} is a QA-NIZK proof system with Perfect Completeness, Computational Soundness, and Perfect Zero-Knowledge.
+The proof system described above is a QA-NIZK proof system with Perfect Completeness, Computational Soundness, and Perfect Zero-Knowledge.
 \end{theorem}	
 \begin{proof}
 We remark that proof of Completeness and Zero-Knowledge is the same for any distribution $\distlininone$.
@@ -41,7 +45,7 @@ $[\matr{C}_{i,j}]_1[\matr{I}]_2+[\matr{I}]_1[\matr{D}_{i,j}]_2=$
 $[\vecb{g}_{i}]_1[\vecb{h}_j]_2^\top$.  Since $b_i(b_i-1) = 0$ for each $i\in[m]$,
 \begin{eqnarray*}
 \lefteqn{
-[\vecb{c}]_1( [\vecb{d}]_2 - \sum_{i\in[m]} [\vecb{h}_{i}]_2)^\top}\\
+[\vecb{c}]_1\left( [\vecb{d}]_2 - \sum_{i\in[m]} [\vecb{h}_{i}]_2\right)^\top}\\
 & = & 
     \sum_{i \in [m]}\left(
         b_i s[\vecb{g}_{i}]_1[\vecb{h}_{m+1}]_2^{\top}+
@@ -67,7 +71,7 @@ Finally, the rest of the proof follows from completeness of $\Pi_\sfsum$ and $\P
 When $\matr{G}$ is sampled from $\distlinisnone$, ${i^*}>0$, the proof follows from the indistinguishability of the following three games:
 \begin{itemize}
 \item[$\mathsf{Real}$:] This is the real Soundness game. The output is 1 if the adversary submits some $[\vecb{c}]_1\notin\Lang_{ck,\sfbits}$ and the corresponding proof which is accepted by the verifier.
-\item[$\sfGame_0$:] This identical to $\mathsf{Real}$, except that $\algK_1$ does not receive $[\matr{G}]_1$ as a input but
+\item[$\sfGame_0$:] This identical to $\mathsf{Real}$, except that $\algK$ does not receive $[\matr{G}]_1$ as a input but
 it samples $\matr{G}$ itself according to $\distlinisnone$.
 \item[$\sfGame_1$:] This game is identical to $\sfGame_0$ except that now $\matr{H}\gets\distlinisnone$.
 \end{itemize}

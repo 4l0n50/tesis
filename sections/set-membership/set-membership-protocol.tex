@@ -1,23 +1,23 @@
 \begin{figure}
 \begin{\algSize}
 $$
-\begin{array}{ll}
 \begin{array}{l}
-\algK_1(\gk,[\matr{M}]_1,[\matr{N}]_1,n)
+\begin{array}{l}
+\algK(\gk,[\matr{M}]_1,[\matr{N}]_1,n)
 \quad (\mathsf{S}_1(\gk,[\matr{M}]_1,[\matr{N}]_1,n))
 \\
 \hline
 [\matr{G}]_1 \gets \MP.\algK(1^\lambda,n)\\
 {[\matr{\Xi}]_1 := [\matr{\Xi}(\matr{M},\matr{N},\matr{\Lambda},\matr{G})]_1}\\
-\crs_\sflin\gets\Pi_\sflin.\algK_1(\gk,[\matr{\Xi}]_1)\\
-\crs_\sfbits\gets\Pi_\sfbits.\algK_1(\gk,[\matr{G}]_1,\lb)\\
+\crs_\sflin\gets\Pi_\sflin.\algK(\gk,[\matr{\Xi}]_1)\\
+\crs_\sfbits\gets\Pi_\sfbits.\algK(\gk,[\matr{G}]_1,\lb)\\
 \text{Return } \ \crs:=(\crs_\sflin,\crs_\sfbits).\\
 (\tau_\sflin\gets\Pi_\sflin.\algS_1(\gk,[\matr{\Xi}]_1)\\
 \tau_\sfbits\gets\Pi_\sfbits.\algS_1(\gk,[\matr{G}]_1,\lb).\\
 \tau := (\tau_\sflin,\tau_\sfbits)).\\
 \\
 \end{array}
-&
+\\
 \begin{array}{l}
 {\algP(\mathsf{crs}, \{[\vecb{c}_j]_1,\langle \vecb{b}_j,\vecb{w}_j\rangle:j\in[n]\})}\\
 \hline
@@ -34,15 +34,12 @@ r_i \gets\Z_q, \forall i\in[\lb]\\
     \Pi_\sfbits.\algP
     (
         \crs_\sfbits,
-        \{[\matr{d}_i]_1,\\
-\qquad
-        \langle\matr{b}^*_i,r_i\rangle:i \in[\lb]\}
+        \{[\matr{d}_i]_1, \langle\matr{b}^*_i,r_i\rangle:i \in[\lb]\}
     )\\
 \text{Return } \  ([\vecb{d}]_1,\pi_\sflin,\pi_\sfbits). \\
 \\
+\end{array}
 \\
-\\
-\end{array}\\
 \begin{array}{l}
 {\algV(\mathsf{crs},\{[\vecb{c}_j]_1:j\in[n]\},([\vecb{d}]_1,\pi_\sflin,\pi_\sfbits))}\\
 \hline
@@ -57,10 +54,8 @@ r_i \gets\Z_q, \forall i\in[\lb]\\
 \text{Return } \ \mathsf{ans}_1\wedge\mathsf{ans}_2.
 \\
 \\
-\\
-\\
 \end{array}
-&
+\\
 \begin{array}{l}
 {\mathsf{S}_2(\crs,[\vecb{c}]_1,\tau)}\\
 \hline
@@ -76,8 +71,7 @@ r_i \gets\Z_q, \forall i\in[\lb]\\
 \pi_\sfbits \gets
     \Pi_\sfbits.\algS
     (
-        \crs_\sfbits,\\
-\qquad\quad  \{[\vecb{d}_i]_1:i\in[\lb]\},
+        \crs_\sfbits,\{[\vecb{d}_i]_1:i\in[\lb]\},
         \tau_\sfbits
     )\\
 \text{Return } \  ([\vecb{d}]_1,\pi_\sflin,\pi_\sfbits). \\

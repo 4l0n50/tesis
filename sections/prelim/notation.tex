@@ -2,4 +2,10 @@ Let $\advA$ a Turing Machine. We denote by $x:=\advA(y)$ the assignment of $x$ t
 
 We say that a function $f:\mathbb{N}\to\mathbb{R}$ is negligible if for any $c\in\mathbb{N}$ there exists an integer $n_c\in\mathbb{N}$ such that for any $n> n_c$, $f(n)<1/n^c$. We write $f(n)=\negl(n)$ as shorthand for ``$f$ is negligible'' and we write $f(n)\approx g(n)$ when $|f(n)-g(n)|=\negl(n)$. We say that a function $f:\mathbb{N}\to\mathbb{R}$ is polynomial if there exists $c\in\mathbb{N},n_c\in\mathbb{N}$ such that for any $n\geq n_c$, $f(n)\leq n^c$. We write $f(n)=\poly(n)$ as a shorthand for ``$f$ is polynomial''.
 
+Vectors are denoted in boldface and lower case, usually elements of $\Z_q^n$, and matrices in boldface and upper case, usually elements of $\Z_q^{m\times n}$. We denote by $\vecb{e}_i^n$ the $i$ th canonical vector of $\Z_q^n$ and by $\matr{I}_{n}$ the identity matrix of size $n\times n$. We $n$ can be understood from the context, we simply write $\vecb{e}_i$ and $\matr{I}$. Given some matrices $\matr{A}\in\Z_q^{m\times t},\matr{A}_1\in\Z_q^{m_1\times t},\ldots,\matr{A}_n\in\Z_q^{m_n\times n}$, we define the operations
+ $$\vecb{A}_1 \oplus \ldots \oplus \vecb{A}_n:=\smallpmatrix{ \vecb{A}_1 \\ \vdots \\  \vecb{A}_n} \qquad 
+\matr{A}^n:=\smallpmatrix{ \matr{A} &  & \matr{0} \\   & \ddots &   \\ \matr{0} &  & \matr{A}
+}.$$
+In Chapter \ref{sec:bits} we make extensive use of the set $[n+k]\times[n+k]\setminus\{(i,i):i\in[n]\}$ and for brevity we denote it by $\indexSet{n}{k}$.
+
 Cryptographic schemes are constituted by many algorithms and among them there is usually a key generation algorithm, which receives the security parameter and return a set of keys. In all the schemes used in this work the security parameter is used to choose a (bilinear) group of size polynomially related to the security parameter, and then the security parameter is never used again. For this reason the key generation algorithms used in this work will receive the group description instead of the security parameter.

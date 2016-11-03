@@ -1,10 +1,10 @@
-We give a QA-NIZK argument of membership in the language $\Lang_{ck,\sfbits}^n  = \Lang_{ck,\sfbits} \times \ldots \times \Lang_{ck,\sfbits}$ with a proof size which is independent of $n$ (but with a loss factor in the proof of soundness of $n$). The result will be crucial to get improved proof sizes for more complex statements. 
+We give a QA-NIZK argument of membership in the language $\Lang_{ck,\sfbits}^n  = \Lang_{ck,\sfbits} \times \ldots \times \Lang_{ck,\sfbits}$ with a proof size which is independent of $n$ (but with a loss factor of $n$ in the proof of soundness). The result will be crucial to get improved proof sizes for more complex statements. For example, note that the language for the perfectly binding case with GS commitments is $\Lang_{ck,\sfbits}^n$, where $ck:=[\matr{U}]_1$ and $\matr{U}\gets\distlin_1^{1,1}$. \footnote{Note that $\distlin_1^{1,1}\equiv\mathcal{B}$, where $\mathcal{B}$ is the perfectly binding distribution defined in Sect. \ref{sec:gs-comms}. The perfectly hiding case corresponds to $\matr{U}\gets\distlin_1^{1,0}\equiv\mathcal{H}$.}
 
 \subsubsection{Intuition}
-\input{sections/set-membership/matr-bits-intuition}
+\input{sections/bits/matr-bits-intuition}
 
 \subsubsection{The scheme}
-\input{sections/set-membership/matr-bits-scheme}
+\input{sections/bits/matr-bits-scheme}
 The description of the protocol is in Fig. \ref{fig:bitsn} and  we prove that:
 
 \begin{theorem} \label{theo:bitsnm} The proof system from Fig. \ref{fig:bitsn} is a QA-NIZK proof system for the language $\Lang_{ck,\sfbits}^n$ with proof size  

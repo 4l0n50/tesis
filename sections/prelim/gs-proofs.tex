@@ -19,7 +19,7 @@ When $t=f(t_1,1)$ or $t=f(1,t_2)$, for some efficiently computable $t_1\in\Am_1$
 \subsection{Commit-and-Prove} The GS Proof system works as a commit-and-prove scheme: first the prover commits to 
 all the variables in an equation with the \emph{Groth-Sahai commitment scheme}, defined in the next section, and then it ``proves'' that the committed values satisfy the equation. The commitment to an element in the vector space $A_i$ lives in another vector space $B_i$ of larger dimension where interesting decisional assumptions exist. To prove that the equation is satisfied the verifier checks some equations in these larger fields.
 
-\subsection{Groth-Sahai Commitments} 
+\subsection{Groth-Sahai Commitments} \label{sec:gs-comms}
  
 \begin{definition} The Groth-Sahai commitment scheme in the group $\GG_\gamma$, $\gamma\in\{1,2\}$, is  specified by the following three algorithms 
 	$(\mathsf{GS}.\algK,\mathsf{GS}.\Com,\mathsf{GS}.\algVrfy)$ such that:
