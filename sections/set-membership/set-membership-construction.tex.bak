@@ -22,7 +22,7 @@ and
  $\vecb{v}:=\vecb{b}_1\oplus \vecb{w}_1 \oplus \ldots \oplus \vecb{b}_n\oplus \vecb{w}_n \oplus r_1 \oplus \ldots \oplus r_n.$ The statement we want to prove is that $[\vecb{y}]_1 \in \mathbf{Im}([\matr{\Xi}]_1)$, and the witness is $\vecb{v}$. The upper left block of the matrix guarantees condition 2.a), while the two lower blocks guarantee 
 condition 2.b).
 
-The full description of the proof system is in Fig. \ref{fig:bin-leng-nizk} and security follows from Theorem \ref{theo:aggset}.
+The full description of the proof system is in Fig. \ref{fig:bin-leng-nizk} and security folows from Theorem \ref{theo:aggset}.
 \input{sections/set-membership/set-membership-protocol}
 
 \begin{theorem} \label{theo:aggset} There exists a QA-NIZK argument $\Pi_\sfset$ for membership in the language $\Lang_{[\matr{M}]_1,[\matr{N}]_1,\matr{\Lambda},\grkb{\alpha}}^n$ with proof size  $(2\lb+11)|\GG_1|+10|\GG_2|$, perfect completeness, perfect-zero knowledge and computational soundness. 

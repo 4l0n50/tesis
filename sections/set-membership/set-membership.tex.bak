@@ -1,4 +1,4 @@
-In this section we construct a QA-NIZK argument that many commitments open to elements in a set $[0,d-1] \subset \Z_q$ or  $S \subset \GG_{\gamma}$. We say that the argument is aggregated because the size of the proof does not depend on the number of commitments.
+In this section we construct a QA-NIZK argument that many commitments open to elements in a set $[0,d-1] \subset \Z_q$ or  $S \subset \GG_{\gamma}$. We say that the argument is aggregated beacuse the size of the proof does not depend on the number of commitments.
 
 Before we move to the aggregated case, we study the case of a single set membership proof.
 

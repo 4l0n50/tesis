@@ -1,0 +1,72 @@
+\begin{description}
+\item[{$\algK(\gk, [\matr{G}]_1)$}:] 
+Pick $\matr{H}\gets\distlinizeroone$, and denote by $\vecb{h}_{j}$ the $j$ th column of $\matr{H}$. Pick $\matr{T}\gets\Z_q^{2\times 2}$ and for each $(i,j)\in\indexSet{m}{1}$ define matrices
+$$([\matr{C}_{i,j}]_1,[\matr{D}_{i,j}]_2):=([\vecb{g}_i\vecb{h}_j^{\top}+\matr{T}]_1,[-\matr{T}]_2).$$
+
+Let $\Pi_\sfsum$ be the proof system for Sum in Subspace 
+(Sect. \ref{sec:sum}) and $\Pi_\sfcom$
+be an instance of the proof system for Equal Commitment Opening (Sect. \ref{sec:aggcommit}).
+Let
+$\crs_\sfsum \gets \Pi_\sfsum.\algK(\gk, \{([\matr{C}_{i,j}]_1,[\matr{D}_{i,j}]_2):(i,j)\in\indexSet{m}{1}\})$.\footnote{We identify
+matrices in $\GG_1^{2 \times 2}$ (respectively in $\GG_2^{2 \times 2}$) with vectors in $\GG_1^{4}$ (resp. in $\GG_2^{4}$).} and let $\crs_\sfcom \gets \Pi_\sfcom.\algK(\gk, \bmatr{G}_1,\bmatr{H}_2,m)$. 
+
+The common reference string is given by:
+\begin{eqnarray*}
+\mathsf{crs}&:=&\left( gk, \bmatr{G}_1,
+    [\matr{H}]_2, \{([\matr{C}_{i,j}]_1, [\matr{D}_{i,j}]_2): (i,j) \in \indexSet{m}{1}\},\crs_\sfsum,\crs_\sfcom \right).
+ \end{eqnarray*}
+\item[$\algP(\mathsf{crs}_, \bvecb{c}_1, \langle \vecb{b}, r \rangle)$:] The proof $([\vecb{d}]_1,([\matr{\Theta}]_1,[\matr{\Pi}]_2),\pi_\sfcom,\pi_\sfsum)$ is computed as follows:
+\begin{enumerate}
+\item $[\vecb{d}]_2:= \mathsf{MP}.\Com_{[\matr{H}]_2} (\vecb{b};s)$, $s \gets \Z_q$. 
+\item Pick $\matr{R} \gets \Z_q^{2\times 2}$ and compute:
+\begin{eqnarray*}
+([\matr{\Theta}]_1, [\matr{\Pi}]_2) & := & ([\matr{R}]_1,[-\matr{R}]_2)+
+\sum_{i\in[m]}\sum_{j\in[m]}b_i(b_j-1)([\matr{C}_{i,j}]_1,[\matr{D}_{i,j}]_2)+\\
+& &     rs([\matr{C}_{m+1,m+1}]_1,[\matr{D}_{m+1,m+1}]_2)+\\
+& &
+  \sum_{i \in [m]}
+ \left(b_i s  ([\matr{C}_{i,m+1}]_1,[\matr{D}_{i,m+1}]_2)\right. +\\
+& & \left.r(b_i-1) ([\matr{C}_{m+1,i}]_1,[\matr{D}_{m+1,i}]_2)\right).
+\end{eqnarray*}
+
+\item Compute a proof $\pi_\sfsum$
+that $\matr{\Theta}+\matr{\Pi}$ is in the span of 
+$\{\matr{C}_{i,j}+\matr{D}_{i,j}\}_{(i,j)\in\indexSet{m}{1}}$
+and a proof $\pi_\sfcom$
+that
+$([\vecb{c}]_1,[\vecb{d}]_2)$ open to the same value,
+using $\vecb{b},r$, and $s$. \\
+\end{enumerate}
+
+\item[{$\algV(
+    \mathsf{crs},
+    [\vecb{c}]_1,
+    [\vecb{d}]_2,
+        ([\matr{\Theta}]_1, [\matr{\Pi}]_2), 
+        \pi_\sfcom,\pi_\sfsum )$}:] If any of the following checks fails, the verifier outputs $0$, else it outputs $1$:
+%   
+\begin{enumerate}
+\item 
+$[\vecb{c}]_1 \left([\vecb{d}]_2^\top-
+    \sum_{j \in [m]} [\vecb{h}_j]_2^\top\right) =
+    [\matr{\Theta}]_1 [\matr{I}]_2 +  [\matr{I}]_1 [\matr{\Pi}]_2.$
+  \item $\Pi_\sfsum.\algV(\crs_\sfsum,([\matr{\Theta}]_1,[\matr{\Pi}]_2),\pi_\sfsum))=1$ and $\Pi_\sfcom.\algV(\crs_\sfcom,([\vecb{c}]_1,[\vecb{d}]_2),\pi_\sfcom)=1$.
+\end{enumerate}
+
+\item[{$\mathsf{S}_1(\gk,[\matr{G}]_1)$}:] It generates and outputs the CRS in the same way as $\algK$ and additionally outputs the simulation trapdoor 
+$\tau=\left(\matr{H},\tau_\sfsum, \tau_\sfcom\right)$,
+where $\tau_\sfsum$ and $\tau_\sfcom$ are, respectively, $\Pi_\sfsum$'s and $\Pi_\sfcom$'s simulation trapdoors.
+\item[{$\mathsf{S}_2(\crs,[\vecb{c}]_1,\left(\matr{H},\tau_\sfsum, \tau_\sfcom\right))$}:] The proof $([\vecb{d}]_1,([\matr{\Theta}]_1,[\matr{\Pi}]_2),\pi_\sfcom,\pi_\sfsum)$ is simulated as follows:
+\begin{enumerate}
+\item $\vecb{d}:= \MP.\Com_{[\matr{H}]_2}(\vecb{0}_{n\times1},\overline{w}_h)$, $\overline{w}_h \gets \Z_q$.
+\item Pick $\matr{R} \gets \Z_q^{2 \times 2}$ and define:
+\begin{align*} 
+[\matr{\Theta}]_1 & :=  [\vecb{c}]_1\left(\vecb{d}-\sum_{i \in [m]} \lrck_i\right)^\top + [\matr{R}]_1,
+    &
+[\matr{\Pi}]_2 & := - [\matr{R}]_2.
+\end{align*}
+\item $\pi_\sfsum\gets\Pi_\sfsum.\algS_2(\crs_\sfsum,([\matr{\Theta}]_1,[\matr{\Pi}]_2),\tau_\sfsum)$ and $\pi_\sfcom\gets\Pi_\sfcom.\algS_2(\crs_\sfcom,([\vecb{c}]_1,[\vecb{d}]_2),\tau_\sfcom)$.
+\end{enumerate}
+\end{description}
+
+
