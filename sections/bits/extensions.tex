@@ -1,12 +1,12 @@
 \subsubsection{CRS Generation for Individual Commitments.}
-A natural way to extend our construction to individual commitments (distribution (b) from Sect.\ \ref{sec:bits-instantiations}) is the following. The only change is that the matrix $\matr{\Delta}$ is sampled uniformly from  $\Z_q^{2 \times 2n}$ (the distribution of $\Rck$ is not changed). Thus, the matrix 
+A natural way to extend our construction to individual commitments (distribution (b) from Section~\ref{sec:bits-instantiations}) is the following. The only change is that the matrix $\matr{\Delta}$ is sampled uniformly from  $\Z_q^{2 \times 2n}$ (the distribution of $\Rck$ is not changed). Thus, the matrix 
 $[\matr{G}]_1:=\matr{\Delta} [\matr{U}]_1$ has $2n$ columns instead of $n+1$ and 
 $[\vecb{c}_{\Delta}]_1 := \Lck \smallpmatrix{\vecb{b} \\ \vecb{w}_g}$ for some $\vecb{w}_g \in \Z_q^{n}$.   
 In the soundness proof, the only change is that in $\mathsf{Game}_2$, the extra columns are also changed to span a one-dimensional space, \textit{i.e.} in this game $[\vecb{g}_{i}]_1$, $i \in [2n-1]$ and $i \neq i^*$, are uniform vectors in the space spanned by $[\vecb{g}_{2n}]_1$.
 With this approach, the proof size is still constant and the changes to the original construction are minimal but the CRS is considerably larger. Further, we do not know how to make the CRS linear for bit-strings of weight $1$. 
 
 Therefore, we propose an alternative way to extend our result to individual commitments.
-%\footnote{This is essentially the proof system from Sect. \ref{sec:matr-bits} for $m=1$. {\color{red} Deber\'ia ir ac\'a esto? o basta con referenciar la sec no binding?}}
+%\footnote{This is essentially the proof system from Section~\ref{sec:matr-bits} for $m=1$. {\color{red} Deber\'ia ir ac\'a esto? o basta con referenciar la sec no binding?}}
 In this new construction, the matrix $\Lck$ is independent from $[\matr{U}]_1$ and for all $i \in [n]$, $[\vecb{g}_{i}]_1 = \mu_i [\vecb{g}_{n+1}]_1$, $\mu_i \gets \Z_q$ and   $[\vecb{g}_{n+1}]_1\gets\Z_q^2$. 
 
 The proof is defined in a slightly different way. Now one computes $[\vecb{c}_\Delta]_1:=\Lck\smallpmatrix{\vecb{b}\\w'_g}$, $w'_g\gets\Z_q$, and one proves that the three commitments, $[\vecb{c}]_1,[\vecb{c}_\Delta]_1,[\vecb{d}]_2$ open to the same value.  Intuitively, this replaces in the original construction the proofs that $\matr{\Delta}[\vecb{c}]_1=[\vecb{c}_\Delta]_1$ and that $\matr{\Delta}[\vecb{c}]_1$ and $[\vecb{d}]_2$ open to the same value. More specifically, this is proven by showing that $(\smallpmatrix{{[\vecb{c}]_1}\\{[\vecb{c}_\Delta]_1}}, [\vecb{d}]_2)\in\Lang_{[\matr{M}]_1,[\matr{N}]_2}$, where.
@@ -36,7 +36,7 @@ For zero-knowledge, observe that $[\vecb{c}_{\Delta}]_1$ is just a uniform vecto
 Because of the homomorphic properties of the commitments, 
 we can easily extend it to prove that the bit-string $ \vecb{b}$ satisfies $\sum_{i \in [n]} \beta_i b_i=t$, for some $\grkb{\beta} \in \Z_q^{n}, t\in \Z_q$. 
 If the commitment $[\vecb{c}]_1$ is a concatenation of GS commitments to $b_i$, this can be done in the usual way with GS proofs. 
-But if $\matr{U}$ is drawn from distribution (a) (see Sect. \ref{sec:bits-instantiations})
+But if $\matr{U}$ is drawn from distribution (a) (see Section~\ref{sec:bits-instantiations})
 this can also be done as follows. 
 Define $\matr{B}:=\smallpmatrix{ \beta_1 & \ldots & \beta_n & 0\\ 0 & \ldots & 0 &1}
 \in \Z_q^{2\times (n+1)}$. %and let $\vecb{e}_2^{\ell}$ denote the $i$ th vector of the canonical basis of $\Z_q^\ell$.  
@@ -46,12 +46,12 @@ This is justified because
 $\matr{B}\vecb{u}_i = \matr{B}\vecb{e}^{n+1}_i=\beta_i\vecb{e}_1^{2}$, and then
 $ \matr{B}\vecb{c}- t \vecb{e}^{2}_{1}=w  \matr{B} \vecb{u}_{n+1}+ \sum_{i \in [n]} b_i \matr{B} \vecb{u}_{i} - t \vecb{e}^{2}_1=w\matr{B}\vecb{u}_{n+1}+\left(\sum_{i\in[n]}\beta_i b_i-t\right)\vecb{e}_1^2$.
 So to be able to prove that $\sum_{i \in [n]} \beta_i b_i=t$, we just need to add to the CRS the necessary elements to prove membership 
-in $\mathcal{L}_{B[\vecb{u}_{n+1}]_1}:=\{ [\vecb{x}]_1 \in \Gr^2: \exists w \in \Z_q,  \vecb{x} = w\matr{B}\vecb{u}_{n+1} \}$ using one of the constructions of Sect. 
+in $\mathcal{L}_{B[\vecb{u}_{n+1}]_1}:=\{ [\vecb{x}]_1 \in \Gr^2: \exists w \in \Z_q,  \vecb{x} = w\matr{B}\vecb{u}_{n+1} \}$ using one of the constructions of Section~
 \ref{sect:QANIZKlinspace}.
 
 \subsubsection{Bit-Strings of Weight 1}  In the special
-case when the bit-string has only one $1$ (this case is useful in some applications, see Sect. \ref{sec:bits-applications}),  the size of the CRS can be made linear in $n$, instead of quadratic.
-To prove this statement we would combine our proof system for bit-strings of section \ref{sec:bits-scheme} and a proof that  $\sum_{i \in [n]} b_i=1$ as described above
+case when the bit-string has only one $1$ (this case is useful in some applications, see Section~\ref{sec:bits-applications}),  the size of the CRS can be made linear in $n$, instead of quadratic.
+To prove this statement we would combine our proof system for bit-strings of Section~\ref{sec:bits-scheme} and a proof that  $\sum_{i \in [n]} b_i=1$ as described above
 when $m=1$ or using GS-proofs when $m=n$.
 In the definition of $(\matr{\Theta},\matr{\Pi})$ in Eq.~\ref{eq:ThetaPi}, one 
 sees that for all pairs $(i,j) \in [n] \times [n]$, the coefficient of $(\vecb{C}_{i,j},\vecb{D}_{i,j})$ is $b_i(b_j-1)$.

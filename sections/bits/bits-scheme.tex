@@ -4,7 +4,7 @@
 \subsection{Proof of Security}
 
 \begin{theorem}
-The proof system from Sect. \ref{bits-proof-system} is QA-NIZK proof system for the language $\Lang_{ck,\sfbits}$ with perfect completeness, computational soundness, and perfect zero-knowledge
+The proof system from Section~\ref{bits-proof-system} is QA-NIZK proof system for the language $\Lang_{ck,\sfbits}$ with perfect completeness, computational soundness, and perfect zero-knowledge
 \end{theorem}
 
 \begin{proof}
@@ -190,6 +190,6 @@ If we express $\matr{\Theta}+\matr{\Pi}$
 as a linear combination of $\llck_{i}\lrck_{j}^{\top}$, the coordinate of
 $\llck_{i^*}\lrck_{i^*}^\top$ is $b_{i^*}(\overline{b}_{i^*}-1)\neq 0$ and thus $\matr{\Theta}+\matr{\Pi}\notin\Span(\{\matr{C}_{i,j}+\matr{D}_{i,j}:(i,j)\in\indexSet{n}{1}\})$.
 The adversary $\advSound_1$ against ${\Psi_\sfsum}$  outputs  $\pi_\sfsum$
-which is a fake proof for $([\matr{\Theta}]_1, [\matr{\Pi}]_2)$. \footnote{The proof system $\Psi_\sfsum$ is constructed for matrices $\{(\matr{C}_{i,j},\matr{D}_{i,j}):(i,j)\in\indexSet{n}{1}\}$ sampled from some distribution $\dist_{{gk}}$, which in this case depends on the distribution of $\matr{G}$ and $\matr{H}$. We assume that the adversary $\advSound_2$ against $\Psi_\sfsum$ receives the common reference string of $\Psi_\sfsum$ as described in Section \ref{sec:sum} and additionally the matrices $[\matr{G}]_1$ and $[\matr{H}]_2$ which defines the language, i.e. the distribution of $\matr{C}_{i,j}$, $\matr{D}_{i,j}$ (this is necessary so that $\advSound_2$ can simulate the crs for adversary $\advA$). We stress this additional information to describe the language does not affect the soundness proof for Theorem \ref{theo:membtwogroups1} (in particular,  $[\matr{G}]_1$ and $[\matr{H}]_2$ are independent of $(\matr{\Lambda}, \matr{\Xi})$).}
+which is a fake proof for $([\matr{\Theta}]_1, [\matr{\Pi}]_2)$. \footnote{The proof system $\Psi_\sfsum$ is constructed for matrices $\{(\matr{C}_{i,j},\matr{D}_{i,j}):(i,j)\in\indexSet{n}{1}\}$ sampled from some distribution $\dist_{{gk}}$, which in this case depends on the distribution of $\matr{G}$ and $\matr{H}$. We assume that the adversary $\advSound_2$ against $\Psi_\sfsum$ receives the common reference string of $\Psi_\sfsum$ as described in Section~\ref{sec:sum} and additionally the matrices $[\matr{G}]_1$ and $[\matr{H}]_2$ which defines the language, i.e. the distribution of $\matr{C}_{i,j}$, $\matr{D}_{i,j}$ (this is necessary so that $\advSound_2$ can simulate the crs for adversary $\advA$). We stress this additional information to describe the language does not affect the soundness proof for Theorem \ref{theo:membtwogroups1} (in particular,  $[\matr{G}]_1$ and $[\matr{H}]_2$ are independent of $(\matr{\Lambda}, \matr{\Xi})$).}
 \end{itemize}
 \end{proof}

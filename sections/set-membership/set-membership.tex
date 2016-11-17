@@ -103,7 +103,7 @@ of this matrix $\widetilde{\matr{M}}$).
 Since both proofs are constant-size, the resulting proof size is dominated by the cost of the commitments to $b_i$, which is $\Theta(m)$. 
 For soundness, the important point here is that we never prove that $\vecb{b}=\widetilde{\vecb{b}}$, but, since GS commitments are perfectly binding (or, said otherwise, because $\begin{pmatrix} \vecb{u}_1 &   \vecb{u}_2 \end{pmatrix}$
 has full rank), equality holds. This immediately proves that the statement is in the language.  
-\subsection{Aggregated Set Membership Proofs}
+\subsection{Aggregated Set Membership proofs}
 An aggregated set membership proof amounts to proving membership in $\Lang_{[\matr{M}]_1,[\matr{N}]_1,\matr{\Lambda},\grkb{\alpha}}^n$. By definition, $([\vecb{c}_1]_1,\ldots, [\vecb{c}_n]_1) \in\Lang_{[\matr{M}]_1,[\matr{N}]_1,\matr{\Lambda},\grkb{\alpha}}^n$ if and only if  $\forall j \in [n], \exists \vecb{b}_j\in \Z_q^\lb,\vecb{w}_j\in\Z_q^\lc$ such that
 $$
  1) \vecb{b}_j\in \{0,1\}^\lb
@@ -127,7 +127,7 @@ $$
 $$
 Recall that we want a proof size independent of $n$. This rules out the naive approach of computing GS commitments to all the coordinates of $\vecb{b}_j$, for all $j \in [n]$, as the cost is $\Theta(nm)$. Therefore, to improve on the asymptotic size of the proof, we are forced to use shrinking commitments to $b_{i,j}$. We stress that it is far from clear how to do this, as it might break down the soundness argument completely (e.g. in the single proof, we used in a fundamental way the uniqueness of the commitment openings). In fact, overcoming this problem is one of the main technical contributions of this chapter. 
 
-Our idea is to use as a shrinking commitment a two-dimensional Multi-Pedersen commitment as defined on Sect. \ref{sec:ext-mp}. Given some matrix $\matr{G} \in \Z_q^{2 \times (n+1)}$ sampled from some distribution $\dist_{2,n+1}$, the commitment to $\vecb{y}\in\Z_q^n$ using randomness $r\in\Z_q$ is computed as $\mathsf{MP}.\Com(\vecb{y};r):=[\matr{G}]_1 \smallpmatrix{\vecb{y} \\ r}$. The special thing about these commitments is that one can set a ``hidden'' linearly independent column of 
+Our idea is to use as a shrinking commitment a two-dimensional Multi-Pedersen commitment as defined on Section~\ref{sec:ext-mp}. Given some matrix $\matr{G} \in \Z_q^{2 \times (n+1)}$ sampled from some distribution $\dist_{2,n+1}$, the commitment to $\vecb{y}\in\Z_q^n$ using randomness $r\in\Z_q$ is computed as $\mathsf{MP}.\Com(\vecb{y};r):=[\matr{G}]_1 \smallpmatrix{\vecb{y} \\ r}$. The special thing about these commitments is that one can set a ``hidden'' linearly independent column of 
 $\matr{G}$, and thus commitments are perfectly binding at some coordinate $j^*\in[n]$ which is computationally hidden to the adversary.
 
 Define the matrix $\matr{B}=(\vecb{b}_1|| \ldots || \vecb{b}_n) \in \{0,1\}^{\lb \times n}$ and let $\vecb{b}_i^*$ be the $i$th row of $\matr{B}$. To prove $([\vecb{c}_1]_1,\ldots, [\vecb{c}_n]_1) \in\Lang_{[\matr{M}]_1,[\matr{N}]_1,\matr{\Lambda},\grkb{\alpha}}^n$, we first compute MP commitments $[\vecb{d}_i]_1$, $i \in [\lb]$, to $\vecb{b}_i^*$.  As before, 
@@ -159,7 +159,7 @@ the proof actually consists of two independent statements:
     \item $\forall i \in [\lb], \vecb{d}_i=\matr{G}   \smallpmatrix{\widetilde{\vecb{b}}^*_i  \\ \widetilde{r}_i}$.
     \end{enumerate}
 \end{enumerate}
-For the first we use a our aggregated proof that many commitments opens to bit-strings from Sect. \ref{sec:matr-bits} and for the second, (after rewriting the equations) a QA-NIZK argument for linear spaces. With this approach, the proof remains of size $\Theta(m)$, the size of the commitments, while the rest of the proof is constant. 
+For the first we use a our aggregated proof that many commitments opens to bit-strings from Section~\ref{sec:matr-bits} and for the second, (after rewriting the equations) a QA-NIZK argument for linear spaces. With this approach, the proof remains of size $\Theta(m)$, the size of the commitments, while the rest of the proof is constant. 
 
 The interesting part is the soundness argument. The previous reasoning for the non-aggregated case (when $n=1$) fails here because now there is no guarantee that 
  $\matr{B}=\widetilde{\matr{B}}$ (as the openings of $[\vecb{d}_i]_1$ are not unique).  However, as we said, the distribution of the MP commitment key can be chosen so that it is binding at some coordinate $j^*$. This implies that for all $i$, the $j^*$th coordinate of $\vecb{b}_i^*$ and $\widetilde{\vecb{b}}_i^*$ is equal, i.e. the $j^*$th column of $\matr{B}$ and $\widetilde{\matr{B}}$ must be equal.  

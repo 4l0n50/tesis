@@ -3,11 +3,11 @@ $$
 \Lang_{ck,\sfbits} := \{[\vecb{c}]_1\in\GG_1^{k+1} : \exists \vecb{b}\in\bits^m,\vecb{r}\in\Z_q^k \text{ s.t. } [\vecb{c}]_1 = \MP.\Com_{ck}(\vecb{b};\vecb{r})\},
 $$
 where $ck:=[\matr{G}]_1$ and $\matr{G}$ is a matrix sampled from 
-some distribution $\distink$ (as defined on Sect. \ref{sec:mddh}). For simplicity, in the exposition we restrict ourselves to the case $\dist_k=\distlin_{1}$ so  $\matr{G}$ is sampled from $\distlininone$, for some $0 \leq i \leq m$.
+some distribution $\distink$ (as defined on Section~\ref{sec:mddh}). For simplicity, in the exposition we restrict ourselves to the case $\dist_k=\distlin_{1}$ so  $\matr{G}$ is sampled from $\distlininone$, for some $0 \leq i \leq m$.
 
-It is important to note that, as an extended MP commitment is at best only binding at one coordinate, a priori showing that it opens to $\vecb{b} \in \{0,1\}^m$ is not very meaningful, as it does open to other values as well. However, when combined with external protocols that unequivocally define $\vecb{b}$, it becomes a key building block to obtain the the results of chapter \ref{sec:shuf-rp}.
+It is important to note that, as an extended MP commitment is at best only binding at one coordinate, a priori showing that it opens to $\vecb{b} \in \{0,1\}^m$ is not very meaningful, as it does open to other values as well. However, when combined with external protocols that unequivocally define $\vecb{b}$, it becomes a key building block to obtain the the results of Chapter \ref{sec:shuf-rp}.
 
-The argument is implicit in Sect. \ref{sec:bits-binding}, where we construct a QA-NIZK argument for proving that a perfectly binding commitment opens to a bit-string. More technically, to prove that a  perfectly binding commitment $[\vecb{c}']_1$ opens to a bit-string $\vecb{b}$, the argument in Sect. \ref{sec:bits-binding} takes the following steps:
+The argument is implicit in Section~\ref{sec:bits-binding}, where we construct a QA-NIZK argument for proving that a perfectly binding commitment opens to a bit-string. More technically, to prove that a  perfectly binding commitment $[\vecb{c}']_1$ opens to a bit-string $\vecb{b}$, the argument in Section~\ref{sec:bits-binding} takes the following steps:
 \begin{enumerate}
 \item Construct two MP commitments $[\vecb{c}]_1$, 
 $[\vecb{d}]_2$ to $\vecb{b}$. 
@@ -23,7 +23,7 @@ $[\vecb{d}]_2$ to $\vecb{b}$.
 %\vecb{h}_j)^\top$ is in the span of the vectors  $\{\vecb{g}_i\vecb{h}_j^\top\}$ without those pairs where $i=j$ only if $b_i(b_i-1)=0$ for all $i \in [m]$. 
 
 
-The argument we need for our results eliminates the perfectly binding commitment, which of course also means that step 2 disappears. Additionally, in the original scheme from Sect. \ref{sec:bits-binding}, the distribution of $ck=[\matr{G}]_1$ is uniform over $\GG_1^{2\times(n+1)}$, while in our argument of membership in 
+The argument we need for our results eliminates the perfectly binding commitment, which of course also means that step 2 disappears. Additionally, in the original scheme from Section~\ref{sec:bits-binding}, the distribution of $ck=[\matr{G}]_1$ is uniform over $\GG_1^{2\times(n+1)}$, while in our argument of membership in 
 $\Lang_{ck,\sfbits}$, $\matr{G}$ can follow any distribution $\distlininone$ for some $0 \leq i \leq m$. 
 However, it is not hard to adapt the original proof to these distributions (in fact, in the soundness proof of 
 Lemma \ref{lemma:bits1}, there is a game where the distribution of $\matr{G}$ is changed to $\distlininone$, for some $i \gets [m]$). The proof that $\Lang_{ck,\sfbits}$ admits a constant-size QA-NIZK argument essentially reuses parts of the proof of Theorem \ref{teo:bitstr-soundness}. For completeness, we give a full description of the scheme for the non-binding case below. 

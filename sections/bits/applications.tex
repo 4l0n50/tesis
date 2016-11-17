@@ -30,7 +30,7 @@ The prover of $t$-out-of-$n$ satisfiability can run $\mathsf{K}_{\mathsf{corr}}$
 $\mathcal{S}_i$ with respect to $\mathsf{crs}_i$
 when $i \in A$ (resp. when $i \in A^c$).
 
-R\`afols gives two constructions for PPEs, the first one can be found in \cite{TCC:Rafols15}, App. C and the other follows from \cite[Sect.~7]{TCC:Rafols15}\footnote{The construction in \cite[Sect.~7]{TCC:Rafols15} is for other equation types but can be used to prove that $t$-out-of-$n$ of $\mathsf{crs}_1,\ldots,\mathsf{crs}_n$ are perfectly binding for PPEs.
+R\`afols gives two constructions for PPEs, the first one can be found in \cite{TCC:Rafols15}, App. C and the other follows from \cite[Section~7]{TCC:Rafols15}\footnote{The construction in \cite[Section~7]{TCC:Rafols15} is for other equation types but can be used to prove that $t$-out-of-$n$ of $\mathsf{crs}_1,\ldots,\mathsf{crs}_n$ are perfectly binding for PPEs.
 }. 
 Our algorithm $\mathsf{K}_\mathsf{corr}$ for PPEs\footnote{Properly speaking the construction is for PPEs which are left-simulatable in the terminology of \cite{TCC:Rafols15}.} goes as follows:
 
@@ -51,7 +51,7 @@ $b_i=0$,  $([\vecb{z}_i]_1-[\vecb{u}_1]_1) \notin \mathsf{Span}( [\vecb{u}_2]_1)
 \item Compute a GS proof that $[x_j]_1 = \sum_{i\in[m]}b_i[s_{(i,j)}]_1$, for all $j\in[m]$, is satisfied. 
 \item Compute a GS proof that $[s_{\alpha}]_1 = \sum_{j\in[m]}b'_j[x_j]_1$ is satisfied.
 \end{enumerate}
-With respect to the naive use of GS proofs, Step $2$ was improved by R\`afols \cite{TCC:Rafols15}.  Using our proofs for bit-strings of weight $1$ from Sect. \ref{sec:bits-extensions}, we can further reduce the size of the proof in step 2, 
+With respect to the naive use of GS proofs, Step $2$ was improved by R\`afols \cite{TCC:Rafols15}.  Using our proofs for bit-strings of weight $1$ from Section~\ref{sec:bits-extensions}, we can further reduce the size of the proof in step 2, 
 see table.
 
 We note that although in step 4 the equations are all two-sided linear equations, proofs can only be aggregated if the set comes from a witness samplable distribution and the CRS is set to depend on that specific set. 
@@ -68,11 +68,11 @@ which is also extended to vectors --i.e. to the case where $S=([\vecb{s}_1]_1,\l
 \begin{enumerate}
 \item Compute GS commitments in $\Hr$ to $b_1\ldots,b_m$ and $b'_1,\ldots,b'_m$,
       where $b_i = 1$ if $i=i_\alpha$ and $0$ otherwise, and $b'_{j}=1$ if $j=j_\alpha$, and $0$ otherwise.
-\item Compute a proof that $b_i \in \{0,1\}$ and $b'_j \in \{0,1\}$ for all $i,j\in[m]$, using the proof system of Sect.
+\item Compute a proof that $b_i \in \{0,1\}$ and $b'_j \in \{0,1\}$ for all $i,j\in[m]$, using the proof system of Section~
 ~ \ref{sec:bits-scheme}.
 \item Compute GS proofs that $\sum_{i\in[m]}b_i=1$ and $\sum_{j\in[m]}b'_j=1$. 
 \item Compute GS commitments to each coordinate of $[\vecb{x}_1]_1:=[\vecb{s}_{(i_\alpha,1)}]_1,\ldots,[\vecb{x}_m]_1:=[\vecb{s}_{(i_\alpha,m)}]_1$.
-\item Compute an aggregated GS proof that the equations $[\vecb{x}_j]_1 = \sum_{i\in[m]}b_i[\vecb{s}_{(i,j)}]_1$, for all $j\in[m]$, are satisfied, as detailed in Sect.~\ref{sec:aggcommit}.
+\item Compute an aggregated GS proof that the equations $[\vecb{x}_j]_1 = \sum_{i\in[m]}b_i[\vecb{s}_{(i,j)}]_1$, for all $j\in[m]$, are satisfied, as detailed in Section~\ref{sec:aggcommit}.
 \item Compute a GS proof that $[\vecb{s}_{\alpha}]_1 = \sum_{j\in[m]}b'_j[\vecb{x}_j]_1$ is satisfied.
 \end{enumerate}
 
@@ -84,7 +84,7 @@ If $S$ is witness samplable, the above protocol is a perfectly complete, computa
 
 \begin{proof} Completeness follows directly from the completeness of the 
 building blocks. Soundness follows directly from the perfect soundness of GS proofs together with the computational soundness of aggregation of GS proofs. For computational zero-knowledge, if  
-$\crs_\GS:=(\Gamma,[\vecb{u}_1]_1,[\vecb{u}_2]_1,[\vecb{v}_1]_2,[\vecb{v}_2]_2)$ is the GS common reference string in the soundness setting as defined in Sect.~ \ref{sec:gs-proofs}, switch to a game where $[\vecb{v}_1]_2= \epsilon [\vecb{v}_2]_2$. Under the DDH Assumption in $\Hr$, the new CRS is computationally indistinguishable from the original CRS. In a simulated proof, commit to $b_i=0$, $b'_j=0$ for all $i,j \in [m]$. In step 2, simply compute a real proof. In step 3, use the GS simulation algorithm  (with trapdoor $\epsilon$) to simulate the proof. In Step 4, set $[\vecb{x}_j]_1=[\vecb{0}]_1$. Finally, in step 6, simulate a proof using $\epsilon$. It is not hard to see that such a proof can be simulated even without knowledge of an opening of $[\vecb{c}]_1$. 
+$\crs_\GS:=(\Gamma,[\vecb{u}_1]_1,[\vecb{u}_2]_1,[\vecb{v}_1]_2,[\vecb{v}_2]_2)$ is the GS common reference string in the soundness setting as defined in Section~ \ref{sec:gs-proofs}, switch to a game where $[\vecb{v}_1]_2= \epsilon [\vecb{v}_2]_2$. Under the DDH Assumption in $\Hr$, the new CRS is computationally indistinguishable from the original CRS. In a simulated proof, commit to $b_i=0$, $b'_j=0$ for all $i,j \in [m]$. In step 2, simply compute a real proof. In step 3, use the GS simulation algorithm  (with trapdoor $\epsilon$) to simulate the proof. In Step 4, set $[\vecb{x}_j]_1=[\vecb{0}]_1$. Finally, in step 6, simulate a proof using $\epsilon$. It is not hard to see that such a proof can be simulated even without knowledge of an opening of $[\vecb{c}]_1$. 
 \end{proof}
 
 \subsubsection{A $\Theta(\sqrt[3]{n})$ Set-Membership proof for Witness Samplable non-Adaptive Sets} We give Set-Membership proof with improved asymptotic proof size when the set is drawn from a witness samplable distribution and the CRS depends on the set (two different sets require two different CRS).
@@ -100,7 +100,7 @@ where $m:=\sqrt[3]{n}$, $(i,j,k)=m^2(i-1)+m(j-1)+k\in[n]$. As before, the goal t
 \item Compute a GS proof for the equations $[\vecb{y}]_1[h]_2=\sum_{i\in[n]}[\grkb{a}_i]_2 [z_i]_1$. 
 \item Compute GS commitments in $\Hr$ to $b_1\ldots,b_m\in\bits$,
       where $b_i = 1$ if $i=i_\alpha$ and $0$ otherwise.
-\item Using our proof system from Sect. \ref{sec:bits-scheme} prove that $b_i\in\bits$ for all $i\in[m]$.
+\item Using our proof system from Section~\ref{sec:bits-scheme} prove that $b_i\in\bits$ for all $i\in[m]$.
 \item Compute GS proofs for the satisfiability of equations $\sum_{i\in[m]}b_i=1$ and $[s_{\alpha}]_1=\sum_{i\in[m]}b_i[z_i]_1$.
 \end{enumerate}
 

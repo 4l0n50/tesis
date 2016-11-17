@@ -8,16 +8,16 @@ $$\mathcal{\mathcal{L}}_{ck,\sfbits} :=
  where $ck:=([\matr{U}_1]_1,[\matr{U}_2]_1)\in\Gr^{(n+m)\times n}\times\Gr^{(n+m)\times m}$ define a perfectly binding and computationally hiding commitment to $\vecb{b}$ which is computed as $\Com_{ck}(\vecb{b};\allowbreak\vecb{w}):=[\matr{U}_1]_1\vecb{b}+[\matr{U}_2]\vecb{w}$. Specifically, we give instantiations for $m=1$ (when $[\vecb{c}]_1$ is a single commitment to $\vecb{b}$), and $m=n$ (when $[\vecb{c}]_1$ is the concatenation  of $n$ Groth-Sahai commitments).
 
 We stress that although our proof is constant-size, we need the commitment to be perfectly binding, thus the size of the commitment is linear in $n$.  The common reference string  which we need for this construction is quadratic in the size of the bit-string. Our proof is compatible with proving linear statements about the bit-string, for instance,  
-that $\sum_{i \in [n]} b_i=t$ by adding a linear number (in $n$) of elements to the CRS (see Sect. \ref{sec:linear-eqs-bitstrings}). We observe that in the special case where $t=1$ the common reference string can be linear in $n$. The costs of our constructions and the cost of GS proofs are summarized in Table \ref{table:eff1}.
+that $\sum_{i \in [n]} b_i=t$ by adding a linear number (in $n$) of elements to the CRS (see Section~\ref{sec:linear-eqs-bitstrings}). We observe that in the special case where $t=1$ the common reference string can be linear in $n$. The costs of our constructions and the cost of GS proofs are summarized in Table \ref{table:eff1}.
 
 Our results rely solely on falsifiable assumptions. More specifically, in the asymmetric case we need some assumptions which are weaker 
 than the Symmetric External DH Assumption %\cite{ManualBib_SIAMJC:GroSah12}
 plus the $\SSDP$ Assumption. Interestingly, the translation of our construction to the symmetric setting relies on assumptions which are all weaker than the $\lin{2}$ Assumption (see \cite[Appendix C]{EPRINT:GonHevRaf15}).
 
 We think that our techniques for constructing QA-NIZK arguments for bit-strings might be of independent interest. 
-In the asymmetric case, we combine the QA-NIZK argument for $\mathcal{L}_{[\matr{M}]_1,[\matr{N}]_2,+}$ from Sect. \ref{sec:sum} with decisional assumptions in $\Gr$ and $\Hr$. We do this with the purpose of using QA-NIZK arguments even when $\matr{M}+\matr{N}$ has full rank. In this case, strictly speaking ``proving membership in the space'' looses all meaning, as every vector in $\Gr^m\times \Hr^m$ is in the space. However, using decisional assumptions, we can argue that the generating matrix of the space is indistinguishable from a lower rank matrix which spans a subspace in which it is meaningful to prove membership.  
+In the asymmetric case, we combine the QA-NIZK argument for $\mathcal{L}_{[\matr{M}]_1,[\matr{N}]_2,+}$ from Section~\ref{sec:sum} with decisional assumptions in $\Gr$ and $\Hr$. We do this with the purpose of using QA-NIZK arguments even when $\matr{M}+\matr{N}$ has full rank. In this case, strictly speaking ``proving membership in the space'' looses all meaning, as every vector in $\Gr^m\times \Hr^m$ is in the space. However, using decisional assumptions, we can argue that the generating matrix of the space is indistinguishable from a lower rank matrix which spans a subspace in which it is meaningful to prove membership.  
 
-Finally, in Sect. \ref{sec:bits-applications} we discuss some applications of our results.  
+Finally, in Section~\ref{sec:bits-applications} we discuss some applications of our results.  
 In particular, our results provide shorter %imply prove the  
 signature size of several schemes,
   more efficient ring signatures,

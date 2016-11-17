@@ -1,12 +1,14 @@
 Figure \ref{fig:QANIZKtwogroups} describes a QA-NIZK Argument of Membership in the language 
-$$\mathcal{L}_{[\matr{M}]_1,[\matr{N}]_2}:=\{ ([\vecb{x}]_1,[\vecb{y}]_2): \exists \vecb{w} \in \Z_q^{t}, \ \vecb{x}=\matr{M}\vecb{w},   \vecb{y}=\matr{N}\vecb{w} \} \subseteq \GG_1^{m} \times \GG_2^{n}.$$
+$$\mathcal{L}_{[\matr{M}]_1,[\matr{N}]_2}:=\{ ([\vecb{x}]_1,[\vecb{y}]_2): \exists \vecb{w} \in \Z_q^{t}, \ \vecb{x}=\matr{M}\vecb{w},   \vecb{y}=\matr{N}\vecb{w} \} \subseteq \GG_1^{m} \times \GG_2^{n},$$
+where $([\matr{M}]_1,[\matr{N}]_2)\gets\dist_{gk}$ for some matrix distribution $\dist_{gk}.$
+
 We refer to this as the \textit{Concatenation Language}, because 
 if we define $\matr{P}$ as the concatenation of $[\matr{M}]_1,[\matr{N}]_2$, that is $\matr{P}:=\smallpmatrix{[\matr{M}]_1 \\ [\matr{N}]_2}$, then  $([\vecb{x}]_1,[\vecb{y}]_2) \in \mathcal{L}_{[\matr{M}]_1,[\matr{N}]_2}$ iff $\smallpmatrix{[\vecb{x}]_1 \\ [\vecb{y}]_2}$ is in the span of $\matr{P}$.
 \begin{figure}
 $$
 \begin{array}{l}
 \begin{array}{l}
-    \underline{\algK_1(\Gamma,[\matr{M}]_1,[\matr{N}]_2,m,n) \quad  (\mathsf{S}_1(\Gamma,[\matr{M}]_1,[\matr{N}]_1,m,n))}\\[.1cm]
+    \underline{\algK(gk,[\matr{M}]_1,[\matr{N}]_2,m,n) \quad  (\mathsf{S}_1(gk,[\matr{M}]_1,[\matr{N}]_1,m,n))}\\[.1cm]
     \matr{A} \gets \widetilde{\dist_{k}},\matr{\Lambda} \gets \Z_q^{\tilde{k} \times m}, \matr{\Xi}\gets \Z_q^{\tilde{k}\times n}, \matr{Z} \gets \Z_q^{\tilde{k} \times t}\\
     {[\matr{A}_{\Lambda}]_2:= \matr{\Lambda}^\top [\matr{A}]_2},{[\matr{A}_{\Xi}]_1:= \matr{\Xi}^\top[\matr{A}]_1}\\
     {[\matr{M}_{\Lambda}]_1:=\matr{\Lambda} [\matr{M}]_1+[\matr{Z}]_1},{[\matr{N}_{\Xi}]_2:=\matr{\Xi} [\matr{N}]_2-[\matr{Z}]_2} \\ [.1cm]
@@ -44,10 +46,10 @@ $$
 $$
 \caption{Two QA-NIZK Arguments for  $\mathcal{L}_{[\matr{M}]_1,[\matr{N}]_2}$. $\sps$ is 
  defined for $\widetilde{\dist_{k}}=\dist_k$ and $\tilde{k}=k+1$, and is a generalization of  
- \cite{EC:KilWee15} Sect. 3.1 in two groups. The second construction $\spsws$ corresponds to $\widetilde{\dist_{k}}=\overline{\dist_k}$ and $\tilde{k}=k$, and is a generalization of   \cite{EC:KilWee15} Sect. 3.2 in two groups. Computational soundness is based on the $\dist_{k}$-\skermdh{} Assumption. The CRS size is $(\tilde{k}k+\tilde{k}t+mk)\sG+(\tilde{k}k+\tilde{k}t+nk)\sH$ and the proof size $\tilde{k}\s$. Verification requires $2\tilde{k}k+(m+n)k$ pairing computations. We denote by $\Sps$ the most efficient instantiation of $\sps$, which happens when $\dist_k=\bar{\distlin}_2$. \label{fig:QANIZKtwogroups} }
+ \cite{EC:KilWee15} Section~3.1 in two groups. The second construction $\spsws$ corresponds to $\widetilde{\dist_{k}}=\overline{\dist_k}$ and $\tilde{k}=k$, and is a generalization of   \cite{EC:KilWee15} Section~3.2 in two groups. Computational soundness is based on the $\dist_{k}$-\skermdh{} Assumption. The CRS size is $(\tilde{k}k+\tilde{k}t+mk)\sG+(\tilde{k}k+\tilde{k}t+nk)\sH$ and the proof size $\tilde{k}\s$. Verification requires $2\tilde{k}k+(m+n)k$ pairing computations. We denote by $\Sps$ the most efficient instantiation of $\sps$, which happens when $\dist_k=\bar{\distlin}_2$. \label{fig:QANIZKtwogroups} }
 \end{figure}
 
-\paragraph{Soundness Intuition.}   If we ignore for a moment that $\Gr, \Hr$ are different groups, $\sps$ (resp. $\spsws$) is almost identical to $\ps$ (resp. to $\psws$) for the language $\mathcal{L}_{[\matr{P}]_1}$, and $\matr{\Delta}:=(\matr{\Lambda}||\matr{\Xi})$, where  $\matr{\Lambda} \in \Z_q^{\tilde{k} \times m},\matr{\Xi} \in \Z_q^{\tilde{k} \times n}$. Further, the information that an unbounded adversary can extract from the CRS about $\matr{\Delta}$ is:
+\paragraph{Soundness Intuition.}   If we ignore for a moment that $\Gr, \Hr$ are different groups, $\sps$ (resp. $\spsws$) is almost identical to $\ps$ (resp. to $\psws$), as defined in Section~\ref{sect:QANIZKlinspace}, for the language $\mathcal{L}_{[\matr{P}]_1}$, and $\matr{\Delta}:=(\matr{\Lambda}||\matr{\Xi})$, where  $\matr{\Lambda} \in \Z_q^{\tilde{k} \times m},\matr{\Xi} \in \Z_q^{\tilde{k} \times n}$. Further, the information that an unbounded adversary can extract from the CRS about $\matr{\Delta}$ is:
  \begin{enumerate}
  \item $\Big\{\matr{P}_\Delta= \matr{\Lambda} \matr{M}+ \matr{\Xi}\matr{N}, \matr{A}_{\Delta} = \matr{\Delta}^{\top}\matrA =\begin{pmatrix} \matr{\Lambda}^{\top}\matr{A} \\ \matr{\Xi}^{\top}\matr{A} \end{pmatrix}\Big\}$ from $\mathsf{crs}_{\ps}$, 
  \item $\Big\{ \matr{M}_\Lambda = \matr{\Lambda} \matr{M}+\matr{Z}, \matr{N}_\Xi = \matr{\Xi}\matr{N}-\matr{Z},  \begin{pmatrix}\matr{A}_\Lambda\\\matr{A}_\Xi\end{pmatrix} = \begin{pmatrix} \matr{\Lambda}^{\top}\matr{A} \\ \matr{\Xi}^{\top}\matr{A} \end{pmatrix} \Big\}$ from $\mathsf{crs}_{\sps}$. 
@@ -79,7 +81,7 @@ proof system with perfect completeness, computational adaptive soundness based o
 & = &
 \grkb{\rho}^\top\matr{A}+\grkb{\sigma}^\top\matr{A}.
 \end{eqnarray*}
-(Soundness.) $\advB$ receives a challenge $([\matr{A}]_1,[\matr{A}]_2)$, $\matrA \gets \dist_k$, and then it chooses $\matr{\Lambda}\gets\Z_q^{(k+1)\times m},\matr{\Xi}\gets\Z_q^{(k+1)\times n}$, samples $([\matr{M}]_1,[\matr{N}]_2) \gets \dist_{\Gamma}$ and computes 
+(Soundness.) $\advB$ receives a challenge $([\matr{A}]_1,[\matr{A}]_2)$, $\matrA \gets \dist_k$, and then it chooses $\matr{\Lambda}\gets\Z_q^{(k+1)\times m},\matr{\Xi}\gets\Z_q^{(k+1)\times n}$, samples $([\matr{M}]_1,[\matr{N}]_2) \gets \dist_{gk}$ and computes 
    $\mathsf{crs}:=([\matr{M}_{\Lambda}]_1, [\matr{A}_\Lambda]_2 ,$ $[\matr{A}]_2, [\matr{N}_{\Xi}]_2,[\matr{A}_{\Xi}]_1,[\matr{A}]_1)$ in the natural way.
 An adversary $\Forger$ against the soundness property outputs a vector $([{\vecb{x}}^*]_1,[\vecb{y}^*]_2) \notin \mathcal{L}_{[\matr{M}]_1,[\matr{N}]_2}$ and a valid proof
 $([{\boldsymbol \rho}^{*}]_1, [{\boldsymbol \sigma}^{*}]_2)$. At this point, $\advB$ computes its own proof $([{\boldsymbol \rho}^{\dagger}]_1, [{\boldsymbol \sigma}^{\dagger}]_2)$ using $\matr{\Lambda}$ and $\matr{\Xi}$. The adversary $\advB$ will output as a response to the $\dist_k$-\skermdh{} challenge the pair $([\vecb{r}]_1,[\vecb{s}]_2):=([{\boldsymbol \rho}^{*}]_1-[{\boldsymbol \rho}^{\dagger}]_1,[{  \boldsymbol \sigma}^{\dagger}]_2-[{\boldsymbol \sigma}^{*}]_2)$. We now see that with all but probability $1/q$, this is a valid 
@@ -102,7 +104,7 @@ $\vecb{t}$ is not in the image of $\smallpmatrix{\matr{M}\\\matr{N}}$ and b) $\m
 \end{proof}
 
 
-\begin{theorem} If $\widetilde{\dist_{k}}=\overline{\dist}_k$ and $\tilde{k}=k$,  and $\dist_{\Gamma}$ is a witness samplable distribution, Fig. \ref{fig:QANIZKtwogroups}
+\begin{theorem} If $\widetilde{\dist_{k}}=\overline{\dist}_k$ and $\tilde{k}=k$,  and $\dist_{gk}$ is a witness samplable distribution, Fig. \ref{fig:QANIZKtwogroups}
 describes a QA-NIZK proof system with perfect completeness, computational adaptive strong soundness based on the  $\dist_{k}$-$\skermdh$ Assumption, and perfect zero-knowledge. 
 \label{theo:membtwogroups2}
 \end{theorem}
@@ -145,7 +147,7 @@ $(\matr{\Lambda} || \matr{\Xi}):= (\widetilde{\matr{\Lambda}} || \widetilde{\mat
 (\widetilde{\matr{\Xi}}^{\top}|| \matr{F} ) [\matrA']_1
 \end{pmatrix}
 \end{equation}
-So far the argument is very similar to \cite{EC:KilWee15} Sect. 3.2, now comes an important difference. 
+So far the argument is very similar to \cite{EC:KilWee15} Section~3.2, now comes an important difference. 
 Adversary $\advB$ also needs to compute $\matr{\Lambda}[\matr{M}]_1+[\matr{Z}]_1$ and 
 $\matr{\Xi}[\matr{N}]_2-[\matr{Z}]_2$. Although the adversary $\advB$ does not know how to 
 compute $\matr{\Xi}\matr{N}$ or $\matr{\Lambda}\matr{M}$, it can compute their sum in $\Z_q$ as:

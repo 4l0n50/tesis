@@ -1,11 +1,11 @@
-In this section we show that, for any subset $S\subset\Z_q$ or non-adaptively chosen subsets $S\subset\mathbb{G}_s$, $s\in\{1,2\}$, one can get aZKSMP whose size is $\Theta(\log|S|)$. The proof system from Sect. \ref{sec:aZKSMP} achieves the same proof size, but only when $S$ is a range of the form $[0,2^n-1]$. Our proof bears some similarities with the work of Groth and Kohlweiss \cite{EC:GroKoh15} -- both allows to construct proofs of membership in a set of logarithmic size using the binary encoding of the element index -- but they are in general incomparable since Groth and Kohlweiss's construction is on a different setting (interactive, without pairings) and does not support aggregation of many proofs.
+In this section we show that, for any subset $S\subset\Z_q$ or non-adaptively chosen subsets $S\subset\mathbb{G}_s$, $s\in\{1,2\}$, one can get aZKSMP whose size is $\Theta(\log|S|)$. The proof system from Section~\ref{sec:aZKSMP} achieves the same proof size, but only when $S$ is a range of the form $[0,2^n-1]$. Our proof bears some similarities with the work of Groth and Kohlweiss \cite{EC:GroKoh15} -- both allows to construct proofs of membership in a set of logarithmic size using the binary encoding of the element index -- but they are in general incomparable since Groth and Kohlweiss's construction is on a different setting (interactive, without pairings) and does not support aggregation of many proofs.
 
 \subsection{Intuition}
 
 For simplicity, we will restrict to the case $S=\{s_1,\ldots,s_n\}\subset\Z_q$ without aggregation, that is, there is a single commitment $[\vecb{c}]_1=\GS.\Com_{ck}(x;r)$ and we want to show that $x=s_\alpha$, for some $\alpha\in[n]$. Then we will show how to derive the general case.
 
-The (non-aggregated) proof from Sect. \ref{sec:aZKSMP} essentially codifies the position $\alpha$ as a weight 1 binary vector of size $n$ such that $x=\sum_{i\in[n]}b_is_i$ and
-$b_i=1$ if $i=\alpha$ and $0$ if not.\footnote{The case $S\subset\Z_q$ is not really discussed in Sect. \ref{sec:aZKSMP}, but it is straightforward that the same techniques from the case $S\subset\GG_s$ apply.} A step further in efficiency was given by Chandran et al. \cite{ICALP:ChaGroSah07} (already discussed in Sect. \ref{sec:bits-applications}), there the position $\alpha$ is codified as two weight 1 binary vectors of size $\sqrt{n}$ such that
+The (non-aggregated) proof from Section~\ref{sec:aZKSMP} essentially codifies the position $\alpha$ as a weight 1 binary vector of size $n$ such that $x=\sum_{i\in[n]}b_is_i$ and
+$b_i=1$ if $i=\alpha$ and $0$ if not.\footnote{The case $S\subset\Z_q$ is not really discussed in Section~\ref{sec:aZKSMP}, but it is straightforward that the same techniques from the case $S\subset\GG_s$ apply.} A step further in efficiency was given by Chandran et al. \cite{ICALP:ChaGroSah07} (already discussed in Section~\ref{sec:bits-applications}), there the position $\alpha$ is codified as two weight 1 binary vectors of size $\sqrt{n}$ such that
 $$
 \begin{pmatrix}
 x_1\\\vdots\\x_{\sqrt{n}}
@@ -52,7 +52,7 @@ x= x_{m,1}\label{eq-log-3},
 and $\alpha=\sum_{i=1}^{m}b_i2^{m-i}+1$.
 W.l.o.g.~we are assuming that $n=2^m$, for some $m\in\mathbb{N}$, because we can always work with the (multi-)set $S'=S\biguplus_{i=1}^{n-2^{\lceil \log n \rceil}}\{s_n\}$.
 
-Similarly as in the Chandran et al. proof, new variables have been added and thus new commitments must be added to the proof. In contrast with Chandran et al. proof, in this case the additional commitments do increase the asymptotic size of the proof since $n/2+n/2^2+\ldots+1=O(n)$ new variables have been added. This problem can be solved using the length reducing Multi-Pedersen commitments from Sect. \ref{sec:ext-mp} computing
+Similarly as in the Chandran et al. proof, new variables have been added and thus new commitments must be added to the proof. In contrast with Chandran et al. proof, in this case the additional commitments do increase the asymptotic size of the proof since $n/2+n/2^2+\ldots+1=O(n)$ new variables have been added. This problem can be solved using the length reducing Multi-Pedersen commitments from Section~\ref{sec:ext-mp} computing
 \begin{align*}
 &[\vecb{c}_1]_1=\MP.\Com_{ck_1}((x_{1,1},\ldots,x_{1,n/2})^\top;r_1),\\
 &[\vecb{c}_2]_1=\MP.\Com_{ck_2}((x_{2,1},\ldots,x_{1,n/2^2})^\top;r_2),\\
@@ -119,7 +119,7 @@ and also a QA-NIZK proof that equation (\ref{eq-log-split}) is satisfied for eac
 The verifier accepts the proof iff the proofs for (\ref{eq-log-split}), (\ref{eq-log-4}), (\ref{eq-log-5}), and (\ref{eq-log-6}) are valid.
 
 \subsubsection{Soundness}
-We assume $b_1,\ldots,b_m$ are bits. Note that this can be proven (with perfect soundness) with a GS proof of size $O(\log n)$ or using the more efficient proofs of Sect. \ref{sec:bits}.
+We assume $b_1,\ldots,b_m$ are bits. Note that this can be proven (with perfect soundness) with a GS proof of size $O(\log n)$ or using the more efficient proofs of Section~\ref{sec:bits}.
 
 Suppose that an adversary outputs GS commitments to $b_1,\ldots,b_{m}\in\bits$, outputs commitments $[\vecb{c}_i]_1$ and $[\vecb{c}_{i,j}]_1$, $1< i\leq m$ and $j\in\{1,2\}$, GS proofs of the satisfiability of equations (\ref{eq-log-4}) and (\ref{eq-log-5}), and a QA-NIZK proofs of (\ref{eq-log-5}) and (\ref{eq-log-split}) for each $1<i<m$.
 
@@ -173,7 +173,7 @@ $$
 \text{ and } \forall 1\leq i\leq n\ [\grkb{\zeta}_i]_1=\GS.\Com_{ck}(x_i;w_i)\wedge x_i\in S
 \end{array}\right\},
 $$
-and in Sect. \ref{sec:improved-aZKSMP-group-case} we show how to extend this ideas to show membership in the language
+and in Section~\ref{sec:improved-aZKSMP-group-case} we show how to extend this ideas to show membership in the language
 $$
 \Lang_{ck,S}^n:=\left\{\begin{array}{l}
 ([\grkb{\zeta}_1]_1,\ldots,[\grkb{\zeta}_n]_1):\exists w_1,\ldots,w_n\in\Z_q \text{ s.t. } \\
@@ -207,8 +207,8 @@ Pick $\matr{T}\gets\Z_q^{2\times 2}$ and for each $1\leq \ell\leq m$, $1\leq i \
 $$\matr{M}^\ell_{i,j}:=([\matr{C}_{i,j}^\ell]_1,[\matr{D}_{i,j}^\ell]_2):=([\vecb{g}_{i_1,i_2}^\ell\vecb{h}_j^{\top}+\matr{T}]_1,[-\matr{T}]_2).$$ For $1\leq \ell\leq m$ let $\mathcal{M}_\ell\subset\GG_1^{2\times 2}\times\GG_2^{2\times 2}$ the set of the matrices $\matr{M}$ whose super-index is $\ell$ and define $\mathcal{C}_\ell\subset\Z_q^{2\times 2}$ the set of matrices $\matr{C}$ whose index is $\ell$.
 
 Let $\Pi_\sfsum$ be the proof system for Sum in Subspace 
-(Sect. \ref{sec:sum}), $\Pi_\mathsf{lin}$ the proof system for membership in linear subspaces from Sect. \ref{sect:QANIZKlinspace}, $\Pi_\sfbits$ the proof system for proving that many commitments open to bit-strings from section \ref{sec:matr-bits}, and $\Pi_\sfcom$
-be an instance of the proof system for Equal Commitment Opening (Sect. \ref{sec:aggcommit}).
+(Section~\ref{sec:sum}), $\Pi_\mathsf{lin}$ the proof system for membership in linear subspaces from Section~\ref{sect:QANIZKlinspace}, $\Pi_\sfbits$ the proof system for proving that many commitments open to bit-strings from section \ref{sec:matr-bits}, and $\Pi_\sfcom$
+be an instance of the proof system for Equal Commitment Opening (Section~\ref{sec:aggcommit}).
 
 Let
 $\crs_{\sfsum,\ell} \gets \Pi_\sfsum.\algK_1(\gk, \mathcal{M}_\ell)$.\footnote{We identify
@@ -425,7 +425,7 @@ $$
 Note that the vector the vectors $[\vecb{c}_\ell],[\vecb{c}_{\ell,1}]_1,[\vecb{c}_{\ell,2}]_1,[\vecb{d}_\ell]_2$ and matrices $[\matr{\Theta}_\ell]_1,[\matr{\Pi}_\ell]_2$, $1\leq\ell\leq m$, output by the prover and the simulator are, respectively, uniform vectors and uniform matrices conditioned on satisfying equation \ref{eq-alog-5}. This follows from the fact that $ck',ck_1,\ldots,ck_\ell$ are all perfectly hiding commitment keys and that $[\matr{\Theta}_\ell]_1,[\matr{\Pi}_\ell]_1$ are the unique solutions of equation (\ref{eq-alog-5}) modulo the random choice of $\matr{R}_\ell$. Finally, the rest of the proof follows from Zero-Knowledge of $\Pi_\sfcom,\Pi_\sfbits,\Pi_\sfsum,$ and $\Pi_\mathsf{lin}$.
 
 \subsection{The case $S\subset\GG_1$} \label{sec:improved-aZKSMP-group-case}
-We briefly justify that the case $S\subset\GG_1$ follows directly from the case $S\subset\Z_q$ when $S$ is \emph{non-adaptively chosen} and witness samplable. That is, the adversary chooses $S$ before seeing the CRS, and there is an efficient algorithm that samples $s_1,\ldots,s_{|S|}\in\Z_q$ such that $S=\{[s_1]_1,\ldots,[s_{|S|}]_1\}$. Note that is the same case of Sect. \ref{sec:bits-applications} where the CRS depends on set.
+We briefly justify that the case $S\subset\GG_1$ follows directly from the case $S\subset\Z_q$ when $S$ is \emph{non-adaptively chosen} and witness samplable. That is, the adversary chooses $S$ before seeing the CRS, and there is an efficient algorithm that samples $s_1,\ldots,s_{|S|}\in\Z_q$ such that $S=\{[s_1]_1,\ldots,[s_{|S|}]_1\}$. Note that is the same case of Section~\ref{sec:bits-applications} where the CRS depends on set.
 
 To upgrade to this setting, we allow the prover to compute values of the type $[\vecb{s}_i\vecb{k}]_1$, where $[\vecb{k}]_\mu$, $\mu\in\{1,2\}$, is a vector from one of the commitment keys. The solution is straightforward: use $s_1,\ldots,s_{|S|}$ to compute this values and add them to the CRS (with the consequent CRS growth). Therefore, the new CRS contains also:
 \begin{align*}
@@ -434,7 +434,7 @@ To upgrade to this setting, we allow the prover to compute values of the type $[
 \end{align*}
 
 \subsection{Application: Theoretical $\Theta(\log n)$ Ring Signature} \label{sec:log-ring-signature}
-There are straightforward applications of the improved aZKSMP which can be obtained by simply plugging the more efficient proof system to the protocols from Chapter \ref{sec:shuf-rp}: more efficient Shuffles and more efficient Range Proofs.
+There are straightforward applications of the improved aZKSMP which can be obtained by simply plugging the more efficient proof system to the protocols from Chapter \ref{sec:shuf-rp}: more efficient Shuffles and more efficient Range proofs.
 
 In this section we will describe how the improved aZKSMP can be used to obtain a \emph{theoretical} Ring Signature with signature size $\Theta(\log n)$, where $n$ is the size of the ring, in the standard model (i.e. without \emph{Random Oracles} nor \emph{Non-Falsifiable Assumptions}). In other words we show that there exists Set-Membership proofs of size $\Theta(\log |S|)$ even when $S\subset \GG_1$ is adaptively chosen,\footnote{It seems that in the aggregated case this is also true. However, we left this as an open problem.} and from this proof is direct to construct a Ring Signature using the techniques of Chandran et al. \cite{ICALP:ChaGroSah07}. We say that our construction is theoretical because, although the asymptotic signature size is $\Theta(\log n)$, we use general results of NP-completeness and thus the ``real'' signature size is $\Theta(\log n)+\mathsf{poly}(\lambda)$, where $\lambda$ is the security parameter. Nonetheless, our result should be interpreted as a feasibility result and it poses the interesting question of whether the $\mathsf{poly}(\lambda)$ part can be reduced to a practical value.
 

@@ -3,7 +3,7 @@ In this section we discuss two different ways to aggregate GS equations. The fir
 \subsection{Aggregating Two-Sided Linear Equations in $\Z_q$}
 \label{sec:ts-zq}
 We note that proving that $n$ pairs of GS commitments open (pairwise) to the same elements in $\Z_q$ is simply a special case of 
-the proof of equal commmitment opening in Sect.~\ref{sec:aggcommit}. Indeed, the concatenation of $n$ GS commitments is just a commitment to a vector of scalars. In particular,  given $\mathsf{crs}_\GS=({gk},[\vecb{u}_1]_1,[\vecb{u}_2]_1,[\vecb{v}_1]_2,[\vecb{v}_2]_2)$,  it is easy to see that  $n$ commitments to $x_i \in \Z_q$, which are of the form:
+the proof of equal commitment opening in Section~\ref{sec:aggcommit}. Indeed, the concatenation of $n$ GS commitments is just a commitment to a vector of scalars. In particular,  given $\mathsf{crs}_\GS=({gk},[\vecb{u}_1]_1,[\vecb{u}_2]_1,[\vecb{v}_1]_2,[\vecb{v}_2]_2)$,  it is easy to see that  $n$ commitments to $x_i \in \Z_q$, which are of the form:
  $[\vecb{c}_i]_1= x_i [\vecb{u}_1]_1 +r_i [\vecb{u}_2]_1$ for some $r_i \in \Z_q$ (recall that $\iota_1(x_i)= x_i [\vecb{u}_1]_1$), can be written as  
  $$\begin{pmatrix} [\vecb{c}_1]_1 \\ \vdots \\ [\vecb{c}_n]_1 \end{pmatrix}=   \begin{pmatrix} [\vecb{u}_1]_1 & \ldots & [\vecb{0}]_1\\ \vdots & \ddots & \vdots \\   [\vecb{0}]_1 & \ldots & [\vecb{u}_1]_1  \end{pmatrix} \begin{pmatrix} x_1 \\ \vdots \\ x_n \end{pmatrix}
  + \begin{pmatrix} [\vecb{u}_2]_1 & \ldots & [\vecb{0}]_1\\ \vdots & \ddots & \vdots \\  [\vecb{0}]_1 & \ldots & [\vecb{u}_2]_1  \end{pmatrix}
@@ -16,7 +16,7 @@ easily reduces to this case using the homomorphic properties of GS commitments. 
  $$  \grkb{\alpha}_{\ell}^{\top} \vvary+ \vvarx^{\top}\boldsymbol \beta_{\ell} =t_\ell, \ \ell \in [n],$$
  and the commitments to a satisfying assignment (where the commitments to every coordinate of $\vvarx$ (resp. $\vvary$) are in $\Gr$ (resp. $\Hr$), it is easy to derive a commitment to $\vvarx^{\top} \grkb{\beta}_{\ell}- t_{\ell}$ in $\Gr$ and a commitment to  $\grkb{\alpha}_{\ell}^{\top} \vvary$ in $\Hr$ for all $\ell \in [n]$. Obviously, the equations are satisfied if for each $\ell$, these commitments open to the same value. 
 
-We insist that two-sided linear equations in $\Z_q$ are essential to prove quadratic statements in asymmetric bilinear groups. In particular, this result can be used to reduce the proof size that $n$ commitments open to a bit-string from $6n\s$ to $(4n+2)\s$.
+%We insist that two-sided linear equations in $\Z_q$ are essential to prove quadratic statements in asymmetric bilinear groups. In particular, this result can be used to reduce the proof size that $n$ commitments open to a bit-string from $6n\s$ to $(4n+2)\s$.
 
 \subsection{QA Aggregation of Other Equation Types} \label{sec:jutroyaggasym}
 Jutla and Roy \cite{C:JutRoy14} show how to aggregate GS proofs of 
@@ -25,7 +25,7 @@ two-sided linear equations in symmetric bilinear groups. In the original constru
 In this section, we revisit their construction. We give an alternative, simpler, proof of soundness under a computational assumption which avoids altogether the ``Switching Lemma" of \cite{C:JutRoy14}. Further, we extend it to two-sided equations in the asymmetric setting. For one-sided linear equations we can prove soundness under any kernel assumption and for two-sided linear equations, under any split kernel assumption.\footnote{The results of  \cite{C:JutRoy14} are based on what they call  the ``Switching Lemma". As noted in \cite{EPRINT:MorRafVil15}, it is implicit in the proof of this lemma that the same results can be obtained under computational assumptions.}
 
 Let $A_1,A_2,A_T$ be $\Z_q$-vector spaces compatible with some 
-Groth-Sahai equation as detailed in Sect.
+Groth-Sahai equation as detailed in Section
 \ref{sec:gs-proofs}.  Let $\dist_{{gk}}$ be a witness samplable distribution which outputs $n$ pairs of vectors
 $(\grkb{\alpha}_\ell, \grkb{\beta}_\ell) \in A_1^{m_y} \times A_2^{m_x}$, $\ell \in [n]$, for some 
 $m_x,m_y \in \mathbb{N}$. Given some fixed pairs $(\grkb{\alpha}_\ell,
@@ -43,11 +43,11 @@ Given the equation types for which we can construct NIZK GS proofs (and not only
  change $\iota_2(a_{\ell,i}),  \iota_1(t_{\ell})$ for $\iota_1(a_{\ell,i}),  \iota_2(t_{\ell})$ in the construction below. 
 
 \begin{description}
-\item[$\algK_0(1^\lambda)$:]  Return ${gk} := (q,\Gr,\Hr,\GG_T,e,\mathcal{P}_1,\mathcal{P}_2) \leftarrow \ggen_a(1^{\lambda})$.
+%\item[$\algK_0(1^\lambda)$:]  Return ${gk} := (q,\Gr,\Hr,\GG_T,e,\mathcal{P}_1,\mathcal{P}_2) \leftarrow \ggen_a(1^{\lambda})$.
 
-\item[$\dist_{gk}$:] $\dist_{gk}$ is some distribution over $n$ pairs of vectors  $(\grkb{\alpha}_{\ell}$, $\grkb{\beta}_{\ell}) \in A_1^{m_x} \times A_2^{m_y}$.
+%\item[$\dist_{gk}$:] $\dist_{gk}$ is some distribution over $n$ pairs of vectors  $(\grkb{\alpha}_{\ell}$, $\grkb{\beta}_{\ell}) \in A_1^{m_x} \times A_2^{m_y}$.
 
-\item[$\algK_1({gk}, \mathcal{S}_{\vecb{\tilde{t}}})$:]
+\item[$\algK({gk}, \mathcal{S}_{\vecb{\tilde{t}}})$:]
 Let $\matr{A}=(a_{i,j}) \gets \dist_{n,k}$. Define 
 $$\crs:=\left(\crs_{\GS}, \left\{\sum_{\ell\in[n]}\iota_1(a_{\ell,i} \grkb{\alpha}_\ell), \sum_{\ell\in[n]} \iota_2(a_{\ell,i} \grkb{\beta}_\ell), \big\{\iota_{2}(a_{\ell,i}): \ell \in [n]\big\}: i \in [k]\right\}\right)$$
 \item[$\algP({gk}, \mathcal{S}_{\vecb{\tilde{t}}},\vecb{x},\vecb{y})$:] 

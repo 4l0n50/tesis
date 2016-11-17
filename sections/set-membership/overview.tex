@@ -7,7 +7,7 @@ $$
 $$
 and $c=\Com_{ck}(x;\vecb{w})$ is a Groth-Sahai commitment to $x$ with randomness $\vecb{w}$.
 
-The proof that we construct in Sect. \ref{sec:aZKSMP} is Quasi-Adaptive, in the sense that the language and the common reference string depends on $ck$ and $S$. Further, the marginal distribution of $ck$ is witness samplable, that is, it can be sampled along with its discrete logarithms. The argument is \textit{aggregated} because the size of the proof is independent of $n$ ($\Theta(\log d)$ when $S=[0,d-1]$ and $\Theta(|S|)$ when $S\subset\GG_\gamma$). However, in the soundness proof we will loose a factor of $n$ in the reduction. 
+The proof that we construct in Section~\ref{sec:aZKSMP} is Quasi-Adaptive, in the sense that the language and the common reference string depends on $ck$ and $S$. Further, the marginal distribution of $ck$ is witness samplable, that is, it can be sampled along with its discrete logarithms. The argument is \textit{aggregated} because the size of the proof is independent of $n$ ($\Theta(\log d)$ when $S=[0,d-1]$ and $\Theta(|S|)$ when $S\subset\GG_\gamma$). However, in the soundness proof we will loose a factor of $n$ in the reduction. 
 
 %Before discussing how to construct such an argument, we come back on showing how to use it as a building block for range and shuffle proofs.  
 \subsection{Range Argument}
@@ -37,7 +37,7 @@ Actually, a prover (a mixer) does not know the randomness nor the decryptions of
 \end{equation}
 \end{itemize}
 The underlying computational assumption is that it is infeasible to find a non-trivial combination of elements of $S$ which adds to $0$, that is, given $[\vecb{s}]_1$ it is infeasible to find $[\vecb{k}]_2 \neq [\vecb{0}]_2$ such that
-$\vecb{s}^{\top} \vecb{k}=\vecb{0}$ (this is the $\dist_{n,1}$-$\kermdh$ Assumption from Sect. \ref{sec:mddh}). 
+$\vecb{s}^{\top} \vecb{k}=\vecb{0}$ (this is the $\dist_{n,1}$-$\kermdh$ Assumption from Section~\ref{sec:mddh}). 
 
 Soundness goes as follows. First, by the soundness of the aggregated set membership proof, $[\vecb{x}]_1 \in S^{n}$ and from the fact that 
  $\sum_{i \in [n]} x_i =\sum_{i \in [n]} s_i$, it holds that if 

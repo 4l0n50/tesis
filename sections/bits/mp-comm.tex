@@ -1,11 +1,11 @@
-In this Section we introduce a new commitment scheme which is a generalization of Multi-Pedersen commitments and which was implicitly used in Sect. \ref{sec:bits-scheme}. 
+In this section  we introduce a new commitment scheme which is a generalization of Multi-Pedersen commitments and which was implicitly used in Section~\ref{sec:bits-scheme}. 
 
 Given a vector $\vecb{m}\in\Z_q^m$, the Multi-Pedersen commitment in $\GG_{\gamma}$ is a single group element $[c]_\gamma:=\sum_{i\in [m]} m_i[g_i]_\gamma+r[g_{m+1}]_\gamma \in\GG_\gamma$, where $[g_i]_{\gamma}\in\GG_\gamma$, $i\in[m+1]$, and $r\gets\Z_q$. \footnote{Written in the usual multiplicative notation $c=\prod_{i\in[m]}g_i^{m_i} \cdot g_{m+1}^r$.}  The $(k+1)$-dimensional Multi-Pedersen commitments 
 differs only in that the keys and the resulting commitments are in 
 $\GG_{\gamma}^{k+1}$, for $k\geq 1$. 
 
 
-While the original MP commitments are perfectly hiding, the interest of the new commitments is that, if the keys come from the distribution $\distink$ defined in Sect. \ref{sec:mddh}, they are perfectly binding at coordinate $i$. Intuitively, the new commitment is defined in a larger space so that not all the information about the witness is destroyed (in an information-theoretic sense). 
+While the original MP commitments are perfectly hiding, the interest of the new commitments is that, if the keys come from the distribution $\distink$ defined in Section~\ref{sec:mddh}, they are perfectly binding at coordinate $i$. Intuitively, the new commitment is defined in a larger space so that not all the information about the witness is destroyed (in an information-theoretic sense). 
 
 \begin{definition} The $(k+1)$-dimensional Multi-Pedersen commitment scheme in the group $\GG_\gamma$ 
 %is parameterized by a matrix distribution $\dist_{2,n+1}$ and 

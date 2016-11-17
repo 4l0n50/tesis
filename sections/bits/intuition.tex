@@ -1,7 +1,7 @@
 To prove that a commitment in $\Gr$ opens to a vector of bits $\vecb{b}$, the usual strategy is to compute another commitment $[\vecb{d}]_2\in\Hr^{\bar{n}}$ to a vector $\bar{\vecb{b}}\in\Z_q^n$ and prove 
   (1) $b_i(\overline{b}_i-1)=0$, for all $i \in [n]$, and 
   (2) $b_i-\overline{b}_i=0$, for all $i \in [n]$. 
-For statement  (2), since $[\matr{U}]_1$ is witness samplable, we can use our most efficient QA-NIZK from Sect.\ \ref{sec:aggcommit} for equal opening in different groups.  Under the $\SSDP$ Assumption, which is the $\skermdh$ Assumption of minimal size conjectured to hold in asymmetric groups, the proof is of size $2\s$. Thus, the challenge is to aggregate $n$ equations of the form $b_i(\overline{b}_i-1)=0$. We note that this is a particular case of the problem of aggregating proofs of quadratic equations, which was left open in \cite{C:JutRoy14}.
+For statement  (2), since $[\matr{U}]_1$ is witness samplable, we can use our most efficient QA-NIZK from Section~\ref{sec:aggcommit} for equal opening in different groups.  Under the $\SSDP$ Assumption, which is the $\skermdh$ Assumption of minimal size conjectured to hold in asymmetric groups, the proof is of size $2\s$. Thus, the challenge is to aggregate $n$ equations of the form $b_i(\overline{b}_i-1)=0$. We note that this is a particular case of the problem of aggregating proofs of quadratic equations, which was left open in \cite{C:JutRoy14}.
 
 We finally remark that the proof must include $[\vecb{d}]_2$ and thus it may be not of size independent of $n$. However, it turns out that $[\vecb{d}]_2$ needs not be perfectly binding, in fact $\bar{n}=2$ suffices.
 
@@ -76,5 +76,5 @@ To account for the fact that, in some games,
   $\matr{C}_{i,j}+\matr{D}_{i,j}=\vecb{g}_i \lrck_j^{\top}$.
 This randomization completely hides the group in which we can compute 
   $\vecb{g}_i \lrck_j^{\top}$. 
-  Finally, we use our QA-NIZK Argument for sum in a subspace (Sect.\ \ref{sec:sum}) to prove membership in this space.
+  Finally, we use our QA-NIZK Argument for sum in a subspace (Section~\ref{sec:sum}) to prove membership in this space.
 

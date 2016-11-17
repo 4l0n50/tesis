@@ -9,12 +9,12 @@ is $\mathcal{M} := G$, with the following specifications.
 
 \begin{description}
 
-\item[$\SG(1^\lambda, n):$] is a randomized algorithm that takes as input a security parameter $\lambda\in\N$ and an integer $n$ and  outputs a key pair $(\pk, \sk)$. The public key $pk$ specifies a $\Z_q$ vector space $G$ of dimension $n$. 
+\item[$\SG(gk, n):$] is a randomized algorithm that takes as input a group key $gk$ and an integer $n$ and  outputs a key pair $(\pk, \sk)$. The public key $pk$ specifies a $\Z_q$ vector space $G$ of dimension $n$. 
 
 \item[$\SN(\sk,\vecb{m})$:] is a possibly probabilistic algorithm that takes as input a private key $\sk$
  and $\vecb{m}\in G$. It outputs a signature $\grkb{\sigma}\in G$.
 
-\item[$\SD(\pk,\{\omega_i,\grkb{\sigma}_i,\vecb{m}_i \}_{i\in[\ell]})$:] is a (possibly probabilistic) signature derivation algorithm. It
+\item[$\SD(\pk,\{\omega_i,\grkb{\sigma}_i,\vecb{m}_i \}_{i\in[\ell]})$:] is a possibly probabilistic signature derivation algorithm. It
 takes as input a public key $\pk$ as well as $\ell$ pairs $(\omega_i,\grkb{\sigma}_i)$, each of which
 consists of a weight $\omega_i\in\Z_q$ and a signature $\grkb{\sigma_i}\in G$. The output is a signature
 $\grkb{\sigma}\in G$ on the vector $\vecb{m} = \sum_{i\in[\ell]} \omega_i\vecb{m}_i $.
@@ -25,7 +25,7 @@ a signature $\grkb{\sigma}$, and a vector $\vecb{m}$. It outputs 1 if $\grkb{\si
 \end{definition}
 
 Correctness is expressed by imposing that, for all security parameters $\lambda\in\N$, all integers $n\in\poly(\lambda)$
-and all pairs $(\pk,\sk) \gets \SG(1^\lambda, n)$, the following holds:
+and all pairs $(\pk,\sk) \gets \SG(gk, n)$, the following holds:
 \begin{enumerate}
 \item For all $\vecb{m} \in G$, if $\grkb{\sigma} = \SN(\sk, \vecb{m})$, then we have $\SV(\pk, \vecb{m}, \grkb{\sigma}) = 1$.
 \item For any $\ell > 0$ and any set of triples $\{(\omega_i, \grkb{\sigma}_i, \vecb{m}_i)\}_{i\in[\ell]}$,
@@ -53,17 +53,17 @@ previous queries, and this is, in general, hard to decide in the group $G$ (alth
 adversary has non-negligible advantage in the game below:
 \begin{enumerate}
 \item The adversary $\advA$ chooses an integer $n \in \N$ and sends it to the challenger who runs
-$\SG(1^\lambda, n)$
+$\SG(gk, n)$
 and obtains $(\pk,\sk)$ before sending $\pk$ to $\advA$.
 \item On polynomially-many occasions, $\advA$ can interleave the following kinds of queries.
 \begin{description}
 
-\item[Signing queries:] $\advA$ chooses a vector $\vecb{m}\in\G$.
+\item[Signing queries:] $\advA$ chooses a vector $\vecb{m}\in G^n$.
 The challenger picks a handle
 $h$ and computes $\grkb{\sigma}\gets\SN(\sk, \vecb{m})$. It stores $(h,\vecb{m}, \grkb{\sigma})$
 in a table $T$ and returns $h$.
 
-\item[Derivation queries:] $\advA$ chooses a vector of handles $\vec{h} = (h_1, \ldots , h_\ell)$ and a set of coefficients
+\item[Derivation queries:] $\advA$ chooses a vector of handles $\vecb{h} = (h_1, \ldots , h_\ell)$ and a set of coefficients
 $\{\omega_i\}_{i\in[\ell]}$. The challenger retrieves the tuples $\{(h_i,\vecb{m}_i, \grkb{\sigma}_i)\}_{i\in[\ell]}$
 from $T$ and returns $\perp$ if one
 of these does not exist. Otherwise, it computes
@@ -89,7 +89,7 @@ in only one. For simplicity, we omit this parameter.
 
 \subsection{One-Time LHSPS Signatures in Different Groups} \label{sec:newhomtwogroups}
 
-The one-time linearly homomorphic signature of Libert, Peters and Yung \cite{EC:LPJY14}  implies a QA-NIZK Argument for linear spaces. Similarly, our constructions of QA-NIZK proofs for membership in concatenated subspace and for sum in subspace (in the case where the space is not from a witness samplable distribution) also have an equivalent one-time structure preserving signature scheme with different security properties. 
+The one-time linearly homomorphic signature of Libert, Peters and Yung \cite{EC:LPJY14}  implies a QA-NIZK Argument for linear spaces. Similarly, our constructions of QA-NIZK proofs for membership in concatenated subspace and for sum in subspace (in the case where the space is not from a witness samplable distribution) is implied by a one-time structure preserving signature scheme with different security properties. 
 
 In particular, for subspace concatenation, ``one-time" means that the adversary is unable to sign vectors which are not in the span of previously signed vectors, namely,
 the adversary cannot output a signature for a pair
@@ -105,12 +105,11 @@ In either case, the size of the resulting signatures is $(k+1)\s$ under the $\sk
 % For subspace concatenation, ``one-time" means that the adversary is unable to sign vectors which are not in the span of previously signed vectors. For the one-time signature scheme derived from the sum in subspace proof, ``one-time" refers to the fact that the adversary cannot obtain signatures for vectors which are  half of the components in $\Gr$ and other half in $\Hr$ and such that the sum of the vecto
 
 
-Our construction is based on the $\skermdh$ Assumption introduced in section \ref{sec:mddh}. Following the syntactic definition of section \ref{sec:mddh},
+Our construction is based on the $\skermdh$ Assumption introduced in Section~\ref{sec:mddh}. Following the syntactic definition of Section~\ref{sec:mddh},
 our scheme assumes $\Group = \Gr^m\times\Hr^n$ and the length of the messages is $n+m$.
  
 \begin{itemize}
-\item $\SG(1^\lambda,m,n)$:
-Let $gk:=(q,\Gr,\Hr,\GG_T,e,\mathcal{P}_1,\mathcal{P}_2)\gets \ggen_a(1^\lambda)$.
+\item $\SG(gk,m,n)$:
 Choose $\matr{A} \leftarrow \dist_{k}$,
 $\matr{\Lambda},\matr{\Xi} \leftarrow \Z_q^{(k+1) \times m}$, $\vecb{A}_{\Lambda}:=\matr{\Lambda}^\top \matr{A}$, 
 $\vecb{A}_{\Xi}:=\matr{\Xi}^\top \matr{A}$
@@ -134,7 +133,7 @@ $$ [\grkb{\rho}^{\top}]_1 [\vecb{A}]_2+ [\grkb{\sigma}^{\top}]_2 [\vecb{A}]_1= [
 $$[\grkb{\rho}^{\top}]_1 [\matr{A}]_2-[\vecb{x}^{\top}]_1 [\matr{A}_{\Lambda}]_2= [\vecb{z}^{\top}]_1 [\matr{A}]_2 \qquad \qquad  [\grkb{\sigma}^{\top}]_2[\matr{A}]_1 -[\vecb{y}^{\top}]_2  [\matr{A}_{\Xi}]_1= -[\vecb{z}^{\top}]_2 [\matr{A}]_1.$$
 Therefore the verification algorithm outputs $1$ on a correctly generated signature. The proof of correctness  of the signature derivation algorithm follows a similar argument.  
 
-Let $Q=\{ (\hvecb{x}_i,\cvecb{y}_i) \}_{i \in [q_s]}$ be some set of elements of $\Gr^{m} \times \Hr^n$. We define the predicate $P$ as $P((\hvecb{x},\cvecb{y}),Q)=1$ iff $(\vecb{x}^{\top}||\vecb{y}^{\top}) \in \Z_q^{2m}$ is not in the space spanned by $\{(\vecb{x}_i^{\top}||\vecb{y}_i^{\top}) :i \in [q_s]\}$. 
+Let $Q=\{ ([\vecb{x}_i]_1,[\vecb{y}_i]_2) \}_{i \in [q_s]}$ be some set of elements of $\Gr^{m} \times \Hr^n$. We define the predicate $P$ as $P(([\vecb{x}]_1,[\vecb{y}]_2),Q)=1$ iff $(\vecb{x}^{\top}||\vecb{y}^{\top}) \in \Z_q^{2m}$ is not in the space spanned by $\{(\vecb{x}_i^{\top}||\vecb{y}_i^{\top}) :i \in [q_s]\}$. 
 
 \begin{theorem} The signature scheme is Type P unforgeable if the $\skermdh$ Assumption holds in $\Gr,\Hr$.
 \end{theorem}
@@ -142,7 +141,7 @@ Let $Q=\{ (\hvecb{x}_i,\cvecb{y}_i) \}_{i \in [q_s]}$ be some set of elements of
 The argument is almost identical to  \cite{C:LPJY13}.
 \begin{proof} We show how to construct an algorithm $\advB$ which takes as input an instance $([\matr{A}]_1,[\matr{A}]_2)$ of the $\skermdh$ Assumption and outputs a pair of vectors $([\vecb{r}]_1,[\vecb{s}]_2) \in \Gr^{3} \times \Hr^{3}$, $\vecb{r} \neq \vecb{s}$, such that 
 $[\vecb{r}^{\top}]_1 [\matr{A}]_2=[\vecb{s}^{\top}]_2 [\matr{A}]_1$ given oracle access to a forger $\Forger$ against the signature scheme
-(see Sect. \ref{splhs-unforgeability}). 
+(see Section~\ref{splhs-unforgeability}). 
 
 Algorithm $\advB$ starts by honestly running the key generation algorithm 
 using a randomly chosen $\mathsf{sk}=(\matr{\Lambda},\matr{\Xi})$. Any signature query of $\Forger$ on a vector
