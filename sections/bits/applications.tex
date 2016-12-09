@@ -61,22 +61,23 @@ to ring signatures, since the CRS should be independent of the ring $R$ (which d
 Next we describe the construction generalized to vectors (which will be useful in the next construction) and then we show that,
 when the CRS depends on the set and the set is witness samplable, the proof can be further reduced to $\Theta(\sqrt[3]{n})$.
 
-\subsubsection{More Efficient Set-Membership proof for Set of Vectors}  
+\subsubsection{More Efficient Set-Membership proof for a Set of Vectors}  
 Here we describe a more efficient version of Chandran's \textit{et al.} Set-Membership proof,  
 which is also extended to vectors --i.e. to the case where $S=([\vecb{s}_1]_1,\ldots,[\vecb{s}_n]_1)$ is a set of vectors of length $\ell$. In such a proof, we show that some commitment $[\vecb{c}]_1$ opens to a vector $[\vecb{s}_{\alpha}]_1$, where $\alpha=(i_\alpha,j_\alpha)$ (recall that $(i,j)=\sqrt{n}(i-1)+j$).
 
 \begin{enumerate}
 \item Compute GS commitments in $\Hr$ to $b_1\ldots,b_m$ and $b'_1,\ldots,b'_m$,
       where $b_i = 1$ if $i=i_\alpha$ and $0$ otherwise, and $b'_{j}=1$ if $j=j_\alpha$, and $0$ otherwise.
-\item Compute a proof that $b_i \in \{0,1\}$ and $b'_j \in \{0,1\}$ for all $i,j\in[m]$, using the proof system of Section~
-~ \ref{sec:bits-scheme}.
+\item Compute a proof that $b_i \in \{0,1\}$ and $b'_j \in \{0,1\}$ for all $i,j\in[m]$, using the proof system of Section \ref{sec:bits-scheme}.
 \item Compute GS proofs that $\sum_{i\in[m]}b_i=1$ and $\sum_{j\in[m]}b'_j=1$. 
-\item Compute GS commitments to each coordinate of $[\vecb{x}_1]_1:=[\vecb{s}_{(i_\alpha,1)}]_1,\ldots,[\vecb{x}_m]_1:=[\vecb{s}_{(i_\alpha,m)}]_1$.
+\item Compute GS commitments to each coordinate of $[\vecb{x}_1]_1:=[\vecb{s}_{(i_\alpha,1)}]_1,\ldots,\allowbreak[\vecb{x}_m]_1:=[\vecb{s}_{(i_\alpha,m)}]_1$.
 \item Compute an aggregated GS proof that the equations $[\vecb{x}_j]_1 = \sum_{i\in[m]}b_i[\vecb{s}_{(i,j)}]_1$, for all $j\in[m]$, are satisfied, as detailed in Section~\ref{sec:aggcommit}.
 \item Compute a GS proof that $[\vecb{s}_{\alpha}]_1 = \sum_{j\in[m]}b'_j[\vecb{x}_j]_1$ is satisfied.
 \end{enumerate}
 
-We emphasize that the CRS depends on the set $S$. This is necessary to aggregate the proofs as in Step 4. More  specifically, to aggregate the proof of the equations  $[\vecb{x}_j]_1 = \sum_{i\in[m]}b_i [\vecb{s}_{(i,j)}]_1$ , $j\in[m]$ (that is, a total of $\ell k$ equations), we need to include in the CRS some information which depends on the coordinates of $[\vecb{s}_{(i,j)}]_1$.
+We emphasize that the CRS depends on the set $S$. This is necessary to aggregate the proofs as in Step 5. More  specifically, to aggregate the proof of the equations  $[\vecb{x}_j]_1 = \sum_{i\in[m]}b_i [\vecb{s}_{(i,j)}]_1$ , $j\in[m]$ (that is, a total of $\ell k$ equations), we need to include in the CRS some information which depends on the coordinates of $[\vecb{s}_{(i,j)}]_1$.
+
+In Section \ref{sec:opt-rs} we require a CRS independent of the set and thus step 5 is proven using GS proofs without aggregation. While this require $\Theta(\sqrt{n})$ additional elements, the proof size is still $\Theta(\sqrt{n})$.
 
 \begin{theorem}\label{theo:listsquarevect}
 If $S$ is witness samplable, the above protocol is a perfectly complete, computationally sound, and computationally zero-knowledge proof system for the language of commitments to elements from the set $S$.

@@ -7,13 +7,6 @@ For this reasons elliptic curves where a pairing function can be efficiently com
 
 But this changed with the work of Joux \cite{ANTS:Joux00}, where he showed that pairings can be also used to construct cryptographic schemes rather than to destroy them. Joux noted that pairings can be used to construct a non-interactive three party Diffie-Hellman key exchange \cite{ANTS:Joux00}. Given public keys $\mathcal{X}=x\mathcal{P}$, $\mathcal{Y}=y\mathcal{P}$, and $\mathcal{Z}=z\mathcal{P}$ and one secret key from $x,y,$ or $z$, each party can compute the shared key $x\cdot e(\mathcal{Y},\mathcal{Z})= y\cdot e(\mathcal{X},\mathcal{Z})= z\cdot e(\mathcal{X},\mathcal{Y})=xyz\cdot e(\mathcal{P},\mathcal{P})$. The critical observation was that, although the DDH might be easy in bilinear groups, the DL might be made hard if the size of the group is appropriately increased in order to rule out the sub-exponential attacks implied by the MOV and FR reductions. Moreover, Joux protocol can be proven secure under the \emph{Bilinear Decisional Diffie-Hellman} assumption, which is believed to be a hard problem in some bilinear groups, and also CDH and many other assumptions are believed to hold on some bilinear groups. Furthermore, from Joux seminal work many open problems have been solved using bilinear groups, being \emph{Identity Based Encryption} \cite{C:BonFra01} the more outstanding example, and many new applications have been found. 
 
-%\subsection{Intuition}
-%The structure of abelian groups allows to compute the addition of two group elements and, if used together with the DDH assumption, allows to compute \emph{linear functions} of a hidden value. This is the case of ElGamal encryption, where for any integer $a$ and any group element $\mathcal{B}$, given $(\mathcal{C}_1,\mathcal{C}_2)=\Enc_{pk}(\mathcal{X};r)$ one can compute $a(\mathcal{C}_1,\mathcal{C}_2)+(0,\mathcal{B})=\Enc_{pk}(a\mathcal{X}+\mathcal{B};ar)$. 
-%%This is interesting because using the techniques of Groth and Sahai \cite{EC:GroSah08} one can give a NIZK proof of the satisfiability of the linear equation.
-%
-%One can also try to generalize this and evaluate a set of quadratic equations. \footnote{This generalization is quite powerful since includes all the statements which can be proven in NP, a facts that follows from the NP-completeness of the satisfiability of a set of quadratic equations over a finite field.}
-%Following the example of ElGamal, given $\mathcal{X}$ and $\mathcal{Y}$ we want to be able to ``homomorphically'' compute a third value $\mathcal{Z}$ which encodes the multiplication of $\mathcal{X}$ and $\mathcal{Y}$. That is, $\mathcal{X}=x\mathcal{P}_1$, $\mathcal{Y}=y\mathcal{P}$, and $\mathcal{Z}=xy\mathcal{P}_T$, where $\mathcal{P}_T$ is the generator of the group $\GG_T$. This is exactly what can be done with a pairing such as the Weil pairing or the Tate pairing. 
-%
 \subsection{Definition}
 
 \begin{definition}[Bilinear Groups] \footnote{While the usual notation for the target group has been multiplicative, we write it in additive notation. The reason is just to elude cumbersome expressions in the exponent.}
@@ -39,7 +32,7 @@ Galbraith et al.~classify bilinear groups in three types \cite{DAM:GalPatSma08}:
 \end{description}
 
 Type III bilinear groups are the most attractive from the perspective
-of a performance and security trade off, specially since the recent attacks on discrete logarithms in
+of a performance and security trade-off, specially since the recent attacks on discrete logarithms in
 finite fields by Joux \cite{SAC:Joux13} and subsequent improvements.
 
 We denote by $\ggen_a$ the probabilistic polynomial time algorithm which on input $1^{\lambda}$, where $\lambda$ is the security parameter, returns the \emph{group key} which is the description of an asymmetric bilinear group $gk:=(q,\GG_1,\GG_2,\GG_T,e,\mathcal{P}_1,\mathcal{P}_2)$, where $\GG_1,\GG_2$
@@ -54,3 +47,30 @@ The pairing operation will be written as a product $\cdot$, that is $[a]_1 \cdot
 the natural embedding of $\matr{T}$ in $\GG_s$, that is, the matrix whose $(i,j)$th entry
 is $t_{i,j}\mathcal{P}_s$. We denote by $|\GG_s|$ the bit-size of the elements of $\GG_s$.
 
+\subsection{The Decisional $k$-Linear Diffie-Hellman Family of Assumptions}
+In type I groups the DDH assumption is easy because, as noted before, using the pairing operation one can check if $[x][y]=[z][1]$ (implicit representation in type I groups can omit the group sub-index). Boneh, Boyen, and Sacham introduced a ``DDH like'' assumption called the \emph{Decisional Linear Diffie-Hellman} assumption (DLin) \cite{C:BonBoySha04}, proved that is secure in the generic group model in type I groups, and that it is implied by DDH in type III groups. 
+
+\begin{definition}[DLin assumption]
+We say that the DLin assumption in $\GG_s$, $s\in\{1,2\}$, holds relative to $\G_a$ if for any adversary $\advA$
+$$
+\Pr\left[\begin{array}{l}
+gk\gets\G_a(1^\lambda);a_1,a_2,r_1,r_2,z\gets\Z_q,b\gets\bits:\\
+\advA(gk,[a_1]_1,[a_2]_1,[r_1a_1]_1,[r_2a_2],(1-b)[r_1+r_2]_1+b[z]_1)=b
+\end{array}\right]\approx 1/2.
+$$
+\end{definition}
+
+The DLin assumption is a natural counterpart of the DDH assumption, and one can easily replace DDH by DLin assumption (e.g.~ElGamal encryption can be easily turned into the \emph{Linear Encryption} scheme). Moreover, Sacham noted that  the DDH and DLin assumptions are members of an infinite family of progressively weaker assumptions called the $k$-Linear family of assumptions ($\lin{k}$) \cite{EPRINT:Shacham07a}.
+
+\begin{definition}[$\lin{k}$ assumption]
+We say that the $\lin{k}$ assumption in $\GG_s$, $s\in\{1,2\}$, holds relative to $\G_a$ if for any adversary $\advA$
+\begin{align*}
+&\Pr\left[\begin{array}{l}
+gk\gets\G_a(1^\lambda);a_1,\ldots,a_k,r_1,\ldots,r_k,z\gets\Z_q,b\gets\bits:\\
+\advA(gk,[a_1]_1,\ldots,[a_k]_1,[r_1a_1]_1,\ldots,[r_ka_k],(1-b)[\sum_{i=1}^k r_i]_1+b[z]_1)=b
+\end{array}\right]\\
+&\approx 1/2.
+\end{align*}
+\end{definition}
+
+Thereby, the DDH assumption is the $\lin{1}$ assumption, DLin is $\lin{2}$, and it can be proved that $\lin{(k+1)}$ is weaker than $\lin{k}$.

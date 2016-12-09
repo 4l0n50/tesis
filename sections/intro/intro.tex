@@ -34,7 +34,7 @@ The Groth-Sahai proof system (GS proofs) \cite{SIAMJC:GroSah12}
   statements which appear 
   in practice when designing cryptographic schemes over bilinear groups.  
 Although GS proofs are quite efficient, proving satisfiability of $m$ equations in $n$ variables requires 
-sending the solutions, using an appropriated encryption or commitment scheme, requiring $\Theta(n)$ bits, and a proof that the encrypted values are indeed solutions which is of size $\Theta(m)$. Although linear in both $m$ and $n$, the constants are on the order of $\sim 10$ group elements, that is 10*32 bytes = 320 bytes\footnote{We are using Berstein's Curve25519, where group elements are of size 32 bytes. For bilinear groups is\ldots}  which limits $m+n$ to be less that $4000$ whenever we want the proof to less that $1$ Megabyte. For this reason, several recent works 
+sending the solutions, using an appropriated encryption or commitment scheme, requiring $\Theta(n)$ bits, and a proof that the encrypted values are indeed solutions, requiring $\Theta(m)$ bits. Although linear in both $m$ and $n$, the constants are on the order of $\sim 10$ group elements, that is 10*64 bytes = 640 bytes which limits $m+n$ to be less than $1600$ whenever we want the proof to less that $1$ Megabyte.\footnote{Using Barreto-Nahering Curves with security parameter $\lambda=128$ the base group elements are of size $32$ and $64$ bytes.}  For this reason, several recent works 
  have focused on further improving proof efficiency 
  (e.g.\ \cite{PKC:EscGro14,C:EHKRV13,TCC:Rafols15})
 
@@ -56,7 +56,7 @@ Interestingly, Jutla and Roy  \cite{C:JutRoy14} also showed that their technique
 The main objective of this thesis is to explore more efficient proofs for linear and other equations with special focus on asymmetric groups. Specifically we consider:
 \begin{itemize}
 \item Linear and Quadratic equations over $\Z_q$, where the variables are restricted to be integers modulo $q$.
-\item Linear equations over $\GG_1$ and/or $\GG_2$ with the additional restriction that the constants are fixed --one proof system for each set of equations-- and that they 
+\item Linear equations over $\GG_1$ and/or $\GG_2$ with the additional restriction that the constants are fixed -- one proof system for each set of equations -- and that they 
 can be sampled together with their discrete logarithms.
 \item Set membership proofs, where one shows that a variable is an element from some set $S$. This is a natural generalization of \emph{high-degree equations} of the form $p(x)=0$, where $p$ is a polynomial, that also allows the ``roots'' to be group elements.
 \end{itemize}

@@ -1,0 +1,23 @@
+In this chapter we describe two additional contributions which remain unpublished up to the publication of this thesis. The first contribution is the first ring signature of size $\Theta(\sqrt[3]{n})$ without random oracles. We highlight that this is the first asymptotic improvement since Chandran et al.'s ring signature \cite{ICALP:ChaGroSah07}. 
+
+In the second part of this section we construct a QA-NIZK proof system for the language
+\[
+\Lang_{ck,\mathsf{set}}^n:=\left\{\begin{array}{l}
+([\grkb{\zeta}_1]_1,\ldots,[\grkb{\zeta}_n]_1,S):\exists w_1,\ldots,w_n\in\Z_q \text{ s.t. } S\subset\Z_q\\
+\text{ and } \forall i\in [n]\ [\grkb{\zeta}_i]_1=\GS.\Com_{ck}(x_i;w_i)\wedge x_i\in S
+\end{array}\right\},
+\]
+with proof-size $\Theta(\log n)$. In Section~\ref{sec:improved-aZKSMP-group-case} we show how to extend this ideas to show membership in the language
+\[
+\Lang_{ck,S}^n:=\left\{\begin{array}{l}
+([\grkb{\zeta}_1]_1,\ldots,[\grkb{\zeta}_n]_1):\exists w_1,\ldots,w_n\in\Z_q \text{ s.t. } \\
+\text{ and } \forall i\in [n]\ [\grkb{\zeta}_i]_1=\GS.\Com_{ck}([x_i]_1;w_i)\wedge [x_i]_1\in S
+\end{array}\right\},
+\]
+with proof-size $\Theta(\log n)$, for any \(S\subset\GG_1\).
+
+The first case is the more general form of a set-membership proof where the set is dynamically chosen. In the second case each instance of the proof system is fixed to a specific set (encoded in the CRS) and is the same notion of the proofs for ``fixed sets'' from Section \ref{sec:bits-applications}. We note that the set-membership proofs for $S\subset\GG_s$ from Chapter \ref{sec:shuf-rp} are proofs of membership in $\Lang_{ck,S}^n$.
+
+There is straightforward application of the improved aZKSMP. In the proof of a Shuffle from Section \ref{sec:shuffle}, the size of the proof that $[\matr{F}]\in\Lang_{ck,S}^n$ can be reduced from $\Theta(n)$ to $\Theta(\log n)$ and thus the total proof size is reduced from $4n+o(n)$ to $2n+o(n)$. In Section \ref{sec:opt-rs} we consider another application of the improved aZKSMP: theoretical $\Theta(\log n)$ ring signatures without random oracles. Although the constants hidden in the asymptotic size of the proof are only polynomially bounded on the security parameter, we interpret this construction as a feasibility result for $\Theta(\log n)$ ring signatures (note that only $\Theta(\sqrt{n})$ ring signatures where known up to this work).
+
+

@@ -1,6 +1,14 @@
-Perhaps the most groundbreaking achievement in modern Cryptography was the work of Diffie and Hellman \cite{DifHel76} where they introduce \emph{Public Key Cryptography}. Diffie and Hellman conceived systems where each entity publish a \emph{public key} $\mathcal{X}$ while keeping her \emph{secret key} $x$.  It should be computationally infeasible to compute the secret key from the public, which was supposed to be true when $x$ is the \emph{discrete logarithm} of $\mathcal{X}$ on a \emph{Cyclic Abelian Group}.
-%\footnote{A couple years after Diffie and Hellman seminal paper,  Rivest, Shamir, and Adlelman came up with the first realization of a public key cryptosystem, the RSA cryptosystem. The RSA cryptosystem was build on top of the hardness of factorizing big numbers, and thus it rely on \emph{composite order} groups with unknown factorization. Although such groups have many interesting applications, this work only focus on prime order groups and we will not refer to composite order groups anymore.{\color{red} MmMmMmMm ni idea si esto esta del todo bien}}
-\begin{definition}[Abelian Group]\footnote{Historically, the discrete logarithm problem was defined in multiplicative groups. However in this work we will be using additive notation to avoid tangled expressions in the exponent.} 
+Perhaps the most groundbreaking achievement in modern Cryptography was the work of Diffie and Hellman \cite{DifHel76} where they introduce Public-Key Cryptography. Diffie and Hellman conceived systems where each entity publishes a \emph{public key} $\mathcal{X}$ while keeping her \emph{secret key} $x$ and thereby, for example, anybody could encrypt messages using the public key and only the beholder of the secret key would be able to decrypt.
+
+Diffie and Hellman instantiated this ideas over \emph{Cyclic Abelian Groups} where the \emph{discrete logarithm problem} was conjectured to be computationally infeasible. On the other hand, Rivest, Shamir, and Adleman used groups of unknown order and the hardness of factoring large integers in the so called RSA cryptosystems \cite{RivShaAdl78}.
+In this thesis we will always work in Diffie and Hellman's setting, also called the \emph{discrete logarithm setting}.
+
+Next, we introduce the basic definitions used within the discrete logarithm setting. Then we quickly describe the two most classical primitives used in public-key cryptography: encryption and signatures, and we also introduce commitment schemes.
+
+\subsection{The Discrete Logarithm and the Diffie-Hellman Assumptions}
+In public-key cryptosystems it should be computationally infeasible to compute the secret key from the public key.
+This is conjectured to be true when $x$ is the \emph{discrete logarithm} of $\mathcal{X}$ and $\mathcal{X}$ is a random element in some Cyclic Group (e.g~the set of quadratic residues of $\Z_p$ when $p$ and $(p-1)/2$ are prime numbers).
+\begin{definition}[Abelian Group]\footnote{In this work we will be using additive notation (mostly to avoid tangled expressions in the exponent), while historically the discrete logarithm problem was defined over multiplicative groups (thus using multiplicative notation). Using multiplicative notation the ``logarithm'' comes from the fact that we want a solution to the equation $g^x=\mathcal{X}$, where $g$ is a generator of $\GG$.} 
 An Abelian group is a set $\GG$ together with a map $+:\GG\times\GG\to\GG$ (written in infix notation) and  it holds that
 \begin{description}
 \item[Associativity]
@@ -33,7 +41,7 @@ $$
 $$
 \end{definition}
 
-The Diffie-Hellman key-exchange allows two parties $A$, in possession of random secret $x\in\Z_q$ and $\mathcal{Y}=y\mathcal{P}$, and $B$, in possession of random secret $y\in\Z_q$ and $\mathcal{X}=x\mathcal{P}$, to compute the shared secret key $\mathcal{Z}=x\mathcal{Y}=y\mathcal{X}=xy\mathcal{P}$. The computational Diffie-Hellman assumption says that the only way to compute the shared secret key is to know one of the secrets. The \emph{Decisional Diffie-Hellman} assumptions goes a step beyond and says that the shared key ``looks random'' to any other than $A$ and $B$
+The Diffie-Hellman key-exchange allows two parties $A$, in possession of random secret $x\in\Z_q$ and $\mathcal{Y}=y\mathcal{P}$, and $B$, in possession of random secret $y\in\Z_q$ and $\mathcal{X}=x\mathcal{P}$, to compute the shared secret key $\mathcal{Z}=x\mathcal{Y}=y\mathcal{X}=xy\mathcal{P}$. The computational Diffie-Hellman assumption says that the only way to compute the shared secret key is to know one of the secrets. The \emph{Decisional Diffie-Hellman} assumptions goes a step beyond and says that the shared key ``looks random'' to anyone other than $A$ and $B$
 
 \begin{definition}[Decisional Diffie-Hellman Assumption (DDH)]
 We say that the decisional Diffie-Hellman assumption holds relative to $\G$ if for any adversary $\advA$
@@ -45,9 +53,11 @@ gk\gets\G(1^\lambda); x,y,z\gets\Z_q,b\gets\bits;\mathcal{X}:=x\mathcal{P};\math
 $$
 \end{definition}
 
-We finish this section introducing \emph{Public-Key Encryption} and then ElGamal encryption scheme as an instantiation based on the DDH assumption.
+%The Diffie-Hellman family of assumptions (CDH, DDH, and many other realated assumption) have been called a ``golden mine for cryptography'' for its wide applicability in the construction of cryptography schemes. Next, we will describe the two most classic primitives in public-key cryptography: encryption and signatures.
 
-A public-key encryption scheme is a tuple of 3 algorithms $(\KG,\Enc,\Dec)$. $\G$ is a randomized algorithm which on input a group key $gk$ generates a public/secret key pair. $\Enc$ is a randomized algorithm which on input the public key and a \emph{plaintext}, which is an element from the set $\mathcal{M}_{gk}$, returns a \emph{ciphertext}, which is an element from the set $\mathcal{C}_{gk}$. $\Dec$ is a deterministic algorithm which on input a ciphertext and the secret key returns a plaintext. It is required that for every pair $(pk,sk)$ output by $\G$ and any $m\in\mathcal{M}_{gk}$, $\Dec_{sk}(\Enc_{pk}(m))=m$.
+\subsection{Public-Key Encryption}
+
+A public-key encryption scheme is a tuple of 3 algorithms $(\KG,\Enc,\Dec)$. $\KG$ is a randomized algorithm which on input a group key $gk$ generates a public/secret key pair. $\Enc$ is a randomized algorithm which on input the public key and a \emph{plaintext}, which is an element from the set $\mathcal{M}_{gk}$, returns a \emph{ciphertext}, which is an element from the set $\mathcal{C}_{gk}$. $\Dec$ is a deterministic algorithm which on input a ciphertext and the secret key returns a plaintext. It is required that for every pair $(pk,sk)$ output by $\G$ and any $m\in\mathcal{M}_{gk}$, $\Dec_{sk}(\Enc_{pk}(m))=m$.
 
 ElGamal introduced the first \emph{Semantically Secure Encryption Scheme} based on the DDH assumption \cite{ElGamal85}. The idea was simple and clean: encrypt a message $\mathcal{M}$ under public key $pk:=\mathcal{X}$ picking $r\gets\Z_q$ and computing the ciphertext $\Enc_{pk}(\mathcal{M};r):=(\mathcal{C}_1,\mathcal{C}_2)=(r\mathcal{P},\mathcal{M}+r\mathcal{X})$; and decrypt a ciphertext using the secret key $x$ and computing $\Dec_{sk}(\mathcal{C}_1,\mathcal{C}_2)=\mathcal{C}_2-x\mathcal{C}_1$. It follows that $(\mathcal{C}_1,\mathcal{C}_2)$ hides $\mathcal{M}$ since $r\mathcal{X}$, by the DDH assumption, looks like fresh random value, independent of $\mathcal{C}_1$, making $\mathcal{M}+r\mathcal{X}$ independent of $\mathcal{M}$. Formally, it can be shown that ElGamal cryptosystem is \emph{Indistinguishable under Chosen Plaintext Attacks} (also called semantically secure and IND-CPA for short).
 
@@ -61,4 +71,38 @@ c_b\gets\Enc_{pk}(m_b):\advA_2(gk,pk,c_b)=b
 \end{array}\right]\approx 1/2.
 $$
 \end{definition}
+
+\subsection{Commitment Schemes}
+Intuitively, a commitment scheme is a ``relaxed encryption scheme'' where the function $\Enc_{pk}(\cdot)$ (now called $\Com_{ck}(\cdot)$) is not necessarily invertible. Nevertheless, although some ciphertexts -- now called commitments -- may be obtained from different plaintexts -- openings -- it is (computationally) infeasible to compute two openings for the same commitment. In this way, when an adversary computes some commitment it is committing to the unique opening that she is able to compute.
  
+Syntactically, a commitment scheme is a tuple of three algorithms $(\algK,\Com,\algVrfy)$. $\algK$ is a randomized algorithm, which on input a group key $gk$ outputs a commitment key $ck$. $\Com$ is a randomized algorithm which, on input the commitment key $ck$ and a message $m$ in the message space $\mathcal{M}_{ck}$ outputs a commitment $c$ in the commitment space $\mathcal{C}_{ck}$ and an opening $Op$. $\algVrfy$ is a deterministic algorithm which, on input the commitment key $ck$, a message $m$ in the message space $\mathcal{M}_{ck}$ and an opening $Op$, outputs $1$ if $Op$ is a valid opening of $c$ to the message $m$ and $0$ otherwise. 
+Correctness requires that for any $m \in \mathcal{M}_{ck}$
+$$\Pr\left[ck \gets \algK(gk); 
+(c, Op) \gets \Com_{ck}(m): \algVrfy(ck,c,m,Op)=1 \right]=1.$$
+
+\begin{definition}  A commitment scheme is computationally binding (resp. perfectly binding) if, for any polynomial-time (resp. unbounded)  adversary $\advA$, 
+	$$\Pr\left[\begin{array}{l} ck \gets \algK(gk); (c,m,Op,m',Op') \gets \advA(gk,ck):\\ \algVrfy(ck,c,m,Op)=1 \wedge \algVrfy(ck,c,m',Op')=1 \wedge m\neq m'\end{array}\right] $$
+	is negligible (resp. zero).  It is computationally hiding (resp. perfectly hiding)  if, for any polynomial-time (resp. unbounded) adversary $\advA$,
+	$$\left|\Pr\left[ \begin{array}{l} ck \gets \algK(gk); (m_0,m_1,st) \gets \advA(gk,ck); b \gets \{0,1\};\\ (c,Op) \gets \Com_{ck}(m_b); b' \gets \advA(st,c)
+                      \end{array} : b'=b\right] -\dfrac{1}{2} \right|$$
+	is negligible (resp. zero).
+\end{definition}
+
+In Section \ref{sec:gs-comms} we introduce Groth-Sahai commitments and in Section \ref{sec:ext-mp} we introduce a new commitment scheme which we call Extended Multi-Pedersen Commitments.
+
+\subsection{Digital Signatures} \label{sec:uf-cma} \label{sec:ots}
+
+A digital signature scheme is a tuple of 3 algorithms $(\KG,\Sign,\Ver)$. $\KG$ is a randomized algorithm which on input a group key $gk$ generates a public/secret key pair. $\Sign$ is a randomized algorithm which on input the secret key and a \emph{message}, which is an element from the set $\mathcal{M}_{gk}$, returns a \emph{signature}, which is an element from the set $\mathcal{S}_{gk}$. $\Ver$ is a deterministic algorithm which on input the public key, a message, and a signature returns 0 or 1. It is required that for every pair $(pk,sk)$ output by $\KG$ and any $m\in\mathcal{M}_{gk}$, $\Ver_{pk}(m,\Sign_{sk}(m))=1$.
+
+\begin{definition}[Existencial Unforgeability (UF-CMA)]
+We say that\\ $(\KG,\Sign, \Ver)$ is UF-CMA secure if for any $\advA$
+$$
+\Pr\left[\begin{array}{l}
+gk\gets\G;(pk,sk)\gets\KG(gk);\\
+(m,\sigma)\gets\advA^{\mathsf{Q}}(gk,pk): \Ver_{pk}(m,\sigma)=1\text{ and } m\notin\mathcal{Q}
+\end{array}\right]\approx 0,
+$$
+where $\mathsf{Q}$ is an oracle which on input $m$ responds with $\sigma\gets\Sign_{sk}(m)$ and sets $\mathcal{Q}\gets\mathcal{Q}\cup\{m\}$. If $\ell$ is the number of oracle queries made by $\advA$, we say that $(\KG,\Sign,\Ver)$ is a one-time signature scheme if it is UF-CMA whenever $\ell\leq 1$.
+\end{definition}
+
+In Section \ref{sec:bbs} we introduce a signature scheme known as Boneh-Boyen signatures.
