@@ -1,6 +1,6 @@
 \newcommand{\setsize}{t}
 
-In this section we show that for any subset \(S\subset\Z_q\) such that \(|S|=\poly(\lambda)\) one can construct an aZKSMP whose size is \(\Theta(\log|S|)\). We then show how to translate this results to fixed subsets \(S\subset\mathbb{G}_s\), \(s\in\{1,2\}\), i.e~when the proof sytem's CRS is fixed to a specific set \(S\).
+In this section we show that for any subset \(S\subset\Z_q\) such that \(|S|=\poly(\lambda)\) one can construct an aZKSMP whose size is \(\Theta(\log|S|)\). We then show how to translate this results to fixed subsets \(S\subset\mathbb{G}_s\), \(s\in\{1,2\}\), i.e~when the proof system's CRS is fixed to a specific set \(S\).
 
 On Section~\ref{sec:aZKSMP} we built a proof system for the case \(S=[0,2^n-1]\) with the same proof size, however, when \(S\) is not of this form, the proof size was \(\Theta(|S|)\). When \(S\) is a fixed subset of \(\GG_s\) the proof system from Section~\ref{sec:aZKSMP} also requires proofs of size \(\Theta(|S|)\).
 
@@ -452,6 +452,6 @@ Given \(\vecb{x}\in\bits^\ell\), there exists a circuit \(C(\vecb{x},\vecb{w}_1,
                     \vecb{w}_2,
                     \mathcal{E}([\vecb{u}_2]_1)),
 \end{align*}
-where the circuit $C_{\GG_1,-}:\bits^{2\ell}\to\bits^\ell$ computes the substraction (inverse and addition computation) of two elements of $\GG_1$, and the circuit $C_{\GG_1,\cdot}:\bits^{\log q+\ell}\to\bits^\ell$ computes the multiplication of an element from $\GG_1$ and an integer in $\Z_q$, and where \(([\vecb{u}_1]||[\vecb{u}_2]_1)=ck\). That is, $C$ is computing an encoding of $[\vecb{d}]_1-([x]_1,[0]_1)^\top-w_1[\vecb{u}]_1-w_2[\vecb{u}_2]$. Finally, $C$ returns 1 iff \(\vecb{s}=\mathcal{E}([0]_1)\). Using the NIZK proof system for Circuit Satisfiability of Groth et al.~\cite{EC:GroOstSah06} we can prove this statement with a proof of size \(\Theta(|C|)=\mathsf{poly}(\lambda)\), because \(|C|\) only depends on \(q=\poly(\lambda)\) and \(\ell=\poly(\lambda)\).
+where the circuit $C_{\GG_1,-}:\bits^{2\ell}\to\bits^\ell$ computes the subtraction (inverse and addition computation) of two elements of $\GG_1$, and the circuit $C_{\GG_1,\cdot}:\bits^{\log q+\ell}\to\bits^\ell$ computes the multiplication of an element from $\GG_1$ and an integer in $\Z_q$, and where \(([\vecb{u}_1]||[\vecb{u}_2]_1)=ck\). That is, $C$ is computing an encoding of $[\vecb{d}]_1-([x]_1,[0]_1)^\top-w_1[\vecb{u}]_1-w_2[\vecb{u}_2]$. Finally, $C$ returns 1 iff \(\vecb{s}=\mathcal{E}([0]_1)\). Using the NIZK proof system for Circuit Satisfiability of Groth et al.~\cite{EC:GroOstSah06} we can prove this statement with a proof of size \(\Theta(|C|)=\mathsf{poly}(\lambda)\), because \(|C|\) only depends on \(q=\poly(\lambda)\) and \(\ell=\poly(\lambda)\).
 
 We conclude that we can prove that \([vk]_1\in R\) with a proof of size \(\Theta(\log n +\poly(\lambda))=\Theta(\log n)\), and thus we can construct a ring signature with signature size \(\Theta(\log n)\)

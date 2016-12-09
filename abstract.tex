@@ -1,11 +1,13 @@
 \begin{abstract}
 The Groth-Sahai proof system, introduced by Groth and Sahai at Eurocrypt 2007,
-  provides a proof system for satisfiability of equations over the integers modulo a prime $q$ and over bilinear groups.
-  This language suffices to capture almost all of the 
+  provides a proof system for satisfiability of equations over bilinear groups and over the integers modulo a prime $q$.
+Equations are usually classified by their degree in: linear equations, quadratic equations, and also set-membership proofs -- i.e.~show that a variable belongs to some set -- which in the case of integer sets captures high-degree equations -- i.e.~$p(x)=0$ for a polynomial $p$.
+  This equations suffice to capture almost all of the 
   statements which appear 
-  in practice when designing cryptographic schemes over bilinear groups.  
-Although Groth-Sahai proofs are quite efficient, proving satisfiability of $m$ equations in $n$ variables requires 
-sending the solutions, requiring $\Theta(n)$ elements of a bilinear group, and a proof that the solutions satisfy the equation, requiring $\Theta(m)$ group elements. Although linear in both $m$ and $n$, the constants are on the order of $\sim 10$ group elements, that is 10*64 bytes = 640 bytes which limits $m+n$ to be less than $1600$ whenever we want the proof to less that $1$ Megabyte.
+  in practice when designing cryptographic schemes over bilinear groups.
 
-In this thesis we show that \textbf{all linear equations} and \textbf{all quadratic equations over $\Z_q$} admit an aggregated proof of size $\Theta(1)$. We also show that \textbf{all set-membership proofs} over $\Z_q$, that is a proof that $x=s$ for some $s\in S$, admit aggregated proofs of size $\Theta(\log \ell)$. We show that this results can be extended to linear equations over $\GG_1$ and/or $\GG_2$ and to set-membership proofs over $\GG_1$ or $\GG_2$ meeting some restrictions. We use this results to improve the efficiency of several protocols. 
+Although Groth-Sahai proofs are quite efficient, proving satisfiability of $m$ equations in $n$ variables requires 
+sending the solutions, requiring $\Theta(n)$ elements of a bilinear group, and a proof that the solutions satisfy the equation, requiring $\Theta(m)$ group elements. For set-membership proofs, $n$ proofs in a set $S$ requires $\Theta(n)$ group elements for sending the variables and $\Theta(n|S|)$ group elements for proving membership in $S$. Although at first sight this seems quite efficient, the proof size easily becomes prohibitive for the statements used in real protocols. It is thus of crucial importance to explore more efficient proofs. 
+  
+In this thesis we show that \textbf{all linear equations} and \textbf{all quadratic equations over the integers} admit an aggregated proof of size $\Theta(1)$. We also show that \textbf{all set-membership proofs over the integers} admit aggregated proofs of size $\Theta(\log t)$, where $t$ is the set size. We show that this results can be extended to linear equations over bilinear groups and to set-membership proofs over bilinear groups meeting some restrictions. We use this results to improve the efficiency of several protocols. 
 \end{abstract}
