@@ -1,17 +1,17 @@
 \newcommand{\setsize}{t}
 
-In this section we show that for any subset \(S\subset\Z_q\) such that \(|S|=\poly(\lambda)\) one can construct an aZKSMP whose size is \(\Theta(\log|S|)\). We then show how to translate this results to fixed subsets \(S\subset\mathbb{G}_s\), \(s\in\{1,2\}\), i.e~when the proof system's CRS is fixed to a specific set \(S\).
+In this section we show that for any subset \(S\subset\Z_q\) such that \(|S|=\poly(\lambda)\) one can construct an aZKSMP whose size is \(\Theta(\log|S|)\). We then show how to translate these results to fixed subsets \(S\subset\mathbb{G}_s\), \(s\in\{1,2\}\), i.e~when the proof system's CRS is fixed to a specific set \(S\).
 
-On Section~\ref{sec:aZKSMP} we built a proof system for the case \(S=[0,2^n-1]\) with the same proof size, however, when \(S\) is not of this form, the proof size was \(\Theta(|S|)\). When \(S\) is a fixed subset of \(\GG_s\) the proof system from Section~\ref{sec:aZKSMP} also requires proofs of size \(\Theta(|S|)\).
+On Section~\ref{sec:aZKSMP} we built a proof system for the case \(S=[0,2^n-1]\) with the same proof size, however, when \(S\) was not of this form, the proof size was \(\Theta(|S|)\). When \(S\) is a fixed subset of \(\GG_s\), the proof system from Section~\ref{sec:aZKSMP} also requires proofs of size \(\Theta(|S|)\).
 
-Our proof bears some similarities with the work of Groth and Kohlweiss \cite{EC:GroKoh15} -- both allows to construct proofs of membership in a set of logarithmic size using the binary encoding of the element index -- but they are in general incomparable. Indeed, Groth and Kohlweiss's construction is on a different setting (interactive, without pairings) and does not support aggregation of many proofs.
+Our proof bears some similarities with the work of Groth and Kohlweiss \cite{EC:GroKoh15} -- both allow to construct proofs of membership in a set of logarithmic size using the binary encoding of the element index -- but they are in general incomparable. Indeed, Groth and Kohlweiss's construction is on a different setting (interactive, without pairings) and does not support aggregation of many proofs.
 
 \subsection{Intuition}
 
 For simplicity, we will restrict to the case \(S=\{s_1,\ldots,s_\setsize \}\subset\Z_q\) without aggregation, that is, there is a single commitment \([\vecb{c}]_1=\GS.\Com_{ck}(x;r)\) and we want to show that \(x=s_\alpha\), for some \(\alpha\in[\setsize ]\). Then we will show how to aggregate many proofs.
 
 The (non-aggregated) proof from Section~\ref{sec:aZKSMP} essentially codifies the position \(\alpha\) as a weight 1 binary vector \(\vecb{b}\) of size \(\setsize \) such that \(x=\sum_{i\in[\setsize ]}b_is_i\) and
-\(b_i=1\) if \(i=\alpha\) and \(0\) if not.\footnote{The case \(S\subset\Z_q\) is not really discussed in Section~\ref{sec:aZKSMP}, but it is straightforward that the same techniques from the case \(S\subset\GG_s\) apply.} A step further in efficiency was given by Chandran et al.~\cite{ICALP:ChaGroSah07} (already discussed in Section~\ref{sec:bits-applications}), there the position \(\alpha\) is codified as two weight 1 binary vectors \(\vecb{b}\) and \(\vecb{b}'\) of size \(\sqrt{\setsize }\) such that
+\(b_i=1\) if \(i=\alpha\) and \(0\) if not.\footnote{The case \(S\subset\Z_q\) is not really discussed in Section~\ref{sec:aZKSMP}, but it is straightforward that the same techniques from the case \(S\subset\GG_s\) apply.} A step further in efficiency was given by Chandran et al.~\cite{ICALP:ChaGroSah07} (already discussed in Section~\ref{sec:bits-applications}). There the position \(\alpha\) is codified as two weight 1 binary vectors \(\vecb{b}\) and \(\vecb{b}'\) of size \(\sqrt{\setsize }\) such that
 \[
 \begin{pmatrix}
 x_1\\\vdots\\x_{\sqrt{\setsize }}
@@ -21,120 +21,214 @@ x_1\\\vdots\\x_{\sqrt{\setsize }}
 s_{(i-1)\sqrt{\setsize }+1}\\\vdots\\s_{(i-1)\sqrt{\setsize }+\sqrt{\setsize }}
 \end{pmatrix},
 \text{ } x=\sum_{i=1}^{\sqrt{\setsize }}b'_ix_i,\]
-and \(b_i=1\) iff \(i=i_\alpha\) and \(b'_j=1\) iff \(j=j_\alpha\), where \(\alpha=(i_\alpha-1)\sqrt{\setsize }+j_\alpha\). Since \(\sqrt{\setsize }\) new variables are added (variables \(x_1,\ldots,x_{\sqrt{\setsize }}\)), the proof must contain \(\sqrt{\setsize }\) new commitments to this variables. However, this does not not affect the asymptotic size of the proof which is \(\Theta(\sqrt{\setsize })\) anyway.
+and \(b_i=1\) iff \(i=i_\alpha\) and \(b'_j=1\) iff \(j=j_\alpha\), where \(\alpha=(i_\alpha-1)\sqrt{\setsize }+j_\alpha\). Since \(\sqrt{\setsize }\) new variables are added (variables \(x_1,\ldots,x_{\sqrt{\setsize }}\)), the proof must contain \(\sqrt{\setsize }\) new commitments to these variables. However, this does not not affect the asymptotic size of the proof, which is \(\Theta(\sqrt{\setsize })\) anyway.
 
 
-Let $m:=\log \setsize$.\footnote{ W.l.o.g.~we assume that \(\log \setsize \in\mathbb{N}\), because we can always work with the (multi-)set \(S'=S\biguplus_{i=1}^{\setsize -2^{\lceil \log \setsize  \rceil}}\{s_{\setsize} \}\).} The natural next step is to codify \(\alpha\) as \(m\) weight 1 binary vectors of size 2 (note that a weight 1 binary vectors of size 2 can be always written as \((1-b,b)\), \(b\in\bits\) ) such that
+Let $m:=\log \setsize$.\footnote{ W.l.o.g.~we assume that \(\log \setsize \in\mathbb{N}\), because we can always prove membership in the (multi-)set \(S'=S\biguplus_{i=1}^{2^{\lceil \log \setsize  \rceil}-\setsize}\{s_{\setsize} \}\) and it holds that $|S'|=2^{\lceil \log t \rceil}$ and that $x\in S \Longleftrightarrow x\in S'$.} The natural next step is to codify \(\alpha\) as \(m\) weight 1 binary vectors of size 2 (note that a weight 1 binary vector of size 2 can be always written as \((1-b,b)\), \(b\in\bits\) ) such that
 \begin{align}
 &\begin{pmatrix}
-x_{i,1}\\\vdots\\x_{i,\setsize /{2^i}}
+x_{\ell,1}\\\vdots\\x_{\ell,{2^{\ell-1}}}
 \end{pmatrix}
 =
-(1-b_i)
+(1-b_\ell)
 \begin{pmatrix}
-x_{i-1,1}\\\vdots\\x_{i-1,\setsize /{2^i}}
+x_{\ell+1,1}\\\vdots\\x_{\ell+1,{2^{\ell-1}}}
 \end{pmatrix}
 +
-b_i
+b_\ell
 \begin{pmatrix}
-x_{i-1, \setsize /{2^i}+1}\\\vdots\\x_{i-1, \setsize /{2^{i-1}}}
+x_{\ell+1, 2^{\ell-1}+1}\\\vdots\\x_{\ell+1,2^{\ell}}
 \end{pmatrix}
-\text{ if } 1 \leq  i \leq m,\label{eq-log-2}\\
+\text{ if } \ell \in[m],\label{eq-log-2}\\
 &
-x= x_{m,1}\label{eq-log-3},
+x= x_{1,1}\label{eq-log-3},
 \end{align}
-where \(x_{0,i}:=s_i\), \(i\in[\setsize ]\), and \(\alpha=\sum_{i=1}^{m}b_i2^{m-i}+1\). Note that we have added the additional variables \(x_{i,j}\), \(i\in[m]\) and \(j\in[\setsize /2^i]\).
+where \(x_{m+1,i}:=s_i\), \(i\in[2^m]\), and \(\alpha=\sum_{i=1}^{m}b_i2^{i-1}+1\). Note that we have added the additional variables \(x_{\ell,i}\), \(\ell\in[m]\) and \(i\in[2^\ell]\).
 
-Similarly as in Chandran et al.'s proof, for each new variable a new commitment must be added to the proof. But, in contrast with Chandran et al.'s proof, in this case the additional commitments do increase the asymptotic size of the proof since \(\setsize /2+\setsize /2^2+\ldots+1=\Theta(\setsize )\) new variables have been added.
+Consider the binary tree whose leafs are $x_{m+1,1}=s_1,\ldots,x_{m+1,2^m}=s_{2^m}$, where the leftmost leaf is $s_1$ and the rightmost leaf is $s_{2^m}=s_t$. Intuitively, equation (\ref{eq-log-2}) for $\ell=m$ says that variables $x_{m,1},\ldots, x_{m,2^{m-1}}$ are the leafs of the subtree under the path $b_m$. For example, if $b_m=1$, the variables $x_{m,1},\ldots,x_{m,2^{m-1}}$ are equal to $s_{2^{m-1}+1},\ldots,s_{2^m}$, which are the leafs of the subtree under the path 1 as depicted below.
+\begin{center}
+\begin{tikzpicture}
+[n/.style={draw=none},
+ every node/.append style={inner ysep=+0pt,outer ysep=+0pt,minimum size=+0pt}]
+%\hspace{-3.9cm}
+\Tree 
+    [.{}
+        \edge node[auto=right] {\small 0};
+        \qroof{\parbox{\widthof{$s_{2^{m-1}+1}\cdots s_{2^m}$}}{\vspace*{.1cm}$s_1$\hfill$\cdots$\hfill$s_{2^{m-1}}$}}.{}
+        \edge node[auto=left] {\small 1};
+        \qroof{\parbox{\widthof{$s_{2^{m-1}+1}\cdots s_{2^m}$}}{\vspace*{.1cm}$s_{2^{m-1}+1}\cdots s_{2^m}$}}.{}
+    ]
+\end{tikzpicture}
+\end{center}
+Similarly, equation (\ref{eq-log-2}) for $\ell=m-1$ says that variables $x_{m-1,1},\ldots,x_{m-1,2^{m-2}}$ are the leafs of the subtree under the path $b_mb_{m-1}$. For example, if $b_mb_{m-1}=10$, the variables $x_{m-1,1},\ldots,x_{m-1,2^{m-2}}$ are equal to $x_{m,1}=s_{2^{m-1}+1},\ldots,\allowbreak x_{m,2^{m-2}}=s_{2^{m-1}+2^{m-2}}$, which are the leafs of the subtree under the path 10 as depicted below.
+\begin{center}
+\begin{tiny}\begin{tikzpicture}
+[n/.style={draw=none},
+ every node/.append style={inner ysep=+0pt,outer ysep=+0pt,minimum size=+0pt}]
+\Tree 
+    [.{}
+        \edge node[auto=right] {\small 0};
+        [.{}
+            \edge node[auto=right] {\small 0};
+            \qroof{\parbox{\widthof{$s_{2^{m-1}+2^{m-2}+1}\cdots s_{2^{m}}$}}{\vspace*{.1cm}$s_1$\hfill$\cdots$\hfill$s_{2^{m-2}}$}}.{}
+            \edge node[auto=left] {\small 1};
+            \qroof{\parbox{\widthof{$s_{2^{m-1}+2^{m-2}+1}\cdots s_{2^{m}}$}}{\vspace*{.1cm}$s_{2^{m-2}+1}$\hfill$\cdots$\hfill$s_{2^{m-1}}$}}.{}
+        ]
+        \edge node[auto=left] {\small 1};
+        [.{}
+            \edge node[auto=right] {\small 0};
+            \qroof{\parbox{\widthof{$s_{2^{m-1}+2^{m-2}+1}\cdots s_{2^{m}}$}}{\vspace*{.1cm}$s_{2^{m-1}+1}\cdots s_{2^{m-1}+2^{m-2}}$}}.{}
+            \edge node[auto=left] {\small 1}; 
+            \qroof{\parbox{\widthof{$s_{2^{m-1}+2^{m-2}+1}\cdots s_{2^{m}}$}}{\vspace*{.1cm}$s_{2^{m-1}+2^{m-2}+1}\cdots s_{2^{m}}$}}.{}
+        ]
+    ]
+\end{tikzpicture}\end{tiny}
+\end{center}
 
-One can reduce the total size of the commitments using the length reducing Multi-Pedersen commitments from Section~\ref{sec:ext-mp}. In this way, the prover computes commitments to the variables $x_{i,j}$, $i\in[n],j\in[\setsize/2^i]$ as follows
+In general, the variables $x_{\ell,1},\ldots,x_{\ell,2^{\ell-1}}$ are equal to the leafs $s_{\sfleft},\ldots,\allowbreak s_{\sfright}$ under the path $b_m\cdots b_\ell$, where $\sfleft=\sum_{i=\ell}^m b_i 2^{i-1}+1$ and $\sfright=\sfleft+2^{\ell-1}-1$. 
+Therefore, for $\ell=1$ equation (\ref{eq-log-2}) says that the variable $x_{1,1}$ is equal to the leaf $s_{\sfleft}=s_{\sfright}=s_\alpha$, since $\sfleft=\sfright=\sum_{i=1}^m b_i2^{i-1}+1=\alpha$, which is the unique leaf (and the unique node) in the subtree under the path $b_m\cdots b_1$.
+
+Similarly as in Chandran et al.'s proof, for each new variable a new commitment must be added to the proof. But, in contrast with Chandran et al.'s proof, in this case the additional commitments do increase the asymptotic size of the proof. Indeed, the total number of new variables is \(2^{m-1}+2^{m-2}+\ldots+1=2^m-1=t-1\), and thus $t-1$ new commitments must be added.
+
+One can reduce the total size of the commitments using the length reducing Multi-Pedersen commitments from Section~\ref{sec:ext-mp}. However, this must be done carefully in order to be able to express equation (\ref{eq-log-2}) with a Groth-Sahai proof of an equation that involves the MP commitments and the variables $b_1,\ldots,b_m$. For example, if one computes a single commitment to all variables $\MP.\Com_{ck}((x_{1,1},\ldots,x_{m,2^{m-1}})^\top;r)$ it is not clear how to obtain $b_\ell\MP.\Com_{ck}(\allowbreak (x_{\ell+1,1},\ldots,x_{\ell+1,2^\ell})^\top\allowbreak ;r_\ell)=\MP.\Com_{ck}(b_\ell(x_{\ell+1,1},\ldots,x_{\ell+1,2^\ell})^\top;b_\ell r_\ell)$. Our solution is to compute a single MP commitment to each vector that appears in equation (\ref{eq-log-2}) in order to show with Groth-Sahai proofs that
+\begin{small}
 \begin{align*}
-&[\vecb{c}_1]_1=\MP.\Com_{ck_1}((x_{1,1},\ldots,x_{1,\setsize /2})^\top;r_1),\\
-&[\vecb{c}_2]_1=\MP.\Com_{ck_2}((x_{2,1},\ldots,x_{2,\setsize /2^2})^\top;r_2),\\
-&\quad\vdots\\
-&[\vecb{c}_{m}]_1=\MP.\Com_{ck_{m}}((x_{m-1,1},x_{m-1,2})^\top;r_{m-1}),
+\MP.\Com_{ck_\ell}\left(
+                    \pmatri{x_{\ell,1}\\\vdots\\x_{\ell,2^{\ell-1}}};r_\ell\right)
+=\ &(1-b_\ell)\MP.\Com_{ck_\ell}\left(\pmatri{x_{\ell+1,1}\\\vdots\\x_{\ell+1,2^{\ell-1}}};r_{\ell,1}\right)+\\
+& b_\ell\MP.\Com_{ck_\ell}\left(\pmatri{x_{\ell+1,2^{\ell-1}+1}\\\vdots\\x_{\ell+1,2^\ell}};r_{\ell,2}\right)+\\
+& \MP.\Com_{ck_\ell}(\vecb{0};y_\ell),
+\end{align*}\end{small}
+for some $y_\ell\in\Z_q$. In this way, we only need $3m=3\log t$ additional commitments. The reason for using different commitment keys will be clear when we explain soundness.
+
+Concretely, the prover computes
+\begin{align*}
+&[\vecb{c}_\ell]_1=\MP.\Com_{ck_m}((x_{\ell,1},\ldots,x_{1,2^{\ell-1}})^\top;r_\ell),\\
 \end{align*}
-for random $r_1,\ldots,r_{m-1}\in\Z_q$. 
-
-To show that the committed variables satisfy equation (\ref{eq-log-2}) is necessary multiply variables \(x_{i-1,1},\ldots,x_{i-1,\setsize /2^i}\) by \(1-b_i\) and multiply variables \(x_{i-1,\setsize /2^i+1},\ldots,\allowbreak x_{i-1,\setsize /2^{i-1}}\) by \(b_i\). However, all the variables $x_{i-1,1},\ldots x_{i-1,\setsize /2^{i-1}}$ are on a single commitment which we can not multiply by himself.
-The problem is thus how to extract from \([\vecb{c}_{i-1}]_1\) two additional commitments \([\vecb{c}_{i-1,1}]_1\) and \([\vecb{c}_{i-1,2}]\) to \(x_{i-1,1},\ldots,x_{i-1,\setsize /2^i}\) and to \(x_{i-1,\setsize /2^i+1},\ldots,x_{i-1,\setsize /2^{i-1}}\), respectively, in order to prove that equation (\ref{eq-log-2}) is satisfied.
-
-For \(i\in[m]\), let \(ck_i:=([\matr{G}_i]_1,\allowbreak[\vecb{g}_{i,\setsize /2^i+1}]_1)\in\GG_1^{2\times{\setsize /2^i+1}}\) a commitment key of the MP commitment scheme and let
+for random $r_\ell\in\Z_q$ and $\ell\in[m]$, and 
 \begin{align*}
-&\matr{G}_{i,1}:=
+&[\vecb{c}_{\ell,1}]_1=\MP.\Com_{ck_{\ell}}((x_{\ell+1,1},\ldots,x_{\ell+1,2^{\ell-1}})^\top;r_{\ell,1}),\\
+&[\vecb{c}_{\ell,2}]_1=\MP.\Com_{ck_{\ell}}((x_{\ell+1,2^{m-1}+1},\ldots,x_{\ell+1,2^\ell})^\top;r_{\ell,2}),\\
+\end{align*}
+for random $r_{\ell,1},r_{\ell,2}\in\Z_q$ and $\ell\in[m-1]$. Note that the prover does not need to compute commitments to $(x_{m+1,1},\ldots,x_{m+1,2^m})^\top$ since they can be computed by the verifier.
+
+Then, the prover shows the satisfiability of equation (\ref{eq-log-2}) with a GS proof of
+the satisfiability of
+\begin{align}
+&[\vecb{c}_\ell]_1-(1-b_\ell)[\vecb{c}_{\ell,1}]_1-b_\ell[\vecb{c}_{\ell,2}]_1 = y_\ell[\vecb{g}_{\ell,2^{\ell-1}+1}]_1, \text{ for } \ell \in[m],  \label{eq-log-5}
+\end{align}
+where $[\vecb{c}_{m,1}]:=\MP.\Com_{ck_m}((s_1,\ldots,s_{2^{m-1}})^\top;0)$ and $[\vecb{c}_{m,2}]:=\allowbreak \MP.\Com_{ck_m}(\allowbreak (s_{2^{m-1}+1},\allowbreak\ldots,s_{2^m})^\top;0)$ can be directly computed by the verifier, and $y_\ell:=r_\ell-(1-b_\ell)r_{\ell,1}-b_\ell r_{\ell,2}$.
+
+The prover also shows that equation (\ref{eq-log-3}) is satisfied with a QA-NIZK proof that
+\begin{equation}
+[\vecb{c}]_1\text{ and }[\vecb{c}_1]_1\text{ open to the same value}, \label{eq-log-6}
+\end{equation}
+using the proof system from Section \ref{sec:aggcommit}.
+
+Note that variables $x_{\ell+1,1},\ldots,x_{\ell+1,2^{\ell-1}}$ appear in both $[\vecb{c}_{\ell,1}]_1$ and $[\vecb{c}_{\ell+1}]_1$, as well as $x_{\ell+1,2^{\ell-1}+1},\ldots,x_{\ell+1,t/2^\ell}$ appear in both $[\vecb{c}_{\ell,2}]_1$ and $[\vecb{c}_{\ell+1}]_1$. To get a sound proof, the prover needs to show that this redundancy is consistent. That is, the prover needs to show that $[\vecb{c}_{\ell,1}]_1$ and $[\vecb{c}_{\ell,2}]_1$ are commitments to the first and last halves of the opening of $[\vecb{c}_{\ell+1}]_1$.
+
+For \(\ell\in[m]\), let \(ck_\ell:=([\matr{G}_\ell]_1,\allowbreak[\vecb{g}_{\ell,2^{\ell-1}+1}]_1)\in\GG_1^{2\times{2^{\ell-1}+1}}\) the commitment key of a MP commitment scheme and let
+\begin{align*}
+&\matr{G}_{\ell,1}:=
 \begin{pmatrix}
-    \vecb{g}_{i,1}&\cdots&\vecb{g}_{i,2^{i+1}}
+    \vecb{g}_{\ell,1}&\cdots&\vecb{g}_{i,2^{\ell-2}}
 \end{pmatrix},
-&\matr{G}_{i,2}:=
+&\matr{G}_{\ell,2}:=
 \begin{pmatrix}
-    \vecb{g}_{i,\setsize /2^{i+1}+1}&\cdots&\vecb{g}_{i,\setsize /2^i}
+    \vecb{g}_{\ell,2^{\ell-2}+1}&\cdots&\vecb{g}_{\ell,2^{\ell-1}}
 \end{pmatrix}\\
-&\matr{G}_i:=\matr{G}_{i,1}||\matr{G}_{i,2}
+&\matr{G}_\ell:=\matr{G}_{\ell,1}||\matr{G}_{\ell,2}
 \end{align*}
-Our solution splits \([\vecb{c}_{i-1}]_1\) in two different commitments to the first and last halves of \((x_{i-1,1},\ldots,x_{i-1,2^{i-1}})\) and proves that the following linear system is satisfied
+To prove consistency the prover will show that, for each $\ell\in [m-1]$, the following linear system is satisfied
 {\begin{align}
 &\begin{pmatrix}
-\vecb{c}_{i-1}\\
-\vecb{c}_{i,1}\\
-\vecb{c}_{i,2}
+\vecb{c}_{\ell+1}\\
+\vecb{c}_{\ell,1}\\
+\vecb{c}_{\ell,2}
 \end{pmatrix}
 =
 &\left(\begin{array}{cc|ccc}
-\matr{G}_{i-1,1}         & \matr{G}_{i-1,2}         & \vecb{g}_{i-1,\setsize /2^{i-1}+1} & \vecb{0}             & \vecb{0}\\
-\matr{G}_{i}             & \matr{0}_{2\times \setsize /2^i} & \vecb{0}                   & \vecb{g}_{i,\setsize /2^i+1} & \vecb{0} \\
-\matr{0}_{2\times \setsize /2^i} & \matr{G}_{i}             & \vecb{0}                   & \vecb{0}             & \vecb{g}_{i,\setsize /2^i+1}
+\matr{G}_{\ell+1,1}           & \matr{G}_{\ell+1,2}            & \vecb{g}_{\ell+1,2^\ell+1} & \vecb{0}                     & \vecb{0}\\
+\matr{G}_{\ell}               & \matr{0}_{2\times2^{\ell-1}}   & \vecb{0}                   & \vecb{g}_{\ell,2^{\ell-1}+1} & \vecb{0} \\
+\matr{0}_{2\times 2^{\ell-1}} & \matr{G}_{\ell}                & \vecb{0}                   & \vecb{0}                     & \vecb{g}_{\ell,2^{\ell-1}+1}
 \end{array}\right)
 \vecb{w},\label{eq-log-split}
 \end{align}}%
-for some \(\vecb{w}\in\Z_q^{\setsize /2^{i-1}+3}\).
-Intuitively, \(\vecb{w}\) should be equal to \((x_{i-1,1},\ldots,x_{i-1,\setsize /2^{i-1}},\allowbreak r_{i-1},r_{i-1,1},r_{i-1,2})\) and thus 
+for some \(\vecb{w}\in\Z_q^{2^\ell+3}\), which can be proven using the proof system from Section \ref{sec:concat}.
+
+Intuitively, \(\vecb{w}\) should be equal to \((x_{\ell+1,1},\ldots,x_{\ell+1,2^{\ell}},\allowbreak r_{\ell+1},r_{\ell,1},r_{\ell,2})\) and thus 
 \begin{align*}
-&[\vecb{c}_{i,1}]_1=\MP.\Com_{ck_i}(\allowbreak(x_{i-1,1},\ldots,x_{i-1,\setsize /2^{i}})^\top;r_{i-1,1})\text{ and }\\
-&[\vecb{c}_{i,2}]_1=\MP.\Com_{ck_i}((x_{i-1,2^i+1},\ldots, x_{i-1,\setsize /2^{i-1}})^\top;r_{i-1,2}).
+&[\vecb{c}_{\ell,1}]_1=\MP.\Com_{ck_\ell}(\allowbreak(x_{\ell+1,1},\ldots,x_{\ell+1,2^{\ell-1}})^\top;r_{\ell,1})\text{ and }\\
+&[\vecb{c}_{\ell,2}]_1=\MP.\Com_{ck_\ell}((x_{\ell+1,2^{\ell-1}+1},\ldots, x_{\ell+1,2^{\ell}})^\top;r_{\ell,2}).
 \end{align*}
-However, since Multi-Pedersen commitments have multiple openings it might be the case that the satisfying witness of the proof is different from \((x_{i-1,1},\ldots,\allowbreak x_{i-1,\setsize /2^{i-1}},r_{i-1},r_{i-1,1},r_{i-1,2})\) and thus the intuitive reasoning is invalid.
+However, since Multi-Pedersen commitments have multiple openings it might be the case that the satisfying witness of the proof is different from \((x_{\ell+1,1},\ldots,\allowbreak x_{\ell+1,2^\ell},r_{\ell+1},r_{\ell,1},r_{\ell,2})\) and thus the intuitive reasoning is invalid.
 
-Despite this flawed reasoning, we will show that the proof system is still sound. But first lets see how the proof system goes in a little more detail.
+Despite this flawed reasoning, we will show that the proof system is still sound.
 
-\subsubsection{The Scheme}
-Given \([\vecb{c}]_1=\GS.\Com_{ck}(s_\alpha;r)\), \(\alpha=\sum_{i=1}^{m}b_i2^{m-i}+1\), the prover computes
+\subsubsection{Soundness Intuition}
+Suppose that an adversary against soundness outputs GS commitments to \(b_1,\ldots,b_{m}\in\Z_q\), outputs commitments \([\vecb{c}_\ell]_1\), $\ell\in[m]$, and \([\vecb{c}_{\ell,1}]_1,[\vecb{c}_{\ell,2}]\), $\ell\in[m-1]$, a GS proofs of the satisfiability of equation (\ref{eq-log-5}), and QA-NIZK proofs of (\ref{eq-log-6}) and (\ref{eq-log-split}) for each \(\ell\in[m-1]\).
+We will simply assume that \(b_1,\ldots,b_m\in\bits\), since it can be proven (with perfect soundness) with a GS proof of size \(\Theta(\log \setsize )\) or using the more efficient proofs of Section~\ref{sec:bits} (with computational soundness).
+
+Let $\alpha_\ell:=(\alpha-1 \mod 2^{\ell-1})+1$, the position of $s_\alpha$ respective to the leafs under the path $b_m\cdots b_\ell$, and note that $\alpha_\ell \in[2^{\ell-1}]$.
+In the reduction we will guess the (sub-)path $b_{m-1}\cdots b_1$ (it will be not necessary to guess first the edge of the path) chosen by the adversary, and for each $\ell\in[m]$, we will chose $\vecb{g}_{\ell,\alpha_\ell}$ linearly independent from the other $2^{\ell-1}$ vectors in $ck_\ell$. This can be done choosing  random $b'_{m-1},\ldots, b'_1\in\bits$ and aborting if the paths $b'_{m-1}\cdots b'_{1}$ and $b_{m-1}\cdots b_1$ are distinct. Therefore, our security reduction will have a security loss factor of $1/2^{m-1}=2/\setsize$. We sample $ck_\ell\gets\distlin_1^{2^{\ell-1},\alpha_\ell}$, as defined on Section \ref{sec:mddh}, which implies that for every $\ell\in[m]$ there exists unique $\tilde{x}_{\ell},\tilde{r}_\ell\in\Z_q$ such that $\vecb{c}_\ell:=\tilde{x}_\ell\vecb{g}_{\ell,\alpha_\ell}+\tilde{r}_\ell\vecb{g}_{\ell,2^{\ell-1}+1}$.
+
+It will be useful to prove the next lemma about $\alpha_\ell$.
+\begin{lemma} Let $b_m,\ldots,b_1\in\bits$. For all $\ell\in[m]$, $\alpha_\ell = \alpha-\sfleft+1$ and, for all $\ell\in[m-1]$, $\alpha_{\ell+1}=\alpha_{\ell}+b_\ell2^{\ell-1}$.
+\label{lemma:alpha}
+\end{lemma}
+\begin{proof}
+Recall that $\sfleft=\sum_{i=\ell}^m b_i2^{i-1}+1$ is the index of the leftmost leaf under the path $b_m\cdots b_\ell$. It holds that
 \begin{align*}
-&[\vecb{c}_i]_1:=\MP.\Com_{ck_i}((x_{i,1},\ldots,x_{i,\setsize /2^i})^\top;r_i) \text{ for } i \in[m], \text{ and}\\
-&[\vecb{c}_{i,1}]_1:=\MP.\Com_{ck_i}((x_{i,1},\ldots,x_{i,\setsize /2^{i+1}})^\top;r_{i,1}),\\
-&[\vecb{c}_{i,2}]_1:=\MP.\Com_{ck_i}((x_{i,2^{i+1}+1},\ldots, x_{i,\setsize /2^i})^\top;r_{i,2})\text{ for }1 < i \leq m,
+\alpha_\ell-1 &= \sum_{i=1}^m b_i2^{i-1} \mod 2^{\ell-1}\\
+              &= \sum_{i=\ell}^m b_i 2^{i-1} + \sum_{i=1}^{\ell-1}b_i2^{i-1} \mod 2^{\ell-1}\\
+              &= \sum_{i=1}^{\ell-1}b_i2^{i-1}\\
+              &= \sum_{i=1}^m b_i2^{i-1} - \sfleft\\
+              &= \alpha-\sfleft\\
+&\Longleftrightarrow \alpha_\ell=\alpha-\sfleft+1.
 \end{align*}
-where \(r_i,r_{i,1},r_{i,2}\gets\Z_q\) and the variables \(x_{i,j}\) are the ones defined in equation (\ref{eq-log-2}). Then, the prover shows that
-\([\vecb{c}_1]_1\) opens to the first or second half (depending on the value of \(b_1\)) of \((s_1,\ldots,s_\setsize )\), that \([\vecb{c}_{2,1}]_1\) and \([\vecb{c}_{2,2}]\) opens to the first and second half, respectively, of an opening of \([\vecb{c}_{1}]\), and so on. This statement can be proven with a GS proof of
- the satisfiability of
-\begin{align}
-&[\vecb{c}_1]_1-\left((1-b_1)\sum_{i=1}^{\setsize /2}s_i[\vecb{g}_{1,i}]_1 + b_1\sum_{i=1}^{\setsize /2} s_{\setsize /2+i}[\vecb{g}_{1,i}]_1\right) = y_1[\vecb{g}_{1,\setsize /2+1}]_1 \label{eq-log-4}\\
-&[\vecb{c}_i]_1-\left((1-b_i)[\vecb{c}_{i,1}]_1+b_i[\vecb{c}_{i,2}]_1\right) = y_i[\vecb{g}_{i,\setsize /2+1}]_1, \text{ for } 1 < i \leq m,  \label{eq-log-5}
-\end{align}
-a QA-NIZK proof that
-\begin{equation}
-[\vecb{c}]_1\text{ and }[\vecb{c}_m]_1\text{ open to the same value}, \label{eq-log-6}
-\end{equation}
-and also a QA-NIZK proof that equation (\ref{eq-log-split}) is satisfied for each \(1<i\leq m\).
-
-The verifier accepts the proof iff the proofs for (\ref{eq-log-split}), (\ref{eq-log-4}), (\ref{eq-log-5}), and (\ref{eq-log-6}) are valid.
-
-\subsubsection{Soundness}
-We assume \(b_1,\ldots,b_m\) are bits. Note that this can be proven (with perfect soundness) with a GS proof of size \(O(\log \setsize )\) or using the more efficient proofs of Section~\ref{sec:bits} (with computational soundness).
-
-Suppose that an adversary against soundness outputs GS commitments to \(b_1,\ldots,b_{m}\in\bits\), outputs commitments \([\vecb{c}_i]_1\) and \([\vecb{c}_{i,j}]_1\), \(1< i\leq m\) and \(j\in\{1,2\}\), GS proofs of the satisfiability of equations (\ref{eq-log-4}) and (\ref{eq-log-5}), and QA-NIZK proofs of (\ref{eq-log-5}) and (\ref{eq-log-split}) for each \(1<i<m\).
-
-In the next argument it will be useful to use the notation \((b_1\cdots b_m):=\sum_{i=1}^{m}b_i2^{m-i}+1\) and we define \((b_i\cdots b_m)=1\) if \(i>m\).
-In the security reduction we will choose an index \((b'_2\ldots b'_m)\gets[\setsize /2]\) and will choose the commitment key \(ck_i\), \(i\in[m]\) from the distributions \(\distlin_1^{\setsize /2^i,(b'_{i+1}\cdots b'_m)}\) defined in Section \ref{sec:mddh}.\footnote{If \((b'_1\ldots b'_m)\) is the binary representation of an integer in \([\setsize /2]\), then \(b'_1=0\) and thus we can always discard \(b'_1\).}  If $ck_i$ is chosen from $\distlin_1^{\setsize /2^i,(b'_{i+1}\cdots b'_m)}$ is guarantied that, for all \(i\in[m]\), \(\vecb{g}_{i,(b'_{i+1}\ldots b'_m)}\) is linearly independent from all the other vectors in the commitment key \(ck_i\). The reduction will abort if \((b'_2\cdots b'_m)\neq\sum_{i=2}^{m} b_i2^{m-i}+1\), which happens with probability \(2/\setsize \). From now onwards we assume that we are in the case \((b'_2,\ldots,b'_m)=\sum_{i=2}^{m} b_i2^{m-i}+1\) and therefore, our reduction will have a security loss factor of \(2/\setsize \).
-
-We prove by induction on \(i\) that \(\vecb{c}_i=s_{(b_1\cdots b_m)}\vecb{g}_{i,(b_{i+1}\cdots b_m)}+\tilde{r}_i\vecb{g}_{i,\setsize /2^i+1}\). If this is the case, the soundness of proof (\ref{eq-log-6}) together with the fact that \(ck_m\) is perfectly binding implies that \(x=x_{m,1}=s_{(b_1\cdots b_m)}\in S\) and we are ready. In the base case, equation (\ref{eq-log-4}) and the fact that \(\vecb{g}_{1,j}\in\Span(\vecb{g}_{1,\setsize /2+1})\) if \(j\neq (b_2\cdots b_m)\) implies that 
+On the other hand
 \begin{align*}
-\vecb{c}_1 &= (1-b_1)s_{(0b_2\cdots b_m)} \vecb{g}_{1,(b_2\cdots b_m)}+b_1s_{(1b_2\cdots b_m)}\vecb{g}_{1,(b_2\cdots b_m)}+\tilde{r}_1\vecb{g}_{1,\setsize /2+1}\\
-&=s_{(b_1\cdots b_m)}\vecb{g}_{1,(b_2\cdots b_m)}+\tilde{r}_1\vecb{g}_{1,\setsize /2+1},
-\end{align*} for some \(\tilde{r}_1\in\Z_q\).
+\alpha_{\ell+1}-1 &= \alpha-1 \mod 2^\ell\\
+&= \sum_{i=1}^{\ell} b_i2^{i-1}\\
+&= b_\ell2^{\ell-1}+\sum_{i=1}^{\ell-1}b_i 2^{i-1}\\
+&= b_\ell2^{\ell-1} + (\alpha-1 \mod 2^{\ell-1})\\
+&\Longleftrightarrow \alpha_{\ell+1}=\alpha_\ell+b_\ell2^{\ell-1}
+\end{align*}
+\end{proof}
 
-In the inductive case we assume that \(\vecb{c}_{i-1}=s_{(b_1\cdots b_m)}\vecb{g}_{i-1,(b_i\cdots b_m)}+\tilde{r}_{i-1}\vecb{g}_{i-1,\setsize /2^{i-1}+1}\). Since \(\vecb{g}_{i-1,(b_i\cdots b_m)}\) is linearly independent from the rest of vectors in \(ck_{i-1}\), any solution to equation (\ref{eq-log-split}) is equal to \(s_{(b_1\cdots b_m)}\) at position \((b_i\cdots b_m)\). An analysis of the two cases \(b_i=0\) or \(b_i=1\) shows that \(\vecb{c}_{i,b_i+1}=s_{(b_1\cdots b_m)}\vecb{g}_{i,(b_{i+1}\cdots b_m)}+\tilde{r}_{i,b_i+1}\vecb{g}_{i,2^i+1}\). Finally, equation (\ref{eq-log-5}) implies that \(\vecb{c}_i=s_{(b_1\cdots b_m)}\vecb{g}_{i,(b_{i+1}\cdots b_m)}+\tilde{r}_i\vecb{g}_{i,\setsize /2^i+1}\) for some \(\tilde{r}_{i}\in\Z_q\).
+We prove by induction on \(\ell\) that \(\vecb{c}_\ell= s_\alpha\vecb{g}_{\ell,\alpha_\ell}+\tilde{r}_{\ell}\vecb{g}_{\ell,\setsize /2^\ell+1}\), for some $\tilde{r}_\ell\in\Z_q$. If this is the case $\vecb{c}_1=s_\alpha\vecb{g}_{1,1}+\tilde{r}_{1}\vecb{g}_{1,2}$. Soundness of proof (\ref{eq-log-6}) together with the fact that \(ck_1\) is perfectly binding implies that \(x=\tilde{x}_{1}=s_{\alpha}\in S\) which proves soundness.
 
-\subsection{The Aggregated Case}
+In the base case ($\ell=m$), equation (\ref{eq-log-5}) and the fact that \(\vecb{g}_{m,i}\in\Span(\vecb{g}_{m,2^{m-1}+1})\) if \(i\neq \alpha_\ell\) together with Lemma \ref{lemma:alpha} implies that 
+\begin{align*}
+\vecb{c}_m &= (1-b_m)\sum_{i=1}^{2^{m-1}}s_i \vecb{g}_{m,i}+b_m\sum_{i=1}^{2^{m-1}}s_{i+2^{m-1}}\vecb{g}_{m,i}\\
+&= (1-b_m)s_{\alpha_\ell}\vecb{g}_{m,\alpha_\ell} +b_ms_{\alpha_\ell+2^{m-1}}\vecb{g}_{m,\alpha_\ell}+\tilde{r}_1\vecb{g}_{m,2^{m-1}+1}\\
+&= (1-b_m)s_{\alpha-\sfleft+1}\vecb{g}_{m,\alpha_\ell} +b_ms_{\alpha-\sfleft+1+2^{m-1}}\vecb{g}_{m,\alpha_\ell}+\tilde{r}_1\vecb{g}_{m,2^{m-1}+1}\\
+&=\begin{cases}
+    s_{\alpha-1+1}\vecb{g}_{1,\alpha_\ell}+\tilde{r}_1\vecb{g}_{1,t/2} & \text{ if } b_m=0 \ (\text{and thus }\sfleft=1) \\
+    s_{\alpha-(2^{\ell-1}+1)+1+2^{\ell-1}}\vecb{g}_{1,\alpha_\ell}+\tilde{r}_1\vecb{g}_{1,t/2} & \text{ if } b_m=1 \ (\text{and thus }\sfleft=2^{\ell-1}+1) 
+\end{cases}
+\end{align*}
+for some \(\tilde{r}_1\in\Z_q\). In both cases $\vecb{c}_1=s_\alpha\vecb{g}_{1,\alpha_\ell}+\tilde{r}_1\vecb{g}_{1,t/2}$.
+
+In the inductive case we assume that \(\vecb{c}_{\ell+1}=s_{\alpha}\vecb{g}_{\ell+1,\alpha_{\ell+1}}+\tilde{r}_{\ell+1}\vecb{g}_{\ell+1,2^\ell+1}\) and we want to show that $\vecb{c}_\ell = s_\alpha\vecb{g}_{\ell,\alpha_\ell}+\tilde{r}_\ell\vecb{g}_{\ell,2^{\ell-1}+1}$. Since \(\vecb{g}_{\ell+1,\alpha_{\ell+1}}\) is linearly independent from the rest of vectors in \(ck_{\ell+1}\), any solution to equation (\ref{eq-log-split}) is equal to \(s_{\alpha}\) at position \(\alpha_{\ell+1}=\alpha_\ell+b_\ell2^{\ell-1}\) as depicted below.
+\begin{align*}
+\pmatri{\vecb{c}_{\ell+1}\\\vecb{c}_{\ell,1}\\\vecb{c}_{\ell,2}}=
+\pmatri{
+\cdots & \vecb{g}_{\ell+1,\alpha_\ell} & \cdots  & \vecb{g}_{\ell+1,\alpha_\ell+2^{\ell-1}} & \cdots\\
+\cdots & \vecb{g}_{\ell,\alpha_\ell}     & \cdots  & \vecb{0}                           & \cdots\\
+\cdots & \vecb{0}                        & \cdots  & \vecb{g}_{\ell,\alpha_\ell}        & \cdots
+}
+\pmatri{\vdots\\s_\alpha\\\vdots}
+\end{align*}
+If $b_{\ell}=0$, by Lemma \ref{lemma:alpha}, $\alpha_{\ell+1}=\alpha_\ell$. Therefore, any solution to equation (\ref{eq-log-split}) is equal to $s_\alpha$ at position $\alpha_\ell$ and thus $\vecb{c}_{\ell,1} = s_\alpha\vecb{g}_{\ell,\alpha_\ell}+\tilde{r}_{\ell,1}\vecb{g}_{\ell,t/2^\ell+1}$.
+Equation \ref{eq-log-5} implies that
+\begin{align*}
+\vecb{c}_{\ell}=&(1-b_\ell)(s_\alpha\vecb{g}_{\ell,\alpha_\ell}+\tilde{r}_{\ell,1}\vecb{g}_{\ell,t/2^\ell})+b_\ell\vecb{c}_{\ell,2}+y_\ell\vecb{g}_{\ell,t/2^\ell+1}\\
+               =& s_\alpha\vecb{g}_{\ell,\alpha_\ell}+(\tilde{r}_{\ell,1}+y_\ell)\vecb{g}_{\ell,t/2^\ell+1}.
+\end{align*}
+If $b_{\ell}=1$, then $\alpha_{\ell+1}=\alpha_\ell+2^{\ell-1}$ and similarly, $\vecb{c}_{\ell}=s_\alpha\vecb{g}_{\ell,\alpha_\ell}+(\tilde{r}_{\ell,2}+y_\ell)\vecb{g}_{\ell,t/2^\ell}$.
+
+\subsection{The Aggregated Case} \label{sec:log-set-memb-Z}
 Let $\setsize:=|S|$ and \(m:=\log \setsize \). The statement is now \([\grkb{\zeta}_1]=\GS.\Com_{ck}(x_1;r_1),\ldots,\allowbreak[\grkb{\zeta}_n]_1=\GS.\Com_{ck}(x_n;r_n)\), for some $n\in\mathbb{N}$, and the prover wants to show that \(x_i=s_{\alpha_i}\), for all \(i\in[n]\) and \(\alpha_i=\sum_{j=1}^m b_{i,j}2^m+1\), for some $b_{i,1},\ldots,b_{i,m}\in\bits$. We need reformulate equations (\ref{eq-log-2}) and (\ref{eq-log-3}) to take in count new variables. For \(\ell\in [m],j\in[n]\), define
 \begin{align*}
 &\vecb{x}_j^\ell:=
@@ -179,7 +273,7 @@ The construction follows the intuition outlined before but it ``aggregates'' man
 \item Given that now there are \(n\) bit-strings of size \(m\), the binary representation of $\alpha_1,\ldots,\alpha_n$, they are ``shrinked'' into \(m\) Multi-Pedersen commitments whose commitment keys are \([\vecb{h}_1]_2,\ldots,[\vecb{h}_{n+1}]_2\). Thereby, the variables $b_{i,1},\ldots,b_{i,m}$, which form the binary representation of $\alpha_i$, will be contained in \(m\) coefficients of \([\vecb{h}_i]_2\) of the $m$ Multi-Pedersen commitments to $\vecb{b}_1,\ldots,\vecb{b}_m$.
 \item Commitments \([\vecb{c}_\ell]_1\) (we switched from index \(i\) to \(\ell\)) from the intuition, which contain the \(\setsize /2^\ell\) elements from \(S\) whose index prefix is \((b_1\cdots b_{\ell})\), should now contain \(n\setsize /2^\ell\) elements. Consequently, the commitment key \(ck_\ell\) is enlarged so that is able to contain the extra elements, and the coefficients of the elements from \(i\) th proof, \( i\in [n]\), are the ones from \([\vecb{g}_{i,1}^\ell]_1,\ldots,[\vecb{g}_{i,\setsize /2^\ell}^\ell]_1\).
 \item Equation (\ref{eq-log-split}) is proven in the same way, enlarging the matrix as consequence of the enlargement of commitment keys.
-\item Equations (\ref{eq-log-4}) and (\ref{eq-log-5}) are no longer proven using GS proofs, but using similar techniques as the ones from Chapter \ref{sec:bits}. We will have commitments whose discrete logs can be written as linear combinations of \(\vecb{g}_{i,1}^\ell,\ldots,\vecb{g}_{n,\setsize /2^\ell}^\ell\) and \(\vecb{h}_1,\ldots,\vecb{h}_{n+1}\). If we re-write equations (\ref{eq-log-4}) and (\ref{eq-log-5}) replacing \(b's\) with commitments and multiplication with the \emph{kronecker product} (that is, \(\vecb{x}\vecb{y}^\top\)), we will obtain an expression which at certain coefficients of \(\vecb{g}_{i,k}^\ell\vecb{h}_j^\top\) contains what we want and at others contains ``junk''. Similarly as done in Chapter \ref{sec:bits}, we will add two matrices \(\matr{\Theta}_\ell\) and \(\matr{\Pi}_\ell\) which will ``contain'' this junk and will help to balance the equation. It is only left to show that this new matrices are in the appropriate subspace and thus, they do not alter the equations we want to show to hold.
+\item Equations (\ref{eq-log-4}) and (\ref{eq-log-5}) are no longer proven using GS proofs, but using similar techniques as the ones from Chapter \ref{sec:bits}. We will have commitments whose discrete logs can be written as linear combinations of \(\vecb{g}_{i,1}^\ell,\ldots,\vecb{g}_{n,\setsize /2^\ell}^\ell\) and \(\vecb{h}_1,\ldots,\vecb{h}_{n+1}\). If we re-write equations (\ref{eq-log-4}) and (\ref{eq-log-5}) replacing \(b's\) with commitments and multiplication with the \emph{kronecker product} (that is, \(\vecb{x}\vecb{y}^\top\)), we will obtain an expression which at certain coefficients of \(\vecb{g}_{i,k}^\ell\vecb{h}_j^\top\) contains what we want and at others contains ``junk''. Similarly as done in Chapter \ref{sec:bits}, we will add two matrices \(\matr{\Theta}_\ell\) and \(\matr{\Pi}_\ell\) which will ``contain'' this junk and will help to balance the equation. It is only left to show that these new matrices are in the appropriate subspace and thus, they do not alter the equations we want to show to hold.
 \item Soundness is proven in the same fashion as in the protocols from Chapter \ref{sec:shuf-rp}. That is, we guess one index \(j^*\in[n]\) such that \(x_{j^*}\notin S\) and choose the commitment keys in such a way that, at coordinate \(j^*\), the same equations of the non-aggregated case holds. This will imply that we lose an additional factor of \(1/n\) in the reduction and thus, the total security lost is a factor \(\frac{2}{n\setsize }\).
 \end{itemize}
 \subsubsection{The Scheme}
@@ -420,7 +514,7 @@ Note that the vector the vectors \([\vecb{c}_\ell],[\vecb{c}_{\ell,1}]_1,[\vecb{
 \subsection{The case \(S\subset\GG_1\)} \label{sec:improved-aZKSMP-group-case}
 We briefly justify that the case \(S\subset\GG_1\) follows directly from the case \(S\subset\Z_q\) when \(S\) is a fixed witness samplable set. That is, there is a fixed set $S$ for each CRS, and there is an efficient algorithm that samples \(s_1,\ldots,s_{\setsize }\in\Z_q\) such that \(S=\{[s_1]_1,\ldots,[s_{\setsize }]_1\}\). %Note that this is the same case of Section~\ref{sec:bits-applications} where the CRS depends on set.
 
-The reason why is not clear how to compute proofs in this setting is that it requires to compute values of the type \([\vecb{s}_i\vecb{k}]_1\), where \([\vecb{k}]_\mu\), \(\mu\in\{1,2\}\), is a vector from one of the commitment keys. The solution is straightforward: use \(s_1,\ldots,s_{\setsize }\) to compute this values and add them to the CRS (with the consequent CRS growth). Therefore, the new CRS contains also:
+The reason why is not clear how to compute proofs in this setting is that it requires to compute values of the type \([\vecb{s}_i\vecb{k}]_1\), where \([\vecb{k}]_\mu\), \(\mu\in\{1,2\}\), is a vector from one of the commitment keys. The solution is straightforward: use \(s_1,\ldots,s_{\setsize }\) to compute these values and add them to the CRS (with the consequent CRS growth). Therefore, the new CRS contains also:
 \begin{align*}
 &[s_i\vecb{g}_{j,k}^\ell]_1 \text{ for } i,j\in [n], \ell\in [m], k\in[\setsize /2^\ell]\\
 & s_i([\matr{C}^\ell_{j,k}]_1,[\matr{D}_{j,k}^\ell]_2) \text{ for } i,k\in [n], \ell\in [m], j\in [n\setsize /2^\ell].

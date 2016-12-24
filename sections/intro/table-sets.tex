@@ -1,0 +1,31 @@
+
+\begin{table}[h]
+\begin{center}
+\begin{minipage}{\textwidth}
+\begin{center}
+\begin{small}
+             %   proof  % CRS   %
+% group type %  Gr % Hr % Gr Hr % #Pairings
+\begin{tabular}{|l||l|l|l|l|}
+\hline
+Section & Set Type & Fixed set & Aggregated Proof & Proof Size 
+\\ \hline\hline
+\ref{sec:bits-applications} (i) & $\subset \GG_s$ & no & no & $\Theta(\sqrt{t})$
+\\ \hline
+\ref{sec:bits-applications} (ii) & $\subset \GG_s$ & yes & no & $\Theta(\sqrt[3]{t})$
+\\ \hline
+\ref{sec:bin-lan-constr} (a) & $[0,t-1]$ & no & yes & $\Theta(\log t)$
+\\ \hline
+\ref{sec:bin-lan-constr} (b) & $\subset \GG_s$ & yes & yes & $\Theta(t)$
+\\ \hline
+\ref{sec:log-set-memb-Z} & $\subset \Z_q$ & no & yes & $\Theta(\log t)$
+\\ \hline
+\ref{sec:improved-aZKSMP-group-case} & $\subset \GG_s$ & yes & yes & $\Theta(\log t)$
+\\ \hline
+\end{tabular}
+\end{small}
+\end{center}
+\caption{Our results for set-membership proofs. We say that the proof system works for a fixed set when each instantiation of the proof system works for a single fixed set. The proof is aggregated if one can prove that $x_1,\ldots,x_n\in S$ with a proof of size independent of $n$. We denote by $t$ the size of the set.} \label{table:set-memb}
+\end{minipage}
+\end{center}
+\end{table}

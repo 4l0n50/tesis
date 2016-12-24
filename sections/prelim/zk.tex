@@ -12,7 +12,7 @@ Syntactically, a NIZK proof system consists of three probabilistic polynomial ti
 generation algorithm $\algK$, a prover $\algP$, and a verifier $\algV$.
 The CRS generation algorithm takes a group description $gk$ as input and produces a CRS $\sigma$ (which we assume includes $gk$). The prover takes as input $(\sigma, x, w)$ and produces a proof $\pi$. The verifier takes as input $(\sigma, x, \pi)$ and outputs 1 if the proof is acceptable and 0 if rejecting the proof.
 
-In this work we will consider two particular cases of NIZK: \emph{Composable} NIZK \cite{EC:GroSah08} and  \emph{Quasi-Adaptive} NIZK \cite{AC:JutRoy13}. Both deals with the case of \emph{CRS dependent languages}, say the language language is parameterized by some values which are (randomly) sampled within the CRS. For example, the CRS might contain the group key $gk$ defining a bilinear group and the language might be some set of satisfiable equations over that group. Quasi-Adaptive NIZK goes further and the language might also depend on group constants defined in the CRS.
+In this work we will consider two particular cases of NIZK: \emph{Composable} NIZK \cite{EC:GroSah08} and  \emph{Quasi-Adaptive} NIZK \cite{AC:JutRoy13}. Both deal with the case of \emph{CRS dependent languages}, say the language language is parameterized by some values which are (randomly) sampled within the CRS. For example, the CRS might contain the group key $gk$ defining a bilinear group and the language might be some set of satisfiable equations over that group. Quasi-Adaptive NIZK goes further and the language might also depend on group constants defined in the CRS.
  
 \subsection{Composable Non-Interactive Zero-Knowledge Proofs}
 The following definitions are taken from \cite{SIAMJC:GroSah12}.

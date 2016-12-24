@@ -1,0 +1,26 @@
+\iffalse
+But first lets see how the proof system goes in a little more detail.
+
+\subsubsection{The Scheme}
+Given \([\vecb{c}]_1=\GS.\Com_{ck}(s_\alpha;r)\), \(\alpha=\sum_{i=1}^{m}b_i2^{m-i}+1\), the prover computes
+\begin{align*}
+&[\vecb{c}_i]_1:=\MP.\Com_{ck_i}((x_{i,1},\ldots,x_{i,\setsize /2^i})^\top;r_i) \text{ for } i \in[m], \text{ and}\\
+&[\vecb{c}_{i,1}]_1:=\MP.\Com_{ck_i}((x_{i,1},\ldots,x_{i,\setsize /2^{i+1}})^\top;r_{i,1}),\\
+&[\vecb{c}_{i,2}]_1:=\MP.\Com_{ck_i}((x_{i,2^{i+1}+1},\ldots, x_{i,\setsize /2^i})^\top;r_{i,2})\text{ for }1 < i \leq m,
+\end{align*}
+where \(r_i,r_{i,1},r_{i,2}\gets\Z_q\) and the variables \(x_{i,j}\) are the ones defined in equation (\ref{eq-log-2}). Then, the prover shows that
+\([\vecb{c}_1]_1\) opens to the first or second half (depending on the value of \(b_1\)) of \((s_1,\ldots,s_\setsize )\), that \([\vecb{c}_{2,1}]_1\) and \([\vecb{c}_{2,2}]\) opens to the first and second half, respectively, of an opening of \([\vecb{c}_{1}]\), and so on. This statement can be proven with a GS proof of
+ the satisfiability of
+\begin{align}
+&[\vecb{c}_1]_1-\left((1-b_1)\sum_{i=1}^{\setsize /2}s_i[\vecb{g}_{1,i}]_1 + b_1\sum_{i=1}^{\setsize /2} s_{\setsize /2+i}[\vecb{g}_{1,i}]_1\right) = y_1[\vecb{g}_{1,\setsize /2+1}]_1 \label{eq-log-4}\\
+&[\vecb{c}_i]_1-\left((1-b_i)[\vecb{c}_{i,1}]_1+b_i[\vecb{c}_{i,2}]_1\right) = y_i[\vecb{g}_{i,\setsize /2+1}]_1, \text{ for } 1 < i \leq m,  \label{eq-log-5}
+\end{align}
+a QA-NIZK proof that
+\begin{equation}
+[\vecb{c}]_1\text{ and }[\vecb{c}_m]_1\text{ open to the same value}, \label{eq-log-6}
+\end{equation}
+and also a QA-NIZK proof that equation (\ref{eq-log-split}) is satisfied for each \(1<i\leq m\).
+
+The verifier accepts the proof iff the proofs for (\ref{eq-log-split}), (\ref{eq-log-4}), (\ref{eq-log-5}), and (\ref{eq-log-6}) are valid.
+\fi
+
