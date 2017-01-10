@@ -1,0 +1,33 @@
+\newcommand{\setsize}{t}
+
+In this chapter we construct a QA-NIZK proof system for the language
+\[
+\Lang_{ck,\mathsf{set}}^n:=\left\{\begin{array}{l}
+([\grkb{\zeta}_1]_1,\ldots,[\grkb{\zeta}_n]_1,S):\exists w_1,\ldots,w_n\in\Z_q \text{ s.t. } S\subset\Z_q\\
+\text{ and } \forall i\in [n]\ [\grkb{\zeta}_i]_1=\GS.\Com_{ck}(x_i;w_i)\wedge x_i\in S
+\end{array}\right\},
+\]
+with proof size $\Theta(\log |S|)$. In Section~\ref{sec:improved-aZKSMP-group-case} we show how to extend these ideas to show membership in the language
+\[
+\Lang_{ck,S}^n:=\left\{\begin{array}{l}
+([\grkb{\zeta}_1]_1,\ldots,[\grkb{\zeta}_n]_1):\exists w_1,\ldots,w_n\in\Z_q \text{ s.t. } S\subset\GG_1 \\
+\text{ and } \forall i\in [n]\ [\grkb{\zeta}_i]_1=\GS.\Com_{ck}([x_i]_1;w_i)\wedge [x_i]_1\in S
+\end{array}\right\},
+\]
+with proof-size $\Theta(\log |S|)$, for any \(S\subset\GG_1\).
+
+The first case is the more general form of a set-membership proof where the set is dynamically chosen. In the second case each instance of the proof system is fixed to a specific set (encoded in the CRS) and is the same notion of the proofs for ``fixed sets'' from Section \ref{sec:bits-applications}. We note that the aggregated set-membership proofs for $S\subset\GG_s$ from Chapter \ref{sec:shuf-rp} are proofs of membership in $\Lang_{ck,S}^n$.
+
+In Section \ref{sec:improved-aZKSMP-intuition}, we start with an intuitive description for the case $S\subset\Z_q$ without aggregation. We note that even in this simpler case, to the best of our knowledge, the shortest non-interactive proof that exists in the literature is the one of Chandran et al.~of size $\Theta(\sqrt{|S|})$.
+Our approach is to commit to the binary representation $(b_1,\ldots,b_{\log t})\in\bits^{\log t}$ of the index of the purported $x\in S$, for $S=\{s_1,\ldots,s_t\}$, to select the the leafs under the paths $(b_{\log t}),(b_{\log t},b_{\log t-1}),\ldots,(b_{\log t},\ldots, b_1)$ in the binary tree whose leafs are (from left to right) $s_1,\ldots,s_t$. In order to keep a logarithmic proof, we commit to the selected leafs using MP commitments from Section \ref{sec:ext-mp} and show, for each $\ell\in[\log t]$, that the leafs under the path $(b_m,\cdots, b_{\ell})$ are equal the leftmost or rigmost, depending of $b_\ell$, leafs under the path $(b_{\log t},\cdots, b_{\ell-1})$. We use these ideas together with a clever usage of QA-NIZK proofs of membership in linear subspaces, Groth-Sahai proofs, and the proof systems from Chapters \ref{sec:agg-asym} and \ref{sec:bits}.
+ %In the case of fixed sets $S\subset\Z_q$, Kohlweiss et al.~constructed a non-interactive proof of size $\Theta(1)$, using Boneh-Boyen signatures \cite{PAIRING:RiaKohPre09}.
+
+Our proof bears some similarities with the work of Groth and Kohlweiss \cite{EC:GroKoh15} -- both allow to construct proofs of membership in a set of logarithmic size using the binary encoding of the element index -- but they are in general incomparable. Indeed, Groth and Kohlweiss's construction is on a different setting (interactive, without pairings) and does not support aggregation of many proofs.
+
+
+In Section \ref{sec:log-set-memb-Z} we give a full description of the non-aggregated case and then we show how to extend this result to the case $S\subset\GG_s$. We use the ideas from Section \ref{sec:improved-aZKSMP-intuition} and aggregate many instances using similar techniques to those from Chapter \ref{sec:bits}. We note that, to the best of our knowledge, there is no aggregated proof in the literature (i.e.~all proofs are of size $\Omega(n)$) with the sole exception of our proof from Section \ref{sec:shuf-rp} which is of size $\Theta(|S|)$.  
+
+There is a straightforward application of the improved aZKSMP. In the proof of a Shuffle from Section \ref{sec:shuffle}, the size of the proof that $[\matr{F}]\in\Lang_{ck,S}^n$ can be reduced from $2n+\Theta(1)$ to $\Theta(\log n)$ and thus the total proof size is reduced from $4n+o(n)$ to $2n+o(n)$.
+Furhter, in Section \ref{sec:log-ring-signature} we consider another application of the improved aZKSMP: theoretical $\Theta(\log n)$ ring signatures without random oracles. Although the constants hidden in the asymptotic size of the proof are only polynomially bounded in the security parameter, we interpret this construction as a feasibility result for $\Theta(\log n)$ ring signatures (note that only $\Theta(\sqrt{n})$ ring signatures where known up to this work).
+
+

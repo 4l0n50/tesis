@@ -138,17 +138,55 @@
 
         \input{sections/range-proof/range-proof}
 
-\chapter{Other Contributions} \label{sec:extras}
+%\chapter{Other Contributions} \label{sec:extras}
 
-    \input{sections/extras/intro}
+%    \input{sections/extras/intro}
 
-    \section{Ring Signature of Size $\Theta(\sqrt[3]{n})$ without Random O\-ra\-cles} \label{sec:opt-rs}
+\chapter{Ring Signature of Size $\Theta(\sqrt[3]{n})$ without Random O\-ra\-cles} \label{sec:opt-rs}
 
-        \input{sections/extras/ring-signature}
+    \input{sections/ring-signature/ring-signature}
+    
+    \section{High Level Description}
+        \input{sections/ring-signature/high-level}
 
-    \section{Improved aZKSMP}
+    \section{Preliminaries}
+        
+        \subsection{Groth-Sahai Proofs in the $\lin{2}$ Instantiation}
+        
+            \input{sections/ring-signature/symm-gs}
 
-        \input{sections/extras/improved-aZKSMP}
+        \subsection{Flawed Constructions}\label{sec:rs-flawed}
+    
+            \input{sections/ring-signature/flawed}
+
+        \subsection{Definition}
+    
+            \input{sections/ring-signature/definition}
+
+        \subsection{Boneh-Boyen Signatures} \label{sec:bbs}
+    
+            \input{sections/ring-signature/bb-signatures}
+
+    \section{Our Construction}
+    
+        \input{sections/ring-signature/construction}
+
+
+\chapter{Improved aZKSMP} \label{improved-aZKSMP} 
+
+    \input{sections/improved-aZKSMP/improved-aZKSMP}
+        
+\section{Intuition} \label{sec:improved-aZKSMP-intuition}
+    
+    \input{sections/improved-aZKSMP/aZKSMP-intuition}
+
+    \section{The Aggregated Case} \label{sec:log-set-memb-Z}
+        
+        \input{sections/improved-aZKSMP/aZKSMP-scheme}
+
+    \section{Application: Theoretical \(\Theta(\log n)\) Ring Signature} \label{sec:log-ring-signature}
+        
+        \input{sections/improved-aZKSMP/logn-ring-signature}
 
 \chapter{Conclusions}
 

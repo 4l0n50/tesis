@@ -1,0 +1,20 @@
+Boneh and Boyen described a short signature -- each signature consists of only one group element -- which is UF-CMA without random oracles \cite{EC:BonBoy04a}. Interestingly, the verification of the validity of any signature-message pair can be written as a set of pairing product equations. Thereby, using Groth-Sahai proofs one can show the possession of a valid signature without revealing the actual signature (as done in Chandran et al.'s ring signature and our ring signature).
+
+The Boneh-Boyen signature is proven UF-CMA secure under the $m$-\emph{Strong Diffie-Hellman} assumption, which is described below.
+
+\begin{definition}[$m\mbox{-}SDH$ assumption]
+For any adversary $\advA$
+$$
+\Pr\left[gk\gets\G_s(1^\lambda),x\gets\Z_q:\advA(gk,[x],[x^2],\ldots,[x^m])=(c,\left[\frac{1}{x+c}\right])\right]
+$$
+is negligible in $\lambda$.
+\end{definition}
+
+The Boneh-Boyen signature scheme is described below.
+
+\begin{description}
+\item[$\mathsf{BB}.\KG$:] Given a group key $gk$, pick $vk\gets\Z_q$. The secret/public key pair is defined as $(sk,[vk]):=(vk,[vk])$.
+\item[$\mathsf{BB}.\Sign$:] Given a secret key $sk\in\Z_q$ and a message $m\in\Z_q$, output the signature $[\sigma]:=\left[\frac{1}{sk+m}\right]$. In the unlikely case that $sk+m=0$ we let $[\sigma]:=[0]$.
+\item[$\mathsf{BB}.\Ver$:] On input the verification key $[vk]$, a message $m\in\Z_q$, and a signature $[\sigma]$, verify that $[m+vk][\sigma]=[1]_T$.
+\end{description} 
+

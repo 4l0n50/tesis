@@ -1,0 +1,39 @@
+\begin{description}
+\item[$\mathsf{CRSGen}(gk)$:] Pick a perfectly hiding CRS for the Groth-Sahai proof system $\crs_\GS$, and a CRS for the proof of the $\Theta(\sqrt{n})$ proof of membership in a set $\crs_\sfset$ (Section \ref{sec:bits-applications}), and output $\rho:=(gk,\crs_\GS,\crs_\sfset).$
+\item[$\KG(\rho)$:] Pick $\vecb{a}\gets\mathcal{Q}$ and $(sk,[vk])\gets\mathsf{BB}.\KG(gk)$. The secret key is $sk$ and the verification key is $\vecb{vk}:=([vk],[\vecb{a}],\vecb{a}[vk])$.
+\item[$\mathsf{Sign}_{\rho,sk}(m,R)$:]
+\begin{enumerate}
+\item Compute $(sk_\mathsf{ot},vk_\mathsf{ot})\gets\mathsf{OT}.\KG(gk)$ and $\sigma_\mathsf{ot}\gets\mathsf{OT}.\mathsf{Sign}_{sk_\mathsf{ot}}(m,R)$.
+\item Compute $[\vecb{c}]:=\GS.\Com_{ck}([vk];r)$, $r\gets\Z_q$, $[\sigma]\gets\mathsf{BB}.\mathsf{Sign}_{sk}(vk_\mathsf{ot})$, $[\vecb{d}]:=\GS.\Com_{ck}([\sigma];s)$, and a GS proof $\pi_\GS$ that $\mathsf{BB}.\mathsf{Ver}_{[vk]}([\sigma],[vk_\mathsf{ot}])=1$ (which can be expressed as a set of pairing product equations).
+\item Parse $R$ as $\{\vecb{vk}_{(1,1,1)},\ldots,\vecb{vk}_{(m,m,m)}\}$, where $m:=\sqrt[3]{|R|}$, and let $\alpha=(i_\alpha,j_\alpha,k_\alpha)$ the index of $\vecb{vk}$ in $R$. Define the sets $S_1=\{\sum_{i\in[m]}[\vecb{a}_{(i,1,1)}],\allowbreak\ldots,\sum_{i\in[m]}[\vecb{a}_{(i,m,m)}]\}$ and $S_2=\{\sum_{i\in[m]}\vecb{a}_{(i,1,1)}[vk_{(i,1,1)}],\allowbreak\ldots,\sum_{i\in[m]}\vecb{a}_{(i,m,m)}[vk_{(i,m,m)}]\}$.
+\item Compute GS commitments to $[\vecb{x}]:=\sum_{i\in[m]}[\vecb{a}_{(i,j_\alpha,k_\alpha)}]$ and $[\vecb{y}]=\sum_{i\in[m]}\vecb{a}_{(i,j_\alpha,k_\alpha)}[vk_{(i,j_\alpha,k_\alpha)}]$, and compute proofs $\pi_1$ and $\pi_2$ that they belong to $S_1$ and $S_2$, respectively (recall that it is also proven that they appear in the same positions reutilising the commitments to $b_1,\ldots,b_{\sqrt{n}}$ and $b'_1,\ldots,b'_{\sqrt{n}}$).
+\item Compute GS commitments to $[\kappa_1]:=[vk_{(1,j_\alpha,k_\alpha)}],\ldots,[\kappa_m]:=[vk_{(m,j_\alpha,k_\alpha)}]$ and $[\vecb{z}_1]:=[\vecb{a}_{(1,j_\alpha,k_\alpha)}],\ldots,[\vecb{z}_m]:=[\vecb{a}_{(m,j_\alpha,k_\alpha)}]$, and GS proof $\pi_\kappa$ that $\sum_{i\in[m]}[\kappa_i][\vecb{z}_i]=[\vecb{y}][1]$ and a GS proof $\pi_{z}$ that $\sum_{i\in[m]}[\vecb{z}_i]=[\vecb{x}]$ and $[z_{2,i}][1]=[z_{1,i}][z_{1,i}]$ for each $i\in[m]$.
+\item Compute a proof $\pi_3$ that $[vk]$ belongs to $S_3=\{[\kappa_1],\ldots,[\kappa_m]\}$.
+\item Return the signature $\grkb{\sigma}:=(vk_\mathsf{ot},\sigma_\mathsf{ot},[\vecb{c}],[\vecb{d}],\pi_1,\pi_2,\pi_3,\pi_\kappa,\pi_z)$. (GS proofs include commitments to variables).
+\end{enumerate}
+\item[$\mathsf{Verify}_{\rho,R}(m,\grkb{\sigma})$:] Verify the validity of the one-time signature and of all the proofs. Return 0 if any of these checks fails and 1 otherwise.
+\end{description}
+
+\begin{theorem}
+The scheme presented in this section is a ring signature scheme
+with perfect correctness, perfect anonymity and computational unforgeability under the
+$m$-permutation pairing assumption, the $\mathcal{Q}_m^\top\mbox{-}\kermdh$ assumption, the $\lin{2}$ assumption, and the assumption
+that the one-time signature and the Boneh-Boyen signature are unforgeable.
+\end{theorem}
+\begin{proof}
+Perfect correctness follows directly from the definitions. Perfect anonymity follows from the fact that the perfectly hiding Groth-Sahai CRS defines perfectly hiding and perfect zero-knowledge proofs, information theoretically hiding any information about $\vecb{vk}$.
+
+Computational unforgeability is proven as follows. The $\lin{2}$ assumption implies that $\crs_\GS$ can be changed to a perfectly binding CRS, at the cost of a negligible security loss. For the sake of contradiction, suppose that $\vecb{vk}\notin R$. Soundness of Groth-Sahai proofs and of the $\Theta(\sqrt{n})$ proof of set membership, implies that there exist $j_\alpha,k_\alpha\in[m]$ such that
+\begin{align}
+&\sum_{i\in[m]}[\kappa_i][\vecb{z}_i]=\sum_{i\in[m]}\vecb{a}_{(i,j_\alpha,k_\alpha)}[vk_{(i,j_\alpha,k_\alpha)}]\text{ and }\label{eq-rs-1}\\
+&\sum_{i\in[m]}[\vecb{z}_i]=\sum_{i\in[m]}[\vecb{a}_{(i,j_\alpha,k_\alpha)}], \label{eq-rs-2}\\
+&[z_{i,2}][1]=[z_{i,1}][z_{i,1}] \text{ for all }i\in[m],\label{eq-rs-3}
+\end{align}
+and that $[vk]=[\kappa_{i^*}]$, for some $i^*\in[m]$. Equations (\ref{eq-rs-2}) and (\ref{eq-rs-3}) imply that $(\vecb{z}_1,\ldots,\vecb{z}_m)$ is a permutation of $(\vecb{a}_{(1,j_\alpha,k_\alpha)}\ldots,\vecb{a}_{(m,j_\alpha,k_\alpha)})$ unless one can break the $m$-permutation pairing assumption. Therefore, equation (\ref{eq-rs-1}) implies that there is a permutation $\pi$ such that
+\begin{align}
+\sum_{i\in[m]}(\kappa_i-vk_{(\pi(i),j_\alpha,k_\alpha)})\vecb{a}_i=0.
+\end{align}
+Assuming $[\kappa_{i^*}]\notin R$, $([\kappa_1]-[vk_{(\pi(1),j_\alpha,k_\alpha)}],\ldots,[\kappa_m]-[vk_{(\pi(m),j_\alpha,k_\alpha)}])\neq [\vecb{0}]$ is a solution to the $\mathcal{Q}_m^\top\mbox{-}\kermdh$ problem. We conclude that $\vecb{vk}\in R$.
+
+Finally, since $[\vecb{c}]$ is a commitment to a valid signature of $vk_\mathsf{ot}$ under $[vk]$ and given that $vk_\mathsf{ot}$ has not been previously used, $[\sigma]$ is a forgery of the Boneh-Boyen signature scheme. By the unforgeability of the Boneh-Boyen signature scheme, this happens only with negligible probability.
+\end{proof}
