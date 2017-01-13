@@ -1,4 +1,4 @@
-Let $\setsize:=|S|$ and \(m:=\log \setsize \). The statement is now \([\grkb{\zeta}_1]=\GS.\Com_{ck_\GS}(x_1;r_1),\ldots,\allowbreak[\grkb{\zeta}_n]_1=\GS.\Com_{ck_\GS}(x_n;r_n)\), for some $n\in\mathbb{N}$, and the prover wants to show that \(x_i=s_{\alpha_i}\), for all \(i\in[n]\) and \(\alpha_i=\sum_{j=1}^m b_{i,j}2^{j-1}+1\), for some $b_{i,1},\ldots,b_{i,m}\in\bits$. We need reformulate equations (\ref{eq-log-2}) and (\ref{eq-log-3}) to take in count new variables. For \(\ell\in [m],j\in[n]\), define
+Let $\setsize:=|S|$ and \(m:=\log \setsize \). The statement is now \([\grkb{\zeta}_1]=\GS.\Com_{ck_\GS}(x_1;r_1),\ldots,\allowbreak[\grkb{\zeta}_n]_1=\GS.\Com_{ck_\GS}(x_n;r_n)\), for some $n\in\mathbb{N}$, and the prover wants to show that \(x_i=s_{\alpha_i}\), for all \(i\in[n]\) and \(\alpha_i=\sum_{j=1}^m b_{i,j}2^{j-1}+1\), for some $b_{i,1},\ldots,b_{i,m}\in\bits$. We need to reformulate equations (\ref{eq-log-2}) and (\ref{eq-log-3}) to take in count new variables. For \(\ell\in [m],j\in[n]\), define
 \begin{align*}
 &\vecb{x}_\ell^i:=
 \begin{pmatrix}
@@ -30,17 +30,21 @@ The construction follows the intuition outlined before but it ``aggregates'' man
 
 We will rewrite equation (\ref{eq-alog-1}), which is a system of $m n$ equations, as $m$ equations of the form
 \begin{equation}
-\vecb{x}\vecb{y}^\top=\pmatri{0 & x_1y_2 & \cdots & x_1y_m\\x_2y_1& 0 & \cdots & x_2y_m\\\vdots&\vdots&\ddots& \vdots\\x_ny_1&x_ny_2&\cdots&0},
+\vecb{x}\vecb{y}^\top=\pmatri{
+    0      & x_1y_2 & \cdots & x_1y_n\\
+    x_2y_1 & 0      & \cdots & x_2y_n\\
+    \vdots & \vdots & \ddots & \vdots\\
+    x_my_1 & x_my_2 & \cdots & 0},
 \label{eq-diag}
 \end{equation}
-where $\vecb{x}\in\Z_q^m,y\in\Z_q^n$ (i.e.~the diagonal of the matrix $\vecb{x}\vecb{y}^\top$ is $\vecb{0}$). We will use similar techniques to those of Chapter \ref{sec:bits} to give a constant size proof for the satisfiability of each of these equations. Therefore, to prove $m$ of this equation we will require $\Theta(m)=\Theta(\log t)$ group elements.
+where $\vecb{x}\in\Z_q^m,\vecb{y}\in\Z_q^n$ (i.e.~the diagonal of the matrix $\vecb{x}\vecb{y}^\top$ is $\vecb{0}$). We will use similar techniques to those of Chapter \ref{sec:bits} to give a constant size proof for the satisfiability of each of these equations. Therefore, to prove $m$ of this equation we will require $\Theta(m)=\Theta(\log t)$ group elements.
 
 We can compute $\vecb{x}\vecb{y}^\top$ in the ``commitment space'' by means of $[\vecb{c}]_1[\vecb{d}^\top]_2$, where $[\vecb{c}]_1:=\MP.\Com_{ck_1}(\vecb{x};r_1)$ and $[\vecb{d}]_2:=\MP.\Com_{ck_2}(\vecb{y};r_2)$. Indeed, by the definition of MP commitments it holds that
-\begin{align*}
+\begin{align}
 [\vecb{c}]_1[\vecb{d}^\top]_2
 =&\left(\sum_{i=1}^{m}x_i[\vecb{g}_i]_1+r_1[\vecb{g}_{m+1}]_1\right)\left(\sum_{j=1}^{n}y_j[\vecb{h}_j^\top]_2+r_2[\vecb{h}_{n+1}^\top]_2\right)\\
 =&\sum_{i=1}^m\sum_{j=1}^n x_iy_j[\vecb{g}_i\vecb{h}_j^\top]_T+\sum_{i=1}^{m}x_ir_2[\vecb{g}_i\vecb{h}_{n+1}^\top]_T+\sum_{j=1}^{n+1}r_1y_j[\vecb{g}_{m+1}\vecb{h}_j^\top]_T
-\end{align*}
+\end{align}
 
 Therefore, if the diagonal of $\vecb{x}\vecb{y}^\top$ is $\vecb{0}$, then $[\vecb{c}]_1[\vecb{d}^\top]_2$ is in the space spanned by $\{[\vecb{g}_i\vecb{h}_j^\top]:i\neq j \text{ or }i=m+1\text{ or } j=n+1\}$. Similarly as done in Section \ref{sec:bits-intuition}, equation (\ref{eq-diag}) can be proven computing two matrices $[\matr{\Theta}]_1\in\GG_1^{2\times2}$ and $[\matr{\Pi}]_2\in\GG_2^{2\times 2}$ and showing that $[\vecb{c}]_1[\vecb{d}^\top]_2=[\matr{\Theta}]_1[\matr{I}]_2+[\matr{I}]_1[\matr{\Pi}]_2$ and $\matr{\Theta}+\matr{\Pi}\in\Span(\{[\vecb{g}_i\vecb{h}_j^\top]:i=m+1\text{ or }j=n+1\})$.
 
@@ -84,15 +88,16 @@ where
 &ck:=[\matr{H}]_2 &
 \matr{H}:=\pmatri{\vecb{h}_1&\cdots&\vecb{h}_n&\vecb{h}_{n+1}}.
 \end{align*}
-We need to show that $\matr{\Theta}+\matr{\Pi}$ is in the appropriate space, which is the one without components ``in the diagonal'' or with components in $\vecb{g}_{n2^{\ell-1}+1}\vecb{h}_j$ or $\vecb{g}_i\vecb{h}_{n+1}$ for any $i\in[n2^{\ell-1}],j\in[n]$. However, since we are working with matrices whose entries are vectors in $\Z_q^{\ell-1}$ we in fact need to show that
+We need to show that $\matr{\Theta}+\matr{\Pi}$ is in the appropriate space, which is the one without components ``in the diagonal'' or with components in $\vecb{g}_{n2^{\ell-1}+1}\vecb{h}_j$ or $\vecb{g}_i\vecb{h}_{n+1}$ for any $i\in[n2^{\ell-1}],j\in[n]$. However, since we are working with matrices whose entries are vectors in $\Z_q^{\ell-1}$, we in fact need to show that
 $$
 \matr{\Theta}\in\Span(\vecb{g}_{\ell,i}\vecb{h}_j^\top:j\in[n+1],i\notin[(j-1)2^{\ell-1}+1,j2^{\ell-1}]\setminus[n2^{\ell-1}+1]).
 $$
 
 Finally, equation (\ref{eq-log-split}) is proven in the same way as in the non-aggregated case, but enlarging the matrix as consequence of the enlargement of commitment keys. Additionally, we prove equation (\ref{eq-alog-2}) with a proof that
 \begin{align*}
-[\grkb{\zeta}_1]_1,\ldots,[\grkb{\zeta}_n]_1 \text{ and } [\vecb{c}_1]_1 \text{ open to the same values.}
+[\grkb{\zeta}_1]_1,\ldots,[\grkb{\zeta}_n]_1 \text{ and } [\vecb{c}_1]_1 \text{ open to the same values,}
 \end{align*}
+using the proof system from Section \ref{sec:aggcommit}.
 \iffalse
 We prove soundness in the same fashion as the protocols from Chapter \ref{sec:shuf-rp}, that is we guess the index $j^*$ of an element $x_{j^*}\notin S$ in order to choose $\vecb{h}_{j^*}$ linearly independent from the other vectors in $ck$. Similarly as in the non-aggregated case, we will guess the (sub-)path $(b_{j^*,m+1},\ldots, b_{j^*,1})$ (where $b_{j^*,1},\ldots,b_{j^*,m}$ are the uniques openings of, respectively, $[\vecb{d}_1]_2,\ldots,[\vecb{d}]_m$ at position $j^*$) and we will choose, for each $\ell\in[m]$, $\vecb{g}_{\ell,\alpha_{j^*,\ell}}$ linearly independent from the other vectors in $ck_\ell$, where $\alpha_{j^*,\ell}:=(\alpha_{j^*}-1 \mod 2^{\ell-1})+1$. With such choice of the commitment keys, we will be able to prove that $x_{j^*}=s_{\alpha_{j^*}}$ unless we can break some hardness assumption.
 Consequently, the total security loss in the reduction will be of a factor of $\frac{2}{nt}$.  
@@ -118,12 +123,12 @@ Pick \(\matr{T}\gets\Z_q^{2\times 2}\) and for each \(\ell\in[m]\), \( i\in [n2^
 For \(\ell\in [m]\), let
 $$
 \mathcal{M}_\ell:=\{\matr{M}^\ell_{i,j}:j\in[n+1],i\notin[(j-1)2^{\ell-1}+1,j2^{\ell-1}]\setminus[n2^{\ell-1}+1]\}$$
-and let \(\mathcal{C}_\ell\subset\Z_q^{2\times 2}\)
+and let
 $$
 \mathcal{C}_\ell:=\{\matr{C}^\ell_{i,j}:j\in[n+1],i\notin[(j-1)2^{\ell-1}+1,j2^{\ell-1}]\setminus[n2^{\ell-1}+1]\}.
 $$
 
-Let \(\Pi_\sfsum\) be the proof system for Sum in Subspace 
+Let \(\Pi_\sfsum\) be the proof system for sum in subspace 
 (Section~\ref{sec:sum}), \(\Pi_\mathsf{lin}\) the proof system for membership in linear subspaces from Section~\ref{sect:QANIZKlinspace}, \(\Pi_\sfbits\) the proof system for proving that many commitments open to bit-strings from section \ref{sec:matr-bits}, and \(\Pi_\sfcom\)
 be an instance of the proof system for equal commitment opening (Section~\ref{sec:aggcommit}).
 
@@ -188,7 +193,7 @@ and, for each \(\ell\in [m]\), checks the validity of \(\pi_{\mathsf{lin},\ell},
 \end{align}
 If any of these checks fails, it rejects the proof.
 
-\item[{\(\mathsf{S}_1({gk},ck_\GS)\):}] The simulator receives as input a description of an asymmetric bilinear group \({gk}\) and a GS commitment key $ck_\GS$. It generates and outputs the CRS in the same way as \(\algK_1\), but additionally it also  outputs the simulation trapdoor 
+\item[{\(\mathsf{S}_1({gk},ck_\GS)\):}] The simulator receives as input a description of an asymmetric bilinear group \({gk}\) and a GS commitment key $ck_\GS$. It generates and outputs the CRS in the same way as \(\algK_1\), but additionally outputs the simulation trapdoor 
 \(\tau:=(\matr{H},\tau_\sfcom,\tau_\sfbits,\{\tau_{\sfsum,\ell},\tau_{\mathsf{lin},\ell}:\ell\in [m]\})\),
 where \(\tau_{\sfsum},\tau_{\sfbits},\tau_{\sfsum,\ell},\tau_{\mathsf{lin,\ell}}\) are, respectively, \({\Pi_\sfsum},{\Pi_\sfcom},\Pi_\sfsum,\Pi_\mathsf{lin}\) simulation trapdoors.
 
@@ -245,7 +250,7 @@ n \left(\right.
 \label{teo:bitstr-soundness}
 \end{theorem}
 
-Recall that, given $b_1,\ldots,b_m\in\bits$, we defined $\alpha:=\sum_{i=1}^mb_i2^{i-1}+1$ and $\alpha_\ell:=(\alpha-1\mod 2^\ell-1)+1$. Recall also that, given a path $(b_m,\ldots, b_\ell)$ in the binary tree whose leafs are labeled from left to right by $s_1,\ldots,s_t$, we defined $\sfleft:=\sum_{i=\ell}^m b_i2^{i-1}+1$ and $\sfright:=\sfleft+2^{\ell-1}-1$.
+Recall that, given $b_1,\ldots,b_m\in\bits$, we defined $\alpha:=\sum_{i=1}^mb_i2^{i-1}+1$ and $\alpha_\ell:=(\alpha-1\mod 2^\ell)+1$. Recall also that, given a path $(b_m,\ldots, b_\ell)$ in the binary tree whose leafs are labeled from left to right by $s_1,\ldots,s_t$, we defined $\sfleft:=\sum_{i=\ell}^m b_i2^{i-1}+1$ and $\sfright:=\sfleft+2^{\ell-1}-1$.
 
 The proof follows from the indistinguishability of the following games:
 \begin{itemize}
@@ -254,8 +259,8 @@ The proof follows from the indistinguishability of the following games:
 it samples \(ck_\GS\) itself together with its discrete logarithms.
 \item[\(\sfGame_1\):] This game is identical to \(\sfGame_0\) except that now it chooses random \(j^*\in[n]\) and it aborts if \(x_{j^*}\notin S\).
 \item[\(\sfGame_2\):] This game is identical to \(\sfGame_1\) except that now \(\matr{H}\gets\distlin^{n,j^*}_1\).
-\item[\(\sfGame_3\):] This game is identical to \(\sfGame_2\) except that now it chooses a random (sub-)path $(b_m,\cdots, b_2)\gets\bits^{m-1}$ (which ignores the first edge) in the tree whose leafs are $s_1,\ldots,s_t$. This game aborts if \((b_{j^*,1},\ldots,b_{j^*,m})\notin\bits^m\) or \((b_2,\ldots, b_m)\neq(b_{j^*,2},\ldots, b_{j^*,m})\), where \(b_{j^*,2},\ldots,b_{j^*,m}\) are the openings of \([\vecb{d}_2]_2,\ldots,[\vecb{d}_m]_2\) at coordinate \(j^*\), respectively. Define $b_1:=b_{j^*,1}$
-\item[\(\sfGame_4\):] This game is identical to \(\sfGame_3\) except that now \(\matr{G}_\ell\gets\distlin_1^{n2^{\ell-1},(j^*-1)2^{\ell-1}+\alpha_\ell}\), for \(\ell\in [m]\).
+\item[\(\sfGame_3\):] This game is identical to \(\sfGame_2\) except that now it defines $b_m:=b_{j^*,m}$ and chooses a random (sub-)path $(b_{m-1},\cdots, b_1)\gets\bits^{m-1}$ (which ignores the first edge) in the tree whose leafs are $s_1,\ldots,s_t$. This game aborts if \((b_{j^*,1},\ldots,b_{j^*,m})\notin\bits^m\) or \((b_1,\ldots, b_{m-1})\neq(b_{j^*,1},\ldots, b_{j^*,m-1})\), where \(b_{j^*,1},\ldots,b_{j^*,m}\) are the openings of \([\vecb{d}_2]_2,\ldots,[\vecb{d}_m]_2\) at coordinate \(j^*\), respectively.
+\item[\(\sfGame_4\):] This game is identical to \(\sfGame_3\) except that now \(\matr{G}_\ell\gets\distlin_1^{n2^{\ell-1},\Delta+\alpha_\ell}\), for \(\ell\in [m]\) and $\Delta:=(j^*-1)2^{\ell-1}$.
 \end{itemize}
 
 It is obvious that the first two games are indistinguishable. The rest of the argument goes as follows.
@@ -296,8 +301,8 @@ The rest of the elements of the CRS are honestly computed. When \(\matr{H}\gets\
 
 \begin{proof}  The probability that
  \(\mathsf{Game}_3(\advA)=1\) is the probability that  a) \(\mathsf{Game}_2(\advA)=1\) and
-b) \((b_{j^*,1},\ldots,b_{j^*,m})\notin\bits^m\) or \((b_2,\ldots, b_m) \neq (b_{j^*,2},\ldots, b_{j^*,m})\). If \((b_{j^*,1},\ldots,\allowbreak b_{j^*,m})\notin\bits^m\) we can build an adversary \(\advB_\sfbits\) against \(\Pi_\sfbits\) and thus, the probability that \((b_{j^*,1},\ldots,b_{j^*,m})\in\bits^m\) is less than \(\adv_{\Pi_\sfbits}(\advB_1)\). The view of adversary \(\advA\) is independent of \((b_{2},\ldots, b_{m})\), while, if \(\mathsf{Game_2}(\advA)=1\) and \((b_{j^*,1},\ldots,b_{j^*,m})\in\bits^{m}\), then \((b_{j^*,2}\cdots b_{j^*,m})\in[\setsize /2]\). Thus, 
-the probability that the event described in b) occurs conditioned on \(\mathsf{Game_0}(\advA)=1\) and \((b_{j^*,1},\ldots,b_{j^*,m})\in\bits^{m}\), is greater than or equal to \(2/\setsize \) and the lemma follows.
+b) \((b_{j^*,1},\ldots,b_{j^*,m})\notin\bits^m\) or \((b_1,\ldots, b_{m-1}) \neq (b_{j^*,1},\ldots, b_{j^*,m-1})\). If \((b_{j^*,1},\ldots,\allowbreak b_{j^*,m})\notin\bits^m\) we can build an adversary \(\advB_\sfbits\) against \(\Pi_\sfbits\) and thus, the probability that \((b_{j^*,1},\ldots,b_{j^*,m})\in\bits^m\) is less than \(\adv_{\Pi_\sfbits}(\advB_1)\). The view of adversary \(\advA\) is independent of \((b_{1},\ldots, b_{m-1})\), while, if \(\mathsf{Game_2}(\advA)=1\) and \((b_{j^*,1},\ldots,b_{j^*,m})\in\bits^{m}\), then \((b_{j^*,1}\cdots b_{j^*,m-1})\in\bits^{m-1}\). Thus, 
+the probability that the event described in b) occurs conditioned on \(\mathsf{Game_2}(\advA)=1\) and \((b_{j^*,1},\ldots,b_{j^*,m})\in\bits^{m}\), is greater than or equal to \(2/\setsize \) and the lemma follows.
 \end{proof}
 
 \begin{lemma} There exists a \(\distlin_1\)-\(\mddh_{\GG_1}\) adversary \(\advD_1\) such that
@@ -309,9 +314,9 @@ the probability that the event described in b) occurs conditioned on \(\mathsf{G
 \begin{proof}
 We construct an adversary \(\advD_1\) that receives 
 a challenge \(([\vecb{a}]_1,[\vecb{u}]_1)\) of the 
-\(\distlin_1\)-\(\mddh_{\GG_1}\) Assumption. From this challenge, \(\advD_1\) defines for each \(\ell\in [m]\) the matrix  \([\matr{G}_\ell]_1\) as the matrix whose  \((j^*-1)2^{\ell-1}+\alpha_\ell\) th column is \([\vecb{u}]_1\), and the rest of the columns are random vectors in the image of \([\vecb{a}]_1\). 
+\(\distlin_1\)-\(\mddh_{\GG_1}\) Assumption. From this challenge, \(\advD_1\) defines for each \(\ell\in [m]\) the matrix  \([\matr{G}_\ell]_1\) as the matrix whose  \(\Delta+\alpha_\ell\) th column is \([\vecb{u}]_1\), and the rest of the columns are random vectors in the image of \([\vecb{a}]_1\). 
 Obviously, when \([\vecb{u}]_1\) is sampled from 
-the image of \([\vecb{a}]_1\), \([\matr{G}_\ell]_1\) follows the distribution \(\distlin_1^{n2^{\ell-1},0}\), while if \([\vecb{u}]_1\) is a uniform element of \(\GG^2_1\), \([\matr{G}_\ell]_1\) follows the distribution \(\distlin_1^{n2^{\ell-1},(j^*-1)2^{\ell-1}+\alpha_\ell}\). 
+the image of \([\vecb{a}]_1\), \([\matr{G}_\ell]_1\) follows the distribution \(\distlin_1^{n2^{\ell-1},0}\), while if \([\vecb{u}]_1\) is a uniform element of \(\GG^2_1\), \([\matr{G}_\ell]_1\) follows the distribution \(\distlin_1^{n2^{\ell-1},\Delta+\alpha_\ell}\). 
  
 The rest of the elements of the CRS are honestly computed. When \([\vecb{u}]_1\) is sampled from the image of \([\matr{a}]_1\), \(\advD_1\) perfectly simulates \(\sfGame_3\), and when \([\vecb{u}]_1\) is uniform, \(\advD_1\) perfectly simulates \(\sfGame_4\), which concludes the proof. 
 \end{proof}
@@ -321,8 +326,8 @@ The rest of the elements of the CRS are honestly computed. When \([\vecb{u}]_1\)
 There exist adversaries \(\advB_\sfcom\), against the strong soundness of \(\Pi_\sfcom\), \(\advB_\sfsum\), against the soundness of \(\Pi_\sfsum\), and an adversary \(\advB_\mathsf{lin}\) against the soundness of \(\Pi_\mathsf{lin}\), such that \(\Pr[\sfGame_4(\advA)=1]\leq 4/q+ \adv_{\Pi_\sfcom}(\advB_\sfcom)+m\adv_{\Pi_\sfsum}(\advB_\sfsum)+m\adv_{\Pi_\mathsf{lin}}(\advB_\mathsf{lin})\).
 \end{lemma}
 \begin{proof}
-With probability \(1-4/q\), \(\{\vecb{g}_{\ell,(j^*-1)2^\ell-1+\alpha_\ell},\vecb{g}_{\ell,n2^{\ell-1}+1}\}\), \(\ell\in [m]\), and \(\{\vecb{h}_{j^*},\allowbreak \vecb{h}_{m+1}\}\) are bases of \(\Z_q^2\),
-and, for each \(\ell\in [m],\mu\in\{1,2\}\), we can define \(\tilde{s}_\ell,\tilde{s}_{\ell,\mu},\tilde{r}_\ell,\tilde{r}_{\ell,\mu},b_{j^*,\ell},\tilde{t}_\ell\) as the unique coefficients in \(\Z_q\) such that \(\vecb{c}_\ell=\allowbreak \tilde{s}_\ell\vecb{g}_{\ell,(j^*-1)2^{\ell-1}+\alpha_\ell} + \tilde{r}_\ell \vecb{g}_{\ell,n2^{\ell-1}+1}, \vecb{c}_{\ell,\mu}=\tilde{s}_{\ell,\mu}\vecb{g}_{\ell,(j^*-1)2^{\ell-1}+\alpha_\ell} + \tilde{r}_{\ell,\mu} \vecb{g}_{\ell,n2^{\ell-1}+1},\) and \(\vecb{d}_\ell= b_{j^*,\ell} \vecb{h}_{j^*} + \tilde{t}_\ell \vecb{h}_{n+1}\).
+With probability \(1-4/q\), \(\{\vecb{g}_{\ell,\Delta+\alpha_\ell},\vecb{g}_{\ell,n2^{\ell-1}+1}\}\), \(\ell\in [m]\), and \(\{\vecb{h}_{j^*},\allowbreak \vecb{h}_{m+1}\}\) are bases of \(\Z_q^2\),
+and, for each \(\ell\in [m],\mu\in\{1,2\}\), we can define \(\tilde{s}_\ell,\tilde{s}_{\ell,\mu},\tilde{r}_\ell,\tilde{r}_{\ell,\mu},b_{j^*,\ell},\tilde{t}_\ell\) as the unique coefficients in \(\Z_q\) such that \(\vecb{c}_\ell=\allowbreak \tilde{s}_\ell\vecb{g}_{\ell,\Delta+\alpha_\ell} + \tilde{r}_\ell \vecb{g}_{\ell,n2^{\ell-1}+1}, \vecb{c}_{\ell,\mu}=\tilde{s}_{\ell,\mu}\vecb{g}_{\ell,\Delta+\alpha_\ell} + \tilde{r}_{\ell,\mu} \vecb{g}_{\ell,n2^{\ell-1}+1},\) and \(\vecb{d}_\ell= b_{j^*,\ell} \vecb{h}_{j^*} + \tilde{t}_\ell \vecb{h}_{n+1}\).
 
 Recall that if \(\sfGame_4(\advA)=1\) then \(x_{j^*}\notin S\). The adversary can win in \(\sfGame_4\) if one of the following events happen:
 \begin{description}
@@ -335,49 +340,62 @@ By the law of total probabilities, \(\Pr[\sfGame_4(\advA)=1]\leq 4/q+\Pr[E_1]+\P
 
 We prove by induction on \(\ell\) that \(\tilde{s}_\ell=s_{\alpha}\). If this is the case, the fact that \(\neg E_1\) implies that \(x_{j^*}=\tilde{s}_1=s_{\alpha}\in S\), which finish the proof.
 
-In the base case ($\ell=m$), if we multiply equation (\ref{eq-alog-5}) on the right by a vector \(\vecb{k}\) such that \(\vecb{h}_j^\top\vecb{k}=1\) if \(j=j^*\) and \(0\) if not (which exists since \(\{\vecb{h}_{j^*},\vecb{h}_{n+1}\}\) is a basis of \(\Z_q^2\)), the fact that \(\matr{\Theta}_m+\matr{\Pi}_m\in\Span(\mathcal{C}_m)\), \(\vecb{g}_{m,i}\in\Span(\vecb{g}_{m,(j^*-1)2^{m-1}+1})\) if \(i\neq (j^*-1)2^{\ell-1}+\alpha_\ell\), together with Lemma \ref{lemma:alpha} implies that 
+But first note that given a vector \(\vecb{k}\in\Z_q^2\), such that \(\vecb{h}_j^\top\vecb{k}=1\) if \(j=j^*\) and \(0\) if not (which exists since \(\{\vecb{h}_{j^*},\vecb{h}_{n+1}\}\) is a basis of \(\Z_q^2\)), if we multiply equation (\ref{eq-alog-5}) on the right by $\vecb{k}$ we get
+$$
+[\vecb{c}_\ell]_T-(1-b_{j^*,\ell})[\vecb{c}_{\ell,1}]_T-b_{j^*,\ell}[\vecb{c}_{\ell,2}]_T=[(\matr{\Theta}_\ell+\matr{\Pi}_\ell)\vecb{k}]_T.
+$$
+The fact that \(\matr{\Theta}_\ell+\matr{\Pi}_\ell\in\Span(\mathcal{C}_\ell)\), \(\vecb{g}_{\ell,i}\in\Span(\vecb{g}_{\ell,n2^{\ell-1}+1})\) if \(i\neq \Delta+\alpha_\ell\), and $\Delta+\alpha_\ell\in[\Delta+1,\Delta+2^{\ell-1}]$, implies that
+$$(\matr{\Theta}_\ell+\matr{\Pi}_\ell)\vecb{k} = \sum_{i\in[n2^{\ell-1}+1]\setminus[\Delta+1,\Delta+2^{\ell-1}]}\beta_i\vecb{g}_{\ell,i}=\beta\vecb{g}_{\ell,n2^{\ell-1}+1}$$
+for some $\beta_i,{\beta}\in\Z_q$, $i\in[n2^{\ell-1}+1]\setminus[\Delta+1,\Delta+2^{\ell-1}]$.
+
+Therefore, given that we are in the case $b_\ell=b_{j^*,\ell}$, equation (\ref{eq-alog-5}) implies that
+$$
+[\vecb{c}_\ell]_T=(1-b_{\ell})[\vecb{c}_{\ell,1}]_T+b_{\ell}[\vecb{c}_{\ell,2}]_T+\beta\vecb{g}_{\ell,n2^{\ell-1}+1}.
+$$
+
+In the base case ($\ell=m$), the fact that \(\vecb{g}_{m,i}\in\Span(\vecb{g}_{m,n2^{m-1}+1})\), if \(i\neq \Delta+\alpha_\ell\), together with Lemma \ref{lemma:alpha} implies that 
 \begin{align*}
-\vecb{c}_m &= (1-b_m)\sum_{i=1}^{2^{m-1}}s_i \vecb{g}_{m,i}+b_m\sum_{i=1}^{2^{m-1}}s_{i+2^{m-1}}\vecb{g}_{m,i}\\
-&= (1-b_m)s_{\alpha_\ell}\vecb{g}_{m,\alpha_\ell} +b_ms_{\alpha_\ell+2^{m-1}}\vecb{g}_{m,\alpha_\ell}+\tilde{r}_1\vecb{g}_{m,2^{m-1}+1}\\
-&= (1-b_m)s_{\alpha-\sfleft+1}\vecb{g}_{m,\alpha_\ell} +b_ms_{\alpha-\sfleft+1+2^{m-1}}\vecb{g}_{m,\alpha_\ell}+\tilde{r}_1\vecb{g}_{m,2^{m-1}+1}\\
+\vecb{c}_m &= (1-b_m)\sum_{i=1}^{2^{m-1}}s_i \vecb{g}_{m,\Delta+i}+b_m\sum_{i=1}^{2^{m-1}}s_{i+2^{m-1}}\vecb{g}_{m,\Delta+i}\\
+&= (1-b_m)s_{\alpha_\ell}\vecb{g}_{m,\Delta+\alpha_\ell} +b_ms_{\alpha_\ell+2^{m-1}}\vecb{g}_{m,\Delta+\alpha_\ell}+\tilde{r}_1\vecb{g}_{m,n2^{m-1}+1}\\
+&= (1-b_m)s_{\alpha-\sfleft+1}\vecb{g}_{m,\Delta+\alpha_\ell} +b_ms_{\alpha-\sfleft+1+2^{m-1}}\vecb{g}_{m,\Delta+\alpha_\ell}+\tilde{r}_1\vecb{g}_{m,n2^{m-1}+1}\\
 &=\begin{cases}
-    s_{\alpha-1+1}\vecb{g}_{1,\alpha_\ell}+\tilde{r}_1\vecb{g}_{1,t/2} & \text{ if } b_m=0 \ (\text{and thus }\sfleft=1) \\
-    s_{\alpha-(2^{\ell-1}+1)+1+2^{\ell-1}}\vecb{g}_{1,\alpha_\ell}+\tilde{r}_1\vecb{g}_{1,t/2} & \text{ if } b_m=1 \ (\text{and thus }\sfleft=2^{\ell-1}+1) 
+    s_{\alpha-1+1}\vecb{g}_{m,\Delta+\alpha_\ell}+\tilde{r}_1\vecb{g}_{m,n2^{m-1}+1} & \text{ if } b_m=0 \ (\sfleft=1) \\
+    s_{\alpha-(2^{\ell-1}+1)+1+2^{\ell-1}}\vecb{g}_{m,\Delta+\alpha_\ell}+\tilde{r}_1\vecb{g}_{m,n2^{m-1}+1} & \text{ if } b_m=1 \ (\sfleft=2^{\ell-1}+1) 
 \end{cases}
 \end{align*}
-for some \(\tilde{r}_1\in\Z_q\). In both cases $\vecb{c}_1=s_\alpha\vecb{g}_{1,\alpha_\ell}+\tilde{r}_1\vecb{g}_{1,t/2}$.
+for some \(\tilde{r}_1\in\Z_q\). In both cases $\vecb{c}_1=s_\alpha\vecb{g}_{m,\Delta+\alpha_\ell}+\tilde{r}_1\vecb{g}_{m,n2^{m-1}}$.
 
-In the inductive case we assume that \(\vecb{c}_{\ell+1}=s_{\alpha}\vecb{g}_{\ell+1,(j^*-1)2^\ell+\alpha_{\ell+1}}+\tilde{r}_{\ell+1}\vecb{g}_{\ell+1,n2^\ell+1}\) and we want to show that $\vecb{c}_\ell = s_\alpha\vecb{g}_{\ell,(j^*-1)2^{\ell-1}+\alpha_\ell}+\tilde{r}_\ell\vecb{g}_{\ell,n2^{\ell-1}+1}$. Since \(\vecb{g}_{\ell+1,\alpha_{\ell+1}}\) is linearly independent from the rest of vectors in \(ck_{\ell+1}\), any solution to 
+In the inductive case we assume that \(\vecb{c}_{\ell+1}=s_{\alpha}\vecb{g}_{\ell+1,2\Delta+\alpha_{\ell+1}}+\tilde{r}_{\ell+1}\vecb{g}_{\ell+1,n2^\ell+1}\) and we want to show that $\vecb{c}_\ell = s_\alpha\vecb{g}_{\ell,\Delta+\alpha_\ell}+\tilde{r}_\ell\vecb{g}_{\ell,n2^{\ell-1}+1}$.\footnote{Note that $\matr{G}_{\ell+1}\gets\distlin_1^{n2^\ell, (j^*-1)2^\ell+\alpha_{\ell+1}}$ and thus, the $(j^*-1)2^\ell+\alpha_{\ell+1}=2\Delta+\alpha_{\ell+1}$ th column of $\matr{G}_{\ell+1}$ is l.i.~from the rest.} Since \(\vecb{g}_{\ell+1,\alpha_{\ell+1}}\) is linearly independent from the rest of vectors in \(ck_{\ell+1}\), any solution to 
 \begin{equation}
 \begin{pmatrix}\vecb{c}_{\ell+1}\\\vecb{c}_{\ell,1}\\\vecb{c}_{\ell,2}\end{pmatrix}=\matr{G}^{\ell}_{\mathsf{split}}\vecb{w} \label{eq-G-split}
 \end{equation}
-is equal to \(s_{\alpha}\) at position \((j^*-1)2^{\ell}+\alpha_{\ell+1}=(j^*-1)2^{\ell-1}+\alpha_\ell+b_\ell2^{\ell-1}\) as depicted below.
+is equal to \(s_{\alpha}\) at position \(2\Delta+\alpha_{\ell+1}=2\Delta+\alpha_\ell+b_\ell2^{\ell-1}\) as depicted below.
 \begin{align*}
 \pmatri{\vecb{c}_{\ell+1}\\\vecb{c}_{\ell,1}\\\vecb{c}_{\ell,2}}=
 \pmatri{
-\cdots & \vecb{g}_{\ell+1,(j^*-1)2^{\ell}+\alpha_\ell} & \cdots  & \vecb{g}_{\ell+1,(j^*-1)2^{\ell}+\alpha_\ell+2^{\ell-1}} & \cdots\\
-\cdots & \vecb{g}_{\ell,(j^*-1)2^{\ell-1}+\alpha_\ell}     & \cdots  & \vecb{0}                           & \cdots\\
-\cdots & \vecb{0}                        & \cdots  & \vecb{g}_{\ell,(j^*-1)2^{\ell-1}+\alpha_\ell}        & \cdots
+\cdots & \vecb{g}_{\ell+1,2\Delta+\alpha_\ell} & \cdots  & \vecb{g}_{\ell+1,2\Delta+\alpha_\ell+2^{\ell-1}} & \cdots\\
+\cdots & \vecb{g}_{\ell,\Delta+\alpha_\ell}     & \cdots  & \vecb{0}                           & \cdots\\
+\cdots & \vecb{0}                        & \cdots  & \vecb{g}_{\ell,\Delta+\alpha_\ell}        & \cdots
 }
 \pmatri{\vdots\\s_\alpha\\\vdots}
 \end{align*}
 If $b_{\ell}=0$, by Lemma \ref{lemma:alpha}, $\alpha_{\ell+1}=\alpha_\ell$. Therefore, any solution to equation (\ref{eq-G-split})
- is equal to $s_\alpha$ at position $(j^*-1)2^{\ell}+\alpha_\ell$ and thus $\vecb{c}_{\ell,1} = s_\alpha\vecb{g}_{\ell,(j^*-1)2^{\ell-1}+\alpha_\ell}+\tilde{r}_{\ell,1}\vecb{g}_{\ell,n2^{\ell-1}+1}$.
+ is equal to $s_\alpha$ at position $2\Delta+\alpha_\ell$ and thus $\vecb{c}_{\ell,1} = s_\alpha\vecb{g}_{\ell,\Delta+\alpha_\ell}+\tilde{r}_{\ell,1}\vecb{g}_{\ell,n2^{\ell-1}+1}$.
 Equation \ref{eq-alog-5} implies that
 \begin{align*}
-\vecb{c}_{\ell}=&(1-b_\ell)(s_\alpha\vecb{g}_{\ell,(j^*-1)2^{\ell-1}+\alpha_\ell}+\tilde{r}_{\ell,1}\vecb{g}_{\ell,n2^{\ell-1}+1})+b_\ell\vecb{c}_{\ell,2}+y_\ell\vecb{g}_{\ell,n2^{\ell-1}+1}\\
-               =& s_\alpha\vecb{g}_{\ell,(j^*-1)2^{\ell-1}+\alpha_\ell}+(\tilde{r}_{\ell,1}+y_\ell)\vecb{g}_{\ell,n2^{\ell-1}+1}.
+\vecb{c}_{\ell}=&(1-b_\ell)(s_\alpha\vecb{g}_{\ell,\Delta+\alpha_\ell}+\tilde{r}_{\ell,1}\vecb{g}_{\ell,n2^{\ell-1}+1})+b_\ell\vecb{c}_{\ell,2}+y_\ell\vecb{g}_{\ell,n2^{\ell-1}+1}\\
+               =& s_\alpha\vecb{g}_{\ell,\Delta+\alpha_\ell}+(\tilde{r}_{\ell,1}+y_\ell)\vecb{g}_{\ell,n2^{\ell-1}+1}.
 \end{align*}
-If $b_{\ell}=1$, then $\alpha_{\ell+1}=\alpha_\ell+2^{\ell-1}$ and similarly, $\vecb{c}_{\ell}=s_\alpha\vecb{g}_{\ell,(j^*-1)2^{\ell-1}+\alpha_\ell}+(\tilde{r}_{\ell,2}+y_\ell)\vecb{g}_{\ell,n2^{\ell-1}+1}$.
+If $b_{\ell}=1$, then $\alpha_{\ell+1}=\alpha_\ell+2^{\ell-1}$ and similarly, $\vecb{c}_{\ell}=s_\alpha\vecb{g}_{\ell,\Delta+\alpha_\ell}+(\tilde{r}_{\ell,2}+y_\ell)\vecb{g}_{\ell,n2^{\ell-1}+1}$.
 
 \end{proof}
 \subsubsection{Perfect Zero-Knowledge}
-Note that the vector the vectors \([\vecb{c}_\ell],[\vecb{c}_{\ell,1}]_1,[\vecb{c}_{\ell,2}]_1,[\vecb{d}_\ell]_2\) and matrices \([\matr{\Theta}_\ell]_1,[\matr{\Pi}_\ell]_2\), \(1\leq\ell\leq m\), output by the prover and the simulator are, respectively, uniform vectors and uniform matrices conditioned on satisfying equation \ref{eq-alog-5}. This follows from the fact that \(ck,ck_1,\ldots,ck_\ell\) are all perfectly hiding commitment keys and that \([\matr{\Theta}_\ell]_1,[\matr{\Pi}_\ell]_1\) are the unique solutions of equation (\ref{eq-alog-5}) modulo the random choice of \(\matr{R}_\ell\). Finally, the rest of the proof follows from Zero-Knowledge of \(\Pi_\sfcom,\Pi_\sfbits,\Pi_\sfsum,\) and \(\Pi_\mathsf{lin}\).
+Note that the vectors \([\vecb{c}_\ell],[\vecb{c}_{\ell,1}]_1,[\vecb{c}_{\ell,2}]_1,[\vecb{d}_\ell]_2\) and matrices \([\matr{\Theta}_\ell]_1,[\matr{\Pi}_\ell]_2\), \(1\leq\ell\leq m\), output by the prover and the simulator are, respectively, uniform vectors and uniform matrices conditioned on satisfying equation \ref{eq-alog-5}. This follows from the fact that \(ck,ck_1,\ldots,ck_\ell\) are all perfectly hiding commitment keys and that \([\matr{\Theta}_\ell]_1,[\matr{\Pi}_\ell]_1\) are the unique solutions of equation (\ref{eq-alog-5}) modulo the random choice of \(\matr{R}_\ell\). Finally, the rest of the proof follows from Zero-Knowledge of \(\Pi_\sfcom,\Pi_\sfbits,\Pi_\sfsum,\) and \(\Pi_\mathsf{lin}\).
 
 \subsection{The case \(S\subset\GG_1\)} \label{sec:improved-aZKSMP-group-case}
 We briefly justify that the case \(S\subset\GG_1\) follows directly from the case \(S\subset\Z_q\) when \(S\) is a fixed witness samplable set. That is, there is a fixed set $S$ for each CRS, and there is an efficient algorithm that samples \(s_1,\ldots,s_{\setsize }\in\Z_q\) such that \(S=\{[s_1]_1,\ldots,[s_{\setsize }]_1\}\). %Note that this is the same case of Section~\ref{sec:bits-applications} where the CRS depends on set.
 
-The reason why is not clear how to compute proofs in this setting is that it requires to compute values of the type \([\vecb{s}_i\vecb{k}]_1\), where \([\vecb{k}]_\mu\), \(\mu\in\{1,2\}\), is a vector from one of the commitment keys. The solution is straightforward: use \(s_1,\ldots,s_{\setsize }\) to compute these values and add them to the CRS (with the consequent CRS growth). Therefore, the new CRS contains also, for each $\alpha\in[n],\ell\in[m],i\in[n],j\neq(i-1)2^{\ell-1}+\alpha_\ell$:
+The reason why is not clear how to compute proofs in this setting is that it requires to compute values of the type \([\vecb{s}_i \gamma]_1\), where \([\gamma]_\mu\), \(\mu\in\{1,2\}\), is a group element included in the CRS. The solution is straightforward: use \(s_1,\ldots,s_{\setsize }\) to compute these values and add them to the CRS (with the consequent CRS growth). Therefore, the new CRS contains also, for each $\alpha\in[n],\ell\in[m],i\in[n2^{\ell-1}],j\in[n]$, such that $i\neq(j-1)2^{\ell-1}+\alpha_\ell$:
 \begin{align*}
 s_\alpha[\vecb{g}_{\ell,(i-1)2^{\ell-1}+\alpha_\ell}]_1 \text{ and }
  s_\alpha([\matr{C}^\ell_{(i-1)2^{\ell-1}+\alpha_\ell,j}]_1,[\matr{D}_{(j-1)2^{\ell-1},j}^\ell]_2).

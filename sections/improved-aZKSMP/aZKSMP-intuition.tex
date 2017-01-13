@@ -88,6 +88,17 @@ One can reduce the total size of the commitments using the length reducing Multi
 =\ &(1-b_\ell)\MP.\Com_{ck_\ell}\left(\pmatri{x_{\ell+1,1}\\\vdots\\x_{\ell+1,2^{\ell-1}}};r_{\ell,1}\right)+\\
 & b_\ell\MP.\Com_{ck_\ell}\left(\pmatri{x_{\ell+1,2^{\ell-1}+1}\\\vdots\\x_{\ell+1,2^\ell}};r_{\ell,2}\right)+\\
 & \MP.\Com_{ck_\ell}(\vecb{0};y_\ell),
+\end{align*}
+\begin{align*}
+&\Longleftrightarrow\\
+&\MP.\Com_{ck_\ell}\left(\begin{array}{c}
+    \pmatri{x_{\ell,1}\\\vdots\\x_{\ell,2^{\ell-1}}}
+    -(1-b_\ell)\pmatri{x_{\ell+1,1}\\\vdots\\x_{\ell+1,2^{\ell-1}}}
+    -b_\ell\pmatri{x_{\ell+1,2^{\ell-1}+1}\\\vdots\\x_{\ell+1,2^\ell}};\\
+    r_\ell-(1-b_\ell)r_{\ell,1}-b_\ell r_{\ell,2}
+\end{array}\right)\\
+&=
+\MP.\Com_{ck_\ell}(\vecb{0};y_\ell)
 \end{align*}\end{small}
 for some $y_\ell\in\Z_q$. In this way, we only need $3m=3\log t$ additional commitments. The reason for using different commitment keys will be clear when we explain soundness.
 
@@ -159,10 +170,12 @@ Despite this flawed reasoning, we will show that the proof system is still sound
 Suppose that an adversary against soundness outputs GS commitments to \(b_1,\ldots,b_{m}\in\Z_q\), outputs commitments \([\vecb{c}_\ell]_1\), $\ell\in[m]$, and \([\vecb{c}_{\ell,1}]_1,[\vecb{c}_{\ell,2}]\), $\ell\in[m-1]$, a GS proofs of the satisfiability of equation (\ref{eq-log-5}), and QA-NIZK proofs of (\ref{eq-log-6}) and (\ref{eq-log-split}) for each \(\ell\in[m-1]\).
 We will simply assume that \(b_1,\ldots,b_m\in\bits\), since it can be proven (with perfect soundness) with a GS proof of size \(\Theta(\log \setsize )\) or using the more efficient proofs of Section~\ref{sec:bits} (with computational soundness).
 
-Let $\alpha_\ell:=(\alpha-1 \mod 2^{\ell-1})+1$, the position of $s_\alpha$ respective to the leafs under the path $(b_m,\ldots, b_\ell)$, and note that $\alpha_\ell \in[2^{\ell-1}]$.
-In the reduction we will guess the (sub-)path $(b_{m-1},\ldots, b_1)$ (it will be not necessary to guess first the edge of the path) chosen by the adversary, and for each $\ell\in[m]$, we will chose $\vecb{g}_{\ell,\alpha_\ell}$ linearly independent from the other $2^{\ell-1}$ vectors in $ck_\ell$. This can be done choosing  random $b'_{m-1},\ldots, b'_1\in\bits$ and aborting if the paths $(b'_{m-1},\ldots, b'_{1})$ and $(b_{m-1},\cdots, b_1)$ are distinct. Therefore, our security reduction will have a security loss factor of $1/2^{m-1}=2/\setsize$. We sample $ck_\ell\gets\distlin_1^{2^{\ell-1},\alpha_\ell}$, as defined on Section \ref{sec:mddh}, which implies that for every $\ell\in[m]$ there exists unique $\tilde{x}_{\ell},\tilde{r}_\ell\in\Z_q$ such that $\vecb{c}_\ell:=\tilde{x}_\ell\vecb{g}_{\ell,\alpha_\ell}+\tilde{r}_\ell\vecb{g}_{\ell,2^{\ell-1}+1}$.
+Let $\alpha_\ell:=(\alpha-1 \mod 2^{\ell-1})+1$, the position of $s_\alpha$ respective to the leafs under the path $(b_m,\ldots, b_\ell)$, and note that $\alpha_\ell \in[1,2^{\ell-1}]$.
+In the reduction we will guess the (sub-)path $(b_{m-1},\ldots, b_1)$ (it will be not necessary to guess first the edge of the path) chosen by the adversary, and for each $\ell\in[m]$, we will chose $\vecb{g}_{\ell,\alpha_\ell}$ linearly independent from the other $2^{\ell-1}$ vectors in $ck_\ell$. This can be done choosing  random $b'_{m-1},\ldots, b'_1\in\bits$ and aborting if $(b'_{m-1},\ldots, b'_{1})\neq(b_{m-1},\cdots, b_1)$. Therefore, our security reduction will have a security loss factor of $1/2^{m-1}=2/\setsize$. We sample $ck_\ell\gets\distlin_1^{2^{\ell-1},\alpha_\ell}$, as defined on Section \ref{sec:mddh}, which implies that for every $\ell\in[m]$ there exists unique $\tilde{x}_{\ell},\tilde{r}_\ell\in\Z_q$ such that $\vecb{c}_\ell:=\tilde{x}_\ell\vecb{g}_{\ell,\alpha_\ell}+\tilde{r}_\ell\vecb{g}_{\ell,2^{\ell-1}+1}$.
 
-It will be useful to prove the next lemma about $\alpha_\ell$.
+We prove by induction on \(\ell\) that \(\vecb{c}_\ell= s_\alpha\vecb{g}_{\ell,\alpha_\ell}+\tilde{r}_{\ell}\vecb{g}_{\ell,2^{\ell-1}+1}\), for some $\tilde{r}_\ell\in\Z_q$. If this is the case $\vecb{c}_1=s_\alpha\vecb{g}_{1,1}+\tilde{r}_{1}\vecb{g}_{1,2}$. Soundness of proof (\ref{eq-log-6}) together with the fact that \(ck_1\) is perfectly binding implies that \(x=\tilde{x}_{1}=s_{\alpha}\in S\) which proves soundness.
+
+First, it will be useful to prove the next lemma about $\alpha_\ell$.
 \begin{lemma} Let $b_m,\ldots,b_1\in\bits$. For all $\ell\in[m]$, $\alpha_\ell = \alpha-\sfleft+1$ and, for all $\ell\in[m-1]$, $\alpha_{\ell+1}=\alpha_{\ell}+b_\ell2^{\ell-1}$.
 \label{lemma:alpha}
 \end{lemma}
@@ -186,19 +199,18 @@ On the other hand
 \end{align*}
 \end{proof}
 
-We prove by induction on \(\ell\) that \(\vecb{c}_\ell= s_\alpha\vecb{g}_{\ell,\alpha_\ell}+\tilde{r}_{\ell}\vecb{g}_{\ell,2^{\ell-1}+1}\), for some $\tilde{r}_\ell\in\Z_q$. If this is the case $\vecb{c}_1=s_\alpha\vecb{g}_{1,1}+\tilde{r}_{1}\vecb{g}_{1,2}$. Soundness of proof (\ref{eq-log-6}) together with the fact that \(ck_1\) is perfectly binding implies that \(x=\tilde{x}_{1}=s_{\alpha}\in S\) which proves soundness.
-
+Now we prove that, for all $\ell\in[m]$, \(\vecb{c}_\ell= s_\alpha\vecb{g}_{\ell,\alpha_\ell}+\tilde{r}_{\ell}\vecb{g}_{\ell,2^{\ell-1}+1}\).
 In the base case ($\ell=m$), equation (\ref{eq-log-5}) and the fact that \(\vecb{g}_{m,i}\in\Span(\vecb{g}_{m,2^{m-1}+1})\) if \(i\neq \alpha_\ell\) together with Lemma \ref{lemma:alpha} implies that 
 \begin{align*}
 \vecb{c}_m &= (1-b_m)\sum_{i=1}^{2^{m-1}}s_i \vecb{g}_{m,i}+b_m\sum_{i=1}^{2^{m-1}}s_{i+2^{m-1}}\vecb{g}_{m,i}\\
 &= (1-b_m)s_{\alpha_\ell}\vecb{g}_{m,\alpha_\ell} +b_ms_{\alpha_\ell+2^{m-1}}\vecb{g}_{m,\alpha_\ell}+\tilde{r}_1\vecb{g}_{m,2^{m-1}+1}\\
 &= (1-b_m)s_{\alpha-\sfleft+1}\vecb{g}_{m,\alpha_\ell} +b_ms_{\alpha-\sfleft+1+2^{m-1}}\vecb{g}_{m,\alpha_\ell}+\tilde{r}_1\vecb{g}_{m,2^{m-1}+1}\\
 &=\begin{cases}
-    s_{\alpha-1+1}\vecb{g}_{1,\alpha_\ell}+\tilde{r}_1\vecb{g}_{1,t/2} & \text{ if } b_m=0 \ (\text{and thus }\sfleft=1) \\
-    s_{\alpha-(2^{\ell-1}+1)+1+2^{\ell-1}}\vecb{g}_{1,\alpha_\ell}+\tilde{r}_1\vecb{g}_{1,t/2} & \text{ if } b_m=1 \ (\text{and thus }\sfleft=2^{\ell-1}+1) 
+    s_{\alpha-1+1}\vecb{g}_{m,\alpha_\ell}+\tilde{r}_1\vecb{g}_{m,t/2} & \text{ if } b_m=0 \ (\text{and thus }\sfleft=1) \\
+    s_{\alpha-(2^{\ell-1}+1)+1+2^{\ell-1}}\vecb{g}_{m,\alpha_\ell}+\tilde{r}_1\vecb{g}_{m,t/2} & \text{ if } b_m=1 \ (\text{and thus }\sfleft=2^{\ell-1}+1) 
 \end{cases}
 \end{align*}
-for some \(\tilde{r}_1\in\Z_q\). In both cases $\vecb{c}_1=s_\alpha\vecb{g}_{1,\alpha_\ell}+\tilde{r}_1\vecb{g}_{1,t/2}$.
+for some \(\tilde{r}_1\in\Z_q\). In both cases $\vecb{c}_1=s_\alpha\vecb{g}_{1,\alpha_\ell}+\tilde{r}_1\vecb{g}_{m,t/2}$.
 
 In the inductive case we assume that \(\vecb{c}_{\ell+1}=s_{\alpha}\vecb{g}_{\ell+1,\alpha_{\ell+1}}+\tilde{r}_{\ell+1}\vecb{g}_{\ell+1,2^\ell+1}\) and we want to show that $\vecb{c}_\ell = s_\alpha\vecb{g}_{\ell,\alpha_\ell}+\tilde{r}_\ell\vecb{g}_{\ell,2^{\ell-1}+1}$. Since \(\vecb{g}_{\ell+1,\alpha_{\ell+1}}\) is linearly independent from the rest of vectors in \(ck_{\ell+1}\), any solution to equation (\ref{eq-log-split}) is equal to \(s_{\alpha}\) at position \(\alpha_{\ell+1}=\alpha_\ell+b_\ell2^{\ell-1}\) as depicted below.
 \begin{align*}
@@ -211,7 +223,7 @@ In the inductive case we assume that \(\vecb{c}_{\ell+1}=s_{\alpha}\vecb{g}_{\el
 \pmatri{\vdots\\s_\alpha\\\vdots}
 \end{align*}
 If $b_{\ell}=0$, by Lemma \ref{lemma:alpha}, $\alpha_{\ell+1}=\alpha_\ell$. Therefore, any solution to equation (\ref{eq-log-split}) is equal to $s_\alpha$ at position $\alpha_\ell$ and thus $\vecb{c}_{\ell,1} = s_\alpha\vecb{g}_{\ell,\alpha_\ell}+\tilde{r}_{\ell,1}\vecb{g}_{\ell,2^{\ell-1}+1}$.
-Equation \ref{eq-log-5} implies that
+Equation (\ref{eq-log-5}) implies that
 \begin{align*}
 \vecb{c}_{\ell}=&(1-b_\ell)(s_\alpha\vecb{g}_{\ell,\alpha_\ell}+\tilde{r}_{\ell,1}\vecb{g}_{\ell,2^{\ell-1}+1})+b_\ell\vecb{c}_{\ell,2}+y_\ell\vecb{g}_{\ell,2^{\ell-1}+1}\\
                =& s_\alpha\vecb{g}_{\ell,\alpha_\ell}+(\tilde{r}_{\ell,1}+y_\ell)\vecb{g}_{\ell,2^{\ell-1}+1}.
