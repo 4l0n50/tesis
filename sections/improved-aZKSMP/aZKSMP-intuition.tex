@@ -35,7 +35,7 @@ x= x_{1,1}\label{eq-log-3},
 \end{align}
 where \(x_{m+1,i}:=s_i\), \(i\in[t]\), and \(\alpha=\sum_{i=1}^{m}b_i2^{i-1}+1\). Note that we have added the additional variables \(x_{\ell,i}\), \(\ell\in[m]\) and \(i\in[2^\ell]\).
 
-Consider the binary tree whose leafs are $x_{m+1,1}=s_1,\ldots,x_{m+1,t}=s_{t}$, where the leftmost leaf is $s_1$ and the rightmost leaf is $s_{2^m}=s_t$. Intuitively, equation (\ref{eq-log-2}) for $\ell=m$ says that variables $x_{m,1},\ldots, x_{m,2^{m-1}}$ are the leafs of the subtree under the path $(b_m)$. For example, if $b_m=1$, the variables $x_{m,1},\ldots,x_{m,2^{m-1}}$ are equal to $s_{2^{m-1}+1},\ldots,s_{t}$, which are the leafs of the subtree under the path (1) as depicted below.
+Consider the binary tree whose leaves are $x_{m+1,1}=s_1,\ldots,x_{m+1,t}=s_{t}$, where the leftmost leaf is $s_1$ and the rightmost leaf is $s_{2^m}=s_t$. Intuitively, equation (\ref{eq-log-2}) for $\ell=m$ says that variables $x_{m,1},\ldots, x_{m,2^{m-1}}$ are the leaves of the subtree under the path $(b_m)$. For example, if $b_m=1$, the variables $x_{m,1},\ldots,x_{m,2^{m-1}}$ are equal to $s_{2^{m-1}+1},\ldots,s_{t}$, which are the leaves of the subtree under the path (1) as depicted below.
 \begin{center}
 \begin{tikzpicture}
 [n/.style={draw=none},
@@ -50,7 +50,7 @@ Consider the binary tree whose leafs are $x_{m+1,1}=s_1,\ldots,x_{m+1,t}=s_{t}$,
     ]
 \end{tikzpicture}
 \end{center}
-Similarly, equation (\ref{eq-log-2}) for $\ell=m-1$ says that variables $x_{m-1,1},\ldots,x_{m-1,2^{m-2}}$ are the leafs of the subtree under the path $(b_m,b_{m-1})$. For example, if $(b_m,b_{m-1})=(1,0)$, the variables $x_{m-1,1},\ldots,x_{m-1,2^{m-2}}$ are equal to $x_{m,1}=s_{2^{m-1}+1},\ldots,\allowbreak x_{m,2^{m-2}}=s_{2^{m-1}+2^{m-2}}$, which are the leafs of the subtree under the path (1,0) as depicted below.
+Similarly, equation (\ref{eq-log-2}) for $\ell=m-1$ says that variables $x_{m-1,1},\ldots,x_{m-1,2^{m-2}}$ are the leaves of the subtree under the path $(b_m,b_{m-1})$. For example, if $(b_m,b_{m-1})=(1,0)$, the variables $x_{m-1,1},\ldots,x_{m-1,2^{m-2}}$ are equal to $x_{m,1}=s_{2^{m-1}+1},\ldots,\allowbreak x_{m,2^{m-2}}=s_{2^{m-1}+2^{m-2}}$, which are the leaves of the subtree under the path (1,0) as depicted below.
 \begin{center}
 \begin{tiny}\begin{tikzpicture}
 [n/.style={draw=none},
@@ -75,12 +75,12 @@ Similarly, equation (\ref{eq-log-2}) for $\ell=m-1$ says that variables $x_{m-1,
 \end{tikzpicture}\end{tiny}
 \end{center}
 
-In general, the variables $x_{\ell,1},\ldots,x_{\ell,2^{\ell-1}}$ are equal to the leafs $s_{\sfleft},\ldots,\allowbreak s_{\sfright}$ under the path $(b_m,\ldots, b_\ell)$, where $\sfleft=\sum_{i=\ell}^m b_i 2^{i-1}+1$ and $\sfright=\sfleft+2^{\ell-1}-1$. 
+In general, the variables $x_{\ell,1},\ldots,x_{\ell,2^{\ell-1}}$ are equal to the leaves $s_{\sfleft},\ldots,\allowbreak s_{\sfright}$ under the path $(b_m,\ldots, b_\ell)$, where $\sfleft=\sum_{i=\ell}^m b_i 2^{i-1}+1$ and $\sfright=\sfleft+2^{\ell-1}-1$. 
 Therefore, for $\ell=1$ equation (\ref{eq-log-2}) says that the variable $x_{1,1}$ is equal to the leaf $s_{\sfleft}=s_{\sfright}=s_\alpha$, since $\sfleft=\sfright=\sum_{i=1}^m b_i2^{i-1}+1=\alpha$, which is the unique leaf (and the unique node) in the subtree under the path $(b_m,\ldots, b_1)$.
 
 Similarly as in Chandran et al.'s proof, for each new variable a new commitment must be added to the proof. But, in contrast with Chandran et al.'s proof, in this case the additional commitments do increase the asymptotic size of the proof. Indeed, the total number of new variables is \(2^{m-1}+2^{m-2}+\ldots+1=2^m-1=t-1\), and thus $t-1$ new commitments must be added.
 
-One can reduce the total size of the commitments using the length reducing Multi-Pedersen commitments from Section~\ref{sec:ext-mp}. However, this must be done carefully in order to be able to express equation (\ref{eq-log-2}) with a Groth-Sahai proof of an equation that involves the MP commitments and the variables $b_1,\ldots,b_m$. For example, if one computes a single commitment to all variables $\MP.\Com_{ck}((x_{1,1},\ldots,x_{m,2^{m-1}})^\top;r)$ it is not clear how to obtain $b_\ell\MP.\Com_{ck}(\allowbreak (x_{\ell+1,1},\ldots,x_{\ell+1,2^\ell})^\top\allowbreak ;r_\ell)=\MP.\Com_{ck}(b_\ell(x_{\ell+1,1},\ldots,x_{\ell+1,2^\ell})^\top;b_\ell r_\ell)$ as required in equation \ref{eq-log-2}. Our solution is to compute a single MP commitment to each vector that appears in equation (\ref{eq-log-2}) in order to show with Groth-Sahai proofs that
+One can reduce the total size of the commitments using the length reducing Multi-Pedersen commitments from Section~\ref{sec:ext-mp}. However, this must be done carefully in order to be able to express equation (\ref{eq-log-2}) with a Groth-Sahai proof of an equation that involves the MP commitments and the variables $b_1,\ldots,b_m$. For example, if one computes a single commitment to all variables $\MP.\Com_{ck}((x_{1,1},\ldots,x_{m,2^{m-1}})^\top;r)$ it is not clear how to use it to express equation (\ref{eq-log-2}), because not all the variables appear at once in this equation (but all the variables appear in the previous commitment). Our solution is to compute a single MP commitment to each vector that appears in equation (\ref{eq-log-2}) in order to show with Groth-Sahai proofs that
 \begin{small}
 \begin{align*}
 \MP.\Com_{ck_\ell}\left(
@@ -100,25 +100,29 @@ One can reduce the total size of the commitments using the length reducing Multi
 &=
 \MP.\Com_{ck_\ell}(\vecb{0};y_\ell)
 \end{align*}\end{small}
-for some $y_\ell\in\Z_q$. In this way, we only need $3m=3\log t$ additional commitments. The reason for using different commitment keys will be clear when we explain soundness.
+for each $\ell\in[m]$ and some $y_\ell\in\Z_q$. In this way, we only need $3m=3\log t$ additional commitments. The reason for using different commitment keys for each $\ell\in[m]$ will be clear when we explain soundness.
 
 Concretely, the prover computes
 \begin{align*}
-&[\vecb{c}_\ell]_1=\MP.\Com_{ck_m}((x_{\ell,1},\ldots,x_{1,2^{\ell-1}})^\top;r_\ell),\\
+&[\vecb{c}_\ell]_1=\MP.\Com_{ck_\ell}((x_{\ell,1},\ldots,x_{1,2^{\ell-1}})^\top;r_\ell),\\
 \end{align*}
 for random $r_\ell\in\Z_q$ and $\ell\in[m]$, and 
 \begin{align*}
 &[\vecb{c}_{\ell,1}]_1=\MP.\Com_{ck_{\ell}}((x_{\ell+1,1},\ldots,x_{\ell+1,2^{\ell-1}})^\top;r_{\ell,1}),\\
 &[\vecb{c}_{\ell,2}]_1=\MP.\Com_{ck_{\ell}}((x_{\ell+1,2^{m-1}+1},\ldots,x_{\ell+1,2^\ell})^\top;r_{\ell,2}),\\
 \end{align*}
-for random $r_{\ell,1},r_{\ell,2}\in\Z_q$ and $\ell\in[m-1]$. Note that the prover does not need to compute commitments to $(x_{m+1,1},\ldots,x_{m+1,t})^\top$ since they can be computed by the verifier.
+for random $r_{\ell,1},r_{\ell,2}\in\Z_q$ and $\ell\in[m-1]$. Note that the prover does not need to compute commitments to $(x_{m+1,1},\ldots,x_{m+1,t})^\top$ since $x_{m+1,i}=s_i$, $i\in[t]$, and thus they can be computed by the verifier.
 
-Then, the prover shows the satisfiability of equation (\ref{eq-log-2}) with a GS proof of
+Then, the prover shows that equation (\ref{eq-log-2}) holds with a GS proof of
 the satisfiability of
 \begin{align}
 &[\vecb{c}_\ell]_1-(1-b_\ell)[\vecb{c}_{\ell,1}]_1-b_\ell[\vecb{c}_{\ell,2}]_1 = y_\ell[\vecb{g}_{\ell,2^{\ell-1}+1}]_1, \text{ for } \ell \in[m],  \label{eq-log-5}
 \end{align}
-where $[\vecb{c}_{m,1}]:=\MP.\Com_{ck_m}((s_1,\ldots,s_{2^{m-1}})^\top;0)$ and $[\vecb{c}_{m,2}]:=\allowbreak \MP.\Com_{ck_m}(\allowbreak (s_{2^{m-1}+1},\allowbreak\ldots,s_{t})^\top;0)$ can be directly computed by the verifier, and $y_\ell:=r_\ell-(1-b_\ell)r_{\ell,1}-b_\ell r_{\ell,2}$.
+where $[\vecb{c}_{m,1}]:=\MP.\Com_{ck_m}((s_1,\ldots,s_{2^{m-1}})^\top;0)$ and $[\vecb{c}_{m,2}]:=\allowbreak \MP.\Com_{ck_m}(\allowbreak (s_{2^{m-1}+1},\allowbreak\ldots,s_{t})^\top;0)$ can be directly computed by the verifier, and $y_\ell:=r_\ell-(1-b_\ell)r_{\ell,1}-b_\ell r_{\ell,2}$. It also computes Groth-Sahai proofs that
+\begin{equation}
+b_\ell(b_\ell-1)=0 \label{eq-bit-gs}
+\end{equation}
+for each $\ell\in[m]$ (or equivalently a proof that $b_\ell\in\bits$).
 
 The prover also shows that equation (\ref{eq-log-3}) is satisfied with a QA-NIZK proof that
 \begin{equation}
@@ -132,7 +136,7 @@ For \(\ell\in[m]\), let \(ck_\ell:=([\matr{G}_\ell]_1,\allowbreak[\vecb{g}_{\ell
 \begin{align*}
 &\matr{G}_{\ell,1}:=
 \begin{pmatrix}
-    \vecb{g}_{\ell,1}&\cdots&\vecb{g}_{i,2^{\ell-2}}
+    \vecb{g}_{\ell,1}&\cdots&\vecb{g}_{\ell,2^{\ell-2}}
 \end{pmatrix},
 &\matr{G}_{\ell,2}:=
 \begin{pmatrix}
@@ -168,49 +172,46 @@ Despite this flawed reasoning, we will show that the proof system is still sound
 
 \subsubsection{Soundness Intuition}
 Suppose that an adversary against soundness outputs GS commitments to \(b_1,\ldots,b_{m}\in\Z_q\), outputs commitments \([\vecb{c}_\ell]_1\), $\ell\in[m]$, and \([\vecb{c}_{\ell,1}]_1,[\vecb{c}_{\ell,2}]\), $\ell\in[m-1]$, a GS proofs of the satisfiability of equation (\ref{eq-log-5}), and QA-NIZK proofs of (\ref{eq-log-6}) and (\ref{eq-log-split}) for each \(\ell\in[m-1]\).
-We will simply assume that \(b_1,\ldots,b_m\in\bits\), since it can be proven (with perfect soundness) with a GS proof of size \(\Theta(\log \setsize )\) or using the more efficient proofs of Section~\ref{sec:bits} (with computational soundness).
+Note that perfect soundness of Groth-Sahai proofs for equation (\ref{eq-bit-gs}) imply that \(b_1,\ldots,b_m\in\bits\).
 
-Let $\alpha_\ell:=(\alpha-1 \mod 2^{\ell-1})+1$, the position of $s_\alpha$ respective to the leafs under the path $(b_m,\ldots, b_\ell)$, and note that $\alpha_\ell \in[1,2^{\ell-1}]$.
+For $\ell\in[m]$, define $\alpha_\ell$ as the position of $s_\alpha$ respective to the leaves under the path $(b_m,\ldots, b_\ell)$, that is $\alpha_\ell:=\alpha-\sfleft+1$. Note that $\alpha_\ell \in[1,2^{\ell-1}]$ since
+$$
+1\leq\alpha_\ell = \sum_{i=1}^m b_i2^{i-1}-\sum_{i=\ell}^mb_i2^{i-1}+1 = \sum_{i=1}^{\ell-1}b_i2^{i-1}+1\leq 2^{\ell-1}.
+$$
+
+The key observation is that, for a fixed $\alpha\in[m]$, even if in equation (\ref{eq-log-2}) $x_{\ell,j}$ is not correctly computed for $j\neq\alpha_\ell$, it holds that $x_{m,1}=s_\alpha$ anyway. We will take advantage of this observation and the fact that the adversary commits to a fixed $\alpha=\sum_{i=1}^n b_i2^{i-1}+1$ to guarantee perfect soundness of equation (\ref{eq-log-2}) at least for coordinate $\alpha_\ell$ for each $\ell\in[m]$. We do so by picking the commitment key $ck_\ell$ in such a way that its $\alpha_\ell$ th column is linearly independent from the other columns. Although we will not be able to guarantee that $x_{\ell,j}$ is correctly computed if $j\neq\alpha_\ell$, at least we will be able to do so for $x_{\ell,\alpha_\ell}$.
+
 In the reduction we will guess the (sub-)path $(b_{m-1},\ldots, b_1)$ (it will be not necessary to guess first the edge of the path) chosen by the adversary, and for each $\ell\in[m]$, we will chose $\vecb{g}_{\ell,\alpha_\ell}$ linearly independent from the other $2^{\ell-1}$ vectors in $ck_\ell$. This can be done choosing  random $b'_{m-1},\ldots, b'_1\in\bits$ and aborting if $(b'_{m-1},\ldots, b'_{1})\neq(b_{m-1},\cdots, b_1)$. Therefore, our security reduction will have a security loss factor of $1/2^{m-1}=2/\setsize$. We sample $ck_\ell\gets\distlin_1^{2^{\ell-1},\alpha_\ell}$, as defined on Section \ref{sec:mddh}, which implies that for every $\ell\in[m]$ there exists unique $\tilde{x}_{\ell},\tilde{r}_\ell\in\Z_q$ such that $\vecb{c}_\ell:=\tilde{x}_\ell\vecb{g}_{\ell,\alpha_\ell}+\tilde{r}_\ell\vecb{g}_{\ell,2^{\ell-1}+1}$.
 
-We prove by induction on \(\ell\) that \(\vecb{c}_\ell= s_\alpha\vecb{g}_{\ell,\alpha_\ell}+\tilde{r}_{\ell}\vecb{g}_{\ell,2^{\ell-1}+1}\), for some $\tilde{r}_\ell\in\Z_q$. If this is the case $\vecb{c}_1=s_\alpha\vecb{g}_{1,1}+\tilde{r}_{1}\vecb{g}_{1,2}$. Soundness of proof (\ref{eq-log-6}) together with the fact that \(ck_1\) is perfectly binding implies that \(x=\tilde{x}_{1}=s_{\alpha}\in S\) which proves soundness.
+We prove by induction on \(\ell\) that \(\vecb{c}_\ell= s_\alpha\vecb{g}_{\ell,\alpha_\ell}+\tilde{r}_{\ell}\vecb{g}_{\ell,2^{\ell-1}+1}\), for some $\tilde{r}_\ell\in\Z_q$. If this is the case $\vecb{c}_1=s_\alpha\vecb{g}_{1,1}+\tilde{r}_{1}\vecb{g}_{1,2}$. Soundness of proof for equation (\ref{eq-log-6}) together with the fact that \(ck_1\) is perfectly binding implies that \(x=\tilde{x}_{1}=s_{\alpha}\in S\) which proves soundness.
 
 First, it will be useful to prove the next lemma about $\alpha_\ell$.
-\begin{lemma} Let $b_m,\ldots,b_1\in\bits$. For all $\ell\in[m]$, $\alpha_\ell = \alpha-\sfleft+1$ and, for all $\ell\in[m-1]$, $\alpha_{\ell+1}=\alpha_{\ell}+b_\ell2^{\ell-1}$.
+\begin{lemma} Let $b_m,\ldots,b_1\in\bits$. For all $\ell\in[m-1]$, $\alpha_{\ell+1}=\alpha_{\ell}+b_\ell2^{\ell-1}$.
 \label{lemma:alpha}
 \end{lemma}
 \begin{proof}
-Recall that $\sfleft=\sum_{i=\ell}^m b_i2^{i-1}+1$ is the index of the leftmost leaf under the path $(b_m,\cdots, b_\ell)$. It holds that
+To avoid confusion, define here $\sfleft_\ell:=\sum_{i=\ell}^m b_i2^{i-1}+1$ (previously simply defined as $\sfleft$, the index of the leftmost leaf under the path $(b_m,\cdots, b_\ell)$). It holds that
 \begin{align*}
-\alpha_\ell-1 &= \sum_{i=1}^m b_i2^{i-1} \mod 2^{\ell-1}\\
-              &= \sum_{i=\ell}^m b_i 2^{i-1} + \sum_{i=1}^{\ell-1}b_i2^{i-1} \mod 2^{\ell-1}\\
-              &= \sum_{i=1}^{\ell-1}b_i2^{i-1}\\
-              &= \sum_{i=1}^m b_i2^{i-1} - \sfleft\\
-              &= \alpha-\sfleft\\
-&\Longleftrightarrow \alpha_\ell=\alpha-\sfleft+1.
-\end{align*}
-On the other hand
-\begin{align*}
-\alpha_{\ell+1}-1 &= \alpha-1 \mod 2^\ell\\
-&= \sum_{i=1}^{\ell} b_i2^{i-1}\\
-&= b_\ell2^{\ell-1}+\sum_{i=1}^{\ell-1}b_i 2^{i-1}\\
-&= b_\ell2^{\ell-1} + (\alpha-1 \mod 2^{\ell-1})\\
-&\Longleftrightarrow \alpha_{\ell+1}=\alpha_\ell+b_\ell2^{\ell-1}
+\alpha_{\ell+1} &= \alpha - \sfleft_{\ell+1} + 1\\
+&= \sum_{i=1}^{m} b_i2^{i-1} - \sum_{i=\ell+1}^{m}b_i2^{i-1} +1\\
+&= \sum_{i=1}^{m} b_i2^{i-1} - \sum_{i=\ell}^{m}b_i2^{i-1} +1 +b_\ell2^{\ell-1}\\
+&= \alpha - \sfleft_\ell +1 -b_\ell2^{\ell-1}\\
+&=\alpha_\ell+b_\ell2^{\ell-1}
 \end{align*}
 \end{proof}
 
 Now we prove that, for all $\ell\in[m]$, \(\vecb{c}_\ell= s_\alpha\vecb{g}_{\ell,\alpha_\ell}+\tilde{r}_{\ell}\vecb{g}_{\ell,2^{\ell-1}+1}\).
-In the base case ($\ell=m$), equation (\ref{eq-log-5}) and the fact that \(\vecb{g}_{m,i}\in\Span(\vecb{g}_{m,2^{m-1}+1})\) if \(i\neq \alpha_\ell\) together with Lemma \ref{lemma:alpha} implies that 
+In the base case ($\ell=m$) the fact that \(\vecb{g}_{m,i}\in\Span(\vecb{g}_{m,2^{m-1}+1})\) if \(i\neq \alpha_m\) together with Lemma \ref{lemma:alpha} implies that 
 \begin{align*}
 \vecb{c}_m &= (1-b_m)\sum_{i=1}^{2^{m-1}}s_i \vecb{g}_{m,i}+b_m\sum_{i=1}^{2^{m-1}}s_{i+2^{m-1}}\vecb{g}_{m,i}\\
-&= (1-b_m)s_{\alpha_\ell}\vecb{g}_{m,\alpha_\ell} +b_ms_{\alpha_\ell+2^{m-1}}\vecb{g}_{m,\alpha_\ell}+\tilde{r}_1\vecb{g}_{m,2^{m-1}+1}\\
-&= (1-b_m)s_{\alpha-\sfleft+1}\vecb{g}_{m,\alpha_\ell} +b_ms_{\alpha-\sfleft+1+2^{m-1}}\vecb{g}_{m,\alpha_\ell}+\tilde{r}_1\vecb{g}_{m,2^{m-1}+1}\\
+&= (1-b_m)s_{\alpha_m}\vecb{g}_{m,\alpha_m} +b_ms_{\alpha_m+2^{m-1}}\vecb{g}_{m,\alpha_m}+\tilde{r}_1\vecb{g}_{m,2^{m-1}+1}\\
+&= (1-b_m)s_{\alpha-\sfleft+1}\vecb{g}_{m,\alpha_m} +b_ms_{\alpha-\sfleft+1+2^{m-1}}\vecb{g}_{m,\alpha_m}+\tilde{r}_1\vecb{g}_{m,2^{m-1}+1}\\
 &=\begin{cases}
-    s_{\alpha-1+1}\vecb{g}_{m,\alpha_\ell}+\tilde{r}_1\vecb{g}_{m,t/2} & \text{ if } b_m=0 \ (\text{and thus }\sfleft=1) \\
-    s_{\alpha-(2^{\ell-1}+1)+1+2^{\ell-1}}\vecb{g}_{m,\alpha_\ell}+\tilde{r}_1\vecb{g}_{m,t/2} & \text{ if } b_m=1 \ (\text{and thus }\sfleft=2^{\ell-1}+1) 
+    s_{\alpha-1+1}\vecb{g}_{m,\alpha_m}+\tilde{r}_1\vecb{g}_{m,t/2} & \text{ if } b_m=0 \ (\text{and thus }\sfleft=1) \\
+    s_{\alpha-(2^{m-1}+1)+1+2^{m-1}}\vecb{g}_{m,\alpha_m}+\tilde{r}_1\vecb{g}_{m,t/2} & \text{ if } b_m=1 \ (\text{and thus }\sfleft=2^{m-1}+1) 
 \end{cases}
 \end{align*}
-for some \(\tilde{r}_1\in\Z_q\). In both cases $\vecb{c}_1=s_\alpha\vecb{g}_{1,\alpha_\ell}+\tilde{r}_1\vecb{g}_{m,t/2}$.
+for some \(\tilde{r}_1\in\Z_q\). In both cases $\vecb{c}_1=s_\alpha\vecb{g}_{1,\alpha_m}+\tilde{r}_1\vecb{g}_{m,t/2}$.
 
 In the inductive case we assume that \(\vecb{c}_{\ell+1}=s_{\alpha}\vecb{g}_{\ell+1,\alpha_{\ell+1}}+\tilde{r}_{\ell+1}\vecb{g}_{\ell+1,2^\ell+1}\) and we want to show that $\vecb{c}_\ell = s_\alpha\vecb{g}_{\ell,\alpha_\ell}+\tilde{r}_\ell\vecb{g}_{\ell,2^{\ell-1}+1}$. Since \(\vecb{g}_{\ell+1,\alpha_{\ell+1}}\) is linearly independent from the rest of vectors in \(ck_{\ell+1}\), any solution to equation (\ref{eq-log-split}) is equal to \(s_{\alpha}\) at position \(\alpha_{\ell+1}=\alpha_\ell+b_\ell2^{\ell-1}\) as depicted below.
 \begin{align*}
