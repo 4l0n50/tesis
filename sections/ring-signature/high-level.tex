@@ -1,4 +1,4 @@
-Our scheme follows the ring signature of Chandran et al.~Given a \emph{Boneh-Boyen signature scheme} (Section \ref{sec:bbs}), where the secret/verification keys are of the form $(sk,[vk])$ and $sk=vk\in\Z_q$, and given a \emph{one-time signature scheme} (Section \ref{sec:ots}), the signature of the message $m$ for a ring $R=\{[vk_1],\ldots,[vk_n]\}$ is computed as follows:
+Our scheme follows the ring signature of Chandran et al.~Given a {Boneh-Boyen signature scheme} (Section \ref{sec:bbs}), where the secret/verification keys are of the form $(sk,[vk])$ and $sk=vk\in\Z_q$, and given a {one-time signature scheme} (Section \ref{sec:ots}), the signature of the message $m$ for a ring $R=\{[vk_1],\ldots,[vk_n]\}$ is computed as follows:
 \begin{itemize}
 \item[a)] pick a one-time signature key $(sk_\mathsf{ot},vk_\mathsf{ot})$, sign $m$ with the one-time signature, and sign the one-time verification key with $sk$,
 \item[b)] commit to the signature of the one-time verification key and to $[vk]$ and show that it is a valid signature key using GS proofs,

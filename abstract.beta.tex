@@ -2,17 +2,17 @@
 
 Non-Interactive Zero-Knowledge (NIZK) proofs, are proofs that yield nothing beyond their validity. As opposed to the interactive variant, NIZK proofs consist of only one message and are more suited for high-latency scenarios and for building inherently non-interactive schemes, like signatures or encryption. 
 
-With the advent of Pairing-Based Cryptography many cryptosystems have been built using Bilinear Groups, that is, three Abelian groups $\GG_1$, $\GG_2$, $\GG_T$ of order $q$ together with a bilinear function $e : \GG_1 \times \GG_2 \to \GG_T$. Statements related to pairing-based cryptographic schemes are naturally expressed as the satisfiability of equations over these groups and $\Z_q$.
+With the advent of pairing-based cryptography many cryptosystems have been built using bilinear groups, that is, three abelian groups $\GG_1$, $\GG_2$, $\GG_T$ of order $q$ together with a bilinear function $e : \GG_1 \times \GG_2 \to \GG_T$. Statements related to pairing-based cryptographic schemes are naturally expressed as the satisfiability of equations over these groups and $\Z_q$.
 
 The Groth-Sahai proof system, introduced by Groth and Sahai at Eurocrypt 2008, provides NIZK proofs for the satisfiability of equations over bilinear groups and over the integers modulo a prime $q$. Although Groth-Sahai proofs are quite efficient, they easily get expensive unless the statement is very simple. Specifically, proving satisfiability of $m$ equations in $n$ variables requires 
 sending as commitments to the solutions $\Theta(n)$ elements of a bilinear group, and a proof that they satisfy the equations, which we simply call the proof, requiring additional $\Theta(m)$ group elements. 
 
 In this thesis we study how to construct aggregated proofs -- i.e.~ proofs of size independent of the number of equations  -- for different types of equations and how to use them to build more efficient cryptographic schemes.
 
-We show that linear equations admit aggregated proofs of size $\Theta(1)$. We then study the case of quadratic integer equations, more concretely the equation $b(b-1)=0$ which is the most useful type of quadratic integer equation, and construct an aggregated proof of size $\Theta(1)$. We use these results to build more efficient \emph{Threshold Groth-Sahai} proofs and more efficient \emph{Ring Signatures}.
+We show that linear equations admit aggregated proofs of size $\Theta(1)$. We then study the case of quadratic integer equations, more concretely the equation $b(b-1)=0$ which is the most useful type of quadratic integer equation, and construct an aggregated proof of size $\Theta(1)$. We use these results to build more efficient threshold Groth-Sahai proofs and more efficient ring signatures}.
 
 We also study a natural generalization of quadratic equations which we call set-membership proofs -- i.e.~show that a variable belongs to some set. We first construct an aggregated proof of size $\Theta(t)$, where $t$ is the set size, and of size $\Theta(\log t)$ if the set is of the form $[0,t-1]\subset\Z_q$.
 Then, we further improve the size of our set-membership proofs and construct aggregated proofs of size $\Theta(\log t)$.
-We note that some cryptographic schemes can be naturally constructed as set-membership proofs, specifically we study the case of \emph{Proofs of Correctness of a Shuffle} and \emph{Range Proofs}. Starting from set-membership proofs as a common building block, we build the shortest proofs for both proof systems.
+We note that some cryptographic schemes can be naturally constructed as set-membership proofs, specifically we study the case of proofs of correctness of a shuffle and range proofs. Starting from set-membership proofs as a common building block, we build the shortest proofs for both proof systems.
  
 \end{abstract}

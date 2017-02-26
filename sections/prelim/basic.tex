@@ -1,13 +1,13 @@
 Perhaps the most groundbreaking achievement in modern cryptography was the work of Diffie and Hellman \cite{DifHel76} where they introduce public-key cryptography. Diffie and Hellman conceived systems where each entity publishes a \emph{public key} $\mathcal{X}$ while keeping her \emph{secret key} $x$. The archetypal usage of these ideas is a \emph{public-key encryption scheme}, where anybody could encrypt messages using the public key and only the beholder of the secret key would be able to decrypt.
 
-Diffie and Hellman instantiated these ideas over \emph{cyclic abelian groups} where the \emph{discrete logarithm problem} was conjectured to be computationally infeasible. On the other hand, Rivest, Shamir, and Adleman used groups of unknown order and the hardness of factoring large integers in the so called RSA cryptosystems \cite{RivShaAdl78}.
+Diffie and Hellman instantiated these ideas over {cyclic abelian groups} where the \emph{discrete logarithm problem} was conjectured to be computationally infeasible. On the other hand, Rivest, Shamir, and Adleman used groups of unknown order and the hardness of factoring large integers in the so called RSA cryptosystems \cite{RivShaAdl78}.
 In this thesis we will always work in Diffie and Hellman's setting, also called the \emph{discrete logarithm setting}.
 
 Next, we introduce the basic definitions used within the discrete logarithm setting. Then we quickly describe the two most classical primitives used in public-key cryptography: encryption and signatures, and we also introduce commitment schemes.
 
 \subsection{The Discrete Logarithm and the Diffie-Hellman Assumptions}
 In public-key cryptosystems it should be computationally infeasible to compute the secret key from the public key.
-This is conjectured to be true when $x$ is the \emph{discrete logarithm} of $\mathcal{X}$ and $\mathcal{X}$ is a random element in some cyclic group (e.g~the set of quadratic residues of $\Z_p$ when $p$ and $(p-1)/2$ are prime numbers).
+This is conjectured to be true when $x$ is the {discrete logarithm} of $\mathcal{X}$ and $\mathcal{X}$ is a random element in some cyclic group (e.g~the set of quadratic residues of $\Z_p$ when $p$ and $(p-1)/2$ are prime numbers).
 \begin{definition}[Abelian Group]\footnote{In this work we will be using additive notation (mostly to avoid tangled expressions in the exponent), while historically the discrete logarithm problem was defined over multiplicative groups (thus using multiplicative notation). Using multiplicative notation the ``logarithm'' comes from the fact that we want a solution to the equation $g^x=\mathcal{X}$, where $g$ is a generator of $\GG$.} 
 An abelian group is a set $\GG$ together with a map $+:\GG\times\GG\to\GG$ (written in infix notation) and  the following properties hold
 \begin{description}
@@ -32,7 +32,7 @@ $$
 $$
 \end{definition}
  
-Diffie and Hellman also introduced a novel \emph{key-exchange} protocol, which was later known as the \emph{Diffie-Hellman key-exchange}, based on the following assumption
+Diffie and Hellman also introduced a novel {key-exchange} protocol, which was later known as the \emph{Diffie-Hellman key-exchange}, based on the following assumption
 
 \begin{definition}[Computational Diffie-Hellman Assumption (CDH)]
 We say that the computational Diffie-Hellman assumption holds relative to $\G$ if for any adversary $\advA$
