@@ -1,15 +1,15 @@
-Perhaps the most groundbreaking achievement in modern Cryptography was the work of Diffie and Hellman \cite{DifHel76} where they introduce Public-Key Cryptography. Diffie and Hellman conceived systems where each entity publishes a \emph{public key} $\mathcal{X}$ while keeping her \emph{secret key} $x$. The archetypal usage of these ideas is a \emph{Public-Key Encryption Scheme}, where anybody could encrypt messages using the public key and only the beholder of the secret key would be able to decrypt.
+Perhaps the most groundbreaking achievement in modern cryptography was the work of Diffie and Hellman \cite{DifHel76} where they introduce public-key cryptography. Diffie and Hellman conceived systems where each entity publishes a \emph{public key} $\mathcal{X}$ while keeping her \emph{secret key} $x$. The archetypal usage of these ideas is a \emph{public-key encryption scheme}, where anybody could encrypt messages using the public key and only the beholder of the secret key would be able to decrypt.
 
-Diffie and Hellman instantiated these ideas over \emph{Cyclic Abelian Groups} where the \emph{discrete logarithm problem} was conjectured to be computationally infeasible. On the other hand, Rivest, Shamir, and Adleman used groups of unknown order and the hardness of factoring large integers in the so called RSA cryptosystems \cite{RivShaAdl78}.
+Diffie and Hellman instantiated these ideas over \emph{cyclic abelian groups} where the \emph{discrete logarithm problem} was conjectured to be computationally infeasible. On the other hand, Rivest, Shamir, and Adleman used groups of unknown order and the hardness of factoring large integers in the so called RSA cryptosystems \cite{RivShaAdl78}.
 In this thesis we will always work in Diffie and Hellman's setting, also called the \emph{discrete logarithm setting}.
 
 Next, we introduce the basic definitions used within the discrete logarithm setting. Then we quickly describe the two most classical primitives used in public-key cryptography: encryption and signatures, and we also introduce commitment schemes.
 
 \subsection{The Discrete Logarithm and the Diffie-Hellman Assumptions}
 In public-key cryptosystems it should be computationally infeasible to compute the secret key from the public key.
-This is conjectured to be true when $x$ is the \emph{discrete logarithm} of $\mathcal{X}$ and $\mathcal{X}$ is a random element in some Cyclic Group (e.g~the set of quadratic residues of $\Z_p$ when $p$ and $(p-1)/2$ are prime numbers).
+This is conjectured to be true when $x$ is the \emph{discrete logarithm} of $\mathcal{X}$ and $\mathcal{X}$ is a random element in some cyclic group (e.g~the set of quadratic residues of $\Z_p$ when $p$ and $(p-1)/2$ are prime numbers).
 \begin{definition}[Abelian Group]\footnote{In this work we will be using additive notation (mostly to avoid tangled expressions in the exponent), while historically the discrete logarithm problem was defined over multiplicative groups (thus using multiplicative notation). Using multiplicative notation the ``logarithm'' comes from the fact that we want a solution to the equation $g^x=\mathcal{X}$, where $g$ is a generator of $\GG$.} 
-An Abelian group is a set $\GG$ together with a map $+:\GG\times\GG\to\GG$ (written in infix notation) and  it holds that
+An abelian group is a set $\GG$ together with a map $+:\GG\times\GG\to\GG$ (written in infix notation) and  the following properties hold
 \begin{description}
 \item[Associativity]
 For all $\mathcal{X}, \mathcal{Y}$, and $\mathcal{Z}$ in $\GG$, $(\mathcal{X} + \mathcal{Y}) + \mathcal{Z}= \mathcal{X} + (\mathcal{Y} + \mathcal{Z})$ holds.
@@ -32,7 +32,7 @@ $$
 $$
 \end{definition}
  
-Diffie and Hellman also introduced a novel \emph{Key-Exchange} protocol, which was later known as the \emph{Diffie-Hellman Key-Exchange}, based on the following assumption
+Diffie and Hellman also introduced a novel \emph{key-exchange} protocol, which was later known as the \emph{Diffie-Hellman key-exchange}, based on the following assumption
 
 \begin{definition}[Computational Diffie-Hellman Assumption (CDH)]
 We say that the computational Diffie-Hellman assumption holds relative to $\G$ if for any adversary $\advA$
@@ -41,7 +41,7 @@ $$
 $$
 \end{definition}
 
-The Diffie-Hellman key-exchange allows two parties $A$, in possession of random secret $x\in\Z_q$ and $\mathcal{Y}=y\mathcal{P}$, and $B$, in possession of random secret $y\in\Z_q$ and $\mathcal{X}=x\mathcal{P}$, to compute the shared secret key $\mathcal{Z}=x\mathcal{Y}=y\mathcal{X}=xy\mathcal{P}$. The computational Diffie-Hellman assumption says that the only way to compute the shared secret key is to know one of the secrets. The \emph{Decisional Diffie-Hellman} assumptions goes a step beyond and says that the shared key ``looks random'' to anyone other than $A$ and $B$
+The Diffie-Hellman key-exchange allows two parties $A$, in possession of random secret $x\in\Z_q$ and $\mathcal{Y}=y\mathcal{P}$, and $B$, in possession of random secret $y\in\Z_q$ and $\mathcal{X}=x\mathcal{P}$, to compute the shared secret key $\mathcal{Z}=x\mathcal{Y}=y\mathcal{X}=xy\mathcal{P}$. The computational Diffie-Hellman assumption says that the only way to compute the shared secret key is to know one of the secrets. The \emph{decisional Diffie-Hellman} assumptions goes a step beyond and says that the shared key ``looks random'' to anyone other than $A$ and $B$
 
 \begin{definition}[Decisional Diffie-Hellman Assumption (DDH)]
 We say that the decisional Diffie-Hellman assumption holds relative to $\G$ if for any adversary $\advA$
@@ -59,7 +59,7 @@ $$
 
 A public-key encryption scheme is a tuple of 3 algorithms $(\KG,\Enc,\Dec)$. $\KG$ is a randomized algorithm which on input a group key $gk$ generates a public/secret key pair. $\Enc$ is a randomized algorithm which on input the public key and a \emph{plaintext}, which is an element from the set $\mathcal{M}_{gk}$, returns a \emph{ciphertext}, which is an element from the set $\mathcal{C}_{gk}$. $\Dec$ is a deterministic algorithm which on input a ciphertext and the secret key returns a plaintext. It is required that for every pair $(pk,sk)$ output by $\G$ and any $m\in\mathcal{M}_{gk}$, $\Dec_{sk}(\Enc_{pk}(m))=m$.
 
-ElGamal introduced the first \emph{Semantically Secure Encryption Scheme} based on the DDH assumption \cite{ElGamal85}. The idea was simple and clean: encrypt a message $\mathcal{M}$ under public key $pk:=\mathcal{X}$ picking $r\gets\Z_q$ and computing the ciphertext $\Enc_{pk}(\mathcal{M};r):=(\mathcal{C}_1,\mathcal{C}_2)=(r\mathcal{P},\mathcal{M}+r\mathcal{X})$; and decrypt a ciphertext using the secret key $x$ and computing $\Dec_{sk}(\mathcal{C}_1,\mathcal{C}_2)=\mathcal{C}_2-x\mathcal{C}_1$. It follows that $(\mathcal{C}_1,\mathcal{C}_2)$ hides $\mathcal{M}$ since $r\mathcal{X}$, by the DDH assumption, looks like fresh random value, independent of $\mathcal{C}_1$, making $\mathcal{M}+r\mathcal{X}$ independent of $\mathcal{M}$. Formally, it can be shown that ElGamal cryptosystem is \emph{Indistinguishable under Chosen Plaintext Attacks} (also called semantically secure and IND-CPA for short).
+ElGamal introduced the first \emph{semantically secure encryption scheme} based on the DDH assumption \cite{ElGamal85}. The idea was simple and clean: encrypt a message $\mathcal{M}$ under public key $pk:=\mathcal{X}$ picking $r\gets\Z_q$ and computing the ciphertext $\Enc_{pk}(\mathcal{M};r):=(\mathcal{C}_1,\mathcal{C}_2)=(r\mathcal{P},\mathcal{M}+r\mathcal{X})$; and decrypt a ciphertext using the secret key $x$ and computing $\Dec_{sk}(\mathcal{C}_1,\mathcal{C}_2)=\mathcal{C}_2-x\mathcal{C}_1$. It follows that $(\mathcal{C}_1,\mathcal{C}_2)$ hides $\mathcal{M}$ since $r\mathcal{X}$, by the DDH assumption, looks like fresh random value, independent of $\mathcal{C}_1$, making $\mathcal{M}+r\mathcal{X}$ independent of $\mathcal{M}$. Formally, it can be shown that ElGamal cryptosystem is \emph{indistinguishable under chosen plaintext attacks} (also called semantically secure and IND-CPA for short).
 
 \begin{definition}[IND-CPA \cite{GolMic84}]
 We say that $(\KG,\Enc,\Dec)$ is IND-CPA secure if for any $\advA_1,\advA_2$
@@ -73,7 +73,7 @@ $$
 \end{definition}
 
 \subsection{Commitment Schemes}
-Intuitively, a commitment scheme is a ``relaxed encryption scheme'' where the function $\Enc_{pk}(\cdot)$ (now called $\Com_{ck}(\cdot)$) is not necessarily invertible. Although some ciphertexts -- now called commitments -- may be obtained from different plaintexts -- openings -- it is (computationally) infeasible to compute two openings for the same commitment. In this way, when an adversary computes some commitment it is committing to the unique opening that she is able to compute.
+Intuitively, a commitment scheme is a ``relaxed encryption scheme'' where the function $\Enc_{pk}(\cdot)$  is not necessarily invertible. Although some ciphertexts -- now called commitments -- may be obtained from different plaintexts -- openings -- it is (computationally) infeasible to compute two openings for the same commitment. In this way, when an adversary computes some commitment it is committing to the unique opening that she is able to compute.
  
 Syntactically, a commitment scheme is a tuple of three algorithms $(\algK,\Com,\algVrfy)$. $\algK$ is a randomized algorithm, which on input a group key $gk$ outputs a commitment key $ck$. $\Com$ is a randomized algorithm which, on input the commitment key $ck$ and a message $m$ in the message space $\mathcal{M}_{ck}$ outputs a commitment $c$ in the commitment space $\mathcal{C}_{ck}$ and an opening $Op$. $\algVrfy$ is a deterministic algorithm which, on input the commitment key $ck$, a message $m$ in the message space $\mathcal{M}_{ck}$ and an opening $Op$, outputs $1$ if $Op$ is a valid opening of $c$ to the message $m$ and $0$ otherwise. 
 Correctness requires that for any $m \in \mathcal{M}_{ck}$
@@ -88,7 +88,7 @@ $$\Pr\left[ck \gets \algK(gk);
 	is negligible (resp. zero).
 \end{definition}
 
-In Section \ref{sec:gs-comms} we introduce Groth-Sahai commitments and in Section \ref{sec:ext-mp} we introduce a new commitment scheme which we call Extended Multi-Pedersen Commitments.
+In Section \ref{sec:gs-comms} we introduce Groth-Sahai commitments and in Section \ref{sec:ext-mp} we introduce a new commitment scheme which we call extended multi-Pedersen commitments.
 
 \subsection{Digital Signatures} \label{sec:uf-cma} \label{sec:ots}
 

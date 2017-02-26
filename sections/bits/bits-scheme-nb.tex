@@ -33,10 +33,10 @@ Lemma \ref{lemma:bits1}, there is a game where the distribution of $\matr{G}$ is
 
 \subsubsection{Security Proof}
 \begin{theorem} \label{theo:bits}
-The proof system described above is a QA-NIZK proof system with Perfect Completeness, Computational Soundness, and Perfect Zero-Knowledge.
+The proof system described above is a QA-NIZK proof system with perfect completeness, computational soundness, and perfect zero-knowledge.
 \end{theorem}	
 \begin{proof}
-We remark that proof of Completeness and Zero-Knowledge is the same for any distribution $\distlininone$.
+We remark that proof of completeness and zero-knowledge is the same for any distribution $\distlininone$.
 \begin{description}
 \item[Perfect Completeness:]
 Note that,
@@ -70,7 +70,7 @@ Finally, the rest of the proof follows from completeness of $\Pi_\sfsum$ and $\P
  
 When $\matr{G}$ is sampled from $\distlinisnone$, ${i^*}>0$, the proof follows from the indistinguishability of the following three games:
 \begin{itemize}
-\item[$\mathsf{Real}$:] This is the real Soundness game. The output is 1 if the adversary submits some $[\vecb{c}]_1\notin\Lang_{ck,\sfbits}$ and the corresponding proof which is accepted by the verifier.
+\item[$\mathsf{Real}$:] This is the real soundness game. The output is 1 if the adversary submits some $[\vecb{c}]_1\notin\Lang_{ck,\sfbits}$ and the corresponding proof which is accepted by the verifier.
 \item[$\sfGame_0$:] This identical to $\mathsf{Real}$, except that $\algK$ does not receive $[\matr{G}]_1$ as a input but
 it samples $\matr{G}$ itself according to $\distlinisnone$.
 \item[$\sfGame_1$:] This game is identical to $\sfGame_0$ except that now $\matr{H}\gets\distlinisnone$.
@@ -84,7 +84,7 @@ $|\Pr\left[\mathsf{Game}_{0}(\advA)=1\right]$ $-\Pr\left[\mathsf{Game}_{1}(\advA
 \begin{proof}
 We construct an adversary $\advD$ that receives 
 a challenge $([\matr{A}]_2,[\vecb{u}]_2)$ of the 
-$\distlin_1$-$\mddh_{\GG_2}$ Assumption. From this challenge, $\advD$ just defines the matrix  $[\matr{H}]_2\in\GG_2^{2\times(m+1)}$ as the matrix whose last column consists of $[\matr{A}]_2$, the ith column consists of $[\vecb{u}]_2$ and the rest of the columns are random vectors in the image of $[\matrA]_2$. 
+$\distlin_1$-$\mddh_{\GG_2}$ assumption. From this challenge, $\advD$ just defines the matrix  $[\matr{H}]_2\in\GG_2^{2\times(m+1)}$ as the matrix whose last column consists of $[\matr{A}]_2$, the ith column consists of $[\vecb{u}]_2$ and the rest of the columns are random vectors in the image of $[\matrA]_2$. 
 Obviously, when $[\vecb{u}]_2$ is sampled from 
 the image of $[\matr{A}]_2,$ $\matr{H}$ follows the distribution $\distlinizeroone$, while if $[\vecb{u}]_2$ is a uniform element of $\GG^2$, $\matr{H}$ follows the distribution $\distlinisnone$. 
  
@@ -127,6 +127,6 @@ $\vecb{g}_{i^*}\vecb{h}_{i^*}^\top$ is $b_{i^*}(\bb_{i^*}-1)\neq 0$ and thus $\m
 there exists $s \in \Z_q$ such that $[\vecb{d}]_2=[\matr{H}]_2\smallpmatrix{\vecb{b}\\ s}$. 
 
 Since $\matr{R}$ is chosen uniformly at random in $\Z_q^{2 \times 2}$, the proof $([\matr{\Theta}]_1, [\matr{\Pi}]_2)$ is uniformly distributed conditioned on satisfying check 1) of algorithm $\algV$.
- Finally, the rest of the proof follows from Zero-Knowledge of $\Pi_\sfsum$ and $\Pi_\sfcom$.
+ Finally, the rest of the proof follows from zero-knowledge of $\Pi_\sfsum$ and $\Pi_\sfcom$.
 \end{description}
 \end{proof}

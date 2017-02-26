@@ -1,6 +1,6 @@
 \label{def:splh}
 Linearly-homomorphic structure preserving signatures  \cite{C:AFGHO10,PKC:BFKW09} enable to sign group elements 
-in $G$, where $G$ is a group and to publicly derive signatures of new elements which are a linear combination of other signed messages. We take the definition from \cite{C:LPJY13}, except that we do not identify the elements of $G$ with vectors in $\Gr^n$, for some group $\Gr$. The reason is that $G$ might be some space of the form $\Gr^m \times \Hr^n$. 
+in $G$, where $G$ is a group and to publicly derive signatures of new elements which are a linear combination of other signed messages. We take Libert et al.'s definition \cite{C:LPJY13}, except that we do not identify the elements of $G$ with vectors in $\Gr^n$, for some group $\Gr$. The reason is that $G$ might be some space of the form $\Gr^m \times \Hr^n$. 
 
 \begin{definition}[SPLHS scheme]
 A linearly homomorphic structure-preserving signature scheme over the group $G$  consists
@@ -49,7 +49,7 @@ $P$ is a predicate on $(\vecb{m}^*, Q)$ and $Q$ is the set of reveal queries
 made by the adversary. We stress that the predicate $P$ is not always efficiently computable. For instance, for the scheme of Libert \textit{et al.} (\cite{C:LPJY13}), this predicate is $1$ iff $\vecb{m}^*$ is in the linear span of 
 previous queries, and this is, in general, hard to decide in the group $G$ (although it might be easy for some set $Q$).  
 
-\begin{definition} A SPLHS scheme $\SPLHSinst = (\SG, \SN, \SV, \SD)$ is secure against Type P adversaries if no PPT
+\begin{definition} A SPLHS scheme $\SPLHSinst = (\SG, \SN, \SV, \SD)$ is secure against type P adversaries if no PPT
 adversary has non-negligible advantage in the game below:
 \begin{enumerate}
 \item The adversary $\advA$ chooses an integer $n \in \N$ and sends it to the challenger who runs
@@ -89,7 +89,7 @@ in only one. For simplicity, we omit this parameter.
 
 \subsection{One-Time LHSPS Signatures in Different Groups} \label{sec:newhomtwogroups}
 
-The one-time linearly homomorphic signature of Libert, Peters and Yung \cite{EC:LPJY14}  implies a QA-NIZK Argument for linear spaces. Similarly, our constructions of QA-NIZK proofs for membership in concatenated subspace and for sum in subspace (in the case where the space is not from a witness samplable distribution) is implied by a one-time structure preserving signature scheme with different security properties. 
+The one-time linearly homomorphic signature of Libert, Peters and Yung \cite{EC:LPJY14}  implies a QA-NIZK argument for linear spaces. Similarly, our constructions of QA-NIZK proofs for membership in concatenated subspace and for sum in subspace (in the case where the space is not from a witness samplable distribution) is implied by a one-time structure preserving signature scheme with different security properties. 
 
 In particular, for subspace concatenation, ``one-time" means that the adversary is unable to sign vectors which are not in the span of previously signed vectors, namely,
 the adversary cannot output a signature for a pair
@@ -98,14 +98,14 @@ linearly independent from the
 vectors $(\vecb{x}_i^{\top}||\vecb{y}_i^{\top})$, $i \in [q_s]$, (the concatenation of two vectors), where $([\vecb{x}_i]_1,[\vecb{y}_i]_2)$ are the signing queries of the adversary. The discussion for the scheme which results from our 
 Sum-in-Subspace QA-NIZK proof, results in a different notion of ``one-time" --- this is captured in the security definition by a different predicate $P$ ---, see discussion below. 
 
-In either case, the size of the resulting signatures is $(k+1)\s$ under the $\skermdh$ Assumption, but if security against random message attacks is sufficient (meaning that the signatures in the set $Q$ which are seen by the adversary are sampled uniformly at random), the signature size can be reduced to $k\s$ (essentially, in this case one can sample $\matrA$ from $\overline{\dist}_k$). This is inspired by the one-time constructions of structure-preserving signatures of \cite{C:KilPanWee15} secure against random message attacks. 
- We omit any further discussion of this case, as it is a straightforward generalization of our QA-NIZK proofs in the witness samplable setting using the ideas of \cite{C:KilPanWee15}. 
+In either case, the size of the resulting signatures is $(k+1)\s$ under the $\skermdh$ assumption, but if security against random message attacks is sufficient (meaning that the signatures in the set $Q$ which are seen by the adversary are sampled uniformly at random), the signature size can be reduced to $k\s$ (essentially, in this case one can sample $\matrA$ from $\overline{\dist}_k$). This is inspired by the one-time constructions of structure-preserving signatures of Kiltz et al.~secure against random message attacks\cite{C:KilPanWee15}. 
+ We omit any further discussion of this case, as it is a straightforward generalization of our QA-NIZK proofs in the witness samplable setting using the ideas of Kiltz et al. 
 
 
 % For subspace concatenation, ``one-time" means that the adversary is unable to sign vectors which are not in the span of previously signed vectors. For the one-time signature scheme derived from the sum in subspace proof, ``one-time" refers to the fact that the adversary cannot obtain signatures for vectors which are  half of the components in $\Gr$ and other half in $\Hr$ and such that the sum of the vecto
 
 
-Our construction is based on the $\skermdh$ Assumption introduced in Section~\ref{sec:mddh}. Following the syntactic definition of Section~\ref{sec:mddh},
+Our construction is based on the $\skermdh$ assumption introduced in Section~\ref{sec:mddh}. Following the syntactic definition of Section~\ref{sec:mddh},
 our scheme assumes $\Group = \Gr^m\times\Hr^n$ and the length of the messages is $n+m$.
  
 \begin{itemize}
@@ -135,11 +135,11 @@ Therefore the verification algorithm outputs $1$ on a correctly generated signat
 
 Let $Q=\{ ([\vecb{x}_i]_1,[\vecb{y}_i]_2) \}_{i \in [q_s]}$ be some set of elements of $\Gr^{m} \times \Hr^n$. We define the predicate $P$ as $P(([\vecb{x}]_1,[\vecb{y}]_2),Q)=1$ iff $(\vecb{x}^{\top}||\vecb{y}^{\top}) \in \Z_q^{2m}$ is not in the space spanned by $\{(\vecb{x}_i^{\top}||\vecb{y}_i^{\top}) :i \in [q_s]\}$. 
 
-\begin{theorem} The signature scheme is Type P unforgeable if the $\skermdh$ Assumption holds in $\Gr,\Hr$.
+\begin{theorem} The signature scheme is type P unforgeable if the $\skermdh$ assumption holds in $\Gr,\Hr$.
 \end{theorem}
 %\textcolor{red}{seguramente sacar si ya es evidente por lo otro}
-The argument is almost identical to  \cite{C:LPJY13}.
-\begin{proof} We show how to construct an algorithm $\advB$ which takes as input an instance $([\matr{A}]_1,[\matr{A}]_2)$ of the $\skermdh$ Assumption and outputs a pair of vectors $([\vecb{r}]_1,[\vecb{s}]_2) \in \Gr^{3} \times \Hr^{3}$, $\vecb{r} \neq \vecb{s}$, such that 
+The argument is almost identical to Libert et al.'s \cite{C:LPJY13}.
+\begin{proof} We show how to construct an algorithm $\advB$ which takes as input an instance $([\matr{A}]_1,[\matr{A}]_2)$ of the $\skermdh$ assumption and outputs a pair of vectors $([\vecb{r}]_1,[\vecb{s}]_2) \in \Gr^{3} \times \Hr^{3}$, $\vecb{r} \neq \vecb{s}$, such that 
 $[\vecb{r}^{\top}]_1 [\matr{A}]_2=[\vecb{s}^{\top}]_2 [\matr{A}]_1$ given oracle access to a forger $\Forger$ against the signature scheme
 (see Section~\ref{splhs-unforgeability}). 
 
@@ -167,14 +167,14 @@ The key point of the argument is that
   \end{equation*}
 is information theoretically hidden to $\Forger$. 
 
-The rest of the argument is identical to  \cite{C:LPJY13}. The argument goes as follows: since, by assumption, $\begin{pmatrix}\vecb{x}^*\\ \vecb{y}^* \end{pmatrix}$ is independent of all  previous queries, then  there is some information about $\begin{pmatrix}  
+The rest of the argument is identical to Libert et al.'s. The argument goes as follows: since, by assumption, $\begin{pmatrix}\vecb{x}^*\\ \vecb{y}^* \end{pmatrix}$ is independent of all  previous queries, then  there is some information about $\begin{pmatrix}  
  {\matr{\Lambda}} & {\matr{\Xi}}
  \end{pmatrix}$ 
 which is information theoretically hidden. Thus,  $\grkb{\rho}^{\dagger}+ \grkb{\sigma}^{\dagger}$ is information theoretically hidden and from the adversary's point of view it is equally likely that it has any out of $q$ potential values.  
 \end{proof}
 
 \paragraph{Signing the Sum of Two Linear Spaces.} \label{sec:newhom} When $m=n$, we can adapt the previous construction to a different forgery condition namely, we 
-can prove security against a different type of adversary. Namely, in  \cite{C:LPJY13} the scheme is secure against an adversary whose goal is to output a forgery for a message which is linearly independent from all of its signing queries. In our case, we require that the adversary cannot output a signature for a pair
+can prove security against a different type of adversary. Namely, Libert et al.'s scheme is secure against an adversary whose goal is to output a forgery for a message which is linearly independent from all of its signing queries. In our case, we require that the adversary cannot output a signature for a pair
 $([\vecb{x}]_1^*,[\vecb{y}]_2^*) \in \Gr^{m} \times \Hr^{m}$ if $\vecb{x}^*+\vecb{y}^*$ is
 linearly independent from the 
 vectors $\vecb{x}_i+\vecb{y}_i$, $i \in [q_s]$, where $([\vecb{x}_i]_1,[\vecb{y}_i]_2)$ are the signing queries of the adversary. 

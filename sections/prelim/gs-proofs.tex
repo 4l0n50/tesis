@@ -33,7 +33,7 @@ all the variables in an equation with the \emph{Groth-Sahai commitment scheme}, 
 	\end{itemize}
 \end{definition}
 
-We will instantiate this commitment scheme with two different matrix distributions which give rise to two different commitment keys: the \emph{Perfectly Binding} and the \emph{Perfectly Hiding} commitment keys. The matrix distribution for perfectly binding commitment keys is defined as
+We will instantiate this commitment scheme with two different matrix distributions which give rise to two different commitment keys: the \emph{perfectly binding} and the \emph{perfectly hiding} commitment keys. The matrix distribution for perfectly binding commitment keys is defined as
 $$
 \mathcal{B}:\matr{U}=(\vecb{u}_1||\vecb{u}_2),\text{ where }\vecb{u}_2\gets\distlin_1\text{ and } \vecb{u}_1 :=\mu\vecb{u}_2, \mu\gets\Z_q,
 $$
@@ -51,7 +51,7 @@ Next, we give a description of the Groth-Sahai proof system in the SXDH instanti
 \begin{description}
 \item[$\algK(gk)$:]  On input the group key $gk$ pick $\matr{U},\matr{V}\gets\mathcal{B}$ and define $ck_1 := [\matr{U}]_1$ and $ck_2:=[\matr{V}]_2$.
    The common reference string is:
-   $\crs_\GS:=(gk,[\vecb{u}_1]_1,[\vecb{u}_2]_1,[\vecb{v}_1]_2,[\vecb{v}_2]_2)$ and is known as the \emph{Perfectly Binding CRS}.
+   $\crs_\GS:=(gk,[\vecb{u}_1]_1,[\vecb{u}_2]_1,[\vecb{v}_1]_2,[\vecb{v}_2]_2)$ and is known as the \emph{perfectly binding CRS}.
 The CRS defines some associated maps:
 \begin{align*}
 &\iota_1: \Gr \cup \Z_q \rightarrow \Gr^2,& &\iota_1([x]_1):=([x]_1,[0]_1)^\top,& &\iota_1(x):=x[\vecb{u}_1]_1. \\
@@ -82,7 +82,7 @@ $\varx_1,\ldots,\varx_{m_x}$ and $\vary_1,\ldots,\vary_{m_y}$, the prover procee
 \end{eqnarray*}
 \item[$\algS_1(gk)$:]  On input the group key $gk$ pick $\matr{U},\matr{V}\gets\mathcal{H}$ and define $ck_1 := [\matr{U}]_1$ and $ck_2:=[\matr{V}]_2$.
    The common reference string is:
-   $\crs_\GS:=(gk,[\vecb{u}_1]_1,[\vecb{u}_2]_1,[\vecb{v}_1]_2,[\vecb{v}_2]_2)$ and is known as the \emph{Perfectly Hiding CRS}. This algorithm also outputs the trapdoor $\tau:=(\matr{U},\matr{V})$.
+   $\crs_\GS:=(gk,[\vecb{u}_1]_1,[\vecb{u}_2]_1,[\vecb{v}_1]_2,[\vecb{v}_2]_2)$ and is known as the \emph{perfectly hiding CRS}. This algorithm also outputs the trapdoor $\tau:=(\matr{U},\matr{V})$.
 \item[$\algS_2(\crs_\GS,\mathsf{eq},\tau)$:] If $\mathsf{eq}$ allows simulation, it defines the new equation
 \begin{equation}
 \mathsf{eq}':=\sum_{j=1}^{m_y} f(\alpha_j, \vary_j)+\sum_{i=1}^{m_x} f(\varx_i, \beta_i)-f(\varx',t)+\sum_{i=1}^{m_x} \sum_{j=1}^{m_y}  f(\varx_i,\escQE_{i,j} \vary_j)=0,
@@ -90,7 +90,7 @@ $\varx_1,\ldots,\varx_{m_x}$ and $\vary_1,\ldots,\vary_{m_y}$, the prover procee
 and runs the GS prover for equation $\mathsf{eq}'$ for solutions $\varx_1=\varx_2=\ldots=\varx_{m_x}=\vary_1=\ldots=\vary_{m_y}=0$ and $\varx'=1$. The simulated proof is $([\matr{\Theta}]_1,[\matr{\Pi}]_2)$, the proof of the GS prover for the modified equation.
 
 \end{description}
-The reference string $\crs_\GS$ chosen by algorithm $\algK$ defines perfectly binding commitments and the proof system has perfect soundness. Furthermore, there exists some extraction trapdoor which allows to compute a function of the witness (this is the perfect \emph{F-Knowledge} property, see \cite{PKC:EscGro14}). More specifically, the extraction trapdoor
+The reference string $\crs_\GS$ chosen by algorithm $\algK$ defines perfectly binding commitments and the proof system has perfect soundness. Furthermore, there exists some extraction trapdoor which allows to compute a function of the witness (this is the perfect \emph{F-Knowledge} property \cite{PKC:EscGro14}). More specifically, the extraction trapdoor
 allows to compute maps $p_1: \Gr^2\to \Gr$, $p_2:\Hr^2 \to \Hr$, and $p_T:\GG_T^{2 \times 2} \to  \GG_T$, such that:
 \begin{enumerate}[label=(\alph*)]
 \item for each $X\in\{1,2,T\}$, $p_X\circ\iota_X$ is the identity map,

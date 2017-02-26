@@ -20,9 +20,9 @@ easily reduces to this case using the homomorphic properties of GS commitments. 
 
 \subsection{QA Aggregation of Other Equation Types} \label{sec:jutroyaggasym}
 Jutla and Roy \cite{C:JutRoy14} show how to aggregate GS proofs of 
-two-sided linear equations in symmetric bilinear groups. In the original construction of \cite{C:JutRoy14} soundness is based on a decisional assumption (a weaker variant of the $\lin{2}$ Assumption). Its natural generalization in asymmetric groups (where soundness is based on the SXDH Assumption) only enables to aggregate the proofs of one-sided linear equations. 
+two-sided linear equations in symmetric bilinear groups. In the original construction of Jutla and Roy soundness is based on a decisional assumption (a weaker variant of the $\lin{2}$ assumption). Its natural generalization in asymmetric groups (where soundness is based on the SXDH assumption) only enables to aggregate the proofs of one-sided linear equations. 
 
-In this section, we revisit their construction. We give an alternative, simpler, proof of soundness under a computational assumption which avoids altogether the ``Switching Lemma" of \cite{C:JutRoy14}. Further, we extend it to two-sided equations in the asymmetric setting. For one-sided linear equations we can prove soundness under any kernel assumption and for two-sided linear equations, under any split kernel assumption.\footnote{The results of  \cite{C:JutRoy14} are based on what they call  the ``Switching Lemma". As noted in \cite{EPRINT:MorRafVil15}, it is implicit in the proof of this lemma that the same results can be obtained under computational assumptions.}
+In this section, we revisit their construction. We give an alternative, simpler, proof of soundness under a computational assumption which avoids altogether the ``switching lemma" of Jutla and Roy. Further, we extend it to two-sided equations in the asymmetric setting. For one-sided linear equations we can prove soundness under any kernel assumption and for two-sided linear equations, under any split kernel assumption.\footnote{The results of Jutla and Roy are based on what they call  the ``switching lemma". As noted Morillo et al.~\cite{EPRINT:MorRafVil15}, it is implicit in the proof of this lemma that the same results can be obtained under computational assumptions.}
 
 Let $A_1,A_2,A_T$ be $\Z_q$-vector spaces compatible with some 
 Groth-Sahai equation as detailed in Section
@@ -34,7 +34,7 @@ $$\mathcal{S}_{\vecb{\tilde{t}}}=\left\{ E_{\ell}(\vvarx,\vvary)=\tilde{t}_{\ell
 E_{\ell}(\vvarx,\vvary):=\sum_{j\in[m_y]} f(\alpha_{\ell,j}, \vary_j) + 
 \sum_{i\in[m_x]}  f(\varx_i, \beta_{\ell,i}).$$  
 
-We note that, as in \cite{C:JutRoy14}, we only achieve \textit{quasi-adaptive aggregation}, that is, the common reference string is specific to a particular set of equations. More specifically, it depends on the constants $\grkb{\alpha}_{\ell},\grkb{\beta}_{\ell}$ (but not on $\tilde{t}_{\ell}$, which can be chosen by the prover) and it can be used to aggregate the proofs of 
+We note that, as in Jutla and Roy's work, we only achieve \textit{quasi-adaptive aggregation}, that is, the common reference string is specific to a particular set of equations. More specifically, it depends on the constants $\grkb{\alpha}_{\ell},\grkb{\beta}_{\ell}$ (but not on $\tilde{t}_{\ell}$, which can be chosen by the prover) and it can be used to aggregate the proofs of 
 $\mathcal{S}_{\vecb{\tilde{t}}}$, for any~$\vecb{\tilde{t}}$.  
 
 Given the equation types for which we can construct NIZK GS proofs (and not only NIWI proofs), there always exists (1) $t_{\ell} \in A_1$, such that $\tilde{t}_{\ell}=f(t_{\ell},\mathsf{base}_{2})$ or 
@@ -72,13 +72,13 @@ The above protocol is a QA-NIZK proof system for two-sided linear equations.
 \begin{equation}
 \sum_{\ell\in[n]} a_{\ell,i} E_{\ell}(\vvarx,\vvary)= \sum_{\ell\in[n]} a_{\ell,i}\tilde{t}_\ell=\sum_{\ell\in[n]}f(t_\ell,a_{\ell,i}).
 \end{equation}  Completeness follows 
-from the observation that to efficiently compute the proof, the GS Prover only needs, apart from a satisfying assignment to the equation, the randomness used in the commitments plus a way to compute the inclusion map of all involved constants, in this case $\iota_1(a_{\ell,i} \alpha_{\ell,j})$,
+from the observation that to efficiently compute the proof, the GS prover only needs, apart from a satisfying assignment to the equation, the randomness used in the commitments plus a way to compute the inclusion map of all involved constants, in this case $\iota_1(a_{\ell,i} \alpha_{\ell,j})$,
 $\iota_2(a_{\ell,i} \beta_{\ell,j})$, and the latter is part of the CRS.
  
 \noindent{(Soundness.)} We change to a game $\mathsf{Game}_{1}$ where we know the discrete logarithm of the GS commitment key, as well as the discrete logarithms of $(\grkb{\alpha}_{\ell},\grkb{\beta}_{\ell})$, $\ell \in [n]$. This is possible because they are both chosen from a witness samplable distribution.
 
 We now prove that an adversary against the soundness in $\mathsf{Game}_{1}$ can be used to construct an adversary $\advB$ against the 
-$\dist_{n,k}\mbox{-}\skermdh$ Assumption, where 
+$\dist_{n,k}\mbox{-}\skermdh$ assumption, where 
 $\dist_{n,k}$ is the matrix distribution used in the CRS generation. 
 
 $\advB$ receives a challenge $([\matr{A}]_1,[\matr{A}]_2)\in\Gr^{n\times k}\times\Hr^{n\times k}$. Given all the discrete logarithms that $\advB$ knows, it can compute a properly distributed CRS even without knowledge of the discrete logarithm of $[\matr{A}]_1$. The  soundness adversary outputs commitments $\{[\vecb{c}_j]_1:j\in[m_x]\},\{[\vecb{d}_{j}]_2:j\in[m_y]\}$ together with proofs $\{[\matr{\Theta}_{i}]_1,[\matr{\Pi}_{i}]_2:i \in [k]\}$, which are accepted by the verifier.
@@ -113,11 +113,11 @@ which implies that $[\grkb{\rho}]_1[\matr{A}]_2=[\grkb{\sigma}]_2[\matr{A}]_1$.
 the simulated proof corresponds to $k$ simulated GS proofs.
 \end{proof}
 
-\subsubsection{One-Sided Equations.} In the case when $\grkb{\alpha}_{\ell}=\matr{0}$ and $\tilde{t}_{\ell}=f(t_{\ell},\mathsf{base}_{2})$ for some $t_{\ell} \in A_1$, for all $\ell\in[n]$, proofs can be aggregated under a standard Kernel Assumption (and thus, in asymmetric bilinear groups we can choose $k=1$). Indeed, 
+\subsubsection{One-Sided Equations.} In the case when $\grkb{\alpha}_{\ell}=\matr{0}$ and $\tilde{t}_{\ell}=f(t_{\ell},\mathsf{base}_{2})$ for some $t_{\ell} \in A_1$, for all $\ell\in[n]$, proofs can be aggregated under a standard kernel assumption (and thus, in asymmetric bilinear groups we can choose $k=1$). Indeed, 
 in this case, in the soundness proof, the adversary $\advB$ receives $[\matr{A}]_2\in\Hr^{n\times k}$, an instance of the $\dist_{n,k}\mbox{-}\kermdh_{\Hr}$ problem. The adversary $\advB$ outputs $[\grkb{\rho}]_1:=(\grkb{\beta}_1^\top[\vecb{x}]_1 -[{t}_{1}]_1,\ldots,
 \grkb{\beta}_{n}^\top[\vecb{x}]_1 -[{t}_{n}]_1) $ as a solution to the challenge. To see why this works, note that, when $\grkb{\alpha}_{\ell}=\matr{0}$ for all $\ell\in[n]$, equation (\ref{eq:gs-ker}) reads $\sum_{\ell\in[n]} [{a}_{\ell,i}]_2 \left(\grkb{\beta}_\ell^\top [\vecb{x}]_1 - [{t}_{\ell}]_1 \right)  = [{0}]_T$ and thus $[\grkb{\rho}]_1[\matr{A}]_2=[\matr{0}]_T$.  The case when $\grkb{\beta}_\ell=\matr{0}$ and $\tilde{t}_{\ell}=f(\mathsf{base}_{1},t_{\ell})$ for some $t_{\ell} \in A_2$, for all $\ell\in[n]$, is analogous. 
 
-\subsubsection{Public Parameters.} The size of the CRS of the construction above depends on the number of elements needed to represent $[\matr{A}]_2$. In this sense, it is interesting to sample $[\matr{A}]_2$ from some family of matrix assumptions with good representation size. As we assume that $n>k$, it is interesting to instantiate this scheme with the \textit{Circulant Matrix Distribution} of \cite{EPRINT:MorRafVil15}, which has a representation size of $n$ --- independent of $k$. 
+\subsubsection{Public Parameters.} The size of the CRS of the construction above depends on the number of elements needed to represent $[\matr{A}]_2$. In this sense, it is interesting to sample $[\matr{A}]_2$ from some family of matrix assumptions with good representation size. As we assume that $n>k$, it is interesting to instantiate this scheme with the \textit{circulant matrix distribution} of Morillo et al.~\cite{EPRINT:MorRafVil15}, which has a representation size of $n$ --- independent of $k$. 
 
 
 %\paragraph{Symmetric bilinear groups.}  The size of the CRS of the construction below depends on the number of elements needed to represent $\hmatr{A}$, while in \cite{C:JutRoy14}, $\hmatr{A}$ is a uniform matrix. This generalization allows to have shorter public parameters than the  \cite{C:JutRoy14} in the symmetric case if  $\hmatr{A}$  is sampled from a family of matrix assumptions with good representation size. In particular, if $\hmatr{A}$ is sampled from the circulant matrix dis

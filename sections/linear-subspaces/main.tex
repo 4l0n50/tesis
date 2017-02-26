@@ -1,5 +1,5 @@
 
-In this chapter we construct three QA-NIZK \emph{constant-size} arguments of membership in different subspaces of $\GG^{m}_1 \times \GG^{n}_2$. Their soundness relies on the Split Kernel Assumption. We then show that similar techniques allow to give a \emph{constant-size} proof of satisfiability of many linear equations (aggregation of Groth-Sahai proofs). Finally, we show that the same techniques also allow to build \emph{Structure Preserving Linearly Homomorphic Signatures} where messages can be elements of $\GG_1^m\times\GG_2^n$, an extension of the signature scheme introduced by Libert et al. \cite{C:LPJY13}. 
+In this chapter we construct three QA-NIZK \emph{constant-size} arguments of membership in different subspaces of $\GG^{m}_1 \times \GG^{n}_2$. Their soundness relies on the split kernel assumption. We then show that similar techniques allow to give a \emph{constant-size} proof of satisfiability of many linear equations (aggregation of Groth-Sahai proofs). Finally, we show that the same techniques also allow to build \emph{structure preserving linearly homomorphic signatures} where messages can be elements of $\GG_1^m\times\GG_2^n$, an extension of the signature scheme introduced by Libert et al. \cite{C:LPJY13}. 
 \section{Introduction}
 A recent line of work 
   \cite{AC:JutRoy13,C:JutRoy14,EC:KilWee15,EC:LPJY14} 
@@ -23,9 +23,9 @@ which means that the common reference string depends on the set of equations one
 
 
 Thus, it is worth to investigate if we can develop new techniques to aggregate 
-other types of equations and recover all the aggregation results of \cite{C:JutRoy14} (in particular, for two-sided linear equations) in asymmetric bilinear groups. The latter (Type III bilinear groups, according to the classification of \cite{DAM:GalPatSma08}) are the most 
+other types of equations (in particular, two-sided linear equations) in asymmetric bilinear groups. The latter (Type III bilinear groups, according to the classification of Glabraith et al.~are the most 
 attractive 
-from the perspective of a performance and security trade off, specially since the recent attacks on discrete logarithms in finite fields by Joux \cite{SAC:Joux13} and subsequent improvements. Considerable research effort 
+from the perspective of a performance and security trade off \cite{DAM:GalPatSma08}), specially since the recent attacks on discrete logarithms in finite fields by Joux \cite{SAC:Joux13} and subsequent improvements. Considerable research effort 
 (e.g. \cite{C:AGOT14a,EC:Freeman10})
 has been put into translating pairing-based cryptosystems from a setting with more structure in which design is simpler (e.g. composite-order or symmetric bilinear groups) to a more efficient setting (e.g. prime order or asymmetric bilinear groups). In this line, we aim not only at obtaining new results in the asymmetric setting but also to translate known results and develop new tools specifically designed for it which might be of independent interest.
 

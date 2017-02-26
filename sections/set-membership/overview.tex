@@ -7,11 +7,11 @@ $$
 $$
 and $c=\Com_{ck}(x;\vecb{w})$ is a Groth-Sahai commitment to $x$ with randomness $\vecb{w}$.
 
-The proof that we construct in Section~\ref{sec:aZKSMP} is Quasi-Adaptive, in the sense that the language and the common reference string depends on $ck$ and $S$. Further, the marginal distribution of $ck$ is witness samplable, that is, it can be sampled along with its discrete logarithms. The argument is \textit{aggregated} because the size of the proof is independent of $n$ ($\Theta(\log d)$ when $S=[0,d-1]$ and $\Theta(|S|)$ when $S\subset\GG_\gamma$). However, in the soundness proof we will loose a factor of $n$ in the reduction. 
+The proof that we construct in Section~\ref{sec:aZKSMP} is quasi-adaptive, in the sense that the language and the common reference string depends on $ck$ and $S$. Further, the marginal distribution of $ck$ is witness samplable, that is, it can be sampled along with its discrete logarithms. The argument is \textit{aggregated} because the size of the proof is independent of $n$ ($\Theta(\log d)$ when $S=[0,d-1]$ and $\Theta(|S|)$ when $S\subset\GG_\gamma$). However, in the soundness proof we will loose a factor of $n$ in the reduction. 
 
 %Before discussing how to construct such an argument, we come back on showing how to use it as a building block for range and shuffle proofs.  
 \subsection{Range Argument}
-A Range argument is a tool often required in e-voting and e-cash scenarios, with the purpose of showing that the opening $y$ of some commitment $c$ is an integer in some interval $[A,B]$. For simplicity, the range considered is usually $[0,2^n-1]$ since a proof in any interval can be reduced to a proof in this interval.
+A range argument is a tool often required in e-voting and e-cash scenarios, with the purpose of showing that the opening $y$ of some commitment $c$ is an integer in some interval $[A,B]$. For simplicity, the range considered is usually $[0,2^n-1]$ since a proof in any interval can be reduced to a proof in this interval.
 
 Let $n,d\in\mathbb{N}$, $m:=\log d$, and $\ell:=n/m$. A commitment $c$ opens to a integer $x$ in the range $[0,2^n-1]$ if $\exists x_1,\ldots,x_\ell \in[0,d-1]$ and  $x=\sum_{i\in[\ell]}x_id^{i-1}$. Indeed, since $x_i\in[0,d-1]$
 \begin{eqnarray*}
@@ -20,12 +20,12 @@ x & = & \sum_{i\in[\ell]} x_i d^{i-1}
 \end{eqnarray*}
 The statement $\exists x_1,\ldots,x_\ell \in[0,d-1]$ can be proven by showing that $(c_1,\ldots,c_n)\in\Lang_{ck,[0,d-1]}^\ell$, where $c_i=\Com_{ck}(x_i)$, with an aggregated set membership proof, and the statement $x=\sum_{i\in[\ell]}d^{i-1}x_i$ can be proven using standard techniques. 
 
-While this way of constructing range arguments has been widely used in the literature (for example \cite{AC:CamChaShe08,PAIRING:RiaKohPre09}), with the addition of our techniques we get a smaller proof size. Indeed, the total cost of the range proof is $\Theta(\ell)+\Theta(m)$ ($\ell$ is due to the size of the commitments $c_1,\ldots,c_\ell$ and $m$ to the size of an aggregated proof of membership in $\Lang_{ck,[0,d-1]}^\ell$).  Setting $d=n^{k}$ for arbitrary $k$ leads to a proof size of $\Theta(\frac{n}{k \log n})$. Compared to previous approaches, the novelty of ours is that the cost of proving that $x_1,\ldots,x_\ell\in[0,d-1]$ is significantly reduced.
+While this way of constructing range arguments has been widely used in the literature \cite{AC:CamChaShe08,PAIRING:RiaKohPre09}, with the addition of our techniques we get a smaller proof size. Indeed, the total cost of the range proof is $\Theta(\ell)+\Theta(m)$ ($\ell$ is due to the size of the commitments $c_1,\ldots,c_\ell$ and $m$ to the size of an aggregated proof of membership in $\Lang_{ck,[0,d-1]}^\ell$).  Setting $d=n^{k}$ for arbitrary $k$ leads to a proof size of $\Theta(\frac{n}{k \log n})$. Compared to previous approaches, the novelty of ours is that the cost of proving that $x_1,\ldots,x_\ell\in[0,d-1]$ is significantly reduced.
 
 \subsection{Shuffle Argument}
-An argument of Correctness of a Shuffle is an essential tool in the construction of \emph{Mix-nets} \cite{CACM:Chaum81}. A Mix-net, in turn, is a distributed protocol between many \emph{mixers}, where each mixer receives as input a set of $n$ ciphertexts and  outputs a \emph{shuffle} of the input ciphertexts. That is, a \emph{re-randomization} of the set of ciphertexts obtained after applying a \emph{random permutation} to the input set of ciphertexts. To enforce the honest behavior of mixers they are required to produce a zero-knowledge argument that the shuffle was correctly computed.  
+An argument of correctness of a shuffle is an essential tool in the construction of \emph{mix-nets} \cite{CACM:Chaum81}. A mix-net, in turn, is a distributed protocol between many \emph{mixers}, where each mixer receives as input a set of $n$ ciphertexts and  outputs a \emph{shuffle} of the input ciphertexts. That is, a \emph{re-randomization} of the set of ciphertexts obtained after applying a \emph{random permutation} to the input set of ciphertexts. To enforce the honest behavior of mixers they are required to produce a zero-knowledge argument that the shuffle was correctly computed.  
 
-Our proof is partially inspired by the non-interactive shuffle of \cite{AC:GroLu07}. The statement we want to prove in a correctness of a shuffle argument is : ``Given two vectors of ciphertexts which open, respectively, to vectors of plaintexts $[\vecb{m}_1]_2, [\vecb{m}_2]_2$, prove that 
+Our proof is partially inspired by the non-interactive shuffle of Groth and Lu \cite{AC:GroLu07}. The statement we want to prove in a correctness of a shuffle argument is : ``Given two vectors of ciphertexts which open, respectively, to vectors of plaintexts $[\vecb{m}_1]_2, [\vecb{m}_2]_2$, prove that 
  $[\vecb{m}_2]_2$ is a permutation of $[\vecb{m}_1]_2$''.  Roughly, our strategy is the following:  
 \begin{itemize}
 \item[1)] Publish some vector of group elements $[\vecb{s}]_1 =([s_1]_1,\ldots,[s_n]_1)^\top$ (which we identify with the set $S$ of its components) in the common reference string, where $\vecb{s}$ is sampled from some distribution $\dist_{n,1}$.
@@ -37,15 +37,15 @@ Actually, a prover (a mixer) does not know the randomness nor the decryptions of
 \end{equation}
 \end{itemize}
 The underlying computational assumption is that it is infeasible to find a non-trivial combination of elements of $S$ which adds to $0$, that is, given $[\vecb{s}]_1$ it is infeasible to find $[\vecb{k}]_2 \neq [\vecb{0}]_2$ such that
-$\vecb{s}^{\top} \vecb{k}=\vecb{0}$ (this is the $\dist_{n,1}$-$\kermdh$ Assumption from Section~\ref{sec:mddh}). 
+$\vecb{s}^{\top} \vecb{k}=\vecb{0}$ (this is the $\dist_{n,1}$-$\kermdh$ assumption from Section~\ref{sec:mddh}). 
 
 Soundness goes as follows. First, by the soundness of the aggregated set membership proof, $[\vecb{x}]_1 \in S^{n}$ and from the fact that 
  $\sum_{i \in [n]} x_i =\sum_{i \in [n]} s_i$, it holds that if 
  $\vecb{x}$ is not a permutation of $\vecb{s}$, then one can extract in the soundness game (assuming the extractor knows $ck$) a non-trivial linear combination of elements of $S$ which adds to $0$, which contradicts the security assumption. 
 Finally, if $\vecb{x}$ is a permutation of $\vecb{s}$,  then equation (\ref{shuffle:ker}) implies that the shuffle is correct, or, again, 
-one can extract from   $[\vecb{m}_1]_2,[\vecb{m}_2]_2$ the coefficients of some non-trivial combination of elements of $S$ which is equal to $0$ (breaking the $\dist_{n,1}$-$\kermdh$ Assumption). 
+one can extract from   $[\vecb{m}_1]_2,[\vecb{m}_2]_2$ the coefficients of some non-trivial combination of elements of $S$ which is equal to $0$ (breaking the $\dist_{n,1}$-$\kermdh$ assumption). 
 
-This soundness argument is an augmentation and translation into asymmetric groups of the argument of Groth and Lu \cite{AC:GroLu07}. Essentially, the argument there also consists of two parts: one devoted to proving that some GS commitments open to a permutation of some set in the CRS (in \cite{AC:GroLu07} this is done via the (non-standard) pairing permutation assumption), while the second part (Step 4) is proven very similarly (in particular, its soundness also follows from some Kernel Assumption secure in symmetric bilinear groups). 
+This soundness argument is an augmentation and translation into asymmetric groups of the argument of Groth and Lu \cite{AC:GroLu07}. Essentially, the argument there also consists of two parts: one devoted to proving that some GS commitments open to a permutation of some set in the CRS (Groth and Lu prove this using the (non-standard) pairing permutation assumption), while the second part (Step 4) is proven very similarly (in particular, its soundness also follows from some kernel assumption secure in symmetric bilinear groups). 
 
-We note that it is crucial for our soundness argument that it is possible to decrypt the ciphertexts (otherwise we cannot extract solutions to the Kernel problems). This is possible in our case because public key for encryption is assumed to be witness-samplable and the argument is quasi-adaptive. This explains why we do not refer to the notion of culpable soundness, as in \cite{AC:GroLu07,EPRINT:FauLip15}.
+We note that it is crucial for our soundness argument that it is possible to decrypt the ciphertexts (otherwise we cannot extract solutions to the kernel problems). This is possible in our case because public key for encryption is assumed to be witness-samplable and the argument is quasi-adaptive. This explains why we do not refer to the notion of culpable soundness, as done by Groth and Lu \cite{AC:GroLu07} and by Fauzi and Lipmaa \cite{EPRINT:FauLip15}.
 

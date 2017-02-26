@@ -80,7 +80,7 @@ Therefore, for $\ell=1$ equation (\ref{eq-log-2}) says that the variable $x_{1,1
 
 Similarly as in Chandran et al.'s proof, for each new variable a new commitment must be added to the proof. But, in contrast with Chandran et al.'s proof, in this case the additional commitments do increase the asymptotic size of the proof. Indeed, the total number of new variables is \(2^{m-1}+2^{m-2}+\ldots+1=2^m-1=t-1\), and thus $t-1$ new commitments must be added.
 
-One can reduce the total size of the commitments using the length reducing Multi-Pedersen commitments from Section~\ref{sec:ext-mp}. However, this must be done carefully in order to be able to express equation (\ref{eq-log-2}) with a Groth-Sahai proof of an equation that involves the MP commitments and the variables $b_1,\ldots,b_m$. For example, if one computes a single commitment to all variables $\MP.\Com_{ck}((x_{1,1},\ldots,x_{m,2^{m-1}})^\top;r)$ it is not clear how to use it to express equation (\ref{eq-log-2}), because not all the variables appear at once in this equation (but all the variables appear in the previous commitment). Our solution is to compute a single MP commitment to each vector that appears in equation (\ref{eq-log-2}) in order to show with Groth-Sahai proofs that
+One can reduce the total size of the commitments using the length reducing multi-Pedersen commitments from Section~\ref{sec:ext-mp}. However, this must be done carefully in order to be able to express equation (\ref{eq-log-2}) with a Groth-Sahai proof of an equation that involves the MP commitments and the variables $b_1,\ldots,b_m$. For example, if one computes a single commitment to all variables $\MP.\Com_{ck}((x_{1,1},\ldots,x_{m,2^{m-1}})^\top;r)$ it is not clear how to use it to express equation (\ref{eq-log-2}), because not all the variables appear at once in this equation (but all the variables appear in the previous commitment). Our solution is to compute a single MP commitment to each vector that appears in equation (\ref{eq-log-2}) in order to show with Groth-Sahai proofs that
 \begin{small}
 \begin{align*}
 \MP.\Com_{ck_\ell}\left(
@@ -166,7 +166,7 @@ Intuitively, \(\vecb{w}\) should be equal to \((x_{\ell+1,1},\ldots,x_{\ell+1,2^
 &[\vecb{c}_{\ell,1}]_1=\MP.\Com_{ck_\ell}(\allowbreak(x_{\ell+1,1},\ldots,x_{\ell+1,2^{\ell-1}})^\top;r_{\ell,1})\text{ and }\\
 &[\vecb{c}_{\ell,2}]_1=\MP.\Com_{ck_\ell}((x_{\ell+1,2^{\ell-1}+1},\ldots, x_{\ell+1,2^{\ell}})^\top;r_{\ell,2}).
 \end{align*}
-However, since Multi-Pedersen commitments have multiple openings it might be the case that the satisfying witness of the proof is different from \((x_{\ell+1,1},\ldots,\allowbreak x_{\ell+1,2^\ell},r_{\ell+1},r_{\ell,1},r_{\ell,2})\) and thus the intuitive reasoning is invalid.
+However, since multi-Pedersen commitments have multiple openings it might be the case that the satisfying witness of the proof is different from \((x_{\ell+1,1},\ldots,\allowbreak x_{\ell+1,2^\ell},r_{\ell+1},r_{\ell,1},r_{\ell,2})\) and thus the intuitive reasoning is invalid.
 
 Despite this flawed reasoning, we will show that the proof system is still sound.
 

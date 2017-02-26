@@ -39,7 +39,7 @@ $|\Pr\left[\mathsf{Game}_{1}(\advA)=1\right]$ $-\Pr\left[\mathsf{Game}_{2}(\advA
 \begin{proof}
 We construct an adversary $\advD$ that receives 
 a challenge $([\matr{A}]_1,[\vecb{u}]_1)$ of the 
-$\distlin_1$-$\mddh_{\GG_1}$ Assumption. From this challenge, $\advD$ just defines the matrix  $[\overline{\matr{G}}]_1\in\GG_1^{2\times(mn+1)}$ as the matrix whose last column consists of $[\matr{A}]_1$, the ith column consists of $[\vecb{u}]_1$ and the rest of the columns are random vectors in the image of $[\matrA]_1$. Then $\advD$ honestly simulates the rest of the CRS, gives it as input to $\advA$, and outputs whatever $\advA$ outputs.
+$\distlin_1$-$\mddh_{\GG_1}$ assumption. From this challenge, $\advD$ just defines the matrix  $[\overline{\matr{G}}]_1\in\GG_1^{2\times(mn+1)}$ as the matrix whose last column consists of $[\matr{A}]_1$, the ith column consists of $[\vecb{u}]_1$ and the rest of the columns are random vectors in the image of $[\matrA]_1$. Then $\advD$ honestly simulates the rest of the CRS, gives it as input to $\advA$, and outputs whatever $\advA$ outputs.
 
 Obviously, when $[\vecb{u}]_1$ is sampled from 
 the image of $[\matr{A}]_1,$ $\overline{\matr{G}}$ follows the distribution $\distlinizeroone$ and $\advD$ perfectly simulates $\sfGame_1$, while if $[\vecb{u}]_1$ is a uniform element of $\GG^2_1$, $\overline{\matr{G}}$ follows the distribution $\distlinisnone$ and $\advD$ perfectly simulates $\sfGame_2$. 

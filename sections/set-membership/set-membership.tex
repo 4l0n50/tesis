@@ -97,13 +97,13 @@ GS commitments $[\vecb{d}_i]_1$, $i \in [m]$, to all coordinates of $\vecb{b}$ a
 \widetilde{b}_i  \\ r_i}$.
     \end{enumerate}
 \end{enumerate}
-For the first statement, one can use the QA-NIZK argument for bit-strings of \cite{AC:GonHevRaf15}, and for the second, the QA-NIZK argument for linear spaces of \cite{C:JutRoy14,EC:KilWee15} (for the latter, note that conditions 2.a) and 2.b) can be written down as a single system of equations with a large matrix $\widetilde{\matr{M}}$ and then satisfiability of 2.a) and 2.b) is equivalent to  $(\vecb{c}^{\top},\grkb{\alpha}^{\top},\vecb{d}_1^{\top}, \ldots, \vecb{d}_m^{\top})^\top$ being in the span 
+For the first statement, one can use the QA-NIZK argument for bit-strings of Section~\ref{sec:bits-non-binding}, and for the second, the QA-NIZK argument for linear spaces of \cite{C:JutRoy14,EC:KilWee15} (for the latter, note that conditions 2.a) and 2.b) can be written down as a single system of equations with a large matrix $\widetilde{\matr{M}}$ and then satisfiability of 2.a) and 2.b) is equivalent to  $(\vecb{c}^{\top},\grkb{\alpha}^{\top},\vecb{d}_1^{\top}, \ldots, \vecb{d}_m^{\top})^\top$ being in the span 
 of this matrix $\widetilde{\matr{M}}$).
 
 Since both proofs are constant-size, the resulting proof size is dominated by the cost of the commitments to $b_i$, which is $\Theta(m)$. 
 For soundness, the important point here is that we never prove that $\vecb{b}=\widetilde{\vecb{b}}$, but, since GS commitments are perfectly binding (or, said otherwise, because $\begin{pmatrix} \vecb{u}_1 &   \vecb{u}_2 \end{pmatrix}$
 has full rank), equality holds. This immediately proves that the statement is in the language.  
-\subsection{Aggregated Set Membership proofs}
+\subsection{Aggregated set membership proofs}
 An aggregated set membership proof amounts to proving membership in $\Lang_{[\matr{M}]_1,[\matr{N}]_1,\matr{\Lambda},\grkb{\alpha}}^n$. By definition, $([\vecb{c}_1]_1,\ldots, [\vecb{c}_n]_1) \in\Lang_{[\matr{M}]_1,[\matr{N}]_1,\matr{\Lambda},\grkb{\alpha}}^n$ if and only if  $\forall j \in [n], \exists \vecb{b}_j\in \Z_q^\lb,\vecb{w}_j\in\Z_q^\lc$ such that
 $$
  1) \vecb{b}_j\in \{0,1\}^\lb
@@ -127,7 +127,7 @@ $$
 $$
 Recall that we want a proof size independent of $n$. This rules out the naive approach of computing GS commitments to all the coordinates of $\vecb{b}_j$, for all $j \in [n]$, as the cost is $\Theta(nm)$. Therefore, to improve on the asymptotic size of the proof, we are forced to use shrinking commitments to $b_{i,j}$. We stress that it is far from clear how to do this, as it might break down the soundness argument completely (e.g. in the single proof, we used in a fundamental way the uniqueness of the commitment openings). In fact, overcoming this problem is one of the main technical contributions of this chapter. 
 
-Our idea is to use as a shrinking commitment a two-dimensional Multi-Pedersen commitment as defined on Section~\ref{sec:ext-mp}. Given some matrix $\matr{G} \in \Z_q^{2 \times (n+1)}$ sampled from some distribution $\dist_{2,n+1}$, the commitment to $\vecb{y}\in\Z_q^n$ using randomness $r\in\Z_q$ is computed as $\mathsf{MP}.\Com(\vecb{y};r):=[\matr{G}]_1 \smallpmatrix{\vecb{y} \\ r}$. The special thing about these commitments is that one can set a ``hidden'' linearly independent column of 
+Our idea is to use as a shrinking commitment a two-dimensional multi-Pedersen commitment as defined on Section~\ref{sec:ext-mp}. Given some matrix $\matr{G} \in \Z_q^{2 \times (n+1)}$ sampled from some distribution $\dist_{2,n+1}$, the commitment to $\vecb{y}\in\Z_q^n$ using randomness $r\in\Z_q$ is computed as $\mathsf{MP}.\Com(\vecb{y};r):=[\matr{G}]_1 \smallpmatrix{\vecb{y} \\ r}$. The special thing about these commitments is that one can set a ``hidden'' linearly independent column of 
 $\matr{G}$, and thus commitments are perfectly binding at some coordinate $j^*\in[n]$ which is computationally hidden to the adversary.
 
 Define the matrix $\matr{B}=(\vecb{b}_1|| \ldots || \vecb{b}_n) \in \{0,1\}^{\lb \times n}$ and let $\vecb{b}_i^*$ be the $i$th row of $\matr{B}$. To prove $([\vecb{c}_1]_1,\ldots, [\vecb{c}_n]_1) \in\Lang_{[\matr{M}]_1,[\matr{N}]_1,\matr{\Lambda},\grkb{\alpha}}^n$, we first compute MP commitments $[\vecb{d}_i]_1$, $i \in [\lb]$, to $\vecb{b}_i^*$.  As before, 

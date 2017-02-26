@@ -1,11 +1,11 @@
 \begin{abstract}
 
-Non-Interactive Zero-Knowledge (NIZK) proofs, are proofs that yield nothing beyond their validity. As opposed to the interactive variant, NIZK proofs consist of only one message and are more suited for high-latency scenarios (such as the internet) and for building inherently non-interactive schemes, like signatures or encryption. 
+Non-Interactive Zero-Knowledge (NIZK) proofs, are proofs that yield nothing beyond their validity. As opposed to the interactive variant, NIZK proofs consist of only one message and are more suited for high-latency scenarios and for building inherently non-interactive schemes, like signatures or encryption. 
 
 With the advent of Pairing-Based Cryptography many cryptosystems have been built using Bilinear Groups, that is, three Abelian groups $\GG_1$, $\GG_2$, $\GG_T$ of order $q$ together with a bilinear function $e : \GG_1 \times \GG_2 \to \GG_T$. Statements related to pairing-based cryptographic schemes are naturally expressed as the satisfiability of equations over these groups and $\Z_q$.
 
-The Groth-Sahai proof system, introduced by Groth and Sahai at Eurocrypt 2008 provides NIZK proofs for the satisfiability of equations over bilinear groups and over the integers modulo a prime $q$. Although Groth-Sahai proofs are quite efficient, they easily get expensive unless the statement is very simple. Specifically, proving satisfiability of $m$ equations in $n$ variables requires 
-sending commitments to the solutions, $\Theta(n)$ elements of a bilinear group, and a proof that they satisfy the equations, which we simply call the proof, requiring additional $\Theta(m)$ group elements. 
+The Groth-Sahai proof system, introduced by Groth and Sahai at Eurocrypt 2008, provides NIZK proofs for the satisfiability of equations over bilinear groups and over the integers modulo a prime $q$. Although Groth-Sahai proofs are quite efficient, they easily get expensive unless the statement is very simple. Specifically, proving satisfiability of $m$ equations in $n$ variables requires 
+sending as commitments to the solutions $\Theta(n)$ elements of a bilinear group, and a proof that they satisfy the equations, which we simply call the proof, requiring additional $\Theta(m)$ group elements. 
 
 In this thesis we study how to construct aggregated proofs -- i.e.~ proofs of size independent of the number of equations  -- for different types of equations and how to use them to build more efficient cryptographic schemes.
 

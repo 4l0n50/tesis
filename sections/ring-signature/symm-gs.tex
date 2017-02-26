@@ -1,4 +1,4 @@
-In our ring signature we use as primitive Groth-Sahai proofs, which we have only instantiated in the SXDH setting. Since the SXDH (and DDH) is false in symmetric groups, in order to use Groth-Sahai proofs in symmetric groups one usually instantiates them using the $\lin{2}$ assumption. Following \cite{EC:GroSah08}, in symmetric groups and using the $\lin{2}$ assumption, GS commitments are vectors in $\GG^3$ of the form
+In our ring signature we use as primitive Groth-Sahai proofs, which we have only instantiated in the SXDH setting. Since the SXDH (and DDH) is false in symmetric groups, in order to use Groth-Sahai proofs in symmetric groups one usually instantiates them using the $\lin{2}$ assumption. Following Groth and Sahai's work \cite{EC:GroSah08}, in symmetric groups and using the $\lin{2}$ assumption, GS commitments are vectors in $\GG^3$ of the form
 $$
 \GS.\Com_{ck}([x];\vecb{r})=\pmatri{{[0]}\\{[0]}\\{[x]}}+r_1[\vecb{u}_1]+{r}_2[\vecb{u}_2]+r_3[\vecb{u}_3]
 $$

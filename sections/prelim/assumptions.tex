@@ -1,6 +1,6 @@
 In this section we review \emph{Matrix Diffie-Hellman Assumptions} (MDDH) of Escala et al. \cite{C:EHKRV13} which are abstractions and generalizations of the $\lin{k}$ family of assumptions. Then, we review \emph{Kernel Matrix Diffie-Hellman Assumptions} (KMDH) of Morillo et al. \cite{EPRINT:MorRafVil15}, which are the natural computational counterpart of Matrix Diffie-Hellman assumptions.
 
-We also put forward a new Kernel assumption which is specific to asymmetric groups, and we prove its security in the \emph{Generic Group Model}.
+We also put forward a new Kernel assumption which is specific to asymmetric groups, and we prove its security in the \emph{generic group model}.
 
 \subsection{Decisional Matrix Diffie-Hellman Assumptions}
 \begin{definition}   \label{def:matrixdef}
@@ -41,10 +41,10 @@ In this work we will refer to the following matrix distributions:
     a_{\ell,1} &  \ldots &  a_{\ell,k} 
 \end{smallmatrix} \right),
 \]
-where $a_i,a_{i,j}\leftarrow \Z_q$.  The $\distlin_{k}$-$\mddh$ Assumption is the $k$-linear family of Decisional Assumptions
+where $a_i,a_{i,j}\leftarrow \Z_q$.  The $\distlin_{k}$-$\mddh$ assumption is the $k$-linear family of Decisional Assumptions
 and corresponds to 
  the Decisional Diffie-Hellman (DDH)
-Assumption in $\GG_\gamma$ when $k=1$. The SXDH Assumption states that DDH holds in $\GG_\gamma$ for all $\gamma \in \{1,2\}$. The $\mathcal{U}_{\ell,k}$ Assumption is the \textit{Uniform} Assumption and is the weakest of all assumptions of size $\ell \times k$. 
+Assumption in $\GG_\gamma$ when $k=1$. The SXDH Assumption states that DDH holds in $\GG_\gamma$ for all $\gamma \in \{1,2\}$. The $\mathcal{U}_{\ell,k}$ assumption is the \textit{uniform} assumption and is the weakest of all assumptions of size $\ell \times k$. 
 
 Further, given any matrix distribution $\dist_{k}$, $m \in \mathbb{N}$ and any $i \in [m]$, we introduce the distribution $\distink$, which is defined as follows: 
 \[ \distzeronk: \matrA = \left(\begin{smallmatrix} \matr{B}\vecb{w}_1 & \ldots &  
@@ -55,7 +55,7 @@ Further, given any matrix distribution $\dist_{k}$, $m \in \mathbb{N}$ and any $
 \]
 where $\matr{B} \leftarrow \dist_{k}$, $\vecb{w}_i \leftarrow \Z_q^k$ and $\vecb{z} \leftarrow \Z_q^{k+1}$. The following are two trivial properties of the $\distink$ distribution. 
 
-\begin{lemma} Under the $\dist_{k}$-$\mddh$ Assumption in $\GG_\gamma$, for any $0 < i \leq n$, the distribution of  $[\matrA]_\gamma$ when $\matrA \leftarrow \distzeronk$ and when $\matrA \leftarrow \distink$ are computationally indistinguishable. Further, if $\ell>k$, for any $i>0$, if $\matr{A} \leftarrow \distink$, then with overwhelming probability its ith column is linearly independent of the rest. \label{lemma:dist-i}
+\begin{lemma} Under the $\dist_{k}$-$\mddh$ assumption in $\GG_\gamma$, for any $0 < i \leq n$, the distribution of  $[\matrA]_\gamma$ when $\matrA \leftarrow \distzeronk$ and when $\matrA \leftarrow \distink$ are computationally indistinguishable. Further, if $\ell>k$, for any $i>0$, if $\matr{A} \leftarrow \distink$, then with overwhelming probability its ith column is linearly independent of the rest. \label{lemma:dist-i}
 \end{lemma}
 
 \subsection{Computational Matrix Diffie-Hellman Assumptions}
@@ -68,12 +68,12 @@ Additionally, we will be using the following family  computational assumptions:
 The Kernel Diffie-Hellman Assumption in $\GG_\gamma$  ($\dist_{\ell,k}\mbox{-}\kermdh_{\GG_\gamma}$) says that every PPT Algorithm has negligible advantage in the following  game: given $[\matr{A}]_\gamma$, where $\matrA \gets \dist_{\ell,k}$, find $[\vecb{x}]_{3-\gamma} \in \GG_{3-\gamma}^{\ell}$, $\vecb{x} \neq \vecb{0}$, such that 
 $[\vecb{x}]_{3-\gamma}^{\top}[\matr{A}]_{\gamma}=[\vecb{0}]_T$. 
 \end{definition}
-The  Simultaneous Pairing Assumption in $\GG_\gamma$  (\SP$_{\GG_{\gamma}}$) is the $ \mathcal{U}_1\mbox{-}\kermdh_{\GG_{\gamma}}$ Assumption. The Kernel Diffie-Hellman assumption is a generalization and abstraction of this assumption to other matrix distributions. 
-The $\dist_{\ell,k}\mbox{-}\kermdh_{\GG_{\gamma}}$ Assumption is weaker than the $\dist_{\ell,k}\mbox{-}\mddh_{\GG_{\gamma}}$ Assumption, since a solution to the former allows to decide membership in $\rmIm([\matr{A}]_{\gamma})$.
+The  Simultaneous Pairing Assumption in $\GG_\gamma$  (\SP$_{\GG_{\gamma}}$) is the $ \mathcal{U}_1\mbox{-}\kermdh_{\GG_{\gamma}}$ assumption. The Kernel Diffie-Hellman assumption is a generalization and abstraction of this assumption to other matrix distributions. 
+The $\dist_{\ell,k}\mbox{-}\kermdh_{\GG_{\gamma}}$ assumption is weaker than the $\dist_{\ell,k}\mbox{-}\mddh_{\GG_{\gamma}}$ assumption, since a solution to the former allows to decide membership in $\rmIm([\matr{A}]_{\gamma})$.
 
 \subsection{A new Computational Matrix Diffie-Hellman Assumption in Type III Groups}
 
-In asymmetric bilinear groups, there is a natural variant of the $\dist_{\ell,k}\mbox{-}\kermdh$ assumption which we introduced in \cite{AC:GonHevRaf15}.  
+In asymmetric bilinear groups, we introduce a natural variant of the $\dist_{\ell,k}\mbox{-}\kermdh$ assumption \cite{AC:GonHevRaf15}.  
 \begin{definition}[Split Kernel Diffie-Hellman Assumption]
 Let  $\gk \hspace*{-3pt} \gets
 \hspace*{-3pt}
@@ -83,7 +83,7 @@ $[\vecb{r}]_1^{\top}[\matr{A}]_2=[\vecb{s}]_2^{\top}[\matr{A}]_1$.
 \end{definition}
 
 While the Kernel Diffie-Hellman Assumption says one cannot find a non-zero vector in one of the groups which is in the co-kernel of $\matr{A}$, the split assumption says one cannot find a pair of vectors in $\GG_1^{\ell} \times \GG_2^{\ell}$ such that the difference of the vector of their discrete logarithms is in the co-kernel of $\matr{A}$. 
-As a particular case we consider the \emph{Split Simultaneous Double Pairing Assumption in} $\GG_1,\GG_2$ ($\SSDP$) which is the $\distrlin_{2}\mbox{-}\skermdh$ Assumption, where 
+As a particular case we consider the \emph{Split Simultaneous Double Pairing Assumption in} $\GG_1,\GG_2$ ($\SSDP$) which is the $\distrlin_{2}\mbox{-}\skermdh$ assumption, where 
 $\distrlin_{2}$ is the distribution which results of sampling a matrix from $\distlin_{2}$ and replacing the last row by random elements. 
 
 To gain confidence in this assumption, we first note that it implies the Kernel MDH Assumption and then we prove that the reciprocal is true in the generic bilinear model. 
@@ -91,19 +91,19 @@ To gain confidence in this assumption, we first note that it implies the Kernel 
 \begin{lemma} $\dist_{\ell,k}\mbox{-}\skermdh \Rightarrow \dist_{\ell,k}\mbox{-}\kermdh_{\Hr}$.
 \end{lemma}
 \begin{proof} Suppose there exists an adversary $\advB$ against the 
-$\dist_{\ell,k}\mbox{-}\kermdh_{\Hr}$ assumption. We show how to construct an adversary $\advA$ against the  $\dist_{\ell,k}\mbox{-}\skermdh$ Assumption. Adversary $\advA$ receives as a challenge $([\matr{A}]_1,[\matr{A}]_2)$ and forwards $[\matr{A}]_2$ to $\advB$, who outputs with non-negligible probability a vector $[\vecb{r}]_1$ such that $[\vecb{r}]_1^{\top} [\matr{A}]_2=[\vecb{0}]_{T}$. Then $\advA$  simply outputs $([\vecb{r}]_1,[\vecb{0}]_2)$ as a solution to the $\dist_{\ell,k}\mbox{-}\skermdh$ challenge. 
+$\dist_{\ell,k}\mbox{-}\kermdh_{\Hr}$ assumption. We show how to construct an adversary $\advA$ against the  $\dist_{\ell,k}\mbox{-}\skermdh$ assumption. Adversary $\advA$ receives as a challenge $([\matr{A}]_1,[\matr{A}]_2)$ and forwards $[\matr{A}]_2$ to $\advB$, who outputs with non-negligible probability a vector $[\vecb{r}]_1$ such that $[\vecb{r}]_1^{\top} [\matr{A}]_2=[\vecb{0}]_{T}$. Then $\advA$  simply outputs $([\vecb{r}]_1,[\vecb{0}]_2)$ as a solution to the $\dist_{\ell,k}\mbox{-}\skermdh$ challenge. 
 \end{proof}
 
 \subsubsection{Security of the $\dist_{\ell,k}\mbox{-}\skermdh$ in the Generic Group Model}
 
 The generic group model is an idealized model for analysing the security of cryptographic assumptions or cryptographic schemes. A proof of security in the generic group model guarantees that no attacker, that only uses the algebraic structure of the (bilinear) group, is successful in breaking the assumption/scheme. Conversely, for a generically secure assumption/scheme, a successful attack must exploit the structure of the (bilinear) group that is actually used in the protocol (e.g.~a Barreto-Naehring curve in the case of bilinear groups).  
 
-We use the natural generalization of Shoup's generic group model \cite{EC:Shoup97} to the (a)symmetric bilinear setting, as it was used for instance in \cite{EC:BonBoyGoh05}. In such a model an adversary can only access elements of $\Gr,\Hr$ or $\GG_T$ via a query to a group oracle, which gives him a randomized  encoding of the queried element. The group oracle must be consistent with the group operations (allowing to query for the encoding of constants in either group, for the encoding of the sum of previously queried elements in the same group and for the encoding of the product of pairs in $\Gr\times \Hr$). %More details, can be found for instance in  \cite{EC:BonBoyGoh05}.
+We use the natural generalization of Shoup's generic group model \cite{EC:Shoup97} to the (a)symmetric bilinear setting, as it was used for instance by Boneh et al.~\cite{EC:BonBoyGoh05}. In such a model an adversary can only access elements of $\Gr,\Hr$ or $\GG_T$ via a query to a group oracle, which gives him a randomized  encoding of the queried element. The group oracle must be consistent with the group operations (allowing to query for the encoding of constants in either group, for the encoding of the sum of previously queried elements in the same group and for the encoding of the product of pairs in $\Gr\times \Hr$). %More details, can be found for instance in  \cite{EC:BonBoyGoh05}.
 
 \begin{lemma} If $\dist_{\ell,k}\mbox{-}\kermdh$ holds in generic symmetric bilinear groups, then $\dist_{\ell,k}\mbox{-}\skermdh$ holds in generic asymmetric bilinear groups. 
 \end{lemma}
 
-\begin{proof} Suppose there is an adversary $\advA$  in the asymmetric generic bilinear group model against the $\dist_{\ell,k}\mbox{-}\skermdh$ assumption.  We show how to construct an adversary $\advB$ against the  $\dist_{\ell,k}\mbox{-}\kermdh_{\Hr}$ Assumption in the symmetric generic group model. 
+\begin{proof} Suppose there is an adversary $\advA$  in the asymmetric generic bilinear group model against the $\dist_{\ell,k}\mbox{-}\skermdh$ assumption.  We show how to construct an adversary $\advB$ against the  $\dist_{\ell,k}\mbox{-}\kermdh_{\Hr}$ assumption in the symmetric generic group model. 
 
 
 Adversary $\advB$ has oracle access to the randomized encodings $\sigma: \Z_q \to \{0,1\}^n$, 
@@ -132,4 +132,4 @@ $(Q,s_q,1),(R,s_r,2) \in L_\advA$. Because of the way $L_\advA$ and $L_\advB$ we
 It easily follows that $\advA$ and $\advB$ have exactly the same probability of success.
 \end{proof} 
 
-Finally, we note that the $\distlin_{2}\mbox{-}\skermdh$ Assumption is implied by a decisional assumption introduced in \cite{EPRINT:LPJY15}. The assumption says that, given $([\matr{A}]_1,[\matr{A}]_2)$, where $\matr{A}\gets\distlin_2$, the vector $([\matr{A}]_1\vecb{w},[\matr{A}]_2\vecb{w})$, $\vecb{w}\gets\Z_q^2$, is computationally indistinguishable from $([\vecb{u}]_1,[\vecb{u}]_2)$, $\vecb{u}\gets\Z_q^3$. The proof is analogous to the proof that $\dist_{\ell,k}\mbox{-}\mddh\Rightarrow\dist_{\ell,k}\mbox{-}\kermdh$. Suppose that $([\vecb{r}]_1,[\vecb{s}]_2)$ is a solution to the $\distlin_2\mbox{-}\skermdh$ Assumption, then $[\vecb{r}]_1^\top[\matr{A}]_2\vecb{w}-[\vecb{s}]_2^\top[\matr{A}]_1\vecb{w}=([\vecb{r}]_1^\top[\matr{A}]_2-[\vecb{s}]_2^\top[\matr{A}]_1)\vecb{w}=[0]_T$, while $[\vecb{r}]_1^\top[\vecb{u}]_2-[\vecb{s}]_2^\top[\vecb{u}]_1=[0]_T$ only with negligible probability whenever $\vecb{r}\neq\vecb{s}$. 
+Finally, we note that the $\distlin_{2}\mbox{-}\skermdh$ assumption is implied by a decisional assumption introduced by Libert et al.~\cite{EPRINT:LPJY15}. The assumption says that, given $([\matr{A}]_1,[\matr{A}]_2)$, where $\matr{A}\gets\distlin_2$, the vector $([\matr{A}]_1\vecb{w},[\matr{A}]_2\vecb{w})$, $\vecb{w}\gets\Z_q^2$, is computationally indistinguishable from $([\vecb{u}]_1,[\vecb{u}]_2)$, $\vecb{u}\gets\Z_q^3$. The proof is analogous to the proof that $\dist_{\ell,k}\mbox{-}\mddh\Rightarrow\dist_{\ell,k}\mbox{-}\kermdh$. Suppose that $([\vecb{r}]_1,[\vecb{s}]_2)$ is a solution to the $\distlin_2\mbox{-}\skermdh$ assumption, then $[\vecb{r}]_1^\top[\matr{A}]_2\vecb{w}-[\vecb{s}]_2^\top[\matr{A}]_1\vecb{w}=([\vecb{r}]_1^\top[\matr{A}]_2-[\vecb{s}]_2^\top[\matr{A}]_1)\vecb{w}=[0]_T$, while $[\vecb{r}]_1^\top[\vecb{u}]_2-[\vecb{s}]_2^\top[\vecb{u}]_1=[0]_T$ only with negligible probability whenever $\vecb{r}\neq\vecb{s}$. 

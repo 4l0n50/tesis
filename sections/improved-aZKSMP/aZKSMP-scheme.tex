@@ -207,7 +207,7 @@ We prove the following Theorem.
 
 \begin{theorem} \label{theo:bits}
 The proof system described above is a QA-NIZK proof system for the language \(\Lang_{ck_\GS,\mathsf{set}}^n\)
- with Perfect Completeness, Computational Soundness, and Perfect Zero-Knowledge.
+ with perfect completeness, computational soundness, and perfect zero-knowledge.
 \end{theorem}	
 
 \subsubsection{Completeness}
@@ -232,7 +232,7 @@ Completeness follows from completeness of \(\Pi_\sfsum,\Pi_\mathsf{lin},\Pi_\sfb
 
 \subsubsection{Soundness}
 
-The following theorem guarantees Soundness. 
+The following theorem guarantees soundness. 
  
 \begin{theorem} Let \(\mathsf{Adv}_{{\Pi_\sfset}}(\advA)\) 
 be the advantage of an adversary \(\advA\) against the soundness of 
@@ -256,7 +256,7 @@ Recall that, given $b_1,\ldots,b_m\in\bits$, we defined $\alpha:=\sum_{i=1}^mb_i
 
 The proof follows from the indistinguishability of the following games:
 \begin{itemize}
-\item[\(\mathsf{Real}\):] This is the real Soundness game. The output is 1 if the adversary submits some \(([\grkb{\zeta}_1]_1,\ldots,[\grkb{\zeta}_n]_1,S)\notin\Lang_{ck_\GS,\mathsf{set}}^n\) and the corresponding proof which is accepted by the verifier.
+\item[\(\mathsf{Real}\):] This is the real soundness game. The output is 1 if the adversary submits some \(([\grkb{\zeta}_1]_1,\ldots,[\grkb{\zeta}_n]_1,S)\notin\Lang_{ck_\GS,\mathsf{set}}^n\) and the corresponding proof which is accepted by the verifier.
 \item[\(\sfGame_0\):] This identical to \(\mathsf{Real}\), except that \(\algK_1\) does not receive \(ck_\GS\) as a input but
 it samples \(ck_\GS\) itself together with its discrete logarithms.
 \item[\(\sfGame_1\):] This game is identical to \(\sfGame_0\) except that now it chooses random \(j^*\in[n]\) and it aborts if \(x_{j^*}\notin S\).
@@ -284,7 +284,7 @@ the probability that the event described in b) occurs conditioned on \(\mathsf{G
 \begin{proof}
 We construct an adversary \(\advD_2\) that receives 
 a challenge \(([\vecb{a}]_2,[\vecb{u}]_2)\) of the 
-\(\distlin_1\)-\(\mddh_{\GG_2}\) Assumption. From this challenge, \(\advD_2\) just defines the matrix  \([\matr{H}]_2\in\GG_2^{2\times(n+1)}\) as the matrix whose last column is \([\vecb{a}]_2\), the ith column is \([\vecb{u}]_2\), and the rest of the columns are random vectors in the image of \([\vecb{a}]_2\). 
+\(\distlin_1\)-\(\mddh_{\GG_2}\) assumption. From this challenge, \(\advD_2\) just defines the matrix  \([\matr{H}]_2\in\GG_2^{2\times(n+1)}\) as the matrix whose last column is \([\vecb{a}]_2\), the ith column is \([\vecb{u}]_2\), and the rest of the columns are random vectors in the image of \([\vecb{a}]_2\). 
 Obviously, when \([\vecb{u}]_2\) is sampled from 
 the image of \([\vecb{a}]_2,\) \(\matr{H}\) follows the distribution \(\distlinizeroone\), while if \([\vecb{u}]_2\) is a uniform element of \(\GG^2_2\), \(\matr{H}\) follows the distribution \(\distlin_1^{n,j^*}\). 
  
@@ -316,7 +316,7 @@ the probability that the event described in b) occurs conditioned on \(\mathsf{G
 \begin{proof}
 We construct an adversary \(\advD_1\) that receives 
 a challenge \(([\vecb{a}]_1,[\vecb{u}]_1)\) of the 
-\(\distlin_1\)-\(\mddh_{\GG_1}\) Assumption. From this challenge, \(\advD_1\) defines for each \(\ell\in [m]\) the matrix  \([\matr{G}_\ell]_1\) as the matrix whose  \(\Delta+\alpha_\ell\) th column is \([\vecb{u}]_1\), and the rest of the columns are random vectors in the image of \([\vecb{a}]_1\). 
+\(\distlin_1\)-\(\mddh_{\GG_1}\) assumption. From this challenge, \(\advD_1\) defines for each \(\ell\in [m]\) the matrix  \([\matr{G}_\ell]_1\) as the matrix whose  \(\Delta+\alpha_\ell\) th column is \([\vecb{u}]_1\), and the rest of the columns are random vectors in the image of \([\vecb{a}]_1\). 
 Obviously, when \([\vecb{u}]_1\) is sampled from 
 the image of \([\vecb{a}]_1\), \([\matr{G}_\ell]_1\) follows the distribution \(\distlin_1^{n2^{\ell-1},0}\), while if \([\vecb{u}]_1\) is a uniform element of \(\GG^2_1\), \([\matr{G}_\ell]_1\) follows the distribution \(\distlin_1^{n2^{\ell-1},\Delta+\alpha_\ell}\). 
  
@@ -392,7 +392,7 @@ If $b_{\ell}=1$, then $\alpha_{\ell+1}=\alpha_\ell+2^{\ell-1}$ and similarly, $\
 
 \end{proof}
 \subsubsection{Perfect Zero-Knowledge}
-Note that the vectors \([\vecb{c}_\ell],[\vecb{c}_{\ell,1}]_1,[\vecb{c}_{\ell,2}]_1,[\vecb{d}_\ell]_2\) and matrices \([\matr{\Theta}_\ell]_1,[\matr{\Pi}_\ell]_2\), \(1\leq\ell\leq m\), output by the prover and the simulator are, respectively, uniform vectors and uniform matrices conditioned on satisfying equation \ref{eq-alog-5}. This follows from the fact that \(ck,ck_1,\ldots,ck_\ell\) are all perfectly hiding commitment keys and that \([\matr{\Theta}_\ell]_1,[\matr{\Pi}_\ell]_1\) are the unique solutions of equation (\ref{eq-alog-5}) modulo the random choice of \(\matr{R}_\ell\). Finally, the rest of the proof follows from Zero-Knowledge of \(\Pi_\sfcom,\Pi_\sfbits,\Pi_\sfsum,\) and \(\Pi_\mathsf{lin}\).
+Note that the vectors \([\vecb{c}_\ell],[\vecb{c}_{\ell,1}]_1,[\vecb{c}_{\ell,2}]_1,[\vecb{d}_\ell]_2\) and matrices \([\matr{\Theta}_\ell]_1,[\matr{\Pi}_\ell]_2\), \(1\leq\ell\leq m\), output by the prover and the simulator are, respectively, uniform vectors and uniform matrices conditioned on satisfying equation \ref{eq-alog-5}. This follows from the fact that \(ck,ck_1,\ldots,ck_\ell\) are all perfectly hiding commitment keys and that \([\matr{\Theta}_\ell]_1,[\matr{\Pi}_\ell]_1\) are the unique solutions of equation (\ref{eq-alog-5}) modulo the random choice of \(\matr{R}_\ell\). Finally, the rest of the proof follows from zero-knowledge of \(\Pi_\sfcom,\Pi_\sfbits,\Pi_\sfsum,\) and \(\Pi_\mathsf{lin}\).
 
 \subsection{The case \(S\subset\GG_1\)} \label{sec:improved-aZKSMP-group-case}
 We briefly justify that the case \(S\subset\GG_1\) follows directly from the case \(S\subset\Z_q\) when \(S\) is a fixed witness samplable set. That is, there is a fixed set $S$ for each CRS, and there is an efficient algorithm that samples \(s_1,\ldots,s_{\setsize }\in\Z_q\) such that \(S=\{[s_1]_1,\ldots,[s_{\setsize }]_1\}\). %Note that this is the same case of Section~\ref{sec:bits-applications} where the CRS depends on set.

@@ -1,4 +1,4 @@
-Our scheme follows the ring signature of Chandran et al.~Given a \emph{Boneh-Boyen signature scheme} (Section \ref{sec:bbs}), where the secret/verification keys are of the form $(sk,[vk])$ and $sk=vk\in\Z_q$, and given a \emph{One-time signature scheme} (Section \ref{sec:ots}), the signature of the message $m$ for a ring $R=\{[vk_1],\ldots,[vk_n]\}$ is computed as follows:
+Our scheme follows the ring signature of Chandran et al.~Given a \emph{Boneh-Boyen signature scheme} (Section \ref{sec:bbs}), where the secret/verification keys are of the form $(sk,[vk])$ and $sk=vk\in\Z_q$, and given a \emph{one-time signature scheme} (Section \ref{sec:ots}), the signature of the message $m$ for a ring $R=\{[vk_1],\ldots,[vk_n]\}$ is computed as follows:
 \begin{itemize}
 \item[a)] pick a one-time signature key $(sk_\mathsf{ot},vk_\mathsf{ot})$, sign $m$ with the one-time signature, and sign the one-time verification key with $sk$,
 \item[b)] commit to the signature of the one-time verification key and to $[vk]$ and show that it is a valid signature key using GS proofs,
@@ -29,7 +29,7 @@ Therefore, it is only left the to show that $\vecb{z}_1,\ldots,\vecb{z}_m$ is a 
 \begin{definition}[Permutation Pairing Assumption]
 Let $\mathcal{Q}_{m}=\underbrace{\mathcal{Q}||\ldots||\mathcal{Q}}_{m\text{ times}}$, where concatenation of matrix distributions is defined in the natural way and 
 $$\mathcal{Q}: \vecb{a}=\pmatri{x\\x^2},\quad x\gets\Z_q.$$
-We say that the $m$-Permutation Pairing Assumption holds relative to $\G_s$ if for any adversary $\advA$
+We say that the $m$-permutation pairing assumption holds relative to $\G_s$ if for any adversary $\advA$
 $$
 \Pr\left[
 \begin{array}{l}
@@ -48,7 +48,7 @@ If the prover additionally proves that equations (i) and (ii) are satisfied for 
 \sum_{i\in[m]}[\vecb{z}_i][\kappa_i]&=\sum_{i\in[m]}[\vecb{a}_{(\pi(i),j_\alpha,k_\alpha)}][\kappa_i]=\sum_{i\in[m]}[\vecb{a}_{(i,j_\alpha,k_\alpha)}][\kappa_{\pi^{-1}(i)}]\\
 &=\sum_{i\in[m]}[\vecb{a}_{(i,j_\alpha,k_\alpha)}][vk_{(i,j_\alpha,k_\alpha)}].
 \end{align*}
-Then $\kappa_1,\ldots,\kappa_m$ is a permutation of $\vecb{a}_{(1,j_\alpha,k_\alpha)},\ldots,\vecb{a}_{(m,j_\alpha,k_\alpha)}$ (the same defined by $\vecb{z}_1,\ldots,\vecb{z}_m$), unless $(\kappa_{\pi^{-1}(1)}-{vk_{(1,j_\alpha,k_\alpha)}),\ldots,\kappa_{\pi^{-1}(m)}-vk_{(m,j_\alpha,k_\alpha)})})^\top$ is in the kernel of $\matr{A}$. Groth and Lu showed the hardness of finding an element from $\ker(\matr{A})$, when $\matr{A}$ is sampled from $\mathcal{Q}_m$, in the generic group model. They called this assumption the \emph{Simultaneous Pairing Assumption} and it corresponds to the $\mathcal{Q}_m^\top\mbox{-}\kermdh$ assumption.
+Then $\kappa_1,\ldots,\kappa_m$ is a permutation of $\vecb{a}_{(1,j_\alpha,k_\alpha)},\ldots,\vecb{a}_{(m,j_\alpha,k_\alpha)}$ (the same defined by $\vecb{z}_1,\ldots,\vecb{z}_m$), unless $(\kappa_{\pi^{-1}(1)}-{vk_{(1,j_\alpha,k_\alpha)}),\ldots,\kappa_{\pi^{-1}(m)}-vk_{(m,j_\alpha,k_\alpha)})})^\top$ is in the kernel of $\matr{A}$. Groth and Lu showed the hardness of finding an element from $\ker(\matr{A})$, when $\matr{A}$ is sampled from $\mathcal{Q}_m$, in the generic group model. They called this assumption the \emph{simultaneous pairing assumption} and it corresponds to the $\mathcal{Q}_m^\top\mbox{-}\kermdh$ assumption.
 
 
 \paragraph{Remark.}

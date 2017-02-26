@@ -3,9 +3,9 @@
 Pick $\matr{H}\gets\distlinizeroone$, and denote by $\vecb{h}_{j}$ the $j$ th column of $\matr{H}$. Pick $\matr{T}\gets\Z_q^{2\times 2}$ and for each $(i,j)\in\indexSet{m}{1}$ define matrices
 $$([\matr{C}_{i,j}]_1,[\matr{D}_{i,j}]_2):=([\vecb{g}_i\vecb{h}_j^{\top}+\matr{T}]_1,[-\matr{T}]_2).$$
 
-Let $\Pi_\sfsum$ be the proof system for Sum in Subspace 
+Let $\Pi_\sfsum$ be the proof system for sum in subspace 
 (Section~\ref{sec:sum}) and $\Pi_\sfcom$
-be an instance of the proof system for Equal Commitment Opening (Section~\ref{sec:aggcommit}).
+be an instance of the proof system for equal commitment opening (Section~\ref{sec:aggcommit}).
 Let
 $\crs_\sfsum \gets \Pi_\sfsum.\algK(\gk, \{([\matr{C}_{i,j}]_1,[\matr{D}_{i,j}]_2):(i,j)\in\indexSet{m}{1}\})$.\footnote{We identify
 matrices in $\GG_1^{2 \times 2}$ (respectively in $\GG_2^{2 \times 2}$) with vectors in $\GG_1^{4}$ (resp. in $\GG_2^{4}$).} and let $\crs_\sfcom \gets \Pi_\sfcom.\algK(\gk, \bmatr{G}_1,\bmatr{H}_2,m)$. 
