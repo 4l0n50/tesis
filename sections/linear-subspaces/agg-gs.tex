@@ -19,8 +19,7 @@ easily reduces to this case using the homomorphic properties of GS commitments. 
 %We insist that two-sided linear equations in $\Z_q$ are essential to prove quadratic statements in asymmetric bilinear groups. In particular, this result can be used to reduce the proof size that $n$ commitments open to a bit-string from $6n\s$ to $(4n+2)\s$.
 
 \subsection{QA Aggregation of Other Equation Types} \label{sec:jutroyaggasym}
-Jutla and Roy \cite{C:JutRoy14} show how to aggregate GS proofs of 
-two-sided linear equations in symmetric bilinear groups. In the original construction of Jutla and Roy soundness is based on a decisional assumption (a weaker variant of the $\lin{2}$ assumption). Its natural generalization in asymmetric groups (where soundness is based on the SXDH assumption) only enables to aggregate the proofs of one-sided linear equations. 
+Jutla and Roy \cite{C:JutRoy14} show how to aggregate GS proofs linear equations in symmetric bilinear groups. In the original construction of Jutla and Roy soundness is based on a decisional assumption (a weaker variant of the $\lin{2}$ assumption). Its natural generalization in asymmetric groups (where soundness is based on the SXDH assumption) only enables to aggregate the proofs of one-sided linear equations. 
 
 In this section, we revisit their construction. We give an alternative, simpler, proof of soundness under a computational assumption which avoids altogether the ``switching lemma" of Jutla and Roy. Further, we extend it to two-sided equations in the asymmetric setting. For one-sided linear equations we can prove soundness under any kernel assumption and for two-sided linear equations, under any split kernel assumption.\footnote{The results of Jutla and Roy are based on what they call  the ``switching lemma". As noted Morillo et al.~\cite{EPRINT:MorRafVil15}, it is implicit in the proof of this lemma that the same results can be obtained under computational assumptions.}
 
@@ -56,7 +55,7 @@ Given a solution $\vvarx=\vecb{x}$,  $\vvary=\vecb{y}$ to $\mathcal{S}_{\vecb{\t
 \item Commit to all $x_j \in A_1$ as $[\vecb{c}_j]_1\gets\mathsf{GS.Com}(x_j)$, and to all 
 $y_j\in\Am_2$ as $[\vecb{d}_j]_2\gets\mathsf{GS.Com}(y_j)$.
 
-\item For each $i \in [k]$, run the GS prover for the equation $\sum_{\ell\in[n]} a_{\ell,i} E_{\ell}(\vvarx,\vvary)= \sum_{\ell \in [n]} f(t_{\ell}, a_{\ell,i})$ to obtain the proof, which is a pair  $([\matr{\Theta}_i]_1,[\matr{\Pi}_i]_2)$.
+\item For each $i \in [k]$, run the GS prover for the equation $\sum_{\ell\in[n]} a_{\ell,i} E_{\ell}(\vvarx,\vvary)\allowbreak = \sum_{\ell \in [n]} f(t_{\ell}, a_{\ell,i})$ to obtain the proof, which is a pair  $([\matr{\Theta}_i]_1,[\matr{\Pi}_i]_2)$.
 \end{itemize}
 Output 
 $(\{[\vecb{c}_j]_1 : j \in [m_x]\}, \{[\vecb{d}_j]_2: j \in [m_y]\}, \{([\matr{\Pi}_{i}]_2,[\matr{\Theta}_{i}]_1) : i \in [k]\})$.

@@ -17,8 +17,8 @@ The construction is an immediate consequence of the observation
 that $\mathcal{L}_{\mathsf{com},[\matr{U}]_1,[\matr{V}]_2,\nu}$  can be rewritten as some concatenation language $\mathcal{L}_{[\matr{M}]_1,[\matr{N}]_2}$.
 Denote by $\matr{U}_1$ the first $\nu$ columns of $\matr{U}$  and $\matr{U}_2$ the remaining ones, and $\matr{V}_1$ the first $\nu$ columns of $\matr{V}$ and $\matr{V}_2$ the remaining ones. If we define: 
 \begin{equation*}
- \matr{M} := (\matr{U}_1||\matr{U}_2||\matr{0}_{m\times (\tilde{n}-\nu)}) \qquad
-\matr{N} := (\matr{V}_1||\matr{0}_{n\times (\tilde{m}- \nu)}||\matr{V}_2).
+ \matr{M} := (\matr{U}_1\cat\matr{U}_2\cat\matr{0}_{m\times (\tilde{n}-\nu)}) \qquad
+\matr{N} := (\matr{V}_1\cat\matr{0}_{n\times (\tilde{m}- \nu)}\cat\matr{V}_2).
 \end{equation*}
 then it is immediate to verify that $\mathcal{L}_{\mathsf{com},[\matr{U}]_1,[\matr{V}]_2,\nu}=\mathcal{L}_{[\matr{M}]_1,[\matr{N}]_2}$.
 

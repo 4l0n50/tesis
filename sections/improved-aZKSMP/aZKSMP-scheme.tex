@@ -83,8 +83,8 @@ where
 &[\vecb{d}_\ell]_1:=\MP.\Com_{ck}\left(\pmatri{b_{1,\ell}\\\vdots\\b_{n,\ell}};t_\ell\right)\\
 &[\vecb{c}_{\ell,1}]_1:=\MP.\Com_{ck_\ell}\left(\pmatri{\vecb{x}^1_{\ell+1,1}\\\vdots\\\vecb{x}^n_{\ell+1,1}};r_{\ell,1}\right)
 &[\vecb{c}_{\ell,2}]_1:=\MP.\Com_{ck_\ell}\left(\pmatri{\vecb{x}^1_{\ell+1,2}\\\vdots\\\vecb{x}^n_{\ell+1,2}}\right)\\
-&ck_\ell:=[\pmatri{\vecb{G}^1_{\ell}&\cdots&\matr{G}^n_{\ell} & \vecb{g}_{\ell,n2^{\ell-1}+1}}]_1
-&\matr{G}^i_{\ell}:=\pmatri{\vecb{g}_{\ell,(i-1)2^{\ell-1}+1}&\cdots&\vecb{g}_{\ell,i2^{\ell-1}}}\\
+&ck_\ell:=[\pmatri{\matr{G}_{\ell}^{1}&\cdots&\matr{G}_{\ell}^{n} & \vecb{g}_{\ell,n2^{\ell-1}+1}}]_1
+&\matr{G}_{\ell}^{i}:=\pmatri{\vecb{g}_{\ell,(i-1)2^{\ell-1}+1}&\cdots&\vecb{g}_{\ell,i2^{\ell-1}}}\\
 &ck:=[\matr{H}]_2 &
 \matr{H}:=\pmatri{\vecb{h}_1&\cdots&\vecb{h}_n&\vecb{h}_{n+1}}.
 \end{align*}
@@ -109,10 +109,11 @@ Consequently, the total security loss in the reduction will be of a factor of $\
 \begin{description}
 
 \item[{\(\algK_1(\gk, ck_\GS)\)}:]
-For each \(\ell\in [m]\) let \(\matr{G}_\ell:=\matr{G}^1_{\ell}||\cdots||\matr{G}^n_{\ell}||\vecb{g}_{\ell,{n2^{\ell-1}+1}}\gets\distlin_1^{n2^{\ell-1}+1,0}\), where
+Parse $ck_\GS$ as $[\vecb{u}_1\cat\vecb{u_2}]_1$.
+For each \(\ell\in [m]\) let \(\matr{G}_\ell:=\matr{G}_{\ell}^{1}\cat\cdots\cat\matr{G}_{\ell}^{n}\cat\vecb{g}_{\ell,{n2^{\ell-1}+1}}\gets\distlin_1^{n2^{\ell-1}+1,0}\), where
 \begin{align*}
-&\matr{G}^i_{\ell}=
-(\matr{G}^i_{\ell,1}|\matr{G}^i_{\ell,2})
+&\matr{G}_{\ell}^{i}=
+(\matr{G}_{\ell,1}^{i}|\matr{G}_{\ell,2}^{i})
 =\\
 &(\vecb{g}_{\ell,(i-1)2^{\ell-1}+1}\cdots\vecb{g}_{\ell, (i-1) 2^{\ell-1}+2^{\ell-2}}|\vecb{g}_{\ell,(i-1)2^{\ell-1}+2^{\ell-2}+1}\cdots\vecb{g}_{\ell,i2^{\ell-1}})
 \in\Z_q^{2\times 2^{\ell-1}},
@@ -121,7 +122,7 @@ For each \(\ell\in [m]\) let \(\matr{G}_\ell:=\matr{G}^1_{\ell}||\cdots||\matr{G
 Let \(\matr{H}=\begin{pmatrix}\vecb{h}_1&\cdots&\vecb{h}_n&\vecb{h}_{n+1}\end{pmatrix}\gets\distlin_1^{n,0}\) and define \(ck:=[\matr{H}]_2\). 
 
 For each \(\ell\in[m]\), \( i\in [n2^{\ell-1}+1]\), \(j\in  [n+1]\), such that \(i\notin [(j-1)2^{\ell-1}+1,j2^{\ell-1}]\) define matrices
-\[\matr{M}^\ell_{i,j}:=([\matr{C}_{i,j}^\ell]_1,[\matr{D}_{i,j}^\ell]_2):=([\vecb{g}_{\ell,i}\vecb{h}_j^{\top}+\matr{T}]_1,[-\matr{T}]_2),\]
+\[\matr{M}^{\ell}_{i,j}:=([\matr{C}_{i,j}^{\ell}]_1,[\matr{D}_{i,j}^{\ell}]_2):=([\vecb{g}_{\ell,i}\vecb{h}_j^{\top}+\matr{T}]_1,[-\matr{T}]_2),\]
 For \(\ell\in [m]\), pick \(\matr{T}\gets\Z_q^{2\times 2}\) and let
 $$
 \mathcal{M}_\ell:=\{\matr{M}^\ell_{i,j}:j\in[n+1],i\notin[(j-1)2^{\ell-1}+1,j2^{\ell-1}]\setminus[n2^{\ell-1}+1]\}$$
@@ -136,18 +137,18 @@ be an instance of the proof system for equal commitment opening (Section~\ref{se
 
 For each $\ell\in[m]$, let
 \(\crs_{\sfsum,\ell} \gets \Pi_\sfsum.\algK_1(\gk, \mathcal{M}_\ell)\).\footnote{We identify
-matrices in \(\GG_1^{2 \times 2}\) (respectively in \(\GG_2^{2 \times 2}\)) with vectors in \(\GG_1^{4}\) (resp. in \(\GG_2^{4}\)).}, let \(\crs_{\mathsf{lin},\ell}\gets \Pi_\mathsf{lin}.\algK_1(gk;\allowbreak[\matr{G}_{\ell,\mathsf{split}}]_1,n2^{\ell-1}+3)\), let \(\crs_\sfbits\gets\Pi_\sfbits.\algK_1(gk,[\matr{H}]_2,m)\), and let \(\crs_\sfcom \gets \Pi_\sfcom.\algK_1(\gk, ck_1,ck_\GS^n,m)\), where
+matrices in \(\GG_1^{2 \times 2}\) (respectively in \(\GG_2^{2 \times 2}\)) with vectors in \(\GG_1^{4}\) (resp. in \(\GG_2^{4}\)).}, let \(\crs_{\mathsf{lin},\ell}\gets \Pi_\mathsf{lin}.\algK_1(gk;\allowbreak[\matr{G}_{\ell,\mathsf{split}}]_1,n2^{\ell-1}+3)\), let \(\crs_\sfbits\gets\Pi_\sfbits.\algK_1(gk,[\matr{H}]_2,m)\), and let \(\crs_\sfcom \gets \Pi_\sfcom.\algK_1(\gk, ck_1,CK_\GS,m)\), where
 \begin{align*}
 &\matr{G}_{\ell,\mathsf{split}}:=\\
 &\begin{pmatrix}
-\matr{G}^1_{\ell+1,1} & \matr{G}^1_{\ell+1,2} & \cdots & \matr{G}^n_{\ell+1,1} & \matr{G}^n_{\ell+1,2} & \vecb{g}_{\ell+1,n2^\ell+1} & \matr{0}                       & \matr{0}\\
-\matr{G}^1_{\ell,1}   & \matr{0}              & \cdots & \matr{G}^n_{\ell,n}   & \matr{0}              & \matr{0}                  & \vecb{g}_{\ell,n2^{\ell-1}+1}  & \matr{0}\\
+\matr{G}^1_{\ell+1,1} & \matr{G}^{1}_{\ell+1,2} & \cdots & \matr{G}^{n}_{\ell+1,1} & \matr{G}^{n}_{\ell+1,2} & \vecb{g}_{\ell+1,n2^\ell+1} & \matr{0}                       & \matr{0}\\
+\matr{G}^{1}_{\ell,1}   & \matr{0}              & \cdots & \matr{G}^n_{\ell,n}   & \matr{0}              & \matr{0}                  & \vecb{g}_{\ell,n2^{\ell-1}+1}  & \matr{0}\\
 \matr{0}              & \matr{G}^1_{\ell,1}   & \cdots & \matr{0}              & \matr{G}^n_{\ell,n}   & \matr{0}                  & \matr{0}                       & \vecb{g}_{\ell,n2^{\ell-1}+1}
 \end{pmatrix},\\
-&ck_\GS^n:=\pmatri{
-    \vecb{u}_1 &        & \vecb{0}   & \vecb{u}_2 &        & \vecb{0}\\
+&CK_\GS:=\pmatri{
+    [\vecb{u}_1]_1 &        & [\vecb{0}]_1   & [\vecb{u}_2]_1 &        & [\vecb{0}]_1\\
                & \ddots &            &            & \ddots &         \\
-    \vecb{0}   &        & \vecb{u}_1 & \vecb{0}   &        & \vecb{u}_2
+    [\vecb{0}]_1   &        & [\vecb{u}_1]_1 & [\vecb{0}]_1   &        & [\vecb{u}_2]_1
 }\in\GG_1^{2n\times2n}.
 \end{align*}
 The common reference string is given by:
@@ -168,10 +169,10 @@ The prover compute commitments
  where \(r_\ell,r_{\ell,1},r_{\ell,2},t_j\gets\Z_q\) and the variables \(\vecb{x}^i_\ell,\vecb{x}^i_{\ell,j},\vecb{b}_\ell\) are the ones defined in equation (\ref{eq-alog-1}). The prover computes a proof \(\pi_\sfbits\) that \([\vecb{d}_1]_2,\ldots,[\vecb{d}_m]_2\) open to bit-strings. Then, for \(\ell\in [m]\), the prover pick matrices \(\matr{R}_\ell\gets\Z_q^{2\times 2}\), computes
 \begin{align*}
 &([\matr{\Theta}_\ell]_1,[\matr{\Pi}_\ell]_2)  := \\
-&\quad \sum_{i=1}^n\sum_{j\neq i}\sum_{k=1}^{2^{\ell-1}}(x^i_{\ell,k}-x^i_{\ell+1,k}(1-b_{j,\ell})-x^i_{\ell+1,2^{\ell-1}+k}b_{j,\ell})\matr{M}_{(i-1)2^{\ell-1}+k,j}^\ell\\
-&\quad+ \sum_{i=1}^n\sum_{k=1}^{2^{\ell-1}}t_\ell(x^i_{\ell+1,k}-x^i_{\ell+1,2^{\ell-1}+k})\matr{M}_{(i-1)2^{\ell-1}+k,n+1}^\ell \\
-&\quad+ \sum_{j=1}^n (r_\ell-r_{\ell,1}(1-b_{j,\ell})-r_{\ell,2}b_{j,\ell})\matr{M}_{n2^{\ell-1}+1,j}^\ell \\
-&\quad+(r_{\ell,1}-r_{\ell,2})t_\ell\matr{M}^\ell_{n2^{\ell-1}+1,n+1}+([\matr{R}_\ell]_1,[-\matr{R}_\ell]_2),
+&\quad \sum_{i=1}^n\sum_{j\neq i}\sum_{k=1}^{2^{\ell-1}}(x^i_{\ell,k}-x^i_{\ell+1,k}(1-b_{j,\ell})-x^i_{\ell+1,2^{\ell-1}+k}b_{j,\ell})\matr{M}_{(i-1)2^{\ell-1}+k,j}^{\ell}\\
+&\quad+ \sum_{i=1}^n\sum_{k=1}^{2^{\ell-1}}t_\ell(x^i_{\ell+1,k}-x^i_{\ell+1,2^{\ell-1}+k})\matr{M}_{(i-1)2^{\ell-1}+k,n+1}^{\ell} \\
+&\quad+ \sum_{j=1}^n (r_\ell-r_{\ell,1}(1-b_{j,\ell})-r_{\ell,2}b_{j,\ell})\matr{M}_{n2^{\ell-1}+1,j}^{\ell} \\
+&\quad+(r_{\ell,1}-r_{\ell,2})t_\ell\matr{M}^{\ell}_{n2^{\ell-1}+1,n+1}+([\matr{R}_\ell]_1,[-\matr{R}_\ell]_2),
 \end{align*}
 where \(r_{1,1}=r_{1,2}=0\), and computes proofs $\pi_{\mathsf{lin},\ell},\pi_{\mathsf{sum},\ell}$ that, respectively,
 \begin{align*}
@@ -216,13 +217,13 @@ Completeness follows from completeness of \(\Pi_\sfsum,\Pi_\mathsf{lin},\Pi_\sfb
 &\vecb{c}_\ell\left(\sum_{j=1}^n \vecb{h}_j\right)^\top-
 \vecb{c}_{\ell,1}\left(\sum_{j=1}^n\vecb{h}_j-\vecb{d}_\ell\right)^\top-
 \vecb{c}_{\ell,2}\vecb{d}_\ell^\top &= \\
-&\sum_{i=1}^n\sum_{j=1}^n\matr{G}^i_{\ell}\vecb{x}^i_{\ell}\vecb{h}_j^\top+\sum_{j=1}^nr_\ell\vecb{g}_{\ell,n2^{\ell-1}+1}\vecb{h}_j^\top
--\sum_{i=1}^n\sum_{j=1}^n\matr{G}^i_{\ell}\vecb{x}^i_{\ell+1,1}(1-b_{j,\ell})\vecb{h}_j^\top\\
-&+\sum_{i=1}^n\matr{G}^i_{\ell}\vecb{x}^i_{\ell+1,1} t_\ell\vecb{h}_{n+1}^\top-\sum_{j=1}^nr_{\ell,1}(1-b_{j,\ell})\vecb{g}_{\ell,n2^{\ell-1}+1}\vecb{h}_j^\top+ r_{\ell,1}t_\ell\vecb{g}_{\ell,n2^{\ell-1}+1}\vecb{h}_{n+1}^\top\\
-&-\sum_{i=1}^n\sum_{j=1}^n\matr{G}^i_{\ell}\vecb{x}^i_{\ell+1,2}b_{j,\ell}\vecb{h}_j^\top-\sum_{i=1}^n\matr{G}^i_{\ell}\vecb{x}^i_{\ell+1,2} t_\ell\vecb{h}_{n+1}^\top-\sum_{j=1}^nr_{\ell,2}b_{j,\ell}\vecb{g}_{\ell,n2^{\ell-1}+1}\vecb{h}_j^\top\\
+&\sum_{i=1}^n\sum_{j=1}^n\matr{G}_{\ell}^{i}\vecb{x}^i_{\ell}\vecb{h}_j^\top+\sum_{j=1}^nr_\ell\vecb{g}_{\ell,n2^{\ell-1}+1}\vecb{h}_j^\top
+-\sum_{i=1}^n\sum_{j=1}^n\matr{G}_{\ell}^{i}\vecb{x}^i_{\ell+1,1}(1-b_{j,\ell})\vecb{h}_j^\top\\
+&+\sum_{i=1}^n\matr{G}_{\ell}^{i}\vecb{x}^i_{\ell+1,1} t_\ell\vecb{h}_{n+1}^\top-\sum_{j=1}^nr_{\ell,1}(1-b_{j,\ell})\vecb{g}_{\ell,n2^{\ell-1}+1}\vecb{h}_j^\top+ r_{\ell,1}t_\ell\vecb{g}_{\ell,n2^{\ell-1}+1}\vecb{h}_{n+1}^\top\\
+&-\sum_{i=1}^n\sum_{j=1}^n\matr{G}_{\ell}^{i}\vecb{x}^i_{\ell+1,2}b_{j,\ell}\vecb{h}_j^\top-\sum_{i=1}^n\matr{G}_{\ell}^{i}\vecb{x}^i_{\ell+1,2} t_\ell\vecb{h}_{n+1}^\top-\sum_{j=1}^nr_{\ell,2}b_{j,\ell}\vecb{g}_{\ell,n2^{\ell-1}+1}\vecb{h}_j^\top\\
 &- r_{\ell,2}t_\ell\vecb{g}_{\ell,n2^{\ell-1}+1}\vecb{h}_{n+1}^\top &=\\
-&\sum_{i=1}^n\sum_{j\neq i}\matr{G}^i_\ell(\vecb{x}^i_\ell-\vecb{x}^i_{\ell+1,1}(1-b_{j,\ell})-\vecb{x}^i_{\ell+1,2}b_{j,\ell})\vecb{h}_j^\top+\\
-&\sum_{i=1}^n\matr{G}^i_\ell(\vecb{x}^i_{\ell+1,1}-\vecb{x}^i_{\ell+1,2})t_\ell\vecb{h}_{n+1}^\top+\sum_{j=1}^n(r_\ell-r_{\ell,1}(1-b_{j,\ell})-r_{\ell,2}b_{j,\ell})\vecb{g}_{\ell,n2^{\ell-1}+1}\vecb{h}_{j}^\top\\
+&\sum_{i=1}^n\sum_{j\neq i}\matr{G}_{\ell}^{i}(\vecb{x}^i_\ell-\vecb{x}^i_{\ell+1,1}(1-b_{j,\ell})-\vecb{x}^i_{\ell+1,2}b_{j,\ell})\vecb{h}_j^\top+\\
+&\sum_{i=1}^n\matr{G}_{\ell}^{i}(\vecb{x}^i_{\ell+1,1}-\vecb{x}^i_{\ell+1,2})t_\ell\vecb{h}_{n+1}^\top+\sum_{j=1}^n(r_\ell-r_{\ell,1}(1-b_{j,\ell})-r_{\ell,2}b_{j,\ell})\vecb{g}_{\ell,n2^{\ell-1}+1}\vecb{h}_{j}^\top\\
 &+(r_{\ell,1}-r_{\ell,2})t_\ell\vecb{g}_{\ell,n2^{\ell-1}+1}\vecb{h}_{n+1}^\top &=\\
 &\sum_{i=1}^n\sum_{j\neq i}\sum_{k=1}^{2^{\ell-1}}(x^i_{\ell,k}-x^i_{\ell+1,k}(1-b_{j,\ell})-x^i_{\ell+1,2^{\ell-1}+k}b_{j,\ell}))\vecb{g}_{\ell,(i-1)2^{\ell-1}+k}\vecb{h}_j^\top\\
 &+\sum_{i=1}^n\sum_{k=1}^{2^{\ell-1}}t_\ell(x^i_{\ell+1,k}-x^i_{\ell+1,2^{\ell-1}+k}\vecb{g}_{\ell,(i-1)2^{\ell-1}+k}\vecb{h}_{n+1}^\top\\
@@ -289,7 +290,7 @@ Obviously, when \([\vecb{u}]_2\) is sampled from
 the image of \([\vecb{a}]_2,\) \(\matr{H}\) follows the distribution \(\distlinizeroone\), while if \([\vecb{u}]_2\) is a uniform element of \(\GG^2_2\), \(\matr{H}\) follows the distribution \(\distlin_1^{n,j^*}\). 
  
 Adversary \(\advD_2\) samples
-\(\matr{G}^\ell \gets \distlin_1^{n2^{\ell-1},0}\). Given that \(\advD_2\) does not know the discrete logarithms of \([\matr{H}]_2\), it cannot compute the pairs \((\matr{C}^\ell_{i,j},\matr{D}^\ell_{i,j})\) exactly as in \(\sfGame_0\). Nevertheless, for each \(\ell\in[m],i\in[n2^{\ell-1}+1],j\in[n+1]\) such that $i\notin[(j-1)2^{\ell-1}+1,j2^{\ell-1}]$, it can compute identically distributed pairs by picking \(\matr{T}\gets\Z_q^{2\times 2}\) and defining
+\(\matr{G}^{\ell} \gets \distlin_1^{n2^{\ell-1},0}\). Given that \(\advD_2\) does not know the discrete logarithms of \([\matr{H}]_2\), it cannot compute the pairs \((\matr{C}^\ell_{i,j},\matr{D}^\ell_{i,j})\) exactly as in \(\sfGame_0\). Nevertheless, for each \(\ell\in[m],i\in[n2^{\ell-1}+1],j\in[n+1]\) such that $i\notin[(j-1)2^{\ell-1}+1,j2^{\ell-1}]$, it can compute identically distributed pairs by picking \(\matr{T}\gets\Z_q^{2\times 2}\) and defining
 \[
 ([\matr{C}^\ell_{i,j}]_1,[\matr{D}^\ell_{i,j}]_2):=([\matr{T}]_1,\vecb{g}_{\ell,i}[\vecb{h}_j]_2^\top-[\matr{T}]_2).
 \]

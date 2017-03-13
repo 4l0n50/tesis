@@ -1,0 +1,31 @@
+In this chapter construct a {constant-size proof} that a set of $n$ commitments to elements in some field $\Z_q$ open to 0 or 1. Equivalently, we construct a constant size proof for the satisfiability of the equations $b_1(b_1-1)=0,\ldots,b_n(b_n-1)=0$.
+Although solutions for this problem can be easily derived from general results of constant-size NIZK for any NP language \cite{EC:GGPR13,AC:DFGK14,EC:Groth16}, they would rely on strong and controversial assumptions, namely non-falsifiable assumptions. Therefore, it is an open question how to build constant-size proofs for this statement using only standard falsifiable assumptions. 
+
+A set of $n$ commitments $\vecb{c}_1,\ldots,\vecb{c}_n$ to elements of $\Z_q$, each commitment of size $s$, defines a single commitment $\vecb{c}=(\vecb{c}_1,\ldots,\vecb{c}_n)$ to an element of $\Z_q^n$, of size $n\cdot s$. Alternatively, one can define the commitment $\vecb{c}$ so that its size may be $<n\cdot s$ and, depending on the size of $\vecb{c}$, there may or not be a unique opening. Thereby, we distinguish two different cases:
+
+\begin{description}
+\item[Perfectly Binding Commitment:] The commitment defines a unique vector $\vecb{x}\in\Z_q^n$. It must hold that $|\vecb{c}|\geq n\log q = \Omega(n)$.
+\item[Computationally Binding Commitment:] In this case $\vecb{c}$ can be opened to many values and it is possible that $|\vecb{c}|= o(n)$.
+\end{description}
+
+In the second case it is not clear what a proof that the openings are in $\bits$ means. For example, in the case of perfectly hiding commitments such as {multi-Pedersen} commitments -- where a commitment to $\vecb{x}\in\Z_q^n$ is $[c]_1=\sum_{i\in[n]}x_i[g_i]_1+r[g_{n+1}]_1\in\GG_1$ -- each $[c]_1$ can be opened to any $\vecb{x}'\in\Z_q^n$ since
+$$[c]_1=\sum_{i\in[n]}x'_i[g_i]_1+\left(\left(c-\sum_{i\in[n]}x'_ig_i\right)g_{n+1}^{-1}\right)[g_{n+1}]_1$$
+(in particular to 0 or 1) and thus the proof is trivial. Although it does makes sense to do a \emph{proof of knowledge}, where one can extract a witness, we do not know how construct such proof system using only falsifiable assumptions.
+
+For this reason, in \cite{AC:GonHevRaf15} we first concentrated in the perfectly binding case, specifically Groth-Sahai commitments (and also other related perfectly-binding commitment scheme). We find two interesting applications of this proof system: more efficient signature schemes, with emphasis on the case of {ring signatures}, and more efficient {threshold Groth-Sahai proofs}.
+ 
+Later, in \cite{ACNS:GonRaf16}, we tackle the computationally binding case for a commitment scheme which is an ``hybrid'' between multi-Pedersen commitments and Groth-Sahai commitments. We call this commitment scheme \emph{extended multi-Pedersen commitments}. What is interesting about extended multi-Pedersen commitments is that they can be perfectly hiding but they can also be perfectly binding at one (and only one) coordinate, depending on the the commitment key distribution. Furthermore, the different commitment key distributions are computationally indistinguishable and, thereby, one can randomly choose an index which remains hidden to the adversary such that $b_i$, the opening at coordinate $i$, is uniquely defined. Unlike the NIZK proof for multi-Pedersen commitment, our NIZK proof for extended multi-Pedersen commitments implies that $b_i\in\bits$ which is not trivially true.
+
+Extended multi-Pedersen comitments bears some similarietes with \emph{somewhere statistically binding hashing} \cite{ITCS:HubWic15} and \emph{vector commitments} \cite{PKC:CatFio13}. See Section~\ref{sec:mp-vs-others} for a more detailed comparison. 
+
+To exemplify the usefulness of extended multi-Pedersen commitments, we build a proof for the perfectly binding case. Given a perfectly binding commitment $[\vecb{c}]_1$ to $\vecb{b}\in\Z_q^n$ compute a proof that $\vecb{b}\in\bits^n$ as follows:
+\begin{enumerate}
+\item Compute and extended multi-Pedersen commitment $[\vecb{c}']_1$ to $(b_1,\ldots,b_n)$.
+\item Show that $[\vecb{c}]_1$ and $[\vecb{c}']_1$  can be opened to the same value.
+\item Show that $[\vecb{c}']_1$ can be opened to and element from $\bits^n$. \label{finochio}
+\end{enumerate}
+Soundness follows from soundness of the proof from step \ref{finochio} as follows. Suppose that $\vecb{b}\notin \bits^n$, i.e.~there is some $i^*$ such that $b_{i^*}\notin\bits$. By choosing a random index $i$ from $[n]$ and picking the commitments keys such that the extended multi-Pedersen commitments are perfectly binding at coordinate $i$, we have that with probability $1/n$, $i^*=i$. Given that $[\vecb{c}]_1$ and $[\vecb{c}']_1$ can be opened to the same value and the opening of $[\vecb{c}']_1$ at coordinate $i$ is uniquely defined, such opening must be equal to $b_{i^*}\notin\bits$ and we can break soundness of the proof from step \ref{finochio} with probability at least $1/n$.
+ 
+While we use essentially the same techniques from the perfectly binding case to build the proof system for the computationally binding case (step \ref{finochio}), this new approach can be applied to more diverse scenarios. Indeed, it is a key ingredient in Chapter \ref{sec:shuf-rp} where we construct {aggregated set-membership proofs} and more efficient {range proofs} and {proofs of correctness of a shuffle}.
+
+In Section~\ref{sec:bits-binding} we describe our results for the perfectly binding case and the applications, and in Section~\ref{sec:bits-non-binding} we describe our results for the computationally binding case.

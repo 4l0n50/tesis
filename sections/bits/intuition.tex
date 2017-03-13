@@ -40,7 +40,8 @@ because $b_i(\overline{b}_i-1)$ is the coordinate of
 $[\vecb{g}_i]_1[\vecb{h}_i^\top]_2$ in the left side of the equation.
 
 
-Equation \ref{eq:gsveri} suggests to use one of the constant-size QA-NIZK arguments for linear spaces to get a constant-size proof that $b_i(\overline{b}_i-1)=0$ for all $i \in [n]$. Unfortunately, these arguments are only defined for membership in subspaces  in 
+Equation \ref{eq:gsveri} suggests to use one of the constant-size QA-NIZK arguments for linear spaces to get a constant-size proof that $b_i(\overline{b}_i-1)=0$ for all $i \in [n]$. \footnote{We identify
+matrices in $\Gr^{a \times b}$ (resp. in $\Hr^{a \times b}$) with vectors in $\Gr^{ab}$ (resp. in $\Hr^{ab}$).}Unfortunately, these arguments are only defined for membership in subspaces  in 
 $\Gr^m$ or $\Hr^m$ but not in $\GG_T^m$. Our solution is to include information in the CRS to ``bring back'' 
   this statement from $\GG_T$ to $\Gr$, i.e.\ 
   the matrices   $[\Lqmatr_{i,j}]_1:=[\vecb{g}_i]_1\lrck_j^{\top}$, where $i\neq j$ when $i,j\neq n+1$. We denote this set of matrices as
@@ -57,7 +58,7 @@ Then the verifier checks that
  and finally the prover gives a QA-NIZK proof of  $[\matr{\Theta}]_1 \in \mathsf{Span}(\Qspace)$.
 
 This reasoning assumes that $\{[\vecb{g}_i]_1 \lrck_j^{\top}\}$ (or equivalently, $\{[\matr{C}_{i,j}]_1\}$) are linearly independent,  which can only happen if 
-$\nb \geq n+1$. If that is the case, the proof cannot be constant because $[\matr{\Theta}]_1 \in \Gr^{\nb\times\nb}$ and this matrix is part of the proof.
+$\nb \geq n+1$. If that is the case, the proof size cannot be constant because $[\matr{\Theta}]_1 \in \Gr^{\nb\times\nb}$ and this matrix is part of the proof.
 Instead, we choose $\vecb{g}_1,\ldots,\vecb{g}_{n+1} \in \Gr^{2}$ and $\vecb{h}_1,\ldots,\vecb{h}_{n+1} \in \Hr^{2}$, so that 
 $\{[\matr{C}_{i,j}]_1\} \subseteq \Gr^{2 \times 2}$.  Intuitively, this should still work because the prover receives these vectors as part of the CRS and he does not know their discrete logarithms, so to him, they behave as linearly independent vectors.  
 

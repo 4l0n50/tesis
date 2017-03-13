@@ -114,10 +114,10 @@ $\advB$ defines all the parameters honestly except that
 it embeds the $\mathcal{U}_1$-$\mddh_{\Gr}$ challenge in the matrix 
 $\Lck$.
 
-Let $[\matr{E}]_1:=([\vecb{s}]_1||[\vecb{t}]_1)$. $\advB$ picks $i^*\gets[n]$, $\matr{W}_0\gets\Z_q^{2\times(i^*-1)}$,
+Let $[\matr{E}]_1:=([\vecb{s}]_1\cat[\vecb{t}]_1)$. $\advB$ picks $i^*\gets[n]$, $\matr{W}_0\gets\Z_q^{2\times(i^*-1)}$,
 $\matr{W}_1\gets\Z_q^{2\times(n-i^*)}$,
 $[\vecb{g}_{i^*}]_1\gets\Gr^{2}$,
-and defines $\Lck := ([\matr{E}]_1\matr{W}_0||[\vecb{g}_{i^*}]_1||[\matr{E}]_1\matr{W}_1|| [\vecb{s}]_1)$. 
+and defines $\Lck := ([\matr{E}]_1\matr{W}_0\cat[\vecb{g}_{i^*}]_1\cat[\matr{E}]_1\matr{W}_1\cat [\vecb{s}]_1)$. 
 In the real algorithm $\algK$, the generator picks the matrix $\matr{\Delta} \in \Z_q^{2 \times (n+1)}$.
 Although $\advB$ does not know $\matr{\Delta}$,  it can compute $[\matr{\Delta}]_1$ as $[\matr{\Delta}]_1= \Lck\matr{U}^{-1}$,
 given that $\matr{U}$ is full rank and was  sampled 
@@ -143,9 +143,8 @@ $([\vecb{s}]_2, [\vecb{t}]_2)$, where $[\vecb{s}]_2$ is a uniform vector
 of $\Hr^{2}$ and $[\vecb{t}]_2$ is either a uniform vector in $\Hr^2$ or 
 $[\vecb{t}]_2=\gamma[\vecb{s}]_2$, for random $\gamma\in\Z_q$.      
  
-Adversary $\advB$ defines 
-$[\vecb{h}_{n+1}]_2:= [\vecb{s}]_2$ and the rest of the columns of $\Rck$ are honestly sampled
-with the sole exception of $[\vecb{h}_{i^*}]_2$, which is set to $[\vecb{t}]_2$.
+Adversary $\advB$ samples $\mu_i\gets\Z_q,\vecb{g}_{i^*},\vecb{g}_{n+1}\gets\Z_q^2$ and defines $\vecb{g}_i=\mu_i\vecb{g}_{n+1}$, $i\neq i^*$. Then, defines 
+$[\vecb{h}_{n+1}]_2:= [\vecb{s}]_2$ and honestly samples the rest of the columns of $\Rck$ with the sole exception of $[\vecb{h}_{i^*}]_2$, which is set to $[\vecb{t}]_2$.
 
 Given that adversary $\advB$ can only compute $\llck_{i}[\vecb{h}_j^\top]_2\in\Hr^{2\times2}$,
 it defines $[\matr{D}_{i,j}]_2 := \llck_{i}[\vecb{h}_j^\top]_2 - [\matr{T}_{i,j}]_2$ and
@@ -166,7 +165,7 @@ $$\Pr\left[\mathsf{Game}_3(\advA)=1\right] \leq 4/q + \adv_{\SP_{\Hr}}(\advB) +
 \label{lemma:G3}
 \end{lemma}
 \begin{proof}
-$\Pr[\det((\llck_{i^*}||\llck_{n+1}))=0]=\Pr[\det((\lrck_{i^*}||\lrck_{n+1}))=0]\leq2/q$, by the Schwartz-Zippel lemma. Then, with probability at least $1-4/q$, $\llck_{i^*}\lrck_{i^*}^\top$ is linearly independent from
+$\Pr[\det((\llck_{i^*}\cat\llck_{n+1}))=0]=\Pr[\det((\lrck_{i^*}\cat\lrck_{n+1}))=0]\leq2/q$, by the Schwartz-Zippel lemma. Then, with probability at least $1-4/q$, $\llck_{i^*}\lrck_{i^*}^\top$ is linearly independent from
 $\{\llck_{i}\lrck_j^\top:(i,j)\in[n+1]^2\setminus\{(i^*, i^*)\}\}$ which implies that $\llck_{i^*}\lrck_{i^*}^\top\notin\Span(\{\matr{C}_{i,j}+\matr{D}_{i,j}:(i,j)\in\indexSet{n}{1}\})$. 
 Additionally  $\sfGame_3(\advA)=1$ implies that $b_{i^*} \notin \{0,1\}$
 while the verifier accepts the proof  produced by $\advA$, which is

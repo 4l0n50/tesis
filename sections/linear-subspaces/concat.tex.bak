@@ -1,0 +1,218 @@
+Figure \ref{fig:QANIZKtwogroups} describes a QA-NIZK argument of membership in the language 
+$$\mathcal{L}_{[\matr{M}]_1,[\matr{N}]_2}:=\{ ([\vecb{x}]_1,[\vecb{y}]_2): \exists \vecb{w} \in \Z_q^{t}, \ \vecb{x}=\matr{M}\vecb{w},   \vecb{y}=\matr{N}\vecb{w} \} \subseteq \GG_1^{m} \times \GG_2^{n},$$
+where $([\matr{M}]_1,[\matr{N}]_2)\gets\dist_{gk}$ for some matrix distribution $\dist_{gk}.$
+
+We refer to this as the \textit{concatenation language}, because 
+if we define $\matr{P}$ as the concatenation of $[\matr{M}]_1,[\matr{N}]_2$, that is $\matr{P}:=\smallpmatrix{[\matr{M}]_1 \\ [\matr{N}]_2}$, then  $([\vecb{x}]_1,[\vecb{y}]_2) \in \mathcal{L}_{[\matr{M}]_1,[\matr{N}]_2}$ iff $\smallpmatrix{[\vecb{x}]_1 \\ [\vecb{y}]_2}$ is in the span of $\matr{P}$.
+\begin{figure}
+$$
+\begin{array}{l}
+\begin{array}{l}
+    \underline{\algK(gk,[\matr{M}]_1,[\matr{N}]_2,m,n) \quad  (\mathsf{S}_1(gk,[\matr{M}]_1,[\matr{N}]_1,m,n))}\\[.1cm]
+    \matr{A} \gets \widetilde{\dist_{k}},\matr{\Lambda} \gets \Z_q^{\tilde{k} \times m}, \matr{\Xi}\gets \Z_q^{\tilde{k}\times n}, \matr{Z} \gets \Z_q^{\tilde{k} \times t}\\
+    {[\matr{A}_{\Lambda}]_2:= \matr{\Lambda}^\top [\matr{A}]_2},{[\matr{A}_{\Xi}]_1:= \matr{\Xi}^\top[\matr{A}]_1}\\
+    {[\matr{M}_{\Lambda}]_1:=\matr{\Lambda} [\matr{M}]_1+[\matr{Z}]_1},{[\matr{N}_{\Xi}]_2:=\matr{\Xi} [\matr{N}]_2-[\matr{Z}]_2} \\ [.1cm]
+    {\text{Return } \ \mathsf{crs}:=([\matr{M}_{\Lambda}]_1, [\matr{A}_\Lambda]_2 , [\matr{A}]_2,[\matr{N}_{\Xi}]_2,}{[\matr{A}_{\Xi}]_1 , [\matr{A}]_1).}\\
+    (\tau_{sim}:=(\matr{\Lambda},\matr{\Xi}).)
+    \\
+    \\    
+\end{array}
+\\
+\begin{array}{l}
+    \underline{\algP(\mathsf{crs}, [\vecb{x}]_1, [\vecb{y}]_2, \vecb{w})}\backslash \backslash ([\vecb{x}]_1=[\matr{M}]_1 \vecb{w}, [\vecb{y}]_2=[\matr{N}]_2 \vecb{w})
+    \\
+    \matr{z} \gets \Z_q^{\tilde{k}}\\
+    {[\grkb{\rho}]_1:=[\matr{M}_{\Lambda}]_1 \vecb{w}+ [\vecb{z}]_1},{[\grkb{\sigma}]_2:=[\matr{N}_{\Xi}]_2 \vecb{w}- [\vecb{z}]_2}\\
+     \text{Return } \  ([\grkb{\rho}]_1,[\grkb{\sigma}]_2).
+    \\
+    \\
+\end{array}
+\\
+\begin{array}{l}
+    \underline{\algV(\mathsf{crs},([\vecb{x}]_1,[\vecb{y}]_2), ([\grkb{\rho}]_1,[\grkb{\sigma}]_2))}\\ [.1cm]
+    \text{Return } \ ([\vecb{x}^\top]_1 [\matr{A_\Lambda}]_2  - [\grkb{\rho^\top}]_1[\matr{A}]_2=  [\grkb{\sigma^\top}]_2 [\matr{A}]_1-[\vecb{y}^\top]_2 [\matr{A_\Xi}]_1).
+    \\
+    \\
+\end{array}
+\\
+\begin{array}{l}
+    \underline{\mathsf{S}_2(\crs,([\vecb{x}]_1,[\vecb{y}]_2),\tau_{sim})}\\[.1cm]
+    \vecb{z} \gets \Z_q^{\tilde{k}} \\ 
+    {[\grkb{\rho}]_1:=\matr{\Lambda} [\vecb{x}]_1+ [\vecb{z}]_1},{[\grkb{\sigma}]_2:=\matr{\Xi} [\vecb{y}]_2- [\vecb{z}]_2}\\
+    {\text{Return }  ([\grkb{\rho}]_1,[\grkb{\sigma}]_2).}
+\end{array}
+\\
+\end{array}
+$$
+\caption{Two QA-NIZK arguments for  $\mathcal{L}_{[\matr{M}]_1,[\matr{N}]_2}$. $\sps$ is 
+ defined for $\widetilde{\dist_{k}}=\dist_k$ and $\tilde{k}=k+1$, and is a generalization of Kiltz and Wee's contruction \cite[Section~3.1]{EC:KilWee15}  in two groups. The second construction $\spsws$ corresponds to $\widetilde{\dist_{k}}=\overline{\dist_k}$ and $\tilde{k}=k$, and is a generalization of Kiltz and Wee's contruction \cite[Section~3.2]{EC:KilWee15} in two groups. Computational soundness is based on the $\dist_{k}$-\skermdh{} assumption. 
+$\matr{M}$ is matrix of size $m\times t$, $\matr{N}$ is of size $n\times t$, $\matr{A}$ is of size $\tilde \times k$, $\matr{\Lambda}$ is of size $\tilde{k}\times m$, $\matr{\Xi}$ is of size $\tilde{k}\times n$, $\matr{M}_\Lambda$ is of size $\tilde{k}\times t$, $\matr{N}_\Xi$ is of size $\tilde{k}\times t$, $\matr{A}_\Lambda$ is of size $m\times k$, and $\matr{A}_\Xi$ is of size $n\times k$.
+The CRS size is $(\tilde{k}k+\tilde{k}t+mk)\sG+(\tilde{k}k+\tilde{k}t+nk)\sH$ and the proof size $\tilde{k}\s$. Verification requires $2\tilde{k}k+(m+n)k$ pairing computations. We denote by $\Sps$ the most efficient instantiation of $\sps$, which happens when $\dist_k=\bar{\distlin}_2$. \label{fig:QANIZKtwogroups} }
+\end{figure}
+
+\paragraph{Soundness Intuition.}   If we ignore for a moment that $\Gr, \Hr$ are different groups, $\sps$ (resp. $\spsws$) is almost identical to $\ps$ (resp. to $\psws$), as defined in Section~\ref{sect:QANIZKlinspace}, for the language $\mathcal{L}_{[\matr{P}]_1}$, and $\matr{\Delta}:=(\matr{\Lambda}\cat\matr{\Xi})$, where  $\matr{\Lambda} \in \Z_q^{\tilde{k} \times m},\matr{\Xi} \in \Z_q^{\tilde{k} \times n}$. Further, the information that an unbounded adversary can extract from the CRS about $\matr{\Delta}$ is:
+ \begin{enumerate}
+ \item $\Big\{\matr{P}_\Delta= \matr{\Lambda} \matr{M}+ \matr{\Xi}\matr{N}, \matr{A}_{\Delta} = \matr{\Delta}^{\top}\matrA =\begin{pmatrix} \matr{\Lambda}^{\top}\matr{A} \\ \matr{\Xi}^{\top}\matr{A} \end{pmatrix}\Big\}$ from $\mathsf{crs}_{\ps}$, 
+ \item $\Big\{ \matr{M}_\Lambda = \matr{\Lambda} \matr{M}+\matr{Z}, \matr{N}_\Xi = \matr{\Xi}\matr{N}-\matr{Z},  \begin{pmatrix}\matr{A}_\Lambda\\\matr{A}_\Xi\end{pmatrix} = \begin{pmatrix} \matr{\Lambda}^{\top}\matr{A} \\ \matr{\Xi}^{\top}\matr{A} \end{pmatrix} \Big\}$ from $\mathsf{crs}_{\sps}$. 
+ \end{enumerate}
+Given that the matrix $\matr{Z}$ is uniformly random,  $\mathsf{crs}_{\ps}$ and $\mathsf{crs}_{\sps}$
+reveal the same information about $\matr{\Delta}$ to an unbounded adversary. Therefore, as the proof of soundness is essentially based on the fact that parts of $\matr{\Delta}$ are information theoretically hidden to the adversary, the original proof of Kiltz and Wee can be easily adapted for the new arguments. 
+
+\begin{theorem} If $\widetilde{\dist_{k}}=\dist_k$ and $\tilde{k}=k+1$,  Fig. \ref{fig:QANIZKtwogroups} describes a QA-NIZK
+proof system with perfect completeness, computational adaptive soundness based on the  $\dist_{k}$-$\skermdh$ assumption, and perfect zero-knowledge. 
+\label{theo:membtwogroups1}
+\end{theorem}
+
+\begin{proof} Through this proof we define $\matr{P}:=\pmatri{\matr{M}\\\matr{N}}$, $\matr{\Delta}:=\pmatri{\matr{\Lambda}& \matr{\Xi}}$ and $\tilde{m}:=m+n$.
+
+(Completeness.) Follows from the fact that
+\begin{eqnarray*}
+\vecb{x}^\top\matr{A}_\Lambda+\vecb{y}^\top\matr{A}_\Xi
+& = &
+\left(
+\matr{P}\vecb{w}
+\right)^\top
+\matr{\Delta}^\top
+\matr{A}\\
+& = &
+\left(
+\begin{pmatrix}\matr{\Lambda}&\matr{\Xi}\end{pmatrix}
+\begin{pmatrix}\matr{M}\\\matr{N}\end{pmatrix}\vecb{w}
+\right)^\top
+\matr{A}\\
+& = &
+\grkb{\rho}^\top\matr{A}+\grkb{\sigma}^\top\matr{A}.
+\end{eqnarray*}
+(Soundness.) $\advB$ receives a challenge $([\matr{A}]_1,[\matr{A}]_2)$, $\matrA \gets \dist_k$, and then it chooses $\matr{\Lambda}\gets\Z_q^{(k+1)\times m},\matr{\Xi}\gets\Z_q^{(k+1)\times n}$, samples $([\matr{M}]_1,[\matr{N}]_2) \gets \dist_{gk}$, $[\matr{M}]_1\in\GG_1^{m\times t},[\matr{N}]_2\in\GG_2^{n\times t}$, and computes 
+\begin{align*}
+\mathsf{crs}:=&([\matr{M}_{\Lambda}]_1, [\matr{A}_\Lambda]_2 ,[\matr{A}]_2, [\matr{N}_{\Xi}]_2,[\matr{A}_{\Xi}]_1,[\matr{A}]_1)\\
+&\in\GG_1^{(k+1)\times t}\times\GG_2^{m\times k}\times \GG_2^{(k+1)\times k}\times \GG_2^{(k+1)\times t}\times \GG_1^{n\times k}, \GG_1^{(k+1)\times k}
+\end{align*}
+in the natural way.
+An adversary $\Forger$ against the soundness property outputs a vector $([{\vecb{x}}^*]_1,[\vecb{y}^*]_2) \notin \mathcal{L}_{[\matr{M}]_1,[\matr{N}]_2}$ and a valid proof
+$([{\boldsymbol \rho}^{*}]_1, [{\boldsymbol \sigma}^{*}]_2)$. At this point, $\advB$ computes its own proof $([{\boldsymbol \rho}^{\dagger}]_1, [{\boldsymbol \sigma}^{\dagger}]_2)$ using $\matr{\Lambda}$ and $\matr{\Xi}$. The adversary $\advB$ will output as a response to the $\dist_k$-\skermdh{} challenge the pair $([\vecb{r}]_1,[\vecb{s}]_2):=([{\boldsymbol \rho}^{*}]_1-[{\boldsymbol \rho}^{\dagger}]_1,[{  \boldsymbol \sigma}^{\dagger}]_2-[{\boldsymbol \sigma}^{*}]_2)$. We now see that with all but probability $1/q$, this is a valid 
+solution. Indeed, if $\vecb{r} \neq \vecb{s}$, we are done, because since both are valid proofs, subtraction of the verification equations yields
+\begin{equation*}
+([{\boldsymbol \rho}^{*}]_1-[{\boldsymbol \rho}^{\dagger}]_1)^{\top} [\matr{A}]_2=  ([{\boldsymbol \sigma}^{\dagger}]_2-[{\boldsymbol \sigma}^{*}]_2)^{\top} [\matr{A}]_1.
+\end{equation*}
+By definition $\vecb{r} \neq \vecb{s}$  if and only if  $\boldsymbol \rho^{*}+\boldsymbol \sigma^{*} \neq 
+\boldsymbol \rho^{\dagger}+ \boldsymbol \sigma^{\dagger}$.
+Note that 
+\begin{equation*}
+\boldsymbol \rho^{\dagger}+ \boldsymbol \sigma^{\dagger}=\matr{\Lambda}  \vecb{x}^*+ \matr{\Xi} \vecb{y}^*=
+\matr{\Delta} \vecb{t},\text{ where }\vecb{t}:=\begin{pmatrix} \vecb{x}^* \\ \vecb{y}^* \end{pmatrix}.
+\end{equation*}
+Since $\matr{Z}$ is a uniform random value, the CRS reveals (information theoretically) only $\left\{\matr{\Delta}\matr{P}:=\matr{P}_\Delta,  \matr{\Delta}^{\top}\matrA:=\matr{A}_\Delta \right\}$ about $\matr{\Delta}$. From $\matr{\Delta}^\top \matr{A} = \matr{A}_\Delta$, an (unbounded) adversary might only deduce that
+$$
+\matr{\Delta}_1 = (\matr{A}_1^\top)^{-1}(\matr{A}_\Delta^\top-\matr{A}_2^\top\matr{\Delta}_2),
+$$
+where $\matr{\Delta}_1\in\Z_q^{k\times \tilde{m}},\matr{\Delta}_2\in\Z_q^{1\times\tilde{m}},\matr{A}_1\in\Z_q^{k\times k},\matr{A}_2\in\Z_q^{k+1\times 1}$ and $\matr{\Delta}=\pmatri{\matr{\Delta}_1\\\matr{\Delta}_2},\matr{A}=(\matr{A}_1 \matr{A}_2)$. Therefore, $\matr{\Delta}_2$ remains completely hidden given only $\matr{A}_\Delta$. Note also that the first $k$ rows of $\matr{P}_\matr{\Delta}$ (i.e.~$\matr{\Delta}_1\matr{P}$) are completely determined by the last row of $\matr{P}_\Delta$ (i.e.~$\matr{\Delta}_2\matr{P}$) and the CRS, since
+$$
+\matr{\Delta}_1\matr{P}=(\matr{A}_0^\top)^{-1}(\matr{A}_\Delta^\top\matr{P}-\matr{A}_1^\top\matr{\Delta}_2\matr{P}).
+$$
+Let $\matr{P^\perp}\in\Z_q^{\tilde{m}\times(\tilde{m}-r)}$, where $r=\mathsf{rank}(\matr{P})$, a basis of the kernel of $\matr{P}$.
+The row vector $\matr{\Delta}_2$ can be always written as $\matr{\Delta}_2^\top=\matr{P}\vecb{w}_1+\matr{P}^\perp\vecb{w}_2$, where $\vecb{w}_1\in\Z_q^{t},\vecb{w}_2\in\Z_q^{\tilde{m}-r}$ are uniformly random vectors. It follows that $\vecb{w}_2$ is completely hidden given only the CRS since $\matr{\Delta}_2\matr{P}=\vecb{w}_1^\top\matr{P}^\top\matr{P}$. Since $\vecb{t}\notin\mathsf{span}(\matr{P})$, there exists some $\vecb{w}'_1\in\Z_q^t,\vecb{w}'_2\in\Z_q^{\tilde{m}-r}$ such that $\vecb{w}'_2\neq \vecb{0}$ and $\vecb{t} = \matr{P}\vecb{w}'_1+\matr{P^\perp}\vecb{w}'_2$.
+Finally, note that
+\begin{align*}
+\matr{\Delta}_2\vecb{t} &=(\matr{P}\vecb{w}_1+\matr{P^\perp}\vecb{w}_2)^\top(\matr{P}\vecb{w}'_2+\matr{P^\perp}\vecb{w}'_2)\\
+&= \vecb{w}_1^\top\matr{P}^\top\matr{P}\vecb{w}'_1+\vecb{w}_2^\top(\matr{P}^\perp)^\top\matr{P^\perp}\vecb{w}'_2
+\end{align*}
+where the non-zero component of $\vecb{w}'_2$ is multiplied by a component of (the random vector) $\vecb{w}_2$ and thus, $\matr{\Delta}_2\vecb{t}$ is uniformly distributed over $\Z_q$. It follows that $\Pr[\matr{\Delta}\vecb{t}\neq\grkb{\rho}^*+\grkb{\rho}^*]\geq 1- 1/q$.
+
+(Zero-Knowledge.) It is direct from the construction that the simulated proof follows the same distribution as an honestly computed proof.
+\end{proof}
+
+
+\begin{theorem} If $\widetilde{\dist_{k}}=\overline{\dist}_k$ and $\tilde{k}=k$,  and $\dist_{gk}$ is a witness samplable distribution, Fig. \ref{fig:QANIZKtwogroups}
+describes a QA-NIZK proof system with perfect completeness, computational adaptive strong soundness based on the  $\dist_{k}$-$\skermdh$ assumption, and perfect zero-knowledge. 
+\label{theo:membtwogroups2}
+\end{theorem}
+
+\begin{proof} (Completeness and Zero-Knowledge.) Equal as in Theorem \ref{theo:membtwogroups1}.
+
+(Soundness.)
+Define $\tm:=m+n$ and $\matr{P}:=\smallpmatrix{\matr{M}\\\matr{N}}$. 
+An adversary $\advB$ against  
+$\dist_{k}$-$\skermdh$ assumption receives a challenge $([\matr{A}]_1,[\matrA]_2)$, $\matrA \gets \dist_k$. 
+It samples 
+$([\matr{M}]_1,[\matr{N}]_2,\matr{M},\matr{N}) \in \R_{par}$ and computes  $\matr{P}^{\perp} \in \Z_q^{\tm \times (\tm-r)}$, where $r=\mathsf{rank}(\matr{P})$, a basis of the kernel of $\matr{P}^{\top}$. 
+By definition, $\matr{P}^{\top}=(\matr{M}^{\top} \cat\matr{N}^{\top})$ and $\matr{P}^{\top}\matr{P}^{\perp} =\matr{0}$, thus we can write $\matr{P}^{\perp}= \smallpmatrix{\matr{E} \\ \matr{F}}$, for some matrices such that $\matr{M}^{\top}\matr{E}=-\matr{N}^{\top} \matr{F}$.
+
+Adversary $\advB$ samples 
+$\matr{R} \in \Z_q^{(\tm-r-1) \times (k+1)}$ and defines 
+\begin{align*}
+&[\matr{A}']_1:=\begin{pmatrix} [\matr{A}]_1 \\ \matr{R} [\matr{A}]_1 \end{pmatrix} \in \Gr^{(k+\tm-r) \times k},&
+&[\matr{A}']_2:=\begin{pmatrix} [\matr{A}]_2 \\ \matr{R} [\matr{A}]_2 \end{pmatrix} \in \Hr^{(k+\tm-r) \times k}.
+\end{align*} 
+
+Then $\advB$ samples $(\widetilde{\matr{\Lambda}}\cat\widetilde{\matr{\Xi}}) \gets \Z_q^{k \times \tm}$.  Let $\matr{A}_0$ be the first $k$ rows of $\matrA'$ (or $\matr{A}$) and $\matrA_1'$ the rest of the rows, and $\matr{T}_{\matrA'}=\matrA'_1 \matrA_0^{-1}$. Then $\advB$ implicitly sets 
+$(\matr{\Lambda} \cat \matr{\Xi}):= (\widetilde{\matr{\Lambda}} \cat \widetilde{\matr{\Xi}})+ \matr{T}^{\top}_{\matrA'} (\matr{E}^{\top} \cat \matr{F}^{\top})$, and computes:
+\begin{equation}
+\begin{pmatrix}
+[\matrA_{\Lambda}]_2\\
+[\matrA_{\Xi}]_1
+\end{pmatrix}=
+\begin{pmatrix}
+\matr{\Lambda}^{\top} [\matrA_0]_2\\
+\matr{\Xi}^{\top} [\matrA_0]_1
+\end{pmatrix}:=
+\begin{pmatrix}
+(\widetilde{\matr{\Lambda}}^{\top}+ \matr{E} \matr{T}_{\matrA'}) [\matrA_0]_2 \\
+(\widetilde{\matr{\Xi}}^{\top}+ \matr{F} \matr{T}_{\matrA'}) [\matrA_0]_1
+\end{pmatrix}
+=
+\begin{pmatrix}
+(\widetilde{\matr{\Lambda}}^{\top}\cat \matr{E}) [\matrA']_2 \\
+(\widetilde{\matr{\Xi}}^{\top}\cat \matr{F} ) [\matrA']_1
+\end{pmatrix}
+\end{equation}
+So far the argument is very similar to Kiltz and Wee's \cite[Section~3.2]{EC:KilWee15}, now comes an important difference. 
+Adversary $\advB$ also needs to compute $\matr{\Lambda}[\matr{M}]_1+[\matr{Z}]_1$ and 
+$\matr{\Xi}[\matr{N}]_2-[\matr{Z}]_2$. Although the adversary $\advB$ does not know how to 
+compute $\matr{\Xi}\matr{N}$ or $\matr{\Lambda}\matr{M}$, it can compute their sum in $\Z_q$ as:
+ $$\matr{\Xi}\matr{N}+\matr{\Lambda}\matr{M}=
+    \left(
+        (\widetilde{\matr{\Lambda}} \cat \widetilde{\matr{\Xi}})
+        + \matr{T}^{\top}_{\matrA'}(\matr{E}^{\top}\cat\matr{F}^{\top})
+    \right)
+ \begin{pmatrix}
+    \matr{M} \\ \matr{N}
+ \end{pmatrix} =\widetilde{\matr{\Lambda}} \matr{M}+\widetilde{\matr{\Xi}} \matr{N}=:\matr{T}.  
+ $$
+Thus, $\advB$ picks $\matr{Z} \gets \Z_q^{k \times t}$ and outputs 
+$[\matr{N}_{\Xi}]_2:=[\matr{T}]_2-[\matr{Z}]_2$ and  $[\matr{M}_{\Xi}]_1:=[\matr{Z}]_1$.
+Now, when $\Forger$ outputs a valid proof for some $([\vecb{x}]_1,[\vecb{y}]_2) \notin \mathcal{L}_{[\matr{M}]_1,[\matr{N}]_2}$, it holds that:
+\begin{align*}
+[\vecb{x}^\top]_1 [\matr{A}_\Lambda]_2  - [\grkb{\rho}^\top]_1[\matr{A}_0]_2=  [\grkb{\sigma}^\top]_2 [\matr{A}_0]_1-[\vecb{y}^\top]_2 [\matr{A}_\Xi]_1   \Longleftrightarrow\\
+[\vecb{x}^\top]_1 (\widetilde{\matr{\Lambda}}^{\top}\cat \matr{E})[\matr{A}']_2  - ([\grkb{\rho}^{\top}]_1\cat[\matr{0}_{1\times(\tm-r)}]_1)^\top[\matr{A}']_2 = \\
+( [\grkb{\sigma}^\top]_2 \cat [\matr{0}_{1\times(\tm-r)}]_2)  [\matr{A}']_1-[\vecb{y}^\top]_2 (\widetilde{\matr{\Xi}}^{\top}\cat \matr{F} ) [\matrA']_1  \Longleftrightarrow\\
+[\vecb{c}^{\top}]_1 [\matrA']_2=[\vecb{d}^{\top}]_2 [\matrA']_1,
+\end{align*}
+ where $[\vecb{c}^{\top}]_1:=([\vecb{x}^{\top}]_1\widetilde{\matr{\Lambda}}-[\grkb{\rho}^{\top}]_1\cat [\vecb{x}^{\top}]_1 \matr{E})$ and $ [\vecb{d}^{\top}]_2:=([\grkb{\sigma}^{\top}]_2-[\vecb{y}^{\top}]_2\widetilde{\matr{\Xi}}\cat -[\vecb{y}^{\top}]_2 \matr{F}).$
+
+Obviously 
+$$\vecb{c}-\vecb{d} \in \ker((\matrA')^{\top}) 
+\Longleftrightarrow (\vecb{c}-\vecb{d})^{\top} \matr{A}'=0 \Longleftrightarrow (\vecb{c}_1^{\top}+\vecb{c}_2^{\top} \matr{R})-(\vecb{d}_1^{\top}+\vecb{d}_2^{\top} \matr{R})
+ \in \ker(\matrA^{\top}).$$
+while, by assumption,  $([\vecb{x}]_1,[\vecb{y}]_2) \notin \mathcal{L}_{[\matr{M}]_1,[\matr{N}]_2}$ and thus
+$[\vecb{x}^{\top}]_1 \matr{E} \neq -[\vecb{y}^{\top}]_2 \matr{F}$.
+ We conclude with an information-theoretic argument. Because $\matr{R}$ is only revealed to $\advB$ through $\matr{A}_\matr{R}:=\matr{R}\matr{A}$ it holds that
+$$
+\matr{R}_0 := \matr{A}_0^{-1}(\matr{A}_\matr{R}-\matr{r}_1\matr{A}_1),
+$$
+where $\matr{R}_0\in\Z_q^{(\tilde{m}-r-1)\times k},\matr{r}_1\in\Z_q^{\tilde{m}-r-1}$, $\matr{R}=(\matr{R}_0\cat\vecb{r}_1)$, $\matr{A}=\pmatri{\matr{A}_0\\\matr{A}_1}$, and $\vecb{r}_1$ remains completely hidden to the adversary.
+Therefore,
+\begin{align*}
+\Pr[\vecb{c}_1^{\top}+\vecb{c}_2^{\top} \matr{R} = \vecb{d}_1^{\top}+\vecb{d}_2^{\top} \matr{R}] &=
+\Pr[(\vecb{c}_2^\top-\vecb{d}_2^\top)\matr{R} = \vecb{d}^\top_1-\vecb{c}^\top_1]\\
+&= \Pr[(\vecb{c}_2^\top-\vecb{d}_2^\top)\matr{R}_0,(\vecb{c}_2^\top-\vecb{d}_2^\top)\vecb{r}_1)=(\grkb{\alpha}^\top,\beta)]\\
+&\leq \Pr[(\vecb{c}_2^\top-\vecb{d}_2^\top)\vecb{r}_1 = \beta]\\
+&= 1/q
+\end{align*}
+where $\grkb{\alpha}\in\Z_q^k,\beta\in\Z_q$, and $(\grkb{\alpha}^\top,\beta):=\vecb{c}_2^\top-\vecb{d}_2^\top$.
+
+We conclude that, with high probability, $([\vecb{c}_1^{\top}]_1+[\vecb{c}_2^{\top}]_1 \matr{R}),([\vecb{d}_1^{\top}]_2+[\vecb{d}_2^{\top}]_2 \matr{R})$ 
+solves $\dist_{k}$-\skermdh{}.
+
+This proves standard soundness. Strong soundness follows from the fact that the argument is essentially information theoretic. In particular, the knowledge of $(\matr{M},\matr{N})$ does not reveal additional information about $\matr{R}$. 
+\end{proof}

@@ -49,7 +49,7 @@ $$
 \end{\algSize}
 \caption{The proof system $\Pi_\mathsf{shuffle}$ for the language $\Lang_{[\vecb{v}]_2,n,\mathsf{shuffle}}$. $\Pi_\sfset$ is the proof system from Section~\ref{sec:bin-lan-constr}. The matrices $\matr{M},\matr{N},\matr{\Lambda}$ are defined as
 $\matr{M}:=\binom{\vecb{s}^\top}{\matr{0}_{1\times n}}$,
-$\matr{N}:=(\vecb{u}_1||\vecb{u}_2),\matr{\Lambda}:= (1,\ldots,1)$, where $\vecb{u}_1,\vecb{u}_2$ are the GS commitment keys from $\crs_\GS$, and the equations are defined as $\eq_1:= \sum_{i\in[n]}[s_i]_1-\sum_{j\in[n]}[{x}_i]_1 = [0]_1$, $\eq_2:= [\vecb{x}^\top]_1[\matr{C}^\top]_2-[\vecb{s}^\top]_1[\matr{D}^\top]_2=[y]_1[\vecb{v}^\top]_2$, and $\eq'_2:= [\vecb{x}^\top]_1[\matr{C}^\top]_2-[1]_1[\vecb{s}^\top\matr{D}^\top]_2=[y]_1[\vecb{v}^\top]_2$   
+$\matr{N}:=(\vecb{u}_1\cat\vecb{u}_2),\matr{\Lambda}:= (1,\ldots,1)$, where $\vecb{u}_1,\vecb{u}_2$ are the GS commitment keys from $\crs_\GS$, and the equations are defined as $\eq_1:= \sum_{i\in[n]}[s_i]_1-\sum_{j\in[n]}[{x}_i]_1 = [0]_1$, $\eq_2:= [\vecb{x}^\top]_1[\matr{C}^\top]_2-[\vecb{s}^\top]_1[\matr{D}^\top]_2=[y]_1[\vecb{v}^\top]_2$, and $\eq'_2:= [\vecb{x}^\top]_1[\matr{C}^\top]_2-[1]_1[\vecb{s}^\top\matr{D}^\top]_2=[y]_1[\vecb{v}^\top]_2$   
 . The proof size is $(4n+17)|\GG_1|+14|\GG_2|+1|\Z_q|$
 %$|\pi_\GS|+|\pi_\sfset|=(2n+6)|\GG_1|+4|\GG_2|+1|\Z_q|+(2n+11)|\GG_1|+10|\GG_2|=(4n+17)|\GG_1|+14|\GG_2|+1|\Z_q|$.
 \label{fig:shuffles}}

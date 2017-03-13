@@ -104,7 +104,7 @@ for each $\ell\in[m]$ and some $y_\ell\in\Z_q$. In this way, we only need $3m=3\
 
 Concretely, the prover computes
 \begin{align*}
-&[\vecb{c}_\ell]_1=\MP.\Com_{ck_\ell}((x_{\ell,1},\ldots,x_{1,2^{\ell-1}})^\top;r_\ell),\\
+&[\vecb{c}_\ell]_1=\MP.\Com_{ck_\ell}((x_{\ell,1},\ldots,x_{\ell,2^{\ell-1}})^\top;r_\ell),\\
 \end{align*}
 for random $r_\ell\in\Z_q$ and $\ell\in[m]$, and 
 \begin{align*}
@@ -116,7 +116,7 @@ for random $r_{\ell,1},r_{\ell,2}\in\Z_q$ and $\ell\in[m-1]$. Note that the prov
 Then, the prover shows that equation (\ref{eq-log-2}) holds with a GS proof of
 the satisfiability of
 \begin{align}
-&[\vecb{c}_\ell]_1-(1-b_\ell)[\vecb{c}_{\ell,1}]_1-b_\ell[\vecb{c}_{\ell,2}]_1 = y_\ell[\vecb{g}_{\ell,2^{\ell-1}+1}]_1, \text{ for } \ell \in[m],  \label{eq-log-5}
+&[\vecb{c}_\ell]_1-(1-b_\ell)[\vecb{c}_{\ell,1}]_1-b_\ell[\vecb{c}_{\ell,2}]_1 = \MP.\Com_{ck_\ell}(\vecb{0};y_\ell), \text{ for } \ell \in[m],  \label{eq-log-5}
 \end{align}
 where $[\vecb{c}_{m,1}]:=\MP.\Com_{ck_m}((s_1,\ldots,s_{2^{m-1}})^\top;0)$ and $[\vecb{c}_{m,2}]:=\allowbreak \MP.\Com_{ck_m}(\allowbreak (s_{2^{m-1}+1},\allowbreak\ldots,s_{t})^\top;0)$ can be directly computed by the verifier, and $y_\ell:=r_\ell-(1-b_\ell)r_{\ell,1}-b_\ell r_{\ell,2}$. It also computes Groth-Sahai proofs that
 \begin{equation}
@@ -142,7 +142,7 @@ For \(\ell\in[m]\), let \(ck_\ell:=([\matr{G}_\ell]_1,\allowbreak[\vecb{g}_{\ell
 \begin{pmatrix}
     \vecb{g}_{\ell,2^{\ell-2}+1}&\cdots&\vecb{g}_{\ell,2^{\ell-1}}
 \end{pmatrix}\\
-&\matr{G}_\ell:=\matr{G}_{\ell,1}||\matr{G}_{\ell,2}
+&\matr{G}_\ell:=\matr{G}_{\ell,1}\cat\matr{G}_{\ell,2}
 \end{align*}
 To prove consistency the prover will show that, for each $\ell\in [m-1]$, the following linear system is satisfied
 {\begin{align}
@@ -181,7 +181,7 @@ $$
 
 The key observation is that, for a fixed $\alpha\in[m]$, even if in equation (\ref{eq-log-2}) $x_{\ell,j}$ is not correctly computed for $j\neq\alpha_\ell$, it holds that $x_{m,1}=s_\alpha$ anyway. We will take advantage of this observation and the fact that the adversary commits to a fixed $\alpha=\sum_{i=1}^n b_i2^{i-1}+1$ to guarantee perfect soundness of equation (\ref{eq-log-2}) at least for coordinate $\alpha_\ell$ for each $\ell\in[m]$. We do so by picking the commitment key $ck_\ell$ in such a way that its $\alpha_\ell$ th column is linearly independent from the other columns. Although we will not be able to guarantee that $x_{\ell,j}$ is correctly computed if $j\neq\alpha_\ell$, at least we will be able to do so for $x_{\ell,\alpha_\ell}$.
 
-In the reduction we will guess the (sub-)path $(b_{m-1},\ldots, b_1)$ (it will be not necessary to guess first the edge of the path) chosen by the adversary, and for each $\ell\in[m]$, we will chose $\vecb{g}_{\ell,\alpha_\ell}$ linearly independent from the other $2^{\ell-1}$ vectors in $ck_\ell$. This can be done choosing  random $b'_{m-1},\ldots, b'_1\in\bits$ and aborting if $(b'_{m-1},\ldots, b'_{1})\neq(b_{m-1},\cdots, b_1)$. Therefore, our security reduction will have a security loss factor of $1/2^{m-1}=2/\setsize$. We sample $ck_\ell\gets\distlin_1^{2^{\ell-1},\alpha_\ell}$, as defined on Section \ref{sec:mddh}, which implies that for every $\ell\in[m]$ there exists unique $\tilde{x}_{\ell},\tilde{r}_\ell\in\Z_q$ such that $\vecb{c}_\ell:=\tilde{x}_\ell\vecb{g}_{\ell,\alpha_\ell}+\tilde{r}_\ell\vecb{g}_{\ell,2^{\ell-1}+1}$.
+In the reduction we will guess the (sub-)path $(b_{m-1},\ldots, b_1)$ (it will be not necessary to guess first the edge of the path) chosen by the adversary. While in the real scheme $\mathrm{rank}(\matr{G}_\ell)=1$, for each $\ell\in[m]$, we jump to a game where $\vecb{g}_{\ell,\alpha_\ell}$ is linearly independent from the other $2^{\ell-1}$ vectors in $ck_\ell$. This can be done choosing  random $b'_{m-1},\ldots, b'_1\in\bits$ and aborting if $(b'_{m-1},\ldots, b'_{1})\neq(b_{m-1},\cdots, b_1)$. Therefore, our security reduction will have a security loss factor of $1/2^{m-1}=2/\setsize$. We sample $ck_\ell\gets\distlin_1^{2^{\ell-1},\alpha_\ell}$, as defined on Section \ref{sec:mddh}, which implies that for every $\ell\in[m]$ there exists unique $\tilde{x}_{\ell},\tilde{r}_\ell\in\Z_q$ such that $\vecb{c}_\ell:=\tilde{x}_\ell\vecb{g}_{\ell,\alpha_\ell}+\tilde{r}_\ell\vecb{g}_{\ell,2^{\ell-1}+1}$.
 
 We prove by induction on \(\ell\) that \(\vecb{c}_\ell= s_\alpha\vecb{g}_{\ell,\alpha_\ell}+\tilde{r}_{\ell}\vecb{g}_{\ell,2^{\ell-1}+1}\), for some $\tilde{r}_\ell\in\Z_q$. If this is the case $\vecb{c}_1=s_\alpha\vecb{g}_{1,1}+\tilde{r}_{1}\vecb{g}_{1,2}$. Soundness of proof for equation (\ref{eq-log-6}) together with the fact that \(ck_1\) is perfectly binding implies that \(x=\tilde{x}_{1}=s_{\alpha}\in S\) which proves soundness.
 
@@ -195,7 +195,7 @@ To avoid confusion, define here $\sfleft_\ell:=\sum_{i=\ell}^m b_i2^{i-1}+1$ (pr
 \alpha_{\ell+1} &= \alpha - \sfleft_{\ell+1} + 1\\
 &= \sum_{i=1}^{m} b_i2^{i-1} - \sum_{i=\ell+1}^{m}b_i2^{i-1} +1\\
 &= \sum_{i=1}^{m} b_i2^{i-1} - \sum_{i=\ell}^{m}b_i2^{i-1} +1 +b_\ell2^{\ell-1}\\
-&= \alpha - \sfleft_\ell +1 -b_\ell2^{\ell-1}\\
+&= \alpha - \sfleft_\ell +1 +b_\ell2^{\ell-1}\\
 &=\alpha_\ell+b_\ell2^{\ell-1}
 \end{align*}
 \end{proof}
@@ -211,7 +211,7 @@ In the base case ($\ell=m$) the fact that \(\vecb{g}_{m,i}\in\Span(\vecb{g}_{m,2
     s_{\alpha-(2^{m-1}+1)+1+2^{m-1}}\vecb{g}_{m,\alpha_m}+\tilde{r}_1\vecb{g}_{m,t/2} & \text{ if } b_m=1 \ (\text{and thus }\sfleft=2^{m-1}+1) 
 \end{cases}
 \end{align*}
-for some \(\tilde{r}_1\in\Z_q\). In both cases $\vecb{c}_1=s_\alpha\vecb{g}_{1,\alpha_m}+\tilde{r}_1\vecb{g}_{m,t/2}$.
+for some \(\tilde{r}_1\in\Z_q\). In both cases $\vecb{c}_m=s_\alpha\vecb{g}_{1,\alpha_m}+\tilde{r}_1\vecb{g}_{m,t/2}$.
 
 In the inductive case we assume that \(\vecb{c}_{\ell+1}=s_{\alpha}\vecb{g}_{\ell+1,\alpha_{\ell+1}}+\tilde{r}_{\ell+1}\vecb{g}_{\ell+1,2^\ell+1}\) and we want to show that $\vecb{c}_\ell = s_\alpha\vecb{g}_{\ell,\alpha_\ell}+\tilde{r}_\ell\vecb{g}_{\ell,2^{\ell-1}+1}$. Since \(\vecb{g}_{\ell+1,\alpha_{\ell+1}}\) is linearly independent from the rest of vectors in \(ck_{\ell+1}\), any solution to equation (\ref{eq-log-split}) is equal to \(s_{\alpha}\) at position \(\alpha_{\ell+1}=\alpha_\ell+b_\ell2^{\ell-1}\) as depicted below.
 \begin{align*}

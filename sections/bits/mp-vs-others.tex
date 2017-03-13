@@ -1,0 +1,17 @@
+\label{sec:mp-vs-others}
+\emph{Somewhere Statistically Hashing.} The idea of primitives being binding at only one coordinate  have been used before
+in the context of \emph{somewhere statistically binding hash functions} (SSB hashing) \cite{ITCS:HubWic15,AC:OPWW15}. SSB hashing formalize the notion of being binding at only one coordinate and of indistinguishability of the different keys (called \emph{index hiding}). In addition, SSB hashing should have a \emph{local opening} property which means that there is a short proof that certifies the $i$ th opening. Unlike multi-Pedersen commitments, SSB lacks of a (computational) ``everywhere binding'' property nor a hiding property. While the former property can be easily shown to hold from the somewhere statistically binding and index hiding properties (with a security loss of $1/n$), they totally lack of a hiding property.
+
+Okamoto et al.~constructed a ``two-to-one'' SSB hash function under the DDH assumption -- i.e.~a vector of size $2n$ is hashed into a digest which uniquely defines one of the halves of the original vector -- which bears some similarities with extended multi-Pedersen commitments \cite{AC:OPWW15}. Using our notation, Okamoto et al.~compute the hash of $(\vecb{x},\vecb{y})\in\Z_q^{2n}$ \footnote{In fact, Okamoto et al.~considered that $\vecb{x}\in\bits^s$ and then they ``parsed'' $\vecb{x}$ as a vector in $\Z_q^n$, for $n=s/t$, where each coordinate is the integer in $[0,2^t-1]$ corresponding to the respective block of size $t$ of $\vecb{x}$.}\footnote{Okamoto et al.~considered a transposed version of what is written here.}
+$$
+H_{hk}(\vecb{x},\vecb{y}) = [\matr{A}]_1\vecb{x}+[\matr{B}]_1\vecb{y}\in\GG_1^{n+1},
+$$
+where $hk=([\matr{A}]_1\in\GG_1^{(n+1)\times n},[\matr{B}]_1\in\GG_1^{(n+1)\times n})$. $\matr{A}$ and $\matr{B}$ can be sampled in such a way that either $\matr{A}$ or $\matr{B}$  is full rank and their columns are linearly independent from the columns of the other matrix ($\matr{B}$ and $\matr{A}$ respectively). The size of the digest is $\Theta(n)$ group elements.
+
+Okamoto et al.'s construction can be viewed as variant of extended multi-Pedersen commitment where the commitment key is a matrix of size $(n+1)\times2n$ and the first (or last) columns are linearly independent from the other columns. However, with standard extended multi-Pedersen commitments, one can construct a SSB hash function $H_{hk}(\vecb{x}):=\MP.\Com_{ck}(\vecb{x};0)$, $hk:=ck$, where digests consist of only 2 group elements. Further, one can have the local opening property by attaching a QA-NIZK proof that
+$$\MP.\Com_{ck}(\vecb{x};0)-x_i[\vecb{g}_i]_1\in \Span(\{[\vecb{g}_{j}]_1:j\neq i\}),$$
+while Okamoto et al.'s ``two-to-one'' construction lacks of this property.
+
+\emph{Vector Commitments.} Extended multi-Pedersen commitments bear some similarities with vector commitments, introduced by Catalano and Fiore \cite{PKC:CatFio13}. Using extended multi-Pedersen commitments, one can commit to a vector $\vecb{m}\in\Z_q^n$  and show the so called \emph{position binding} property, that is, show that it opens to $m_i$ at coordinate $i$. Indeed, we can compute a proof that $(\MP.\Com_{ck}(\vecb{x}_i;0)-m_i[\vecb{g}_i]_1)\in\Span(\{[\vecb{g}_j]_1:j\neq i\})$. However, we do not elaborate more on this application since Catalano and     Fiore's construction is (by a constant factor) more efficient in terms of CRS size and commitment size, and also relies on weaker assumptions.
+
+

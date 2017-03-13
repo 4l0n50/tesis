@@ -43,7 +43,7 @@ computable, non-degenerate bilinear map.
 \subsubsection{Implicit Representation of Group Elements}
 
 Elements in $\GG_s$, are denoted implicitly as $[a]_s:=a \Pt_s$, where $s \in \{1,2,T\}$ and $\Pt_T:=e(\Pt_1,\Pt_2)$. 
-The pairing operation will be written as a product $\cdot$, that is $[a]_1 \cdot [b]_2=[a]_1 [b]_2=e([a]_1,[b]_2)=[ab]_T$. Given a matrix $\matr{T}=(t_{i,j})$, $[\matr{T}]_s$ is
+The pairing operation will be written as a product $\cdot$, that is $[a]_1 \cdot [b]_2=[a]_1 [b]_2 =e([a]_1,[b]_2)=[ab]_T$. We sometimes abuse of notation and write $[b]_2[a]_1$ to denote $e([a]_1,[b]_2)$ (note that there is no ambiguity since $e([b]_2,[a]_1)$ is undefined). Given a matrix $\matr{T}=(t_{i,j})$, $[\matr{T}]_s$ is
 the natural embedding of $\matr{T}$ in $\GG_s$, that is, the matrix whose $(i,j)$th entry
 is $t_{i,j}\mathcal{P}_s$. We denote by $|\GG_s|$ the bit-size of the elements of $\GG_s$.
 
@@ -55,7 +55,7 @@ We say that the DLin assumption in $\GG_s$, $s\in\{1,2\}$, holds relative to $\G
 $$
 \Pr\left[\begin{array}{l}
 gk\gets\G_a(1^\lambda);a_1,a_2,r_1,r_2,z\gets\Z_q,b\gets\bits:\\
-\advA(gk,[a_1]_1,[a_2]_1,[r_1a_1]_1,[r_2a_2],(1-b)[r_1+r_2]_1+b[z]_1)=b
+\advA(gk,[a_1]_s,[a_2]_s,[r_1a_1]_s,[r_2a_2],(1-b)[r_1+r_2]_s+b[z]_s)=b
 \end{array}\right]\approx 1/2.
 $$
 \end{definition}
@@ -67,7 +67,7 @@ We say that the $\lin{k}$ assumption in $\GG_s$, $s\in\{1,2\}$, holds relative t
 \begin{align*}
 &\Pr\left[\begin{array}{l}
 gk\gets\G_a(1^\lambda);a_1,\ldots,a_k,r_1,\ldots,r_k,z\gets\Z_q,b\gets\bits:\\
-\advA(gk,[a_1]_1,\ldots,[a_k]_1,[r_1a_1]_1,\ldots,[r_ka_k],(1-b)[\sum_{i=1}^k r_i]_1+b[z]_1)=b
+\advA(gk,[a_1]_s,\ldots,[a_k]_s,[r_1a_1]_s,\ldots,[r_ka_k]_s,(1-b)[\sum_{i=1}^k r_i]_s+b[z]_s)=b
 \end{array}\right]\\
 &\approx 1/2.
 \end{align*}

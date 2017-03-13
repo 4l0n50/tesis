@@ -1,4 +1,4 @@
-The GS proof system allows to prove satisfiability of a set of quadratic equations in a bilinear group. In general, the proof is witness-indistinguishable but for most equations it is also zero-knowledge.
+The GS proof system allows to prove satisfiability of a set of quadratic equations in a bilinear group. In general, the proof is witness-indistinguishable but for most equations it is also (or can be made) zero-knowledge.
 
 The admissible equation types must be in the following form:
 \begin{equation}\label{gseq}
@@ -24,7 +24,7 @@ all the variables in an equation with the {Groth-Sahai commitment scheme}, defin
 \begin{definition} The Groth-Sahai commitment scheme in the group $\GG_\gamma$, $\gamma\in\{1,2\}$, is  specified by the following three algorithms 
 	$(\mathsf{GS}.\algK,\mathsf{GS}.\Com,\mathsf{GS}.\algVrfy)$ such that:
 	\begin{itemize} 
-		\item  $\mathsf{GS}.\algK(gk,\dist_{2,2})$ is a randomized algorithm, which on input the group key $gk$ and the description of some matrix distribution $\dist_{2,2}$, outputs a commitment key $ck:=[\matr{U}]_\gamma=[(\vecb{u}_1||\vecb{u}_2)]_\gamma \in\GG_\gamma^{2\times 2}$, where $\matr{U}\gets\dist_{2,2}$.
+		\item  $\mathsf{GS}.\algK(gk,\dist_{2,2})$ is a randomized algorithm, which on input the group key $gk$ and the description of some matrix distribution $\dist_{2,2}$, outputs a commitment key $ck:=[\matr{U}]_\gamma=[(\vecb{u}_1\cat\vecb{u}_2)]_\gamma \in\GG_\gamma^{2\times 2}$, where $\matr{U}\gets\dist_{2,2}$.
 		\item $\mathsf{GS}.\Com_{ck}(\mathsf{m};r)$ is a randomized algorithm which, on input a commitment key $ck=\bmatr{U}_\gamma$, and a message 
 		$\mathsf{m}$ in the message space $\mathcal{M}_{ck}=A_\gamma$, it proceeds as follows. If $\mathsf{m}=m\in\Z_q$, it samples $r \gets \Z_q$ and outputs a commitment $\bvecb{c}_\gamma := m[\vecb{e}_2+\vecb{u}_1]_\gamma+r[\vecb{u}_2]_\gamma$ in the commitment space $\mathcal{C}_{ck}=\GG_\gamma^2$ and an opening $Op=r$. If $\mathsf{m}=[m]_\gamma\in\GG_\gamma$, it samples $\vecb{r} \gets \Z_q^2$ and outputs a commitment $\bvecb{c}_\gamma := [m]_\gamma\vecb{e}_2+[\matr{U}]_\gamma\vecb{r}$ in the commitment space $\mathcal{C}_{ck}=\GG_\gamma^2$ and an opening $Op=\vecb{r}$.
 		\item $\mathsf{GS}.\algVrfy_{ck}([\vecb{c}]_\gamma,Op)$ is a deterministic algorithm which, on input the commitment key $ck=\bmatr{U}_\gamma$, a commitment $\bvecb{c}_\gamma$,  a message 
@@ -35,11 +35,11 @@ all the variables in an equation with the {Groth-Sahai commitment scheme}, defin
 
 We will instantiate this commitment scheme with two different matrix distributions which give rise to two different commitment keys: the \emph{perfectly binding} and the \emph{perfectly hiding} commitment keys. The matrix distribution for perfectly binding commitment keys is defined as
 $$
-\mathcal{B}:\matr{U}=(\vecb{u}_1||\vecb{u}_2),\text{ where }\vecb{u}_2\gets\distlin_1\text{ and } \vecb{u}_1 :=\mu\vecb{u}_2, \mu\gets\Z_q,
+\mathcal{B}:\matr{U}=(\vecb{u}_1\cat\vecb{u}_2),\text{ where }\vecb{u}_2\gets\distlin_1\text{ and } \vecb{u}_1 :=\mu\vecb{u}_2, \mu\gets\Z_q,
 $$
 and the matrix distribution for perfectly hiding commitment keys is defined as
 $$
-\mathcal{H}:\matr{U}=(\vecb{u}_1||\vecb{u}_2),\text{ where } \vecb{u}_2\gets\distlin_1\text{ and } \vecb{u}_1 :=\mu\vecb{u}_2-\vecb{e}_2, \mu\gets\Z_q.
+\mathcal{H}:\matr{U}=(\vecb{u}_1\cat\vecb{u}_2),\text{ where } \vecb{u}_2\gets\distlin_1\text{ and } \vecb{u}_1 :=\mu\vecb{u}_2-\vecb{e}_2, \mu\gets\Z_q.
 $$
 
 \begin{theorem}[\cite{SIAMJC:GroSah12}] If $ck\gets\algK(gk,\mathcal{B})$ (resp. $ck\gets\algK(gk,\mathcal{H})$), where $gk\gets\G_a(1^\lambda)$ , the Groth-Sahai commitment scheme is perfectly binding (resp. computationally binding if the DL assumption relative to $\G_a$ holds) and computationally hiding if the SXDH assumption relative to $\G_a$ holds (resp. perfectly hiding).
@@ -61,13 +61,13 @@ The CRS defines some associated maps:
 &                                       & &\iota_T([x]_1):=\iota_1([x]_1)\iota_2(1)^\top,& &\iota_T([y]_2) := \iota_1(1)\iota_2([y]_2)^\top.
 \end{align*}
 The maps $\iota_X$ $X \in \{1,2\}$ can be naturally extended to column vectors of arbitrary length, and we write $\iota_X(\boldsymbol \delta^{\top})$ for 
-$(\iota_X(\delta_1)|| \ldots ||\iota_X(\delta_r))$.
+$(\iota_X(\delta_1)\cat \ldots \cat\iota_X(\delta_r))$.
 
 \item[$\algP(\crs_\GS,\mathsf{eq},(\varx_1,\ldots,\varx_{m_x}),(\vary_1,\ldots,\vary_{m_y}))$:] Given some equation $\mathsf{eq}$ of the form \ref{gseq} and solutions to the equation
 $\varx_1,\ldots,\varx_{m_x}$ and $\vary_1,\ldots,\vary_{m_y}$, the prover proceeds as follows:
 \begin{itemize}
 \item Commit to all $\varx_i \in A_1$ computing $([\vecb{c}_i]_1,\vecb{r}_i)\gets\GS.\Com_{ck_1}(\varx_i)$ and commit to all $\vary_i \in A_2$ computing $([\vecb{d}_i]_2,\vecb{s}_i)\gets\GS.\Com_{ck_2}(\vary_i)$.
-\item Let $\matr{R} := (\vecb{r}_1||\ldots||\vecb{r}_{m_x})$ and $\matr{S} := (\vecb{s}_1||\ldots||\vecb{s}_{m_y})$. Compute 
+\item Let $\matr{R} := (\vecb{r}_1\cat\ldots\cat\vecb{r}_{m_x})$ and $\matr{S} := (\vecb{s}_1\cat\ldots\cat\vecb{s}_{m_y})$. Compute 
 \begin{eqnarray*}
 [\matr{\Pi}]_2 
 & := & \iota_2(\boldsymbol \beta^{\top}) \matr{R}^\top +\iota_2(\vecb{y}^{\top}) \matr{\EscQE}^\top  \matr{R}^{\top}+

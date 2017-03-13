@@ -1,7 +1,7 @@
 In a NIZK shuffle argument one wants to prove that two lists of ciphertexts open to the same values when second list is permuted under some hidden permutation.
-We represent each list of ciphertexts as a matrix in $\GG_2^{2\times n}$ where each column is an El-Gamal ciphertext under public key $pk:=[\vecb{v}]_2\in\GG^2_2$ and we write $\enc_{pk}([\vecb{m}^\top]_2;\vecb{r}^\top):=(\enc_{pk}([m_1]_2;r_1)||\cdots||\enc_{pk}([m_n]_2;r_n))$, where $[\vecb{m}]_2\in\GG_2^n$, $\vecb{r}\in\Z_q^n$, and $\enc_{pk}([m]_2;r):=[m]_2\vecb{e}_2+r[\vecb{v}]_2$. Similarly, through this section we will sometimes write $\GS.\Com_{ck}([\vecb{x}^\top]_\gamma;\matr{R}):=$\-$(\GS.\Com_{ck}([x_1]_\gamma;\vecb{r}_1)||\cdots||$$\GS.\Com_{ck}($$[x_n]_\gamma;$$\vecb{r}_n))$, where $\matr{R}=(\vecb{r}_1||\cdots||\vecb{r}_n)\in\Z_q^{2\times n}$.
+We represent each list of ciphertexts as a matrix in $\GG_2^{2\times n}$ where each column is an El-Gamal ciphertext under public key $pk:=[\vecb{v}]_2\in\GG^2_2$ and we write $\enc_{pk}([\vecb{m}^\top]_2;\vecb{r}^\top):=(\enc_{pk}([m_1]_2;r_1)\cat\cdots\cat\enc_{pk}([m_n]_2;r_n))$, where $[\vecb{m}]_2\in\GG_2^n$, $\vecb{r}\in\Z_q^n$, and $\enc_{pk}([m]_2;r):=[m]_2\vecb{e}_2+r[\vecb{v}]_2$. Similarly, through this section we will sometimes write $\GS.\Com_{ck}([\vecb{x}^\top]_\gamma;\matr{R}):=$\-$(\GS.\Com_{ck}([x_1]_\gamma;\vecb{r}_1)\cat\cdots\cat$$\GS.\Com_{ck}($$[x_n]_\gamma;$$\vecb{r}_n))$, where $\matr{R}=(\vecb{r}_1\cat\cdots\cat\vecb{r}_n)\in\Z_q^{2\times n}$.
 
-The language of correct shuffles under public key $pk:=[\vecb{v}]_2\in\GG^2_2$ can can be defined as 
+The language of correct shuffles under public key $pk:=[\vecb{v}]_2\in\GG^2_2$ can be defined as 
 \begin{align*}
 \Lang_{pk,n,\mathsf{shuffle}}:=\{([\matr{C}]_2,&[\matr{D}]_2)\in\GG_2^{2\times n}\times \GG_2^{2\times n} :\\
                                                          &\exists \matr{P}\in\mathcal{S}_n,\grkb{\delta}\in\Z_q^n \text{ s.t. } {[\matr{C}]_2\matr{P}-[\matr{D}]_2 = \Enc_{pk}([\vecb{0}_{1\times n}]_2;\grkb{\delta}^\top)}\},
@@ -77,5 +77,5 @@ Let $E_1$ the event where $([\matr{C}]_2,[\matr{D}]_2)\in\Lang_{pk,n,\mathsf{shu
 \end{eqnarray*} 
 
 (Zero-Knowledge.) We need to check that the inputs to the simulators are true statements and, for the GS simulator, that the equations allow simulation. This is certainly true for $\mathsf{eq}_1$ and, if $([\matr{C}]_1,[\matr{D}]_1)\in\Lang_{pk,n,\mathsf{shuffle}}$, then is also true for $\mathsf{eq}'_2$. Furthermore, it is guaranteed that $\pi_\GS$ is computationally indistinguishable from a real proof for $\{\eq_1,\eq'_2\}$, which is identically distributed to a real proof for $\{\eq_1,\eq_2\}$ since $\eq'_2$ and $\eq_2$ accepts the same set of solutions.
-Finally, since the perfectly hiding $\crs_\GS$ is such that $\rank(\vecb{u}_1||\vecb{u}_2)=2$, then $\Lang_{\vecb{u}_1,\vecb{u}_2,S}^n=\GG_1^{2\times n}$ and thus $[\matr{F}]_1\in\Lang_{\vecb{u}_1,\vecb{u}_2,S}^n$ is always true.
+Finally, since the perfectly hiding $\crs_\GS$ is such that $\rank(\vecb{u}_1\cat\vecb{u}_2)=2$, then $\Lang_{\vecb{u}_1,\vecb{u}_2,S}^n=\GG_1^{2\times n}$ and thus $[\matr{F}]_1\in\Lang_{\vecb{u}_1,\vecb{u}_2,S}^n$ is always true.
 \end{proof}

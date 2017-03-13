@@ -1,0 +1,64 @@
+With the growth and ubiquity of Internet more and more of our life has been moving from the ``physical world'' to the ``digital world''. Along with these changes new problems have raised: we moved from a world where communication was mostly without any intermediary to a world where communication goes through an uncontrollable set of servers from which no privacy or secrecy guarantee can be obtained. Modern Cryptography has raised as an answer to these and many other related problems, providing \emph{provable} methods for securing information.  
+
+Among the vast variety of cryptographic constructions, this thesis is concerned with the study of \emph{non-interactive  zero-knowledge proofs}.
+A zero-knowledge proof, introduced by Goldwasser, Micali, and Rackoff \cite{GolMicRac89}, is a protocol between two parties, the \emph{prover} and the \emph{verifier}, where the prover wants to convince the verifier that some statement is true. At the onset of the protocol the verifier is completely convinced that the statement is true without learning any extra information. \emph{non-interactive  zero-knowledge proofs}, introduced by Blum, Feldman, and Micali \cite{STOC:BluFelMic88}, restrict the proof to consist of a single message (in opposition of an interactive protocol) making the protocol more suited for constructing inherenlty non-interactive primtives, such as encryption and signatures, or and high-latency scenarios.
+The importance of non-interactive zero-knowledge proofs in cryptography was recognized early \cite{STOC:NaoYun90,STOC:DolDwoNao91,CCS:BelRog93}, but for many years the existing constructions were either completely impractical or could only be realized under very strong assumptions like the random oracle model, via the Fiat-Shamir heuristic \cite{C:FiaSha86}. 
+
+Ideally, a NIZK proof system should be both expressive and efficient, meaning that it should allow to prove
+statements which are general enough to be useful in practice using a small amount of resources.
+Furthermore, it should be constructed under
+mild security assumptions.
+As it is usually the case for most cryptographic primitives, there is a trade off between these three design goals.
+For instance,
+to prove very general statements, one can use the NIZK proof 
+system for circuit satisfiability of Groth, Ostrovsky, and Sahai 
+\cite{EC:GroOstSah06}, which is based on standard assumptions but 
+whose proof size depends on the number of gates. 
+Alternatively,
+there exist constant-size proofs for any language in NP
+  (e.g. \cite{EC:GGPR13}) but based on very strong and controversial assumptions, 
+  namely knowledge-of-exponent type of assumptions 
+  (which are non-falsifiable, according to Naor's classification 
+  \cite{C:Naor03}) or the random oracle model. 
+\footnote{There is evidence that the use of knowledge-of-exponent type of  assumptions 
+may be unavoidable for constant-size NIZK proofs for NP-complete languages \cite{STOC:GenWic11}.}
+
+Despite the use of non-falsifiable assumptions, the generality of NIZK proofs for NP-complete languages hides a subtlety. In order to prove the validity of a statement, it is necessary to express it as the satisfiability of a circuit. Apart from the cost of expressing the statement as a circuit (a Cook reduction), many cryptographic statements are more naturally expressed by other means.
+In fact, with the advent of \emph{pairing-based cryptography} many cryptosystems have been built using \emph{bilinear groups}, that is, three abelian groups $\GG_1,\GG_2,\GG_T$ of order $q$ together with a bilinear function $e:\GG_1\times\GG_2\to\GG_T$. As consequence,
+statements related to pairing-based cryptographic schemes are more naturally expressed as the satisfiability of equations over these groups and $\Z_q$.
+
+The Groth-Sahai proof system (GS proofs) \cite{SIAMJC:GroSah12} 
+  provides a proof system for satisfiability of this type of equations: \emph{pairing product equations}.
+  This language suffices to capture almost all of the 
+  statements which appear 
+  in practice when designing cryptographic schemes over bilinear groups.  
+Although GS proofs are quite efficient, proving satisfiability of $m$ equations in $n$ variables requires 
+sending the solutions, using an appropriated encryption or commitment scheme, requiring $\Theta(n)$ group elements, and a proof that the encrypted values are indeed solutions, requiring $\Theta(m)$ group elements. Although linear in both $m$ and $n$, the constants are on the order of $\sim 10$. Consequently, a rough approximation of the average proof size would be $(m+n)$10*64 bytes = $(m+n)$640 bytes, which limits $m+n$ to be less than $1600$ whenever we want the proof to be less that $1$ Megabyte.\footnote{Using Barreto-Nahering curves with security parameter $\lambda=128$ the base group elements are of size $32$ and $64$ bytes.}  For this reason, several recent works 
+ have focused on further improving the proof efficiency 
+ (e.g.\ \cite{PKC:EscGro14,C:EHKRV13,TCC:Rafols15})
+
+%The more general kind of equations are \emph{pairing Product equations} --equations where variables might appear ``multiplied'' between them using the bilinear function-- but \emph{quadratic equations over $\Z_q$} --similar to pairing product equations but variables are integers modulo $q$-- are also useful. A natural generalization of quadratic equations are \emph{high-Degree equations} --equations of the kind $p(x)=0$, where $p$ is some polynomial-- or equivalently \emph{set-Membership proofs}, that is a proof that some variable belongs to some set (the set of roots of the polynomial for example).\footnote{Note that set-membership proofs are still meaningful when the variable is a group element, while high-degree equations not (when the natural translation of the polynomial $xy$ over $\Z_q$ is $e(x,y)$).} 
+
+A recent line of work 
+  \cite{AC:JutRoy13,C:JutRoy14,EC:KilWee15,EC:LPJY14} 
+has succeeded in constructing constant-size  
+  arguments for very specific statements, namely, for membership in subspaces of $\Gr^{m}$, 
+  where $\Gr$ is some group equipped with a bilinear map where the discrete logarithm is hard. 
+The soundness of the schemes is based on standard, falsifiable assumptions 
+  and the proof size is independent of both $m$ and the witness size.  These improvements are in a  \textit{quasi-adaptive} 
+  model (QA-NIZK, \cite{AC:JutRoy13}).  This means that the common reference string of these proof systems is 
+  specialized to the linear space where one wants to prove membership.
+  
+Interestingly, Jutla and Roy  \cite{C:JutRoy14} also showed that their techniques to construct 
+  constant-size NIZK in linear spaces can be used to aggregate the GS proofs of $m$ equations in $n$ variables, that is, the proof --without considering the $n$ commitments to variables-- is of size $\Theta(1)$. However, aggregation is only possible if the equations are linear and the equation type is more limited when working with more efficient \emph{asymmetric} bilinear groups. 
+
+The main objective of this thesis is to explore more efficient proofs for linear and other equations with special focus on asymmetric groups.
+We put emphasis on constructing \emph{aggregated proofs}, that is, a single proof for many statements whose size is independent from the number of staments.
+Specifically we consider:
+\begin{itemize}
+\item Linear and quadratic equations over $\Z_q$, where the variables are restricted to be integers modulo $q$.
+\item Linear equations over $\GG_1$ and/or $\GG_2$ with the additional restriction that the constants are fixed -- one proof system for each set of equations -- and that they 
+can be sampled together with their discrete logarithms.
+\item Set membership proofs, where one shows that a variable is an element from some set $S$. This is a natural generalization of \emph{high-degree equations} of the form $p(x)=0$, where $p$ is a polynomial, that also allows the ``roots'' to be group elements.
+\end{itemize}
+The second objective is to use these more efficient proofs to develop new and more efficient cryptographic protocols.

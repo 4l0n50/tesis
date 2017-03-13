@@ -1,4 +1,4 @@
-Our scheme follows the ring signature of Chandran et al.~Given a {Boneh-Boyen signature scheme} (Section \ref{sec:bbs}), where the secret/verification keys are of the form $(sk,[vk])$ and $sk=vk\in\Z_q$, and given a {one-time signature scheme} (Section \ref{sec:ots}), the signature of the message $m$ for a ring $R=\{[vk_1],\ldots,[vk_n]\}$ is computed as follows:
+Our scheme follows the ring signature of Chandran et al. Given a {Boneh-Boyen signature scheme} (Section \ref{sec:bbs}), where the secret/verification keys are of the form $(sk,[vk])$ and $sk=vk\in\Z_q$, and given a {one-time signature scheme} (Section \ref{sec:ots}), the signature of the message $m$ for a ring $R=\{[vk_1],\ldots,[vk_n]\}$ is computed as follows:\footnote{We could replace the Boneh-Boyen signature scheme with any structure preserving signature scheme secure under milder assumptions (e.g.~\cite{EPRINT:JutRoy17}). We rather keep it simple and stick to Boneh-Boyen signature which, since the verification key is just one group element, simplifies the notation and reduces the size of the final signature.}
 \begin{itemize}
 \item[a)] pick a one-time signature key $(sk_\mathsf{ot},vk_\mathsf{ot})$, sign $m$ with the one-time signature, and sign the one-time verification key with $sk$,
 \item[b)] commit to the signature of the one-time verification key and to $[vk]$ and show that it is a valid signature key using GS proofs,
@@ -22,12 +22,12 @@ Now that the prover has commited to elements $[\vecb{x}]=\sum_{i\in[m]}[\vecb{a}
 \sum_{i\in[m]}[\vecb{z}_i][\kappa_i]=[\vecb{y}][1]. \label{eq:verif1}
 \end{equation}
 
-Provided that $\vecb{z}_1,\ldots,\vecb{z}_m$ is a permutation of $\vecb{a}_{(1,j_\alpha,k_\alpha)},\ldots,\vecb{a}_{(1,j_\alpha,k_\alpha)}$,
-we can show that if $[\kappa_1],\ldots,[\kappa_m]$ is not a permutation of $[vk_{(1,j_\alpha,k_\alpha)}],\allowbreak\ldots,\allowbreak[vk_{(m,j_\alpha,k_\alpha)}]$, then we can extract an element from the kernel of the matrix $([\vecb{a}_{1,j_\alpha,k_\alpha}]\cdots\allowbreak [\vecb{a}_{m,j_\alpha,k_\alpha}])$. Thereby, provided that the corresponding kernel assumption is hard, the prover can simply select the $i_\alpha$ th element from $[\kappa_1],\ldots,\allowbreak [\kappa_m]$ which is guaranteed to be an element from the ring.
+Provided that $\vecb{z}_1,\ldots,\vecb{z}_m$ is a permutation of $\vecb{a}_{(1,j_\alpha,k_\alpha)},\ldots,\vecb{a}_{(m,j_\alpha,k_\alpha)}$,
+we can show that if $[\kappa_1],\ldots,[\kappa_m]$ is not a permutation of $[vk_{(1,j_\alpha,k_\alpha)}],\allowbreak\ldots,\allowbreak[vk_{(m,j_\alpha,k_\alpha)}]$, then we can extract an element from the kernel of the matrix $([\vecb{a}_{1,j_\alpha,k_\alpha}]\cdots\allowbreak [\vecb{a}_{m,j_\alpha,k_\alpha}])$. Thereby, provided the corresponding kernel assumption holds, the prover can simply select the $i_\alpha$ th element from $[\kappa_1],\ldots,\allowbreak [\kappa_m]$ which is guaranteed to be an element from the ring.
 
-Therefore, it is only left the to show that $\vecb{z}_1,\ldots,\vecb{z}_m$ is a permutation of $\vecb{a}_{(1,j_\alpha,k_\alpha)},\ldots,\vecb{a}_{(1,j_\alpha,k_\alpha)}$. To do so we will use the following assumption introduced by Groth and Lu \cite{AC:GroLu07}.
+Therefore, it is only left the to show that $\vecb{z}_1,\ldots,\vecb{z}_m$ is a permutation of $\vecb{a}_{(1,j_\alpha,k_\alpha)},\ldots,\vecb{a}_{(m,j_\alpha,k_\alpha)}$. To do so we will use the following assumption introduced by Groth and Lu \cite{AC:GroLu07}.
 \begin{definition}[Permutation Pairing Assumption]
-Let $\mathcal{Q}_{m}=\underbrace{\mathcal{Q}||\ldots||\mathcal{Q}}_{m\text{ times}}$, where concatenation of matrix distributions is defined in the natural way and 
+Let $\mathcal{Q}_{m}=\underbrace{\mathcal{Q}\cat\ldots\cat\mathcal{Q}}_{m\text{ times}}$, where concatenation of matrix distributions is defined in the natural way and 
 $$\mathcal{Q}: \vecb{a}=\pmatri{x\\x^2},\quad x\gets\Z_q.$$
 We say that the $m$-permutation pairing assumption holds relative to $\G_s$ if for any adversary $\advA$
 $$

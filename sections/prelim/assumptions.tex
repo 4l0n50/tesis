@@ -1,8 +1,8 @@
-In this section we review \emph{Matrix Diffie-Hellman Assumptions} (MDDH) of Escala et al. \cite{C:EHKRV13} which are abstractions and generalizations of the $\lin{k}$ family of assumptions. Then, we review \emph{Kernel Matrix Diffie-Hellman Assumptions} (KMDH) of Morillo et al. \cite{EPRINT:MorRafVil15}, which are the natural computational counterpart of Matrix Diffie-Hellman assumptions.
+In this section we review \emph{Matrix Diffie-Hellman assumptions} (MDDH) of Escala et al. \cite{C:EHKRV13} which are abstractions and generalizations of the $\lin{k}$ family of assumptions. Then, we review \emph{Kernel Matrix Diffie-Hellman assumptions} (KMDH) of Morillo et al. \cite{EPRINT:MorRafVil15}, which are the natural computational counterpart of Matrix Diffie-Hellman assumptions.
 
 We also put forward a new Kernel assumption which is specific to asymmetric groups, and we prove its security in the \emph{generic group model}.
 
-\subsection{Decisional Matrix Diffie-Hellman Assumptions}
+\subsection{decisional Matrix Diffie-Hellman Assumptions}
 \begin{definition}   \label{def:matrixdef}
 Let $\ell,k \in \N$.
 We call $\dist_{\ell,k}$ a matrix distribution if it outputs (in poly time, with overwhelming probability) matrices in $\Z_q^{\ell \times k}$. We define $\dist_k := \dist_{k+1,k}$ and $\overline{\dist}_{k}$ the distribution of the first $k$ rows of $\matr{A}$ when $\matr{A}\gets\dist_{k}$. 
@@ -13,7 +13,7 @@ $\ell \geq k$.
 
 \begin{definition}[MDDH Assumption in $\GG_{\gamma}$, $\gamma \in \{1,2\}$ \cite{C:EHKRV13}]\label{def:mdh}
 Let $\dist_{\ell,k}$ be a matrix distribution  and $\gk\gets \ggen_a(1^\lambda)$. We say that the $\dist_{\ell,k}$-Matrix Diffie-Hellman ($\dist_{\ell,k}$-$\mddh_{\GG_\gamma}$)
-Assumption holds relative to $\ggen_a$ if for all PPT adversaries $\advD$,
+assumption holds relative to $\ggen_a$ if for all PPT adversaries $\advD$,
 \begin{eqnarray*}
 \adv_{\dist_{\ell,k},\ggen_a}(\advD) & := &
     \left|
@@ -34,17 +34,21 @@ In this work we will refer to the following matrix distributions:
     0 & 0 &  \ldots  & a_{k}\\
     1 & 1 & \ldots & 1
 \end{smallmatrix} \right),
-\ 
+\
+\distlin_{\ell,k}:\matr{A} = \left( \begin{matrix}
+    \matr{B}\\\matr{C}
+\end{matrix} \right),
+\
 \mathcal{U}_{\ell,k}: \matrA = \left( \begin{smallmatrix}
     a_{1,1} &  \ldots & a_{1,k}  \\
     \tiny{\vdots} & \tiny{\ddots}  & \tiny{\vdots} \\
     a_{\ell,1} &  \ldots &  a_{\ell,k} 
 \end{smallmatrix} \right),
 \]
-where $a_i,a_{i,j}\leftarrow \Z_q$.  The $\distlin_{k}$-$\mddh$ assumption is the $k$-linear family of Decisional Assumptions
+where $\matr{B}\gets\overline{\distlin}_k$, $\matr{C}\gets\Z_q^{\ell-k,k}$, and $a_i,a_{i,j}\leftarrow \Z_q$.  The $\distlin_{k}$-$\mddh$ assumption is the $k$-linear family of decisional assumptions
 and corresponds to 
- the Decisional Diffie-Hellman (DDH)
-Assumption in $\GG_\gamma$ when $k=1$. The SXDH Assumption states that DDH holds in $\GG_\gamma$ for all $\gamma \in \{1,2\}$. The $\mathcal{U}_{\ell,k}$ assumption is the \textit{uniform} assumption and is the weakest of all assumptions of size $\ell \times k$. 
+ the decisional Diffie-Hellman (DDH)
+assumption in $\GG_\gamma$ when $k=1$. The SXDH assumption states that DDH holds in $\GG_\gamma$ for all $\gamma \in \{1,2\}$. The $\mathcal{U}_{\ell,k}$ assumption is the \textit{uniform} assumption and is the weakest of all assumptions of size $\ell \times k$. 
 
 Further, given any matrix distribution $\dist_{k}$, $m \in \mathbb{N}$ and any $i \in [m]$, we introduce the distribution $\distink$, which is defined as follows: 
 \[ \distzeronk: \matrA = \left(\begin{smallmatrix} \matr{B}\vecb{w}_1 & \ldots &  
@@ -65,10 +69,10 @@ Additionally, we will be using the following family  computational assumptions:
 \gets
 \hspace*{-1pt}
 \ggen_a(1^\lambda)$.
-The Kernel Diffie-Hellman Assumption in $\GG_\gamma$  ($\dist_{\ell,k}\mbox{-}\kermdh_{\GG_\gamma}$) says that every PPT Algorithm has negligible advantage in the following  game: given $[\matr{A}]_\gamma$, where $\matrA \gets \dist_{\ell,k}$, find $[\vecb{x}]_{3-\gamma} \in \GG_{3-\gamma}^{\ell}$, $\vecb{x} \neq \vecb{0}$, such that 
+The Kernel Diffie-Hellman assumption in $\GG_\gamma$  ($\dist_{\ell,k}\mbox{-}\kermdh_{\GG_\gamma}$) says that every PPT Algorithm has negligible advantage in the following  game: given $[\matr{A}]_\gamma$, where $\matrA \gets \dist_{\ell,k}$, find $[\vecb{x}]_{3-\gamma} \in \GG_{3-\gamma}^{\ell}$, $\vecb{x} \neq \vecb{0}$, such that 
 $[\vecb{x}]_{3-\gamma}^{\top}[\matr{A}]_{\gamma}=[\vecb{0}]_T$. 
 \end{definition}
-The  Simultaneous Pairing Assumption in $\GG_\gamma$  (\SP$_{\GG_{\gamma}}$) is the $ \mathcal{U}_1\mbox{-}\kermdh_{\GG_{\gamma}}$ assumption. The Kernel Diffie-Hellman assumption is a generalization and abstraction of this assumption to other matrix distributions. 
+The  Simultaneous Pairing assumption in $\GG_\gamma$  (\SP$_{\GG_{\gamma}}$) is the $ \mathcal{U}_1\mbox{-}\kermdh_{\GG_{\gamma}}$ assumption. The Kernel Diffie-Hellman assumption is a generalization and abstraction of this assumption to other matrix distributions. 
 The $\dist_{\ell,k}\mbox{-}\kermdh_{\GG_{\gamma}}$ assumption is weaker than the $\dist_{\ell,k}\mbox{-}\mddh_{\GG_{\gamma}}$ assumption, since a solution to the former allows to decide membership in $\rmIm([\matr{A}]_{\gamma})$.
 
 \subsection{A new Computational Matrix Diffie-Hellman Assumption in Type III Groups}
@@ -78,15 +82,15 @@ In asymmetric bilinear groups, we introduce a natural variant of the $\dist_{\el
 Let  $\gk \hspace*{-3pt} \gets
 \hspace*{-3pt}
 \ggen_a(1^\lambda)$.
-The Split Kernel Diffie-Hellman Assumption in $\GG_1,\GG_2$  ($\dist_{\ell,k}\mbox{-}\skermdh$) says that every PPT Algorithm has negligible advantage in the following  game: given $([\matr{A}]_1,[\matr{A}]_2)$, $\matr{A} \leftarrow \dist_{\ell,k}$, find a pair of vectors $([\vecb{r}]_1,[\vecb{s}]_2) \in \GG_1^{\ell} \times \GG_2^{\ell}$, $\vecb{r} \neq \vecb{s}$, such that 
+The Split Kernel Diffie-Hellman assumption in $\GG_1,\GG_2$  ($\dist_{\ell,k}\mbox{-}\skermdh$) says that every PPT Algorithm has negligible advantage in the following  game: given $([\matr{A}]_1,[\matr{A}]_2)$, $\matr{A} \leftarrow \dist_{\ell,k}$, find a pair of vectors $([\vecb{r}]_1,[\vecb{s}]_2) \in \GG_1^{\ell} \times \GG_2^{\ell}$, $\vecb{r} \neq \vecb{s}$, such that 
 $[\vecb{r}]_1^{\top}[\matr{A}]_2=[\vecb{s}]_2^{\top}[\matr{A}]_1$. 
 \end{definition}
 
-While the Kernel Diffie-Hellman Assumption says one cannot find a non-zero vector in one of the groups which is in the co-kernel of $\matr{A}$, the split assumption says one cannot find a pair of vectors in $\GG_1^{\ell} \times \GG_2^{\ell}$ such that the difference of the vector of their discrete logarithms is in the co-kernel of $\matr{A}$. 
-As a particular case we consider the \emph{Split Simultaneous Double Pairing Assumption in} $\GG_1,\GG_2$ ($\SSDP$) which is the $\distrlin_{2}\mbox{-}\skermdh$ assumption, where 
+While the Kernel Diffie-Hellman assumption says one cannot find a non-zero vector in one of the groups which is in the co-kernel of $\matr{A}$, the split assumption says one cannot find a pair of vectors in $\GG_1^{\ell} \times \GG_2^{\ell}$ such that the difference of the vector of their discrete logarithms is in the co-kernel of $\matr{A}$. 
+As a particular case we consider the \emph{Split Simultaneous Double Pairing assumption in} $\GG_1,\GG_2$ ($\SSDP$) which is the $\distrlin_{2}\mbox{-}\skermdh$ assumption, where 
 $\distrlin_{2}$ is the distribution which results of sampling a matrix from $\distlin_{2}$ and replacing the last row by random elements. 
 
-To gain confidence in this assumption, we first note that it implies the Kernel MDH Assumption and then we prove that the reciprocal is true in the generic bilinear model. 
+To gain confidence in this assumption, we first note that it implies the Kernel MDH assumption and then we prove that the reciprocal is true in the generic bilinear model. 
 
 \begin{lemma} $\dist_{\ell,k}\mbox{-}\skermdh \Rightarrow \dist_{\ell,k}\mbox{-}\kermdh_{\Hr}$.
 \end{lemma}

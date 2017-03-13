@@ -7,10 +7,10 @@ $$
 \algK(\gk,[\matr{G}]_1,n)\quad (\mathsf{S}_1(\gk,[\matr{G}]_1,n))\\
 \hline
 {[\overline{\matr{G}}]_1 \gets \MP.\algK(gk,mn,\distlin_1^{mn,0})}\\
-\crs_\sfcom\gets\Pi_\sfcom.\algK(\gk,[\vecb{G}^n_1||\vecb{g}_{n+1}^n]_1,[\ovG]_1, mn)\\
+\crs_\sfcom\gets\Pi_\sfcom.\algK(\gk,[\pdsum{\matr{G}_1}{n}\cat\pdsum{\vecb{g}_{n+1}}{n}]_1,[\ovG]_1, mn)\\
 \crs_\sfbits\gets\Pi_\sfbits.\algK(\gk,[\overline{\matr{G}}]_1)\\
 \text{Return } \ \mathsf{crs}:=(\crs_\sfcom,\crs_\sfbits).\\
-(\tau_\sfcom\gets\Pi_\sfcom.\mathsf{S}_1(\gk,[\matr{G}^n]_1,[\ovG]_1,mn)\\
+(\tau_\sfcom\gets\Pi_\sfcom.\mathsf{S}_1(\gk,[\pdsum{\matr{G}}{n}]_1,[\ovG]_1,mn)\\
 \tau_\sfbits\gets\Pi_\sfbits.\mathsf{S}_1(\gk,[\overline{\matr{G}}]_1).\\
 \tau := (\vecb{a},\tau_\sflin,\tau_\sfbits)).\\
 \\
@@ -45,7 +45,7 @@ $$
 \end{array}
 \end{array}$$
 \end{\algSize}
-\caption{The proof system for the language $\Lang_{[\matr{G}]_1,\sfbits}^n$. $\Pi_\sfbits$ is the proof system from Section~\ref{sec:bits-scheme}. The matrix $\matr{G}$ is parsed as $\vecb{G}=(\vecb{G}_1||\vecb{g}_{n+1})$, and $\vecb{c}:=\vecb{c}_1\oplus\ldots\oplus\vecb{c}_n$ and $\vecb{b}:=\vecb{b}_1\oplus\ldots\oplus\vecb{b}$.
+\caption{The proof system for the language $\Lang_{[\matr{G}]_1,\sfbits}^n$. $\Pi_\sfbits$ is the proof system from Section~\ref{sec:bits-scheme}. The matrix $\matr{G}$ is parsed as $\vecb{G}=(\vecb{G}_1\cat\vecb{g}_{n+1})$, and $\vecb{c}:=\vecb{c}_1\dsum\ldots\dsum\vecb{c}_n$ and $\vecb{b}:=\vecb{b}_1\dsum\ldots\dsum\vecb{b}$. The size of $[\bar{\vecb{c}}_1]$ is $2$ elements of $\GG_1$, the size of $\pi_\sfcom$ is 1 element of $\GG_1$, and $\pi_\sfbits$ requires $10$ elements of $\GG_1$ and 10 elements of $\GG_2$, respectively. The total proof size is $13$ elements of $\GG_1$ and $10$ elements of $\GG_2$.
 \label{fig:bitsn}
 }
 \end{figure}

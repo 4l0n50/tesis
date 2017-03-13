@@ -1,6 +1,6 @@
 We would like to prove that some tuple
 $([\vecb{c}_1]_1,\ldots, [\vecb{c}_n]_1) \in \Lang_{ck,\sfbits}^n$, where $[\vecb{c}_j]_1=\MP.\Com_{ck}(\vecb{b}_j;\vecb{r}_j)$, $j \in [n]$, $ck:=[\matr{G}]_1$, and $\matr{G} \gets \distink$, for some $0 \leq i \leq n$. 
-Denote $\vecb{c}=\vecb{c}_1 \oplus \ldots \oplus \vecb{c}_n$, $\vecb{b}=\vecb{b}_1 \oplus \ldots \oplus \vecb{b}_n$ and $\vecb{r}=\vecb{r}_1 \oplus \ldots \oplus \vecb{r}_n$ (concatenation of column vectors as defined in Section~\ref{sec:notation}). The proof system works as follows:
+Denote $\vecb{c}=\vecb{c}_1 \dsum \ldots \dsum \vecb{c}_n$, $\vecb{b}=\vecb{b}_1 \dsum \ldots \dsum \vecb{b}_n$ and $\vecb{r}=\vecb{r}_1 \dsum \ldots \dsum \vecb{r}_n$ (concatenation of column vectors as defined in Section~\ref{sec:notation}). The proof system works as follows:
 \begin{enumerate}
 \item It defines  
  $\overline{ck}:=[\overline{\matr{G}}]_1\gets\MP.\algK(gk,mn,\Lang_{1}^{mn,0})$ for computing multi-Pedersen commitments to vectors of size $mn$
@@ -11,7 +11,7 @@ randomness $\vecb{s}$, and proves that $[\ovecb{c}]_1\in\Lang_{\overline{ck},\sf
 \end{enumerate}
 First, note that in step 3, we can use the proof system $\Pi_\sfcom$, as both $[\vecb{c}]_1$ and $[\ovecb{c}]_1$ are commitments of the required form, as if $\matr{G}_2$ denotes the last $k$ columns 
 of $\matr{G}$ and $\matr{G}_1$ the rest,
-$\vecb{c}=\matr{G}_1^n\vecb{b}+\matr{G}_2^n\vecb{r}.
+$\vecb{c}=\pdsum{\matr{G}_1}{n}\vecb{b}+\pdsum{\matr{G}_2}{n}\vecb{r}.
 $
 We give some intuition on why is the above scheme sound. For the case $\matr{G} \gets \distzeronk$ it suffices to note that the proof that  $[\vecb{c}]_1$ and $[\ovecb{c}]_1$ share an opening implies in particular that they are both valid commitments. But if 
 $[\ovecb{c}]_1$ is a valid commitment then $([\vecb{c}_1]_1,\ldots, [\vecb{c}_n]_1) \in \Lang_{ck,\sfbits}^n$ because for this distribution the commitments are perfectly hiding. 

@@ -46,7 +46,7 @@ $
 In order to get a uniform definition for different types of forgery, we will say that a pair
 $(\vecb{m}^*,\grkb{\sigma}^*)$ is a forgery if $P(\vecb{m}^*, Q)=1$, where
 $P$ is a predicate on $(\vecb{m}^*, Q)$ and $Q$ is the set of reveal queries
-made by the adversary. We stress that the predicate $P$ is not always efficiently computable. For instance, for the scheme of Libert \textit{et al.} (\cite{C:LPJY13}), this predicate is $1$ iff $\vecb{m}^*$ is in the linear span of 
+made by the adversary. We stress that the predicate $P$ is not always efficiently computable. For instance, for the scheme of Libert \textit{et al.} (\cite{C:LPJY13}), this predicate is $1$ iff $\vecb{m}^*$ is outside the linear span of 
 previous queries, and this is, in general, hard to decide in the group $G$ (although it might be easy for some set $Q$).  
 
 \begin{definition} A SPLHS scheme $\SPLHSinst = (\SG, \SN, \SV, \SD)$ is secure against type P adversaries if no PPT
@@ -93,9 +93,9 @@ The one-time linearly homomorphic signature of Libert, Peters and Yung \cite{EC:
 
 In particular, for subspace concatenation, ``one-time" means that the adversary is unable to sign vectors which are not in the span of previously signed vectors, namely,
 the adversary cannot output a signature for a pair
-$([\vecb{x}]_1^*,[\vecb{y}]_2^*) \in \Gr^{m} \times \Hr^{n}$ if $((\vecb{x}^*)^{\top}||(\vecb{y}^*)^{\top})$ is
+$([\vecb{x}]_1^*,[\vecb{y}]_2^*) \in \Gr^{m} \times \Hr^{n}$ if $((\vecb{x}^*)^{\top}\cat(\vecb{y}^*)^{\top})$ is
 linearly independent from the 
-vectors $(\vecb{x}_i^{\top}||\vecb{y}_i^{\top})$, $i \in [q_s]$, (the concatenation of two vectors), where $([\vecb{x}_i]_1,[\vecb{y}_i]_2)$ are the signing queries of the adversary. The discussion for the scheme which results from our 
+vectors $(\vecb{x}_i^{\top}\cat\vecb{y}_i^{\top})$, $i \in [q_s]$, (the concatenation of two vectors), where $([\vecb{x}_i]_1,[\vecb{y}_i]_2)$ are the signing queries of the adversary. The discussion for the scheme which results from our 
 Sum-in-Subspace QA-NIZK proof, results in a different notion of ``one-time" --- this is captured in the security definition by a different predicate $P$ ---, see discussion below. 
 
 In either case, the size of the resulting signatures is $(k+1)\s$ under the $\skermdh$ assumption, but if security against random message attacks is sufficient (meaning that the signatures in the set $Q$ which are seen by the adversary are sampled uniformly at random), the signature size can be reduced to $k\s$ (essentially, in this case one can sample $\matrA$ from $\overline{\dist}_k$). This is inspired by the one-time constructions of structure-preserving signatures of Kiltz et al.~secure against random message attacks\cite{C:KilPanWee15}. 
@@ -133,7 +133,7 @@ $$ [\grkb{\rho}^{\top}]_1 [\vecb{A}]_2+ [\grkb{\sigma}^{\top}]_2 [\vecb{A}]_1= [
 $$[\grkb{\rho}^{\top}]_1 [\matr{A}]_2-[\vecb{x}^{\top}]_1 [\matr{A}_{\Lambda}]_2= [\vecb{z}^{\top}]_1 [\matr{A}]_2 \qquad \qquad  [\grkb{\sigma}^{\top}]_2[\matr{A}]_1 -[\vecb{y}^{\top}]_2  [\matr{A}_{\Xi}]_1= -[\vecb{z}^{\top}]_2 [\matr{A}]_1.$$
 Therefore the verification algorithm outputs $1$ on a correctly generated signature. The proof of correctness  of the signature derivation algorithm follows a similar argument.  
 
-Let $Q=\{ ([\vecb{x}_i]_1,[\vecb{y}_i]_2) \}_{i \in [q_s]}$ be some set of elements of $\Gr^{m} \times \Hr^n$. We define the predicate $P$ as $P(([\vecb{x}]_1,[\vecb{y}]_2),Q)=1$ iff $(\vecb{x}^{\top}||\vecb{y}^{\top}) \in \Z_q^{2m}$ is not in the space spanned by $\{(\vecb{x}_i^{\top}||\vecb{y}_i^{\top}) :i \in [q_s]\}$. 
+Let $Q=\{ ([\vecb{x}_i]_1,[\vecb{y}_i]_2) \}_{i \in [q_s]}$ be some set of elements of $\Gr^{m} \times \Hr^n$. We define the predicate $P$ as $P(([\vecb{x}]_1,[\vecb{y}]_2),Q)=1$ iff $(\vecb{x}^{\top}\cat\vecb{y}^{\top}) \in \Z_q^{2m}$ is not in the space spanned by $\{(\vecb{x}_i^{\top}\cat\vecb{y}_i^{\top}) :i \in [q_s]\}$. 
 
 \begin{theorem} The signature scheme is type P unforgeable if the $\skermdh$ assumption holds in $\Gr,\Hr$.
 \end{theorem}

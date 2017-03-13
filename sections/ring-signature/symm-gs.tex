@@ -2,7 +2,7 @@ In our ring signature we use as primitive Groth-Sahai proofs, which we have only
 $$
 \GS.\Com_{ck}([x];\vecb{r})=\pmatri{{[0]}\\{[0]}\\{[x]}}+r_1[\vecb{u}_1]+{r}_2[\vecb{u}_2]+r_3[\vecb{u}_3]
 $$
-where $ck:=([\vecb{u}_1]||[\vecb{u}_2][\vecb{u}_3])$, $(\vecb{u}_2||\vecb{u}_3)\gets\distlin_2$ and $\vecb{u}_1:=w_1\vecb{u}_2+w_2\vecb{u}_3$ in the perfectly binding setting, and $\vecb{u}_1:=w_1\vecb{u}_2+w_2\vecb{u}_3-\vecb{e}_3$ in the perfectly hiding setting, for $w_1,w_2\gets\Z_q$. Security of GS commitments follows from the hardness of the $\lin{2}$ assumption in symmetric groups.
+where $ck:=([\vecb{u}_1]\cat[\vecb{u}_2][\vecb{u}_3])$, $(\vecb{u}_2\cat\vecb{u}_3)\gets\distlin_2$ and $\vecb{u}_1:=w_1\vecb{u}_2+w_2\vecb{u}_3$ in the perfectly binding setting, and $\vecb{u}_1:=w_1\vecb{u}_2+w_2\vecb{u}_3-\vecb{e}_3$ in the perfectly hiding setting, for $w_1,w_2\gets\Z_q$. Security of GS commitments follows from the hardness of the $\lin{2}$ assumption in symmetric groups.
 
 As consequence of the enlargement of commitments, proofs are also larger (for example, 9 group elements for pairing product equations). The form of the proofs is similar  to the asymmetric case (see Section \ref{sec:gs-proofs-scheme}), but we do not give the full detail since it does not help for understanding our ring signature nor for proving its security. 
 

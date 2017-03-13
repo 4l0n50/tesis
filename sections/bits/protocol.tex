@@ -12,7 +12,7 @@
 Let $\lrck_{n+1}\gets \Z_q^2$
 and for all $i \in [n]$, $\lrck_{i}:=\epsilon_{i}\lrck_{n+1}$, where
 $\epsilon_{i} \leftarrow \Z_q$. Define
-$\Rck := ([\vecb{h}_1]_2|| \ldots ||[\vecb{h}_{n+1}]_2)$.
+$\Rck := ([\vecb{h}_1]_2\cat \ldots \cat[\vecb{h}_{n+1}]_2)$.
 Choose 
 $\matr{\Delta} \leftarrow \Z_q^{2 \times (n+1)}$,
 define $\Lck := \matr{\Delta}[\matr{U}]_1$
@@ -31,8 +31,7 @@ Let ${\Psi_\sfsum}$ be the proof system for sum in subspace
 be an instance of the proof system for equal opening (Section~\ref{sec:aggcommit}).
 
 Let
-$\crs_{\Psi_\sfsum} \gets \algK_1({gk}, \{[\matr{C}_{i,j}]_1,[\matr{D}_{i,j}]_2:(i,j)\in\indexSet{n}{1}\})$ and \footnote{We identify
-matrices in $\Gr^{2 \times 2}$ (resp. in $\Hr^{2 \times 2}$) with vectors in $\Gr^{4}$ (resp. in $\Hr^{4}$).}  
+$\crs_{\Psi_\sfsum} \gets \algK_1({gk}, \{[\matr{C}_{i,j}]_1,[\matr{D}_{i,j}]_2:(i,j)\in\indexSet{n}{1}\})$ and   
  $\crs_{\Psi_\sfcom} \gets \algK_1({gk}, \Lck,\Rck,n)$. The common reference string is given by:
 \begin{eqnarray*}
 \mathsf{crs}_P&:=&\left( [\matr{U}]_1,  \Lck,

@@ -1,4 +1,4 @@
-As announced in the previous section, our construction proves two different statements. For the second statement, conditions 2.a), 3.b) are written as a single system of equations with a single matrix $\matr{\Xi}$ and use $\Pi_\sflin$ to prove that certain vector of $\GG_1$ is in the span of $\matr{\Xi}$.
+As announced in the previous section, our construction proves two different statements. For the second statement, conditions 2.a), 2.b) are written as a single system of equations with a single matrix $\matr{\Xi}$ and use $\Pi_\sflin$ to prove that certain vector of $\GG_1$ is in the span of $\matr{\Xi}$.
 
 This matrix is defined as:
 $$\matr{\Xi}(\matr{M},\matr{N},\matr{\Lambda},\matr{G}):=
@@ -7,20 +7,21 @@ $$\matr{\Xi}(\matr{M},\matr{N},\matr{\Lambda},\matr{G}):=
 \vdots                    & \ddots & \vdots                    & \vdots   \\
 \matr{0}                  & \cdots & \matr{\Sigma}             & \matr{0} \\
 \hline
-\overline{\vecb{g}}_1^\lb & \cdots & \overline{\vecb{g}}_n^\lb & \vecb{g}_{n+1}^\lb
+\matr{G}_1 & \cdots & \matr{G}_n & \matr{G}_{n+1}
 \end{array}\right),
 $$ where $\matr{\Sigma}:=\begin{pmatrix}
     \matr{M}       & \matr{N}\\
     \matr{\Lambda} & \matr{0}
-\end{pmatrix}$ and
- $\overline{\vecb{g}}_i^\lb:=\vecb{g}_i^\lb||\vecb{0}$, $i\in[n]$. 
+\end{pmatrix}$,
+ $\matr{G}_i=\pdsum{\vecb{g}_i}{\lb}\cat\vecb{0}$, $i\in[n]$, $\matr{G}_{n+1}:=\pdsum{\vecb{g}_{n+1}}{\lb}$, and $\vecb{g}_i$ is the $i$ th column of $\matr{G}$. 
  
-Define $\vecb{y}:=\vecb{c}_1\oplus \grkb{\alpha}
-\oplus \ldots \oplus \vecb{c}_n\oplus \grkb{\alpha} 
-\oplus \vecb{d}_1 \oplus  \ldots \oplus  \vecb{d}_m$
+Define $\vecb{y}:=\vecb{c}_1\dsum \grkb{\alpha}
+\dsum \ldots \dsum \vecb{c}_n\dsum \grkb{\alpha} 
+\dsum \vecb{d}_1 \dsum  \ldots \dsum  \vecb{d}_m$
 and 
- $\vecb{v}:=\vecb{b}_1\oplus \vecb{w}_1 \oplus \ldots \oplus \vecb{b}_n\oplus \vecb{w}_n \oplus r_1 \oplus \ldots \oplus r_n.$ The statement we want to prove is that $[\vecb{y}]_1 \in \mathbf{Im}([\matr{\Xi}]_1)$, and the witness is $\vecb{v}$. The upper left block of the matrix guarantees condition 2.a), while the two lower blocks guarantee 
+ $\vecb{v}:=\vecb{b}_1\dsum \vecb{w}_1 \dsum \ldots \dsum \vecb{b}_n\dsum \vecb{w}_n \dsum r_1 \dsum \ldots \dsum r_n.$ The statement we want to prove is that $[\vecb{y}]_1 \in \mathbf{Im}([\matr{\Xi}]_1)$, and the witness is $\vecb{v}$. The upper left block of the matrix guarantees condition 2.a), while the two lower blocks guarantee 
 condition 2.b).
+Note that $\matr{\Xi}$ has $n(\la+\ld)+2\lb$ rows and $n(\lb+\lc)+m$, the vector $\vecb{v}$ is of size $n(\la+\ld)+2\lb$, and that $\vecb{v}$ is of size $n(\lb+\lc)+m$.
 
 The full description of the proof system is in Fig. \ref{fig:bin-leng-nizk} and security follows from Theorem \ref{theo:aggset}.
 \input{sections/set-membership/set-membership-protocol}
@@ -47,11 +48,11 @@ $$
     \matr{w}_j
 }.
 $$
-Given that $[\matr{d}_i]_1 = \MP.\Com_{[\matr{G}]_1}(\vecb{b}_i^*;r_i)=\sum_{j\in[n]}b_{i,j}[\vecb{g}_i]_1+r_i[\vecb{g}_{n+1}]_1$,
+Given that $[\matr{d}_i]_1 = \MP.\Com_{[\matr{G}]_1}(\vecb{b}_i^*;r_i)=\sum_{j\in[n]}b_{i,j}[\vecb{g}_j]_1+r_i[\vecb{g}_{n+1}]_1$,
 \begin{eqnarray*}
- \vecb{d}_1\oplus\ldots\oplus\vecb{d}_\lb
-          &=&  {\sum_{j\in[n]}\sdmatrix{\vecb{g}_i}\smallpmatrix{b_{1,j}\\\vdots\\b_{\lb,j}}+\sdmatrix{\vecb{g}_{n+1}}\smallpmatrix{r_1\\\vdots\\r_\lb}}\\
-         &= & (\overline{\vecb{g}}_1^\lb||\cdots||\overline{\vecb{g}}_{n}^\lb||\vecb{g}_{n+1}^\lb)(\vecb{b}_1\oplus\vecb{w}_1\oplus\ldots\oplus\vecb{b}_n\oplus\vecb{w}_n\oplus\vecb{r}).
+ \vecb{d}_1\dsum\ldots\dsum\vecb{d}_\lb
+          &=&  {\sum_{j\in[n]}\sdmatrix{\vecb{g}_j}\smallpmatrix{b_{1,j}\\\vdots\\b_{\lb,j}}+\sdmatrix{\vecb{g}_{n+1}}\smallpmatrix{r_1\\\vdots\\r_\lb}}\\
+         &= & (\matr{G}_1\cat\cdots\cat\matr{G}_{n}\cat\matr{G}_{n+1})(\vecb{b}_1\dsum\vecb{w}_1\dsum\ldots\dsum\vecb{b}_n\dsum\vecb{w}_n\dsum\vecb{r}).
 \end{eqnarray*}
 Combining these two facts we conclude that
 $[\vecb{y}]_1 = [\matr{\Xi}]_1 \vecb{v}$, which implies that $\mathsf{ans}_1=1$. On the other hand, $\vecb{b}_1^*,\ldots,\vecb{b}_\lb^*\in\bits^n$ implies that $\mathsf{ans}_2=1$.
@@ -104,7 +105,7 @@ There exist adversaries $\advB_1,\advB_2$ such that $\Pr[\sfGame_2(\advA)=1]\leq
 \end{lemma}
 
 \begin{proof}
-Let $E$ the event where $\vecb{y}\notin\mathbf{Im}(\matr{\Xi})$, and let $\advB_1$ the adversary against $\Pi_\sflin$ that outputs $[\tvecb{x}]_1\oplus[\vecb{d}]_1$ and $\pi_\sflin$. Obviously, $\Pr[\sfGame_2(\advA)=1]\leq\adv_{\Pi_\sflin}(\advB_1)+\Pr[\sfGame_2(\advA)=1|\neg E]$, because 
+Let $E$ the event where $\vecb{y}\notin\mathbf{Im}(\matr{\Xi})$, and let $\advB_1$ the adversary against $\Pi_\sflin$ that outputs $[\tvecb{x}]_1\dsum[\vecb{d}]_1$ and $\pi_\sflin$. Obviously, $\Pr[\sfGame_2(\advA)=1]\leq\adv_{\Pi_\sflin}(\advB_1)+\Pr[\sfGame_2(\advA)=1|\neg E]$, because 
 if $E$ occurs the adversary breaks the soundness of
  $\Pi_\sflin$. To prove the lemma, there is only left to bound this last probability.
 
@@ -142,7 +143,7 @@ The proof system is perfect quasi-adaptive zero-knowledge.
 Recall that $([\vecb{c}_1]_1,\ldots,[\vecb{c}_n]_1)\in\Lang^n_{[\matr{M}]_1,[\matr{N}]_1,\matr{\Lambda},\grkb{\alpha}}$ implies that
 $
 \tvecb{x}
-=\matr{\Sigma}^n\tvecb{b}
+=\pdsum{\matr{\Sigma}}{n}\tvecb{b}
 $
 and, given that $\distlin_1^{n,0}$ defines perfectly hiding commitments, for all $i\in[\lb]$ there is some $r_i\in\Z_q$ such that
 $[\vecb{d}_i]_1=\MP.\Com(\matr{0}_{n\times1};\tilde{{r}}_i)=\MP.\Com(\vecb{b}_i^*;r_i)$. Then $\vecb{y}\in\mathbf{Im}(\matr{\Xi})$ and thus perfect zero-knowledge of $\Pi_\sflin$ and $\Pi_\sfbits$ implies that $\pi_\sflin$ and $\pi_\sfbits$ are correctly distributed.

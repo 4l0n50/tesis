@@ -1,4 +1,9 @@
 \DeclareUnicodeCharacter{00A0}{~}
+\newcommand{\err}{\mathsf{err}}
+
+\newcommand{\cat}{|}
+\newcommand{\dsum}{/}
+\newcommand{\pdsum}[2]{\mathrm{diag}(#1,#2)}
 
 \newcommand{\sblt}{\stackrel{s}{\bullet}}
 
@@ -436,30 +441,30 @@ s_1 & \ldots & s_n\\
 \newcommand{\minitbl}[2]{\begin{tabular}{l}{#1}\\{#2}\end{tabular}}
 
 \newcommand{\ef}{\iffalse}
-
-\makeatletter
-\newcommand*{\inlineequation}[2][]{%
-  \begingroup
-    % Put \refstepcounter at the beginning, because
-    % package `hyperref' sets the anchor here.
-    \refstepcounter{equation}%
-    \ifx\\#1\\%
-    \else
-      \label{#1}%
-    \fi
-    % prevent line breaks inside equation
-    \relpenalty=10000 %
-    \binoppenalty=10000 %
-    \ensuremath{%
-      % \displaystyle % larger fractions, ...
-      #2%
-    }%
-    ~\@eqnnum
-  \endgroup
-}
-\makeatother
-
-\makeatletter
-\renewcommand*{\@opargbegintheorem}[3]{\trivlist
-  \item[\hskip \labelsep{\bfseries #1\ #2}] \textbf{(#3)}\ \itshape}
-\makeatother
+%
+%\makeatletter
+%\newcommand*{\inlineequation}[2][]{%
+%  \begingroup
+%    % Put \refstepcounter at the beginning, because
+%    % package `hyperref' sets the anchor here.
+%    \refstepcounter{equation}%
+%    \ifx\\#1\\%
+%    \else
+%      \label{#1}%
+%    \fi
+%    % prevent line breaks inside equation
+%    \relpenalty=10000 %
+%    \binoppenalty=10000 %
+%    \ensuremath{%
+%      % \displaystyle % larger fractions, ...
+%      #2%
+%    }%
+%    ~\@eqnnum
+%  \endgroup
+%}
+%\makeatother
+%
+%\makeatletter
+%\renewcommand*{\@opargbegintheorem}[3]{\trivlist
+%  \item[\hskip \labelsep{\bfseries #1\ #2}] \textbf{(#3)}\ \itshape}
+%\makeatother
