@@ -1,0 +1,135 @@
+We give a QA-NIZK argument of membership in the language $\Lang_{[\matr{U}]_1,\sfbits}$, when $\matr{U}$ is sampled from one of the distributions from section \ref{sec:bits-instantiations}, where the proof is of size independent of $n$ (but with a loss factor of $n$ in the proof of soundness). 
+
+
+\subsubsection{Intuition}
+We would like to prove that
+$[\vecb{c}]_1, \in \Lang_{[\matr{U}],\sfbits}$, where $[\vecb{c}]_1=[\matr{U}]_1\vecb{b}+[\matr{U}]_1\vecb{w}$, $\vecb{b} \in \bits^n$ and $\vecb{w}\in\Z_q^\ell$. The proof system works as follows:
+\begin{enumerate}
+\item It defines  
+${ck}:=[\matr{G}]_1\gets\MP.\algK(gk,n,\Lang_{1}^{n,0})$ for computing multi-Pedersen commitments to vectors of size $n$
+
+\item it computes $[\vecb{d}]_1\gets\MP.\Com_{{ck}}(\vecb{b};\overline{w})$ for some 
+randomness $\overline{w}$, and proves that $[\vecb{d}]_1\in\Lang_{{ck},\sfbits}$ with the proof system $\Pi_\sfbits$,
+\item it  proves that there exists an equal opening of $[\vecb{c}]_1$ and $[\vecb{d}]_1$ with  $\Pi_\sfcom$.
+\end{enumerate}
+
+Recall that the commitment key $[\matr{U}]_1$ is 
+perfectly binding. In particular, this implies that, if $\vecb{b}$ is the unique opening, then there exists some $b_{j} \notin \{0,1\}$. Therefore, given some $j^* \gets [n]$, if the adversary breaks soundness, then, with probability at least $1/n$, $b_{j^*} \notin \{0,1\}$. In the soundness proof, we switch to a game where the distribution of ${\matr{G}}$ is changed so that now 
+$\MP.\Com_{{ck}}$ is perfectly binding for $b_{j^*}$. Now it is easy to prove that if $b_{j^*} \notin \{0,1\}$, the soundness of $\Pi_\sfbits$ or of $\Pi_\sfcom$ is broken, because this is incompatible with $[\vecb{c}]_1$ and $[\vecb{d}]_1$ sharing an opening and $[\vecb{d}]_1 \in\Lang_{{ck},\sfbits}$.
+
+
+\subsubsection{Proof of Security}
+
+%   If $\matr{G}\gets\dist_{2,m+1}^0$ the proof that $[\vecb{c}]_1$ and $[\ovecb{c}]_1$ open to the same value implies that $\ovecb{c}_j\in\Span(\matr{G})$ for all $j\in[n]$ and, by the perfect hiding property, $([\vecb{c}_1]_1,\ldots,[\vecb{c}_n]_1)$ can be opened to any $\matr{B}\in\bits^{m\times n}$ thus $([\vecb{c}_1]_1,\ldots,[\vecb{c}_n]_1)\in\Lang_{ck,\sfbits}^n$. If $\matr{G}\gets\dist_{2,m+1}^{i^*}$ and $([\vecb{c}_1]_1,\ldots,[\vecb{c}_n]_1)\notin\Lang_{ck,\sfbits}^n$, then the $i^*$ th row of $\matr{B}$ is not in $\bits^{1\times n}$ which implies that there is some $j\in[n]$ such that $[\vecb{c}_j]_1\notin\Lang_{ck,\sfbits}$. If we pick $j^*\gets[n]$ and $\overline{\matr{G}}\gets\dist_{2,mn+1}^{m(i^*-1)+j^*}$, soundness of the proof that $[\ovecb{c}]_1\in\Lang_{\overline{ck},\sfbits}$ is violated with probability at least $1/n$.
+\begin{figure}
+\begin{\algSize}
+$$
+\begin{array}{l}
+\begin{array}{l}
+\algK(\gk,[\matr{U}]_1,n)\quad (\mathsf{S}_1(\gk,[\matr{U}]_1,n))\\
+\hline
+{[{\matr{G}}]_1 \gets \MP.\algK(gk,n,\distlin_1^{n,0})}\\
+\crs_\sfcom\gets\Pi_\sfcom.\algK(\gk,[\matr{U}]_1,[\matr{G}]_1, n)\\
+\crs_\sfbits\gets\Pi_\sfbits.\algK(\gk,[{\matr{G}}]_1)\\
+\text{Return } \ \mathsf{crs}:=(\crs_\sfcom,\crs_\sfbits).\\
+(\tau_\sfcom\gets\Pi_\sfcom.\mathsf{S}_1(\gk,[\matr{U}]_1,[\matr{G}]_1,n)\\
+\tau_\sfbits\gets\Pi_\sfbits.\mathsf{S}_1(\gk,[{\matr{G}}]_1).\\
+\tau := (\vecb{a},\tau_\sfcom,\tau_\sfbits)).\\
+\\
+\end{array}
+\\
+\begin{array}{l}
+{\algP(\mathsf{crs}, [\vecb{c}]_1, \langle \vecb{b}, \vecb{w}\rangle)}\\
+\hline
+{[\vecb{d}]_1 :=\MP.\Com_{[\matr{G}]_1}(\vecb{b};\overline{w})},\overline{w}\gets\Z_q\\
+{\pi_\sfcom \gets \Pi_{\sfcom}.\algP(\crs_\sfcom,[\vecb{c}]_1,[\vecb{d}]_1,}{\langle\vecb{b},\vecb{w},\overline{w}\rangle)}\\
+\pi_\sfbits \gets \Pi_\sfbits.\algP(\crs_\sfbits,[\vecb{d}]_1,\langle \vecb{b},\overline{w}\rangle)\\
+\text{Return } \  ([\vecb{d}]_1,\pi_\sfcom,\pi_\sfbits). \\
+\\
+\end{array}\\
+\begin{array}{l}
+{\algV(\mathsf{crs},([\vecb{c}]_1),([\vecb{d}]_1,\pi_\sfcom,\pi_\sfbits))}\\
+\hline
+\mathsf{ans}_1 \gets \Pi_\sfcom.\algV(\crs_\sfcom,[\vecb{c}]_1,[\vecb{d}]_1,\pi_\sfcom)\\
+\mathsf{ans}_2 \gets \Pi_\sfbits.\algV(\crs_\sfbits,[\vecb{d}]_1,\pi_\sfbits)\\
+\text{Return } \ \mathsf{ans}_1\wedge\mathsf{ans}_2.
+\\
+\\
+\end{array}
+\\
+\begin{array}{l}
+{\mathsf{S}_2(\crs,[\vecb{c}]_1,\tau)}\\
+\hline
+{[\vecb{d}]_1 \gets \MP.\Com_{[\matr{G}]_1}(\vecb{0}_{n\times 1})}\\
+\pi_\sfcom\gets \Pi_\sfcom.\algS_2(\crs_\sfcom,[\vecb{c}]_1,[\vecb{d}]_1,\tau_\sfcom)\\
+\pi_\sfbits \gets \Pi_\sfbits.\algS_2(\crs_\sfbits,[\vecb{d}]_1,\tau_\sfbits)\\
+\text{Return }  ([\vecb{d}]_1,\pi_\sfcom, \pi_\sfbits).
+\end{array}
+\end{array}$$
+\end{\algSize}
+\caption{The proof system for the language $\Lang_{[\matr{U}]_1,\sfbits}$ when $\matr{U}$ is sampled from one of the distributions defined on section \ref{sec:bits-instantiations}. Each of the distributions from section \ref{sec:bits-instantiations} defines a perfectly binding commitment to a vector $\vecb{b}\in\Z_q^n$. The matrix $\matr{U}$ is parsed as $\matr{U}=(\vecb{U}_1\cat\matr{U}_{2})$ and commitments are computed as $\vecb{c}:=\matr{U}_1\vecb{b}+\matr{U}_2\vecb{w}$. $\Pi_\sfbits$ is the proof system from Section~\ref{sec:bits-scheme}. The size of $[{\vecb{d}}]_1$ is $2$ elements of $\GG_1$, the size of $\pi_\sfcom$ is 1 element of $\GG_1$, and $\pi_\sfbits$ requires $8$ elements of $\GG_1$ and 10 elements of $\GG_2$, respectively. The total proof size is $11$ elements of $\GG_1$ and $10$ elements of $\GG_2$. We can still have a proof size of $10$ elements of each group if the proof that $[\vecb{c}]_1$ and $[\vecb{d}]_1$ open to the same value is done withing the proof of equal commitment opening used inside $\Pi_\sfbits$.
+\label{fig:bits-bind}
+}
+\end{figure}
+%\vspace*{-1cm}
+
+\begin{theorem} \label{theo:bits-bind} The proof system from Fig. \ref{fig:bits-bind} is a QA-NIZK proof system for the language $\Lang_{[\matr{U}]_1,\sfbits}$ with proof size  
+$11|\GG_1|+10|\GG_2|$, perfect completeness, perfect-zero knowledge, and computational soundness. 
+\end{theorem}
+
+\begin{proof}
+(Completeness.)
+Follows from the fact that $([\vecb{c}]_1,[\vecb{d}]_1)\in\Lang_{\sfcom,[\matr{U}]_1,[\matr{G}]_1,n}$ and that $[\vecb{d}]_1\in\Lang_{[\matr{G}]_1,\sfbits}$.
+
+(Soundness.)
+The proof follows from the indistinguishability of the following games.
+
+\begin{description}
+\item[$\mathsf{Real}$:] This is the real soundness game. The adversary wins if it outputs $([\vecb{c}]_1)\notin\Lang_{[\matr{U}],\sfbits}$ and the corresponding proof which is accepted by the verifier.
+\item[$\sfGame_0$:] This game is exactly as $\mathsf{Real}$ except that $\algK_1$ does not receive $[\matr{U}]_1$ as a input but it samples $\matr{U}$ itself.
+\item[$\sfGame_1$:] This game is exactly as $\sfGame_0$ except that the simulator picks a random $j^*\in[n]$ and uses $\matr{U}$ to compute
+$$
+\pmatri{{[\vecb{b}]_1}\\{[\vecb{w}]_1}} = [\vecb{c}]_1\matr{U}^{-1}.
+$$
+It aborts if $[b_{j^*}]_1\notin\{[0]_1,[1]_1\}$.
+\item[$\sfGame_2$:] This game is exactly as $\sfGame_1$ except that ${\matr{G}}\gets\distlin_1^{n, j^*}$.
+\end{description}
+
+It is obvious that the first two games are indistinguishable. 
+The rest of the argument goes as follows. 
+
+\begin{lemma} $\Pr\left[ \mathsf{Game}_1(\advA)=1\right]\geq\dfrac{1}{n}\Pr\left[\mathsf{Game}_0(\advA)=1\right].$
+\end{lemma}
+
+\begin{proof}  The probability that
+ $\mathsf{Game}_1(\advA)=1$ is the probability that  a) $\mathsf{Game}_0(\advA)=1$ and
+b)  $b_{j^*} \notin \bits$. The view of adversary $\advA$ is independent of $j^*$, while, if $\mathsf{Game_0}(\advA)=1$, then there is at least one index $\ell \in [n]$ such that $b_\ell\notin\bits$. Thus, 
+the probability that the event described in b) occurs conditioned on $\mathsf{Game_0}(\advA)=1$, is greater than or equal to $1/n$ and the lemma follows.
+\end{proof}
+
+\begin{lemma} There exists a\ $\distlin_1$-$\mddh_{\GG_1}$ adversary $\advD$ such that
+$|\Pr\left[\mathsf{Game}_{1}(\advA)=1\right]$ $-\Pr\left[\mathsf{Game}_{2}(\advA)=1\right]|$ $\leq
+    \mathsf{Adv}_{\distlin_1,\ggen_a}(\advD).$
+\end{lemma}
+\begin{proof}
+We construct an adversary $\advD$ that receives 
+a challenge $([\matr{A}]_1,[\vecb{u}]_1)$ of the 
+$\distlin_1$-$\mddh_{\GG_1}$ assumption. From this challenge, $\advD$ just defines the matrix  $[{\matr{G}}]_1\in\GG_1^{2\times(n+1)}$ as the matrix whose last column consists of $[\matr{A}]_1$, the ith column consists of $[\vecb{u}]_1$ and the rest of the columns are random vectors in the image of $[\matrA]_1$. Then $\advD$ honestly simulates the rest of the CRS, gives it as input to $\advA$, and outputs whatever $\advA$ outputs.
+
+Obviously, when $[\vecb{u}]_1$ is sampled from 
+the image of $[\matr{A}]_1,$ $\matr{G}$ follows the distribution $\distlin_1^{n,0}$ and $\advD$ perfectly simulates $\sfGame_1$, while if $[\vecb{u}]_1$ is a uniform element of $\GG^2_1$, ${\matr{G}}$ follows the distribution $\distlin_1^{n,j^*}$ and $\advD$ perfectly simulates $\sfGame_2$. 
+%It is immediate to see that adversary $\advD$ perfectly simulates $\sfGame_1$ when $\overline{\matr{G}}\gets\dist_{2,mn+1}^0$ and $\sfGame_2$ when $\overline{\matr{G}}\gets\dist_{2,mn+1}^{m(i^*-1)+j^*}$. The rest of the proof follows from Lemma \ref{lemma:dist-i}.  
+\end{proof}
+
+\begin{lemma}
+There exists adversaries $\advB_1,\advB_2$ such that $\Pr[\sfGame_2(\advA)=1]\leq\adv_{\Pi_\sfcom}(\advB_1)+\adv_{\Pi_\sfbits}(\advB_2)$.
+\end{lemma}
+
+\begin{proof}
+If $\sfGame(\advA)=1$, then $b_{j^*}\notin\bits$ while all the verification equations are accepted. Given that $\vecb{g}_{j^*}$ is linearly independent from $\{\vecb{g}_j:j\neq j^*\}$, it holds that $\{\vecb{g}_{j^*},\vecb{g}_{n+1}\}$ is a basis for $\Z_q^2$ and thus we can define $\bb_{j^*},\overline{w}$ as the unique coefficients in $\Z_q$ such that $\vecb{d} = \bb_{j^*}\vecb{g}_{j^*}+\overline{w}\vecb{g}_{n+1}$. If $b_{j^*}\neq\bb_{j^*}$, then $([\vecb{c}]_1,[\vecb{d}]_1)$ can not open to the same value and we can construct an adversary $\advB_1$ against $\Pi_\sfcom$. Else, it must be the case that $\bb_{j^*}=b_{j^*}\notin\bits$. Therefore, if an adversary $\advB_2$ simulates $\sfGame_2$ until $\advA$ halts and outputs $([\vecb{d}]_1,\pi_\sfbits)$, then $\advB_2$ breaks soundness of $\Pi_\sfbits$.
+\end{proof}
+
+(Zero-Knowledge.) Given that $\matr{G}$ defines perfectly hiding commitments, $[\vecb{d}]_1$ can be opened to any value. Therefore $[\vecb{d}]_1$ and $[\vecb{c}]_1$ share a common opening and $[\vecb{d}]_1\in\Lang_{{ck},\sfbits}$, and thus $\pi_\sfcom$ and $\pi_\sfbits$ are correctly distributed.  
+\end{proof}
+
+
